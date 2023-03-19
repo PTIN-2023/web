@@ -1,0 +1,13 @@
+{
+  "name" : "TransMedWebPTIN",
+  "version" : "1.0.0",
+  "scripts" : {
+    "build-css": "npx tailwindcss ./src/main.css -o ./dist/styles.css"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.2.7"
+  },
+  "dependencies": {
+    "flowbite": "^1.6.4"
+  }
+}
