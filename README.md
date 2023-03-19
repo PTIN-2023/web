@@ -18,3 +18,14 @@ Web interface for the TransMed - Transportation of Medicines project developed i
     - [ ] Notifications
 - [ ] Interactivity with sample/local information
 - [ ] Retrieval/Storage of information through the common API developed
+
+## Building docker image of the web and deploying it locally
+
+```sh
+git clone https://github.com/RabadanDotDev/TransMedWebPTIN
+cd TransMedWebPTIN/web
+docker build -t trans-web-med-ptin .
+docker run -p 80:80 trans-web-med-ptin
+```
+
+The website should now be available in http://localhost
