@@ -19,13 +19,49 @@ Web interface for the TransMed - Transportation of Medicines project developed i
 - [ ] Interactivity with sample/local information
 - [ ] Retrieval/Storage of information through the common API developed
 
-## Building docker image of the web and deploying it locally
+## Local build/deployment with docker
 
-```sh
-git clone https://github.com/RabadanDotDev/TransMedWebPTIN
-cd TransMedWebPTIN/web
-docker build -t trans-web-med-ptin .
-docker run -p 80:80 trans-web-med-ptin
+### Development environment - for doing testing
+
+```
+make build-development
+make start-development
 ```
 
-The website should now be available in http://localhost
+Open http://localhost:3001
+
+### Staging environment - for doing UAT testing
+
+```
+make build-staging
+make start-staging
+```
+
+Open http://localhost:3002
+
+### Production environment - for users
+
+```
+make build-production
+make start-production
+```
+
+Open http://localhost:3003
+
+## Running Locally without docker
+
+First, install the dependencies:
+
+```bash
+npm install
+
+```
+Then, run the development server:
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
