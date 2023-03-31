@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import Layout from "../component/Layout"
-import { SampleContent } from '../component/SampleContent'
 
 export default function Home() {
   return (
@@ -12,7 +11,7 @@ export default function Home() {
       </Head>
       <main>
         <Layout>
-          <SampleContent />
+          todo
         </Layout>
       </main>
     </>

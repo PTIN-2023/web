@@ -17,21 +17,22 @@ export default function Layout({ children }) {
             className="mr-6 h-6 w-6 cursor-pointer text-gray-600 dark:text-gray-400"
             onClick={toggleSidebar}
         />
-        <span className="text-xl font-semibold dark:text-white">TransMed</span>
+        <a href='/'><span className="text-xl font-semibold dark:text-white">TransMed</span></a>
         </div>
       </Navbar>
       <div className="flex h-full overflow-hidden">
         <Sidebar collapsed={sidebarVisible} >
           <Sidebar.Items>
             <Sidebar.ItemGroup>
-              <Sidebar.Item href="#" icon={HiChartPie}>test</Sidebar.Item>
-              <Sidebar.Item href="#" icon={HiChartPie}>test</Sidebar.Item>
-              <Sidebar.Item href="#" icon={HiChartPie}>test</Sidebar.Item>
-              <Sidebar.Item href="#" icon={HiChartPie}>test</Sidebar.Item>
-              <Sidebar.Item href="#" icon={HiChartPie}>test</Sidebar.Item>
-              <Sidebar.Item href="#" icon={HiChartPie}>test</Sidebar.Item>
-              <Sidebar.Item href="#" icon={HiChartPie}>test</Sidebar.Item>
-              <Sidebar.Item href="#" icon={HiChartPie}>test</Sidebar.Item>
+              <Sidebar.Item href="/profile" icon={HiChartPie}>perfil</Sidebar.Item>
+              <Sidebar.Item href="/inventory" icon={HiChartPie}>inventario(gestor)</Sidebar.Item>
+              <Sidebar.Item href="/map" icon={HiChartPie}>mapa(gestor)</Sidebar.Item>
+              <Sidebar.Item href="/orders" icon={HiChartPie}>peticiones(gestor)</Sidebar.Item>
+              <Sidebar.Item href="/stats" icon={HiChartPie}>estadisticas(gestor)</Sidebar.Item>
+              <Sidebar.Item href="/patients" icon={HiChartPie}>pacientes(medico)</Sidebar.Item>
+              <Sidebar.Item href="/notifications" icon={HiChartPie}>notificaciones(medico)</Sidebar.Item>
+              <Sidebar.Item href="/myorders" icon={HiChartPie}>mis pedidos (paciente)</Sidebar.Item>
+              <Sidebar.Item href="/makeorder" icon={HiChartPie}>solicitar (paciente)</Sidebar.Item>
             </Sidebar.ItemGroup>
           </Sidebar.Items>
         </Sidebar>
