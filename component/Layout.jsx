@@ -12,17 +12,14 @@ export default function Layout({ children }) {
 
   return (
     <div className={layoutStyles.layoutContainer}>
-      <Navbar fluid>
+      <Navbar fluid className={layoutStyles.navBar}>
         <div className={layoutStyles.navBarContents}>
-          <HiMenuAlt1
-              className="mr-6 h-6 w-6 cursor-pointer text-gray-600 dark:text-gray-400"
-              onClick={toggleSidebar}
-          />
-          <a href='/'><span className="text-xl font-semibold dark:text-white">TransMed</span></a>
+          <HiMenuAlt1 className={layoutStyles.navBarIcon} onClick={toggleSidebar}/>
+          <a href='/'><span className={layoutStyles.navBarTitle}>TransMed</span></a>
         </div>
       </Navbar>
-      <div className={layoutStyles.sidebarContainer}>
-        <Sidebar collapsed={sidebarVisible} >
+      <div className={layoutStyles.sideBarAndMainContainer}>
+        <Sidebar collapsed={sidebarVisible} className={layoutStyles.sideBar}>
           <Sidebar.Items>
             <Sidebar.ItemGroup>
               <Sidebar.Item href="/profile" icon={HiChartPie}>perfil</Sidebar.Item>
