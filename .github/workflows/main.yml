@@ -24,8 +24,8 @@ jobs:
       -
         name: Build and push
         uses: docker/build-push-action@v4
-        with
+        with:
           context: .
-          file: .docker/production/Dockerfile
+          file: ./docker/production/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/trans-med-web-ptin:latest
