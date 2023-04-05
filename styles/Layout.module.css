@@ -1,0 +1,15 @@
+.layoutContainer {
+    @apply flex h-screen w-full flex-col overflow-hidden;
+}
+
+.navBarContents {
+    @apply flex items-center;
+}
+
+.sidebarContainer {
+    @apply flex h-full overflow-hidden;
+}
+
+.mainContainer {
+    @apply flex-1 overflow-auto p-4 bg-gray-300;
+}
