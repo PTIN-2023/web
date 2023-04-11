@@ -8,7 +8,9 @@
   "dependencies": {
     "flowbite": "^1.6.4",
     "flowbite-react": "^0.4.2",
+    "fs": "^0.0.1-security",
     "next": "latest",
+    "promises": "^0.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0"
