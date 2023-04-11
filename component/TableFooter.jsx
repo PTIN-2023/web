@@ -13,7 +13,9 @@ const TableFooter = ({ range, setPage, page, slice }) => {
   function checkLimit(buttonType, page, range){
     
     let maxIndex = range.length;
-    if(page > 0 && buttonType == "previous"){
+    console.log(maxIndex);
+    
+    if(page != 1 && buttonType == "previous"){
         setPage(page - 1);
     }
     else if(page < maxIndex && buttonType == "next"){
@@ -34,8 +36,7 @@ const TableFooter = ({ range, setPage, page, slice }) => {
             {range.map((el, index) => (
                 <li>
                 <button key={index} onClick={() => setPage(el)} className={`${page != el ? 'px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white' : 'z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white'}`}>{el}</button>
-                </li>  
-                
+                </li>                 
             ))}
             <li>
             <button onClick={() => checkLimit("next",page,range,setPage)} className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</button>
