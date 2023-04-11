@@ -32,12 +32,8 @@ export default function Home(props) {
         <Layout>
         <div className='container mx-auto'>
           <TablaPedidos data={pedidos} rowsPerPage={10} />
-        <div className='float-right'>        
-  
-        </div>     
-         {/* <SampleContent/> */}
         </div>
-        </Layout>
+        </Layout> 
       </main>
     </>
   )
