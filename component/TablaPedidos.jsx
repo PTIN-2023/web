@@ -131,6 +131,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
   
   return (
     <>
+        <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
         <Table hoverable={true}>
           {console.log(searchValue)}
           <Table.Head>
@@ -182,7 +183,6 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
           </Table.Body>
         </Table> 
 
-        <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
     </>
   );
 };
