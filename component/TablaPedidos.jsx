@@ -5,12 +5,13 @@ import {Table, Checkbox, Button, Modal, Tooltip, Dropdown} from 'flowbite-react'
 import myordersStyles from "../styles/Myorders.module.css"
 import {HiOutlineArrowRight, HiTrash, HiOutlineExclamationCircle} from "react-icons/hi"
 
-function modalContactar(modalContactarState, setModalContactarState){
+function ModalContactar({currentTarget, currentItem, modalContactarState, setModalContactarState}){
 
     const onCloseContactarHandler = () =>{
         setModalContactarState(false);
     }
     const onClickContactarHandler = () => {
+        currentTarget.current = currentItem;
         setModalContactarState(true);
     }
 
@@ -21,7 +22,7 @@ function modalContactar(modalContactarState, setModalContactarState){
         <HiOutlineArrowRight className="ml-2 h-5 w-5" />
       </Button>
       <Modal
-        show={modalContactarState}
+        show={(currentTarget.current == currentItem && modalContactarState) ? true : false}
       >
         <Modal.Header>
          Contactar
@@ -52,13 +53,16 @@ function modalContactar(modalContactarState, setModalContactarState){
     )
 }
 
-function modalCancelarPedido(modalCancelarPedidoState, setModalCancelarPedidoState){
-
+function ModalCancelarPedido({currentTarget, currentItem, modalCancelarPedidoState, setModalCancelarPedidoState}){
+    console.log(currentTarget.current);
     const onCloseCancelarPedidoHandler = () =>{
         setModalCancelarPedidoState(false);
     }
     const onClickCancelarPedidoHandler = () => {
-        setModalCancelarPedidoState(true);
+        
+        currentTarget.current = currentItem;
+        setModalCancelarPedidoState(true);  
+
     }
     const onClickCancelarPedidoHandler_CANCELAR = () => {
         setModalCancelarPedidoState(true);
@@ -67,9 +71,9 @@ function modalCancelarPedido(modalCancelarPedidoState, setModalCancelarPedidoSta
 
     return(
     <>    
-        
+        <Dropdown.Item onClick={onClickCancelarPedidoHandler} className={myordersStyles.cancelarPedidoDropdown} icon={HiTrash}>Cancelar pedido</Dropdown.Item>      
         <Modal
-            show={modalCancelarPedidoState}
+            show={(currentTarget.current == currentItem && modalCancelarPedidoState) ? true : false}
             size="md"
             popup={true}
             onClose={onCloseCancelarPedidoHandler}
@@ -79,7 +83,7 @@ function modalCancelarPedido(modalCancelarPedidoState, setModalCancelarPedidoSta
             <div className="text-center">
                 <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
                 <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                Segur@ que quieres cancelar el pedido?
+                Segur@ que quieres cancelar el pedido <span className="font-bold leading-relaxed text-gray-500 dark:text-gray-400">{currentItem}</span>?
                 </h3>
                 <div className="flex justify-center gap-4">
                 <Button
@@ -107,10 +111,15 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
   const [page, setPage] = useState(1);
   const [modalContactarState, setModalContactarState] = useState(false);
   const [modalCancelarPedidoState, setModalCancelarPedidoState] = useState(false);
+  const currentTarget = useRef("");
 
-  const onClickCancelarPedidoHandler = () => {
+  function changeModalCancelarPedidoState(e){
+    setModalCancelarPedidoState(e);
 
-    modalCancelarPedido(modalCancelarPedidoState, setModalCancelarPedidoState);
+  }
+
+  function changeModalContactarState(e){
+    setModalContactarState(e);
 
   }
 
@@ -139,17 +148,18 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
           </Table.Head>
           <Table.Body className="divide-y">
           {slice.map((pedido) =>
-                  <Table.Row className={myordersStyles.tableRow}>
+            <>
+                <Table.Row className={myordersStyles.tableRow}>
                   <Table.Cell className={myordersStyles.firstTableCell}> 
                     <Dropdown className={myordersStyles.chevronDown} label="" inline={true}>
-                    <Dropdown.Item onclick={onClickCancelarPedidoHandler} className={myordersStyles.cancelarPedidoDropdown} icon={HiTrash}>Cancelar pedido</Dropdown.Item>      
+                        <ModalCancelarPedido currentTarget={currentTarget} currentItem={pedido.nombre} modalCancelarPedidoState={modalCancelarPedidoState} setModalCancelarPedidoState={changeModalCancelarPedidoState}/>
                     </Dropdown>
                   </Table.Cell>
                   <Table.Cell className={myordersStyles.tableCell}>
                     {pedido.nombre}
                   </Table.Cell>
                   <Table.Cell>
-                    {pedido.estado != "Cancelado" ? pedido.fecha_compra : modalContactar(modalContactarState, setModalContactarState)}
+                    {pedido.estado != "Cancelado" ? pedido.fecha_compra : <ModalContactar currentTarget={currentTarget} currentItem={pedido.nombre} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>}
                   </Table.Cell>
                   <Table.Cell>
                   {pedido.estado == "Entregado" &&
@@ -165,7 +175,8 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                     <span className={myordersStyles.deliveryStateCancelado}>{pedido.estado}</span>
                   }                                                      
                   </Table.Cell>
-                  </Table.Row>
+                </Table.Row>
+            </>
           )}
 
           </Table.Body>
