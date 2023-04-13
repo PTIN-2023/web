@@ -3,11 +3,11 @@
 }
 
 .navBar {
-    @apply bg-tmblue-dark;
+    @apply bg-white;
 }
 
 .navBar * {
-    @apply text-tmgold;
+    @apply text-black;
 }
 
 .navBarContents {
@@ -19,17 +19,45 @@
 }
 
 .navBarTitle {
-    @apply text-xl font-semibold
+    @apply hidden font-semibold text-xl md:block lg:block;
 }
 
 .sideBarAndMainContainer {
-    @apply flex h-full overflow-hidden bg-tmblue-dark;
+    @apply flex h-full overflow-hidden bg-white;
 }
 
 .sideBar * {
-    @apply bg-tmblue-dark text-tmgold;
+    @apply bg-white text-black;
+}
+.sideBarItem:hover > * {
+    @apply bg-gray-100;
+
+}
+.sideBarItem > *{
+    @apply fill-gray-500;
+
+
+}
+.sideBarCurrentItem{
+    @apply bg-gray-100;
+
+}
+.sideBarCurrentItem *{
+    @apply bg-gray-100;
+
+}
+.mainContainer {
+    @apply flex-1 overflow-auto p-3 bg-gray-300;
 }
 
-.mainContainer {
-    @apply flex-1 overflow-auto p-4 bg-gray-300 text-black;
+/*Estilo del apartado del avatar y rol*/
+
+.sideBarAvatarName {
+    @apply space-y-1 font-medium dark:text-white 
+
+}
+
+.sideBarAvatarRole {
+    @apply text-sm text-gray-500 dark:text-gray-400
+
 }

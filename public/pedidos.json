@@ -7,18 +7,18 @@
     },
     {
         "nombre":"Ibuprofeno 600mg",
+        "fecha_compra":".",
+        "estado":"Esperando confirmación"       
+    },
+    {
+        "nombre":"Abduscan 30mg",
         "fecha_compra":"Apr 23, 2021",
-        "estado":"Entregado"       
+        "estado":"Cancelado"       
     },
     {
         "nombre":"Ibuprofeno 600mg",
         "fecha_compra":"Apr 23, 2021",
-        "estado":"Entregado"       
-    },
-    {
-        "nombre":"Ibuprofeno 600mg",
-        "fecha_compra":"Apr 23, 2021",
-        "estado":"Entregado"       
+        "estado":"Enviado"       
     },
     {
         "nombre":"Ibuprofeno 600mg",

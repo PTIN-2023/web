@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Layout from "../component/Layout"
 
 export default function Home() {
+
   return (
     <>
       <Head>
