@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Layout from "../component/Layout"
 
 export default function Home() {
+
   return (
     <>
       <Head>
@@ -10,7 +11,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Layout>
+        <Layout> {/*TODO: habria que hacer una ventana main de bienvenida aqui abajo*/}
           todo
         </Layout>
       </main>
