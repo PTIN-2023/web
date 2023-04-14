@@ -11,7 +11,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Layout>
+        <Layout> {/*TODO: habria que hacer una ventana main de bienvenida aqui abajo*/}
           todo
         </Layout>
       </main>
