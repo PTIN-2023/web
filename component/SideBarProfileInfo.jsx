@@ -14,7 +14,7 @@ export default function SideBarProfileInfo({ isCollapsed }){
         rounded={true}
         >
         {!isCollapsed &&
-
+            //muestra el avatar y el nombre
             <div className={layoutStyles.sideBarAvatarName}>
                 <div>
                 {profilePlaceholder.name}

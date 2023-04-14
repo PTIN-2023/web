@@ -5,12 +5,18 @@ import {Table, Checkbox, Button, Modal, Tooltip, Dropdown} from 'flowbite-react'
 import myordersStyles from "../styles/Myorders.module.css"
 import {HiOutlineArrowRight, HiTrash, HiOutlineExclamationCircle} from "react-icons/hi"
 
+//TODO: modular estas funciones de modal
 function ModalContactar({currentTarget, currentItem, modalContactarState, setModalContactarState}){
-
+//recibe: 
+//currentTarget: identifica la fila a la que hicimos click dentro de la tabla
+//currentItem: identifica la fila en cuestión para que no se ejecuten todos los modals a la vez (TODO: intentar optimizar)
+//modalContactarState y setModalContactarState: muestran o esconden el modal
     const onCloseContactarHandler = () =>{
         setModalContactarState(false);
     }
     const onClickContactarHandler = () => {
+        //asignamos el currentItem al Target
+        //NOTA: si no estuviese esto se renderizaria un modal por cada fila
         currentTarget.current = currentItem;
         setModalContactarState(true);
     }
@@ -22,6 +28,7 @@ function ModalContactar({currentTarget, currentItem, modalContactarState, setMod
         <HiOutlineArrowRight className="ml-2 h-5 w-5" />
       </Button>
       <Modal
+        /**si el currentTarget corresponde a la currentItem seleccionada y se hizo click en mostrar, mostrar modal */
         show={(currentTarget.current == currentItem && modalContactarState) ? true : false}
       >
         <Modal.Header>
@@ -54,6 +61,8 @@ function ModalContactar({currentTarget, currentItem, modalContactarState, setMod
 }
 
 function ModalCancelarPedido({currentTarget, currentItem, modalCancelarPedidoState, setModalCancelarPedidoState}){
+    //funciona igual que el modal anterior pero con el botón de cancelar pedido
+    //TODO: hacer que borre el pedido
     console.log(currentTarget.current);
     const onCloseCancelarPedidoHandler = () =>{
         setModalCancelarPedidoState(false);
@@ -108,11 +117,18 @@ function ModalCancelarPedido({currentTarget, currentItem, modalCancelarPedidoSta
 
 
 const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
+  //componente que renderiza la tabla con los pedidos
+  //recibe data -> json de pedidos
+  //rowsPerPage -> cuantas filas va a renderizar
+  //searchValue -> el filtro en caso de que se active el componente MyOrdersSearch
   const [page, setPage] = useState(1);
+  //estos dos hooks de abajo sirven para mostrar o bien ocultar los modals
   const [modalContactarState, setModalContactarState] = useState(false);
   const [modalCancelarPedidoState, setModalCancelarPedidoState] = useState(false);
+  //currentTarget es un hook useRef para que no se actualice en cada render y así aseguramos que los modals no se multipliquen
   const currentTarget = useRef("");
 
+  //changeModalCancelarPedidoState y changeModalContactarState son funciones que cambian el useState ya que los setters no se pueden pasar bien hacia los componentes
   function changeModalCancelarPedidoState(e){
     setModalCancelarPedidoState(e);
 
@@ -123,7 +139,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
   }
 
-
+  //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
   if(searchValue.value.length > 0 && searchValue.isCompleted){
     data = data.filter((pedido) => pedido.nombre.toLowerCase().includes(searchValue.value));  
   }  

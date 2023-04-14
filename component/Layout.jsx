@@ -9,9 +9,14 @@ import MyOrdersSearch from "./MyOrdersSearch"
 
 
 export default function Layout({ children, navBarValue}) {
+  //recibe props: children y navBarValue
+  //navBarValue es el setter del useState del componente que irá en la navbar para poder actualizarlo y mandarlo de vuelta al hijo padre
+
   const [sidebarVisible, setSidebarVisible] = useState(false);
+  //asPath es un hook de nextjs que guarda la ruta del navegador en la que estamos y así detectamos la pagina
   const { asPath } = useRouter();
   const currentPage = asPath;
+  //user data guarda {name: "",role:""} cómo placeholder previo a la API
   const userData = UserData;
 
   const toggleSidebar = () => {
@@ -26,6 +31,7 @@ export default function Layout({ children, navBarValue}) {
           <a href='/'><span className={layoutStyles.navBarTitle}>TransMed</span></a>
           {/**estoy en Mis pedidos? carga la barra de busqueda */}
           {currentPage == "/myorders" && <MyOrdersSearch setSearchValue={navBarValue}/>}
+          {/**aqui hay que añadir el componente que corresponde a cada página si asi se requiere */}
         </div>
       </Navbar>
       <div className={layoutStyles.sideBarAndMainContainer}>
@@ -38,6 +44,7 @@ export default function Layout({ children, navBarValue}) {
               <SideBarProfileInfo isCollapsed={sidebarVisible}/>
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
+              {/**Dentro de este ItemGroup se comprueba el rol y se renderiza las opciones del sidebar que tocan, esto habrá que mejorarlo por seguridad */}
               {userData.role == "Gestor" &&
                 <Sidebar.ItemGroup>
                   <Sidebar.Item className={`${currentPage == "/profile" ? layoutStyles.sideBarCurrentItem: layoutStyles.sideBarItem}`} href="/profile" icon={HiUser}>Perfil</Sidebar.Item>
