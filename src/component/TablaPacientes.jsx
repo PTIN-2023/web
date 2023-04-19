@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import useTable from "../src/hooks/useTable.js";
+import useTable from "../hooks/useTable.js";
 import TableFooter from "./TableFooter.jsx";
 import {Table, Checkbox, Button, Modal, Tooltip, Dropdown} from 'flowbite-react'
 import myordersStyles from "../styles/Myorders.module.css"

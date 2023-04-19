@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import useTable from "../src/hooks/useTable.js";
+import useTable from "../hooks/useTable.js";
 import TableFooter from "./TableFooter.jsx";
 import {Table, Checkbox, Button, Modal, Tooltip, Dropdown} from 'flowbite-react'
 import myordersStyles from "../styles/Myorders.module.css"
@@ -37,7 +37,7 @@ function ModalContactar({currentTarget, currentItem, modalContactarState, setMod
         <Modal.Body>
           <div className="space-y-6">
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-            Su inventario ha sido cancelado.
+            Su pedido ha sido cancelado.
             </p>
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
             Esto se puede deber principalmente a falta de stock o por decisión profesional de su medico.
@@ -60,50 +60,50 @@ function ModalContactar({currentTarget, currentItem, modalContactarState, setMod
     )
 }
 
-function ModalCancelarinventario({currentTarget, currentItem, modalCancelarinventarioState, setModalCancelarinventarioState}){
-    //funciona igual que el modal anterior pero con el botón de cancelar inventario
-    //TODO: hacer que borre el inventario
+function ModalCancelarPedido({currentTarget, currentItem, modalCancelarPedidoState, setModalCancelarPedidoState}){
+    //funciona igual que el modal anterior pero con el botón de cancelar pedido
+    //TODO: hacer que borre el pedido
     console.log(currentTarget.current);
-    const onCloseCancelarinventarioHandler = () =>{
-        setModalCancelarinventarioState(false);
+    const onCloseCancelarPedidoHandler = () =>{
+        setModalCancelarPedidoState(false);
     }
-    const onClickCancelarinventarioHandler = () => {
+    const onClickCancelarPedidoHandler = () => {
         
         currentTarget.current = currentItem;
-        setModalCancelarinventarioState(true);  
+        setModalCancelarPedidoState(true);  
 
     }
-    const onClickCancelarinventarioHandler_CANCELAR = () => {
-        setModalCancelarinventarioState(true);
+    const onClickCancelarPedidoHandler_CANCELAR = () => {
+        setModalCancelarPedidoState(true);
     }
 
 
     return(
     <>    
-        <Dropdown.Item onClick={onClickCancelarinventarioHandler} className={myordersStyles.cancelarinventarioDropdown} icon={HiTrash}>Cancelar inventario</Dropdown.Item>      
+        <Dropdown.Item onClick={onClickCancelarPedidoHandler} className={myordersStyles.cancelarPedidoDropdown} icon={HiTrash}>Cancelar pedido</Dropdown.Item>      
         <Modal
-            show={(currentTarget.current == currentItem && modalCancelarinventarioState) ? true : false}
+            show={(currentTarget.current == currentItem && modalCancelarPedidoState) ? true : false}
             size="md"
             popup={true}
-            onClose={onCloseCancelarinventarioHandler}
+            onClose={onCloseCancelarPedidoHandler}
         >
             <Modal.Header />
             <Modal.Body>
             <div className="text-center">
                 <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
                 <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                Segur@ que quieres cancelar el inventario <span className="font-bold leading-relaxed text-gray-500 dark:text-gray-400">{currentItem}</span>?
+                Segur@ que quieres cancelar el pedido <span className="font-bold leading-relaxed text-gray-500 dark:text-gray-400">{currentItem}</span>?
                 </h3>
                 <div className="flex justify-center gap-4">
                 <Button
                     color="failure"
-                    onClick={onClickCancelarinventarioHandler_CANCELAR}
+                    onClick={onClickCancelarPedidoHandler_CANCELAR}
                 >
                     Si, cancelar
                 </Button>
                 <Button
                     color="gray"
-                    onClick={onCloseCancelarinventarioHandler}
+                    onClick={onCloseCancelarPedidoHandler}
                 >
                     No, cerrar
                 </Button>
@@ -116,21 +116,21 @@ function ModalCancelarinventario({currentTarget, currentItem, modalCancelarinven
 }
 
 
-const Tablainventarios = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
-  //componente que renderiza la tabla con los inventarios
-  //recibe data -> json de inventarios
+const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
+  //componente que renderiza la tabla con los pedidos
+  //recibe data -> json de pedidos
   //rowsPerPage -> cuantas filas va a renderizar
   //searchValue -> el filtro en caso de que se active el componente MyOrdersSearch
   const [page, setPage] = useState(1);
   //estos dos hooks de abajo sirven para mostrar o bien ocultar los modals
   const [modalContactarState, setModalContactarState] = useState(false);
-  const [modalCancelarinventarioState, setModalCancelarinventarioState] = useState(false);
+  const [modalCancelarPedidoState, setModalCancelarPedidoState] = useState(false);
   //currentTarget es un hook useRef para que no se actualice en cada render y así aseguramos que los modals no se multipliquen
   const currentTarget = useRef("");
 
-  //changeModalCancelarinventarioState y changeModalContactarState son funciones que cambian el useState ya que los setters no se pueden pasar bien hacia los componentes
-  function changeModalCancelarinventarioState(e){
-    setModalCancelarinventarioState(e);
+  //changeModalCancelarPedidoState y changeModalContactarState son funciones que cambian el useState ya que los setters no se pueden pasar bien hacia los componentes
+  function changeModalCancelarPedidoState(e){
+    setModalCancelarPedidoState(e);
 
   }
 
@@ -141,7 +141,7 @@ const Tablainventarios = ({ data, rowsPerPage, searchValue, setSearchValue }) =>
 
   //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
   if(searchValue.value.length > 0 && searchValue.isCompleted){
-    data = data.filter((inventario) => inventario.nombre.toLowerCase().includes(searchValue.value));  
+    data = data.filter((pedido) => pedido.nombre.toLowerCase().includes(searchValue.value));  
   }  
   var { slice, range } = useTable(data, page, rowsPerPage);
   
@@ -157,35 +157,40 @@ const Tablainventarios = ({ data, rowsPerPage, searchValue, setSearchValue }) =>
               Medicamento
             </Table.HeadCell>
             <Table.HeadCell>
-              Cantidad Almacén
+              Fecha de compra
             </Table.HeadCell>
             <Table.HeadCell>
-              Cantidad Vendida
-            </Table.HeadCell>
-            <Table.HeadCell>
-              Ciudad más Compradora
+              Estado
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-          {slice.map((inventario) =>
+          {slice.map((pedido) =>
             <>
                 <Table.Row className={myordersStyles.tableRow}>
                   <Table.Cell className={myordersStyles.firstTableCell}> 
                     <Dropdown className={myordersStyles.chevronDown} label="" inline={true}>
-                        <ModalCancelarinventario currentTarget={currentTarget} currentItem={inventario.nombre} modalCancelarinventarioState={modalCancelarinventarioState} setModalCancelarinventarioState={changeModalCancelarinventarioState}/>
+                        <ModalCancelarPedido currentTarget={currentTarget} currentItem={pedido.nombre} modalCancelarPedidoState={modalCancelarPedidoState} setModalCancelarPedidoState={changeModalCancelarPedidoState}/>
                     </Dropdown>
                   </Table.Cell>
                   <Table.Cell className={myordersStyles.tableCell}>
-                    {inventario.nombre}
-                  </Table.Cell>
-                  <Table.Cell> {/*TODO: Implementar colores a cantidad almacén para que se vea con color cuando haya pocas unidades + Boton pedir cuando no haya unidades*/ }
-                    {inventario.cantidad_almacen}
+                    {pedido.nombre}
                   </Table.Cell>
                   <Table.Cell>
-                    {inventario.cantidad_vendida}                                                   
+                    {pedido.estado != "Cancelado" ? pedido.fecha_compra : <ModalContactar currentTarget={currentTarget} currentItem={pedido.nombre} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>}
                   </Table.Cell>
-                  <Table.Cell> {/*TODO: Implementar la ciudad desde el json*/}
-                    A 
+                  <Table.Cell>
+                  {pedido.estado == "Entregado" &&
+                    <span className={myordersStyles.deliveryStateEntregado}>{pedido.estado}</span>
+                  }
+                  {pedido.estado == "Enviado" &&
+                    <span className={myordersStyles.deliveryStateEnviado}>{pedido.estado}</span>
+                  }
+                  {pedido.estado == "Esperando confirmación" &&
+                    <span className={myordersStyles.deliveryStateEspConfirm}>{pedido.estado}</span>
+                  }
+                  {pedido.estado == "Cancelado" &&
+                    <span className={myordersStyles.deliveryStateCancelado}>{pedido.estado}</span>
+                  }                                                      
                   </Table.Cell>
                 </Table.Row>
             </>
@@ -198,4 +203,4 @@ const Tablainventarios = ({ data, rowsPerPage, searchValue, setSearchValue }) =>
   );
 };
 
-export default Tablainventarios;
+export default TablaPedidos;

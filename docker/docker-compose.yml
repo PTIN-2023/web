@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  local_deployment:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: local_deployment
+    ports:
+      - '3000:3000'
