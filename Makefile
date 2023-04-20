@@ -6,6 +6,10 @@ build: ## Build the docker image.
 start: ## Start the docker container.
 	docker compose -f docker/docker-compose.yml up -d
 
+.PHONY: logs
+logs: ## Stop the docker container.
+	docker compose -f docker/docker-compose.yml logs
+	
 .PHONY: stop
 stop: ## Stop the docker container.
 	docker compose -f docker/docker-compose.yml down
