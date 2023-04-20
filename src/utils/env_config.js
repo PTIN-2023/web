@@ -1,3 +1,7 @@
+export function getNodeEnv() {
+    return (process.env.NODE_ENV)
+}
+
 export function getApiEndpoint() {
     return (process.env.API_URL)
 }
