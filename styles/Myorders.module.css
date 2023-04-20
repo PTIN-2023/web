@@ -1,0 +1,90 @@
+.mainContainer {
+ @apply container mx-auto space-y-4;
+
+}
+
+/**
+Component TablaPedidos
+**/
+.tableRow {
+    @apply bg-white dark:border-gray-700 dark:bg-gray-800;
+
+}
+.tableRow:hover .firstTableCell {
+    @apply text-gray-500 hover:fill-blue-600;
+
+}
+.firstTableCell > {
+    @apply hover:text-blue-600;
+}
+.firstTableCell {
+    @apply !p-4 text-white;
+
+}
+.firstTableCell {
+    @apply !p-4;
+
+}
+.tableCell {
+    @apply whitespace-nowrap font-medium text-gray-900 dark:text-white;
+
+}
+.deliveryStateEntregado {
+    @apply bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-1.5 rounded dark:bg-green-900 dark:text-green-300;
+
+}
+.deliveryStateEnviado {
+    @apply bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-1.5 rounded dark:bg-yellow-900 dark:text-yellow-300;
+}
+.deliveryStateCancelado {
+    @apply bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-1.5 rounded dark:bg-red-900 dark:text-red-300;
+}
+.deliveryStateEspConfirm {
+    @apply bg-purple-100 text-purple-800 text-sm font-medium mr-2 px-2.5 py-1.5 rounded dark:bg-purple-900 dark:text-purple-300;
+}
+.cancelarPedidoDropdown {
+    @apply text-sm font-medium text-red-600;
+
+}
+
+/*
+Component TableFooter
+*/
+.tablePaginationContainer {
+    @apply inline-flex -space-x-px;
+
+}
+
+.tablePaginationPrevious {
+    @apply px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white;
+
+}
+.tablePaginationNext {
+    @apply px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white;
+
+}
+
+.tablePaginationNumber {
+    @apply px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white;
+
+}
+.tablePaginationNumberCurrent {
+    @apply z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white;
+
+}
+/*
+Component MyOrdersSearch
+
+*/
+.searchBarContainer {
+    @apply contents space-x-5;
+
+}
+
+.searchBarTextInput {
+    @apply text-sm font-medium lg:w-96 lg:ml-[120px] md:ml-20;
+}
+
+.searchBarButton {
+    @apply flex-1;
+}
