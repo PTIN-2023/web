@@ -6,11 +6,25 @@ export function makeServer() {
         routes() {
           this.urlPrefix=env_config.getApiEndpoint();
 
-          this.get("/api/users", () => [
-            { id: "1", name: "John1" },
-            { id: "2", name: "John2" },
-            { id: "3", name: "John3" },
-          ])
+          this.post("/api/login", (schema, request) => {
+            let attrs = JSON.parse(request.requestBody)
+            console.log("Received login req with:" + request.requestBody)
+            return { 
+              result : 'ok',
+              role : 'pacient',
+              session_token : '3458764568973496'
+            }
+          })
+
+          this.post("/api/register", (schema, request) => {
+            let attrs = JSON.parse(request.requestBody)
+            console.log("Received register req with:" + request.requestBody)
+            return { 
+              result : 'ok',
+              role : 'pacient',
+              session_token : '3458764568973496'
+            }
+          })
         },
     })
   }
