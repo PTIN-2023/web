@@ -1,11 +1,16 @@
-{
-"medicamentos": [
+[
     {
-        "nombreMdeciamento": "Ibuprofeno",
-        "activoExcipiente": "Ibuprofeno/Sorbitol (E-420)",
-        "pvp": "30 comprimidos 4,68$",
-        "dosis": "1 comprimido (600 mg) cada 6 a 8 horas",
-        "detalles": "Pedido sin receta"
+        "MEDICAMENTO": "Ibuprofeno",
+        "ACTIVO/EXCIPIENTE": "Ibuprofeno/Sorbitol (E-420)",
+        "PVP": "30 comprimidos 4,68$",
+        "DOSIS": "1 comprimido (600 mg) cada 6 a 8 horas",
+        "DETALLES": "Pedido sin receta"
+    },
+    {
+        "MEDICAMENTO": "Ibuprofeno",
+        "ACTIVO/EXCIPIENTE": "Ibuprofeno/Sorbitol (E-420)",
+        "PVP": "30 comprimidos 4,68$",
+        "DOSIS": "1 comprimido (600 mg) cada 6 a 8 horas",
+        "DETALLES": "Pedido sin receta"
     }
 ]
-}
