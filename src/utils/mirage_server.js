@@ -5,6 +5,9 @@ import inventario_json from '../../public/inventario.json'
 export function makeServer() {
     return createServer({
         routes() {
+          this.passthrough("https://api.mapbox.com/**")
+          this.passthrough("https://events.mapbox.com/**")
+
           this.urlPrefix=env_config.getApiEndpoint();
 
           this.post("/api/login", (schema, request) => {
