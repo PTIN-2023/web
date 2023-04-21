@@ -6,6 +6,7 @@ build-development: ## Build the development docker image.
 start-development: ## Start the development docker container.
 	docker compose -f docker/development/docker-compose.yml up -d
 
+<<<<<<< HEAD
 .PHONY: stop-development
 stop-development: ## Stop the development docker container.
 	docker compose -f docker/development/docker-compose.yml down
@@ -33,3 +34,12 @@ start-production: ## Start the production docker container.
 .PHONY: stop-production
 stop-production: ## Stop the production docker container.
 	docker compose -f docker/production/docker-compose.yml down
+=======
+.PHONY: logs
+logs: ## Stop the docker container.
+	docker compose -f docker/docker-compose.yml logs
+	
+.PHONY: stop
+stop: ## Stop the docker container.
+	docker compose -f docker/docker-compose.yml down
+>>>>>>> eb1ea37bb2846970e8eaeb246f4c73d94851d1fd
