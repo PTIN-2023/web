@@ -29,7 +29,7 @@ export async function getServerSideProps() {
   }
 }
 
-function EnviromentVarsComponent(props) {
+function EnviromentVarsComponent({props}) {
   return(<>
     <p>apiEndpoint = {props.apiEndpoint}</p>
     <p>isLocal = {props.isLocal}</p>
@@ -216,6 +216,37 @@ function RegisterUserComponent({apiEndpoint}) {
   </>)
 }
 
+function AvailableMedicinesComponent({apiEndpoint}) {
+  const [response, setResponse] = useState('');
+
+  async function apiCall(email, password) {
+    return fetch(apiEndpoint+"/api/medicines_list", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({})
+    }).then(data => data.json())
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(`Asking for medicine list...`);
+    setResponse(JSON.stringify(await apiCall()))
+  };
+
+  return(<>
+    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+    <Button type="submit">
+      AskForMedicineList
+    </Button>
+  </form>
+  <br></br>
+  {response}
+  <br></br>
+  </>)
+}
+
 export default function Home(props) {
     return (<>
       <Head>
@@ -226,13 +257,16 @@ export default function Home(props) {
       <main>
         <Tabs.Group aria-label="Full width tabs" style="pills">
           <Tabs.Item title="Enviroment vars">
-            <EnviromentVarsComponent/>
+            <EnviromentVarsComponent props={props}/>
           </Tabs.Item>
           <Tabs.Item title="Login API test">
             <LoginUserComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
           <Tabs.Item title="Register API test">
             <RegisterUserComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Get available medicines API test">
+            <AvailableMedicinesComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
         </Tabs.Group>
         </main>
