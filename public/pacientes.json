@@ -1,0 +1,437 @@
+{
+    "pacientes": [
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]
+      
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Obesidad", "Alzheimer", "Diabetes B"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+  
+        },
+        {
+            "nombre":"Abduscan",
+            "historial":["Alergia al Sorbitol", "Intolerante a la lactosa", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+        
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"decimo María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"20 María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]   
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+        
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]   
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]   
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]   
+        
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]   
+         
+        },
+        {
+            "nombre":"María Alba Sanchez Alsina",
+            "historial":["Alergia al Polen", "Operacion de Pulmón", "Diabetes A"],
+            "medicamentos":["Ibuprofeno 600mg a", "Ibuprofeno 600mg b", "Ibuprofeno 600mg c", "Reandron 1000ml"]    
+         
+        }
+    
+    ]
+    }
