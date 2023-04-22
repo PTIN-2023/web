@@ -3,7 +3,7 @@ import React from "react";
 //posteriormente esto se sustuirá por la API
 export const UserData = {
     name: "Ibai Llanos Garatea",
-    role: "Medico"
+    role: "Paciente"
 
 }
 

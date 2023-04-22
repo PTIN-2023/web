@@ -3,7 +3,6 @@ import useTable from "../hooks/useTable.js";
 import TableFooter from "./TableFooter.jsx";
 import {Table, Checkbox, Button, Modal, Tooltip, Dropdown} from 'flowbite-react'
 import style from "../styles/Makeorder.module.css"
-import {HiOutlineArrowRight, HiTrash, HiOutlineExclamationCircle} from "react-icons/hi"
 
 const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
     //componente que renderiza la tabla con los pedidos
@@ -20,7 +19,6 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
     return (
         <>
-        <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
             <Table hoverable={true}>
                 {console.log(searchValue)}
                 <Table.Head>
@@ -30,22 +28,30 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                     <Table.HeadCell> PVP </Table.HeadCell>
                     <Table.HeadCell> Dosis </Table.HeadCell>
                     <Table.HeadCell> Detalles </Table.HeadCell>
+                    <Table.HeadCell><span className="sr-only"> Pedir </span></Table.HeadCell>
                 </Table.Head>
                 <Table.Body className="divide-y">
                 {slice.map((med) =>
                     <>
                         <Table.Row className={style.tableRow}>
-                            <Table.Cell className={style.firstTableCell}></Table.Cell>
+                            <Table.Cell className="!p-4"><Checkbox /></Table.Cell>
                             <Table.Cell className={style.tableCell}>{med.medName}</Table.Cell>
                             <Table.Cell className={style.tableCell}>{med.act_exc}</Table.Cell>
                             <Table.Cell className={style.tableCell}>{med.pvp}</Table.Cell>
                             <Table.Cell className={style.tableCell}>{med.dosis}</Table.Cell>
                             <Table.Cell className={style.tableCell}>{med.detalles}</Table.Cell>
+                            <Table.Cell>
+                                <a href="/tables" 
+                                    className="font-medium text-blue-600 hover:underline dark:text-blue-500" >
+                                    Pedir 
+                                </a>
+                            </Table.Cell>
                         </Table.Row>
                     </>
                 )}
                 </Table.Body>
             </Table>
+            <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
         </>
     );
 }
