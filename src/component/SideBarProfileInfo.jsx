@@ -1,14 +1,13 @@
 import React from 'react';
 import { Avatar } from "flowbite-react";
 import layoutStyles from "../styles/Layout.module.css";
-import { UserData } from './UserData';
+import useLocalStorageState from 'use-local-storage-state'
 
 export default function SideBarProfileInfo({ isCollapsed }){
-    const profilePlaceholder = UserData;
+    const [userFullName,] = useLocalStorageState("userFullName");
+    const [userRole,] = useLocalStorageState("userRole");
 
     return(
-        
-
         <Avatar
         img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
         rounded={true}
@@ -17,16 +16,14 @@ export default function SideBarProfileInfo({ isCollapsed }){
             //muestra el avatar y el nombre
             <div className={layoutStyles.sideBarAvatarName}>
                 <div>
-                {profilePlaceholder.name}
+                {userFullName}
                 </div>
                 <div className={layoutStyles.sideBarAvatarRole}>
-                {profilePlaceholder.role}
+                {userRole}
                 </div>
             </div> 
         
         }
-        
-        </Avatar>        
-
+        </Avatar>
     )
 }

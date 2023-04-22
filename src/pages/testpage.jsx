@@ -2,7 +2,9 @@ import * as env_config from "../utils/env_config"
 import Head from 'next/head'
 import {useState, useEffect} from "react";
 import {Tabs, Label, TextInput, Button, Toast} from 'flowbite-react'
-import {FaTelegramPlane} from 'react-icons/fa'
+import { Select } from "flowbite-react";
+import useLocalStorageState from 'use-local-storage-state'
+import React from "react";
 
 // Temporal testing page to make sure the env variables + api requests work as 
 // intented
@@ -38,6 +40,94 @@ function EnviromentVarsComponent({props}) {
     <p>locationLongitude = {props.locationLongitude}</p>
     <p>mapBoxToken = {props.mapBoxToken}</p>
     <p>googleToken = {props.googleToken}</p>
+  </>)
+}
+
+function UserDataComponent() {
+  const [userFullName, setUserFullName] = useLocalStorageState("userFullName", {
+    defaultValue: 'Ibai Llanos Garatea'
+  });
+  const [userRole, setUserRole] = useLocalStorageState("userRole", {
+    defaultValue: 'patient'
+  });
+  const [userToken, setUserToken] = useLocalStorageState("userToken", {
+    defaultValue: '3'
+  });
+  // TODO: define a more secure way to handle the userToken e.g. encryption
+
+  const [tmpFullName, setTmpFullName] = useState('');
+  const [tmpUserRole, setTmpUserRole] = useState('');
+  const [tmpUserToken, setTmpUserToken] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if(tmpFullName != '')
+      setUserFullName(tmpFullName);
+
+    if(tmpUserRole != '')
+      setUserRole(tmpUserRole);
+
+    if(tmpUserToken != '')
+      setUserToken(tmpUserToken);
+  };
+
+  return(<>
+    <div>
+      <p>userFullName={userFullName}</p>
+      <p>userRole={userRole}</p>
+      <p>userToken={userToken}</p>
+    </div>
+    <br></br>
+    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+    <div>
+      <div className="mb-2 block">
+        <Label
+          htmlFor="name1"
+          value="Full name"
+        />
+      </div>
+      <TextInput
+        id="name1"
+        type="text"
+        required={false}
+        onChange={(e) => setTmpFullName(e.target.value)}
+      />
+    </div>
+    <div>
+      <div className="mb-2 block">
+        <Label
+          htmlFor="role1"
+          value="User role"
+        />
+      </div>
+      <Select 
+        id="role1" 
+        required={false}
+        onChange={(e) => setTmpUserRole(e.target.value)}
+      >
+        <option> patient </option>
+        <option> doctor  </option>
+        <option> manager </option>
+      </Select>
+    </div>
+    <div>
+      <div className="mb-2 block">
+        <Label
+          htmlFor="token1"
+          value="User token"
+        />
+      </div>
+      <TextInput
+        id="token1"
+        type="text"
+        required={false}
+        onChange={(e) => setTmpUserToken(e.target.value)}
+      />
+    </div>
+    <Button type="submit">
+      Store
+    </Button>
+  </form>
   </>)
 }
 
@@ -258,6 +348,9 @@ export default function Home(props) {
         <Tabs.Group aria-label="Full width tabs" style="pills">
           <Tabs.Item title="Enviroment vars">
             <EnviromentVarsComponent props={props}/>
+          </Tabs.Item>
+          <Tabs.Item title="User Data test">
+            <UserDataComponent/>
           </Tabs.Item>
           <Tabs.Item title="Login API test">
             <LoginUserComponent apiEndpoint={props.apiEndpoint}/>
