@@ -377,6 +377,47 @@ function CarPositionComponent({apiEndpoint}) {
   )
 }
 
+
+function DronePositionComponent({apiEndpoint}) {
+  const [userToken,] = useLocalStorageState("userToken")
+  const [responseFull, setResponseFull] = useState('');
+  const [responseOnlyPos, setResponseOnlyPos] = useState('');
+
+  async function apiCall(kind) {
+    return fetch(apiEndpoint+"/api/drones_" + kind + "_info", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({userToken})
+    }).then(data => data.json())
+  }
+
+  const handleSubmitFull = async (e) => {
+    e.preventDefault();
+    console.log(`Asking for all drone position info...`);
+    setResponseFull(JSON.stringify(await apiCall("full")))
+  };  
+  
+  const handleSubmitPos = async (e) => {
+    e.preventDefault();
+    console.log(`Asking for all drone position info...`);
+    setResponseOnlyPos(JSON.stringify(await apiCall("pos")))
+  };
+
+  return(<>
+    <form className="flex flex-col gap-4" onSubmit={handleSubmitFull}>
+      <Button type="submit"> AskForAllDroneInfo </Button>
+    </form>
+    <br></br> {responseFull} <br></br>
+    <form className="flex flex-col gap-4" onSubmit={handleSubmitPos}>
+      <Button type="submit"> AskForPosDroneInfo </Button>
+    </form>
+    <br></br> {responseOnlyPos} <br></br>
+    </>
+  )
+}
+
 export default function Home(props) {
     return (<>
       <Head>
@@ -403,6 +444,9 @@ export default function Home(props) {
           </Tabs.Item>
           <Tabs.Item title="Get car pos API test">
             <CarPositionComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Get drone pos API test">
+            <DronePositionComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
         </Tabs.Group>
         </main>
