@@ -2,24 +2,26 @@ import * as env_config from "../utils/env_config"
 import Head from 'next/head'
 import {useState, useEffect} from "react";
 import {Tabs, Label, TextInput, Button, Toast} from 'flowbite-react'
-import {FaTelegramPlane} from 'react-icons/fa'
+import { Select } from "flowbite-react";
+import useLocalStorageState from 'use-local-storage-state'
+import React from "react";
 
 // Temporal testing page to make sure the env variables + api requests work as 
 // intented
 
 export async function getServerSideProps() {
-  const apiEndpoint = String(env_config.getApiEndpoint());
-  const isLocal = String(env_config.isLocal());
-  const locationName = String(env_config.getLocationName());
-  const locationLatitude = String(env_config.getLocationLatitude());
-  const locationLongitude = String(env_config.getLocationLongitude());
-  const mapBoxToken = String(env_config.getTokenMapBox());
-  const googleToken = String(env_config.getTokenGoogleSignIn());
+  const isLocal           = env_config.isLocal();
+  const apiEndpoint       = String(          env_config.getApiEndpoint());
+  const locationName      = String(isLocal ? env_config.getLocationName()      : "N/A");
+  const locationLatitude  = String(isLocal ? env_config.getLocationLatitude()  : "N/A");
+  const locationLongitude = String(isLocal ? env_config.getLocationLongitude() : "N/A");
+  const mapBoxToken       = String(          env_config.getTokenMapBox());
+  const googleToken       = String(          env_config.getTokenGoogleSignIn());
 
   return {
     props: { 
-      apiEndpoint,
       isLocal,
+      apiEndpoint,
       locationName,
       locationLatitude,
       locationLongitude,
@@ -29,15 +31,103 @@ export async function getServerSideProps() {
   }
 }
 
-function EnviromentVarsComponent(props) {
+function EnviromentVarsComponent({props}) {
   return(<>
     <p>apiEndpoint = {props.apiEndpoint}</p>
-    <p>isLocal = {props.isLocal}</p>
+    <p>isLocal = {String(props.isLocal)}</p>
     <p>locationName = {props.locationName}</p>
     <p>locationLatitude = {props.locationLatitude}</p>
     <p>locationLongitude = {props.locationLongitude}</p>
     <p>mapBoxToken = {props.mapBoxToken}</p>
     <p>googleToken = {props.googleToken}</p>
+  </>)
+}
+
+function UserDataComponent() {
+  const [userFullName, setUserFullName] = useLocalStorageState("userFullName", {
+    defaultValue: 'Ibai Llanos Garatea'
+  });
+  const [userRole, setUserRole] = useLocalStorageState("userRole", {
+    defaultValue: 'patient'
+  });
+  const [userToken, setUserToken] = useLocalStorageState("userToken", {
+    defaultValue: '3'
+  });
+  // TODO: define a more secure way to handle the userToken e.g. encryption
+
+  const [tmpFullName, setTmpFullName] = useState('');
+  const [tmpUserRole, setTmpUserRole] = useState('');
+  const [tmpUserToken, setTmpUserToken] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if(tmpFullName != '')
+      setUserFullName(tmpFullName);
+
+    if(tmpUserRole != '')
+      setUserRole(tmpUserRole);
+
+    if(tmpUserToken != '')
+      setUserToken(tmpUserToken);
+  };
+
+  return(<>
+    <div>
+      <p>userFullName={userFullName}</p>
+      <p>userRole={userRole}</p>
+      <p>userToken={userToken}</p>
+    </div>
+    <br></br>
+    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+    <div>
+      <div className="mb-2 block">
+        <Label
+          htmlFor="name1"
+          value="Full name"
+        />
+      </div>
+      <TextInput
+        id="name1"
+        type="text"
+        required={false}
+        onChange={(e) => setTmpFullName(e.target.value)}
+      />
+    </div>
+    <div>
+      <div className="mb-2 block">
+        <Label
+          htmlFor="role1"
+          value="User role"
+        />
+      </div>
+      <Select 
+        id="role1" 
+        required={false}
+        onChange={(e) => setTmpUserRole(e.target.value)}
+      >
+        <option> patient </option>
+        <option> doctor  </option>
+        <option> manager </option>
+      </Select>
+    </div>
+    <div>
+      <div className="mb-2 block">
+        <Label
+          htmlFor="token1"
+          value="User token"
+        />
+      </div>
+      <TextInput
+        id="token1"
+        type="text"
+        required={false}
+        onChange={(e) => setTmpUserToken(e.target.value)}
+      />
+    </div>
+    <Button type="submit">
+      Store
+    </Button>
+  </form>
   </>)
 }
 
@@ -216,6 +306,37 @@ function RegisterUserComponent({apiEndpoint}) {
   </>)
 }
 
+function AvailableMedicinesComponent({apiEndpoint}) {
+  const [response, setResponse] = useState('');
+
+  async function apiCall(email, password) {
+    return fetch(apiEndpoint+"/api/medicines_list", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({})
+    }).then(data => data.json())
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(`Asking for medicine list...`);
+    setResponse(JSON.stringify(await apiCall()))
+  };
+
+  return(<>
+    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+    <Button type="submit">
+      AskForMedicineList
+    </Button>
+  </form>
+  <br></br>
+  {response}
+  <br></br>
+  </>)
+}
+
 export default function Home(props) {
     return (<>
       <Head>
@@ -226,13 +347,19 @@ export default function Home(props) {
       <main>
         <Tabs.Group aria-label="Full width tabs" style="pills">
           <Tabs.Item title="Enviroment vars">
-            <EnviromentVarsComponent/>
+            <EnviromentVarsComponent props={props}/>
+          </Tabs.Item>
+          <Tabs.Item title="User Data test">
+            <UserDataComponent/>
           </Tabs.Item>
           <Tabs.Item title="Login API test">
             <LoginUserComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
           <Tabs.Item title="Register API test">
             <RegisterUserComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Get available medicines API test">
+            <AvailableMedicinesComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
         </Tabs.Group>
         </main>

@@ -4,7 +4,7 @@ import { Sidebar, Navbar, Label, TextInput, Button } from "flowbite-react";
 import { useRouter } from 'next/router';
 import { HiMenuAlt1, HiChartPie, HiTable, HiUser, HiInboxIn, HiBell, HiUserGroup, HiTruck, HiArchive, HiMap, HiLockClosed } from 'react-icons/hi';
 import SideBarProfileInfo from "./SideBarProfileInfo";
-import UserData from "./UserData";
+import useLocalStorageState from 'use-local-storage-state'
 import MyOrdersSearch from "./MyOrdersSearch"
 
 
@@ -15,9 +15,8 @@ export default function Layout({ children, navBarValue}) {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   //asPath es un hook de nextjs que guarda la ruta del navegador en la que estamos y así detectamos la pagina
   const { asPath } = useRouter();
-  const currentPage = asPath;
-  //user data guarda {name: "",role:""} cómo placeholder previo a la API
-  const userData = UserData;
+  const currentPage = asPath;  
+  const [userRole,] = useLocalStorageState("userRole");
 
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
@@ -45,7 +44,7 @@ export default function Layout({ children, navBarValue}) {
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
               {/**Dentro de este ItemGroup se comprueba el rol y se renderiza las opciones del sidebar que tocan, esto habrá que mejorarlo por seguridad */}
-              {userData.role == "Gestor" &&
+              {userRole == "manager" &&
                 <Sidebar.ItemGroup>
                   <Sidebar.Item className={`${currentPage == "/profile" ? layoutStyles.sideBarCurrentItem: layoutStyles.sideBarItem}`} href="/profile" icon={HiUser}>Perfil</Sidebar.Item>
                   <Sidebar.Item className={`${currentPage == "/map" ? layoutStyles.sideBarCurrentItem: layoutStyles.sideBarItem}`} href="/map" icon={HiMap}>Mapa</Sidebar.Item>
@@ -55,7 +54,7 @@ export default function Layout({ children, navBarValue}) {
                 </Sidebar.ItemGroup>
               }
               
-              {userData.role == "Medico" &&
+              {userRole == "doctor" &&
                 <Sidebar.ItemGroup>
                   <Sidebar.Item className={`${currentPage == "/profile" ? layoutStyles.sideBarCurrentItem: layoutStyles.sideBarItem}`} href="/profile" icon={HiUser}>Perfil</Sidebar.Item>
                   <Sidebar.Item className={`${currentPage == "/patients" ? layoutStyles.sideBarCurrentItem: layoutStyles.sideBarItem}`} href="/patients" icon={HiUserGroup}>Pacientes</Sidebar.Item>
@@ -64,7 +63,7 @@ export default function Layout({ children, navBarValue}) {
               }
               
 
-              {userData.role == "Paciente" &&
+              {userRole == "patient" &&
                 <Sidebar.ItemGroup>
                   <Sidebar.Item className={`${currentPage == "/profile" ? layoutStyles.sideBarCurrentItem: layoutStyles.sideBarItem}`} href="/profile" icon={HiUser}>Perfil</Sidebar.Item>
                   <Sidebar.Item className={`${currentPage == "/myorders" ? layoutStyles.sideBarCurrentItem: layoutStyles.sideBarItem}`} href="/myorders" icon={HiTable}>Mis pedidos</Sidebar.Item>
