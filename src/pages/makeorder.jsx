@@ -5,6 +5,7 @@ import path from 'path';
 import Tabla from "../component/TablaMakeorder"
 import myordersStyles from "../styles/Makeorder.module.css"
 import {useState} from "react";
+import cartButton from "../component/TablaMakeorder"
 
 export async function getStaticProps() {
     //función de nextjs que se encarga de cargar los datos medicamentos.json (placeholder que después se cambiará por la API)

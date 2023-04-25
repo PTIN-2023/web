@@ -6,6 +6,10 @@
 /**
 Component TablaMakeorder
 **/
+.tableBorder {
+    width: max;
+    height: max;
+}
 .tableRow {
     @apply bg-white dark:border-gray-700 dark:bg-gray-800;
 
@@ -57,7 +61,6 @@ Component TableFooter
 }
 /*
 Component MyOrdersSearch
-
 */
 .searchBarContainer {
     @apply contents space-x-5;
