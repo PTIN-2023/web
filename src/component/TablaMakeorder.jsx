@@ -3,7 +3,6 @@ import useTable from "../hooks/useTable.js";
 import TableFooter from "./TableFooter.jsx";
 import {Table, Checkbox, Button, Modal, Tooltip, Dropdown} from 'flowbite-react'
 import style from "../styles/Makeorder.module.css"
-import cartButton from "../component/shopCartButton.jsx"
 
 const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
     //componente que renderiza la tabla con los pedidos
@@ -18,25 +17,18 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
     }  
     var { slice, range } = useTable(data, page, rowsPerPage);
 
-    function popUp()
-    {
-        <Modal show={true} popup={true}>
-            <Modal.Header>Hola</Modal.Header>
-        </Modal>
-    }
-
     return (
         <>
-            <Table className={style.tableBorder} hoverable={true}>
+            <Table hoverable={true}>
                 {console.log(searchValue)}
                 <Table.Head>
                     <Table.HeadCell className=""></Table.HeadCell>
-                    <Table.HeadCell>Medicamento </Table.HeadCell>
-                    <Table.HeadCell>Activo/Excipiente </Table.HeadCell>
-                    <Table.HeadCell>PVP </Table.HeadCell>
-                    <Table.HeadCell>Dosis </Table.HeadCell>
-                    <Table.HeadCell>Detalles </Table.HeadCell>
-                    <Table.HeadCell><span className="sr-only"></span>Pedir</Table.HeadCell>
+                    <Table.HeadCell> Medicamento </Table.HeadCell>
+                    <Table.HeadCell> Activo/Excipiente </Table.HeadCell>
+                    <Table.HeadCell> PVP </Table.HeadCell>
+                    <Table.HeadCell> Dosis </Table.HeadCell>
+                    <Table.HeadCell> Detalles </Table.HeadCell>
+                    <Table.HeadCell><span className="sr-only"> Pedir </span></Table.HeadCell>
                 </Table.Head>
                 <Table.Body className="divide-y">
                 {slice.map((med) =>
@@ -48,12 +40,11 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                             <Table.Cell className={style.tableCell}>{med.pvp}</Table.Cell>
                             <Table.Cell className={style.tableCell}>{med.dosis}</Table.Cell>
                             <Table.Cell className={style.tableCell}>{med.detalles}</Table.Cell>
-                            <Table.Cell className={style.tableCell}>
-                                <React.Fragment>
-                                    <Button onClick={popUp}>
-                                        Toggle modal
-                                    </Button>
-                                </React.Fragment>
+                            <Table.Cell>
+                                <a href="/tables" 
+                                    className="font-medium text-blue-600 hover:underline dark:text-blue-500" >
+                                    Pedir 
+                                </a>
                             </Table.Cell>
                         </Table.Row>
                     </>
