@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import Layout from "../component/Layout"
-import Login from "../component/Login"
 
 export default function Home() {
 
@@ -12,7 +11,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Login></Login>
+        <Layout> {/*TODO: habria que hacer una ventana main de bienvenida aqui abajo*/}
+          todo
+        </Layout>
       </main>
     </>
   )
