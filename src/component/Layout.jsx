@@ -6,6 +6,7 @@ import { HiMenuAlt1, HiChartPie, HiTable, HiUser, HiInboxIn, HiBell, HiUserGroup
 import SideBarProfileInfo from "./SideBarProfileInfo";
 import useLocalStorageState from 'use-local-storage-state'
 import MyOrdersSearch from "./MyOrdersSearch"
+import useCookie from "../hooks/useCookie";
 
 
 export default function Layout({ children, navBarValue}) {
@@ -16,7 +17,7 @@ export default function Layout({ children, navBarValue}) {
   //asPath es un hook de nextjs que guarda la ruta del navegador en la que estamos y así detectamos la pagina
   const { asPath } = useRouter();
   const currentPage = asPath;  
-  const [userRole,] = useLocalStorageState("userRole");
+  const [userRole,] = useCookie("user_role");
 
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
