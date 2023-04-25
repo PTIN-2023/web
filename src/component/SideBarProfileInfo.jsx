@@ -2,10 +2,12 @@ import React from 'react';
 import { Avatar } from "flowbite-react";
 import layoutStyles from "../styles/Layout.module.css";
 import useCookie from '../hooks/useCookie';
+import { getText } from "../utils/locale";
 
 export default function SideBarProfileInfo({ isCollapsed }){
     const [userFullName,] = useCookie('user_full_name');
     const [userRole,] = useCookie('user_role')
+    const userRoleLocalized = getText('role_'+userRole)
 
     return(
         <Avatar
@@ -19,7 +21,7 @@ export default function SideBarProfileInfo({ isCollapsed }){
                 {userFullName}
                 </div>
                 <div className={layoutStyles.sideBarAvatarRole}>
-                {userRole}
+                {userRoleLocalized}
                 </div>
             </div> 
         

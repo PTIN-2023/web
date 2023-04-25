@@ -1,11 +1,13 @@
 import layoutStyles from "../styles/Layout.module.css";
 import {useState} from 'react';
-import { Sidebar, Navbar, Label, TextInput, Button } from "flowbite-react";
+import { Sidebar, Navbar, Label, TextInput, Dropdown } from "flowbite-react";
 import { useRouter } from 'next/router';
 import { HiMenuAlt1, HiChartPie, HiTable, HiUser, HiInboxIn, HiBell, HiUserGroup, HiTruck, HiArchive, HiMap, HiLockClosed } from 'react-icons/hi';
 import SideBarProfileInfo from "./SideBarProfileInfo";
 import MyOrdersSearch from "./MyOrdersSearch"
 import useCookie from "../hooks/useCookie";
+import { setCookie } from "cookies-next";
+import { getText, getTextLocale } from "../utils/locale";
 
 
 export default function Layout({ children, navBarValue}) {
@@ -14,9 +16,11 @@ export default function Layout({ children, navBarValue}) {
 
   const [sidebarVisible, setSidebarVisible] = useState(false);
   //asPath es un hook de nextjs que guarda la ruta del navegador en la que estamos y así detectamos la pagina
-  const { asPath } = useRouter();
-  const currentPage = asPath;  
+  const router = useRouter();
+  const currentPage = router.asPath;  
   const [userRole,] = useCookie("user_role");
+  const [locale, setLocale] = useCookie("locale");
+  const languageText = getTextLocale('language', locale)
 
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
@@ -27,11 +31,16 @@ export default function Layout({ children, navBarValue}) {
       <Navbar fluid className={layoutStyles.navBar}>
         <div className={layoutStyles.navBarContents}>
           <HiMenuAlt1 className={layoutStyles.navBarIcon} onClick={toggleSidebar}/>
-          <a href='/'><span className={layoutStyles.navBarTitle}>TransMed</span></a>
+          <span className={layoutStyles.navBarTitle}>TransMed</span>
           {/**estoy en Mis pedidos? carga la barra de busqueda */}
           {currentPage == "/myorders" && <MyOrdersSearch setSearchValue={navBarValue}/>}
           {/**aqui hay que añadir el componente que corresponde a cada página si asi se requiere */}
         </div>
+        <Dropdown label={languageText} inline={true}>
+          <Dropdown.Item onClick={() => { setLocale('es'); router.reload() }}>Español</Dropdown.Item>
+          <Dropdown.Item onClick={() => { setLocale('ca'); router.reload() }}>Català</Dropdown.Item>
+          <Dropdown.Item onClick={() => { setLocale('en'); router.reload() }}>English</Dropdown.Item>
+        </Dropdown>
       </Navbar>
       <div className={layoutStyles.sideBarAndMainContainer}>
         <Sidebar collapsed={sidebarVisible} className={layoutStyles.sideBar}>
@@ -75,7 +84,6 @@ export default function Layout({ children, navBarValue}) {
             <Sidebar.ItemGroup>
               {/**TODO: hacer el cerrar sesión!! (onClick(handler??))*/}
               <Sidebar.Item className={layoutStyles.sideBarItem} href="/" icon={HiLockClosed}>Cerrar Sesión</Sidebar.Item>
-
             </Sidebar.ItemGroup>
           </Sidebar.Items>
         </Sidebar>

@@ -1,0 +1,20 @@
+{
+    "es" : {
+        "language" : "Idioma",
+        "role_manager" : "Gestor",
+        "role_doctor" : "Doctor",
+        "role_patient" : "Paciente"
+    },
+    "en" : {
+        "language" : "Language",
+        "role_manager" : "Manager",
+        "role_doctor" : "Doctor",
+        "role_patient" : "Patient"
+    },
+    "ca" : {
+        "language" : "Idioma",
+        "role_manager" : "Gestor",
+        "role_doctor" : "Doctor",
+        "role_patient" : "Pacient"
+    }
+}
