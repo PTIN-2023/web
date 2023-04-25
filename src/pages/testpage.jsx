@@ -3,7 +3,7 @@ import Head from 'next/head'
 import {useState, useEffect} from "react";
 import {Tabs, Label, TextInput, Button, Toast} from 'flowbite-react'
 import { Select } from "flowbite-react";
-import useLocalStorageState from 'use-local-storage-state'
+import useCookie from "../hooks/useCookie";
 import React from "react";
 
 // Temporal testing page to make sure the env variables + api requests work as 
@@ -44,15 +44,9 @@ function EnviromentVarsComponent({props}) {
 }
 
 function UserDataComponent() {
-  const [userFullName, setUserFullName] = useLocalStorageState("userFullName", {
-    defaultValue: 'Ibai Llanos Garatea'
-  });
-  const [userRole, setUserRole] = useLocalStorageState("userRole", {
-    defaultValue: 'patient'
-  });
-  const [userToken, setUserToken] = useLocalStorageState("userToken", {
-    defaultValue: '3'
-  });
+  const [fullNameCookie, setFullNameCookie] = useCookie('user_full_name', '')
+  const [userRoleCookie, setUserRoleCookie] = useCookie('user_role', '')
+  const [userTokenCookie, setUserTokenCookie] = useCookie('user_token', '')
   // TODO: define a more secure way to handle the userToken e.g. encryption
 
   const [tmpFullName, setTmpFullName] = useState('');
@@ -62,20 +56,20 @@ function UserDataComponent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(tmpFullName != '')
-      setUserFullName(tmpFullName);
+      setFullNameCookie(tmpFullName);
 
     if(tmpUserRole != '')
-      setUserRole(tmpUserRole);
+      setUserRoleCookie(tmpUserRole);
 
     if(tmpUserToken != '')
-      setUserToken(tmpUserToken);
+      setUserTokenCookie(tmpUserToken);
   };
 
   return(<>
     <div>
-      <p>userFullName={userFullName}</p>
-      <p>userRole={userRole}</p>
-      <p>userToken={userToken}</p>
+      <p>userFullName={fullNameCookie}</p>
+      <p>userRole={userRoleCookie}</p>
+      <p>userToken={userTokenCookie}</p>
     </div>
     <br></br>
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
@@ -105,6 +99,7 @@ function UserDataComponent() {
         required={false}
         onChange={(e) => setTmpUserRole(e.target.value)}
       >
+        <option>   </option>
         <option> patient </option>
         <option> doctor  </option>
         <option> manager </option>
@@ -132,11 +127,12 @@ function UserDataComponent() {
 }
 
 function LoginUserComponent({apiEndpoint}) {
+  const [, setUserTokenCookie] = useCookie('user_token', '')
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [response, setResponse] = useState('');
 
-  async function apiCall(email, password) {
+  async function apiCall() {
     return fetch(apiEndpoint+"/api/login", {
       method: 'POST',
       headers: {
@@ -151,14 +147,9 @@ function LoginUserComponent({apiEndpoint}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(`Email: ${email}, Password: ${password}`);
-    console.log(
-      JSON.stringify({
-        email,
-        password
-      })
-    )
-    setResponse(JSON.stringify(await apiCall(email, password)))
+    const res = await apiCall();
+    setResponse(JSON.stringify(res))
+    setUserTokenCookie(res.session_token)
   };
 
   return(<>
@@ -203,13 +194,14 @@ function LoginUserComponent({apiEndpoint}) {
 }
 
 function RegisterUserComponent({apiEndpoint}) {
+  const [, setUserTokenCookie] = useCookie('user_token', '')
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [response, setResponse] = useState('');
 
-  async function apiCall(email, password) {
+  async function apiCall() {
     return fetch(apiEndpoint+"/api/register", {
       method: 'POST',
       headers: {
@@ -233,7 +225,9 @@ function RegisterUserComponent({apiEndpoint}) {
         password
       })
     )
-    setResponse(JSON.stringify(await apiCall(email, password)))
+    const res = await apiCall();
+    setResponse(JSON.stringify(res))
+    setUserTokenCookie(res.session_token)
   };
 
   return(<>
@@ -338,7 +332,7 @@ function AvailableMedicinesComponent({apiEndpoint}) {
 }
 
 function CarPositionComponent({apiEndpoint}) {
-  const [userToken,] = useLocalStorageState("userToken")
+  const [userToken,] = useCookie("user_token")
   const [responseFull, setResponseFull] = useState('');
   const [responseOnlyPos, setResponseOnlyPos] = useState('');
 
@@ -379,7 +373,7 @@ function CarPositionComponent({apiEndpoint}) {
 
 
 function DronePositionComponent({apiEndpoint}) {
-  const [userToken,] = useLocalStorageState("userToken")
+  const [userToken,] = useCookie("user_token")
   const [responseFull, setResponseFull] = useState('');
   const [responseOnlyPos, setResponseOnlyPos] = useState('');
 

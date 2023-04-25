@@ -155,7 +155,7 @@ export function makeServer() {
             return { 
               result : 'ok',
               role : 'pacient',
-              session_token : '3458764568973496'
+              session_token : '7456394693456'
             }
           })
 

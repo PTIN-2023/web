@@ -1,11 +1,11 @@
 import React from 'react';
 import { Avatar } from "flowbite-react";
 import layoutStyles from "../styles/Layout.module.css";
-import useLocalStorageState from 'use-local-storage-state'
+import useCookie from '../hooks/useCookie';
 
 export default function SideBarProfileInfo({ isCollapsed }){
-    const [userFullName,] = useLocalStorageState("userFullName");
-    const [userRole,] = useLocalStorageState("userRole");
+    const [userFullName,] = useCookie('user_full_name');
+    const [userRole,] = useCookie('user_role')
 
     return(
         <Avatar
