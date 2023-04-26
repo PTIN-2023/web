@@ -7,24 +7,27 @@ import SideBarProfileInfo from "./SideBarProfileInfo";
 import MyOrdersSearch from "./MyOrdersSearch"
 import useCookie from "../hooks/useCookie";
 import { setCookie } from "cookies-next";
-import { getText, getTextLocale } from "../utils/locale";
+import getTextCurrentLocale from "../utils/getTextCurrentLocale";
 
 
 export default function Layout({ children, navBarValue}) {
   //recibe props: children y navBarValue
   //navBarValue es el setter del useState del componente que irá en la navbar para poder actualizarlo y mandarlo de vuelta al hijo padre
 
+  // Sidebar settings
   const [sidebarVisible, setSidebarVisible] = useState(false);
-  //asPath es un hook de nextjs que guarda la ruta del navegador en la que estamos y así detectamos la pagina
-  const router = useRouter();
-  const currentPage = router.asPath;  
-  const [userRole,] = useCookie("user_role");
-  const [locale, setLocale] = useCookie("locale");
-  const languageText = getTextLocale('language', locale)
-
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
   };
+
+  // Routing info
+  const router = useRouter();
+  const currentPage = router.asPath;  
+  const [userRole,] = useCookie("user_role");
+
+  // Locale settings
+  const [, setLocaleCookie] = useCookie("locale");
+  const setLocale = (locale) => {setLocaleCookie(locale); router.reload()}
 
   return (
     <div className={layoutStyles.layoutContainer}>
@@ -36,10 +39,10 @@ export default function Layout({ children, navBarValue}) {
           {currentPage == "/myorders" && <MyOrdersSearch setSearchValue={navBarValue}/>}
           {/**aqui hay que añadir el componente que corresponde a cada página si asi se requiere */}
         </div>
-        <Dropdown label={languageText} inline={true}>
-          <Dropdown.Item onClick={() => { setLocale('es'); router.reload() }}>Español</Dropdown.Item>
-          <Dropdown.Item onClick={() => { setLocale('ca'); router.reload() }}>Català</Dropdown.Item>
-          <Dropdown.Item onClick={() => { setLocale('en'); router.reload() }}>English</Dropdown.Item>
+        <Dropdown label={getTextCurrentLocale('language')} inline={true}>
+          <Dropdown.Item onClick={() => { setLocale('es')}}>Español</Dropdown.Item>
+          <Dropdown.Item onClick={() => { setLocale('ca')}}>Català</Dropdown.Item>
+          <Dropdown.Item onClick={() => { setLocale('en')}}>English</Dropdown.Item>
         </Dropdown>
       </Navbar>
       <div className={layoutStyles.sideBarAndMainContainer}>

@@ -11,7 +11,7 @@ export default function Home() {
       </Head>
       <main>
         <Layout>
-          todo
+          TODO
         </Layout>
       </main>
     </>
