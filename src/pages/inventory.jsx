@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Layout from "../component/Layout"
+import getTextCurrentLocale from '../utils/getTextCurrentLocale'
 
 export default function Home() {
   return (
@@ -20,13 +21,13 @@ export default function Home() {
                               <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                   <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                       <tr>
-                                          <th scope="col" class="px-4 py-3">Medicamento</th>
-                                          <th scope="col" class="px-4 py-3">Cantidad almacén</th>
-                                          <th scope="col" class="px-4 py-3">Cantidad vendida</th>
-                                          <th scope="col" class="px-4 py-3">Ciudad que mas ha comprado</th>
+                                          <th scope="col" class="px-4 py-3">{getTextCurrentLocale('medicine')}</th>
+                                          <th scope="col" class="px-4 py-3">{getTextCurrentLocale('amount_in_storage')}</th>
+                                          <th scope="col" class="px-4 py-3">{getTextCurrentLocale('amount_sold')}</th>
+                                          <th scope="col" class="px-4 py-3">{getTextCurrentLocale('top_seller_city')}</th>
                                           <th scope="col" class="px-4 py-3"></th>
                                           <th scope="col" class="px-4 py-3">
-                                              <span class="sr-only">Actions</span>
+                                              <span class="sr-only">{getTextCurrentLocale('actions')}</span>
                                           </th>
                                       </tr>
                                   </thead>
@@ -77,13 +78,13 @@ export default function Home() {
                                       </tr>
                                       <tr class="border-b dark:border-gray-700">
                                           <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">Ibuprofeno 600mg</th>
-                                          <td class="px-4 py-3"><p class="bg-red-500 px-3 text-gray-900  py-1 rounded-lg w-min">Agotado</p></td>
+                                          <td class="px-4 py-3"><p class="bg-red-500 px-3 text-gray-900  py-1 rounded-lg w-min">{getTextCurrentLocale('sold_out')}</p></td>
                                           <td class="px-4 py-3">1.229.421</td>
                                           <td class="px-24 py-3">R</td>
                                           <td class="px-4 py-3"></td>
                                           <td class="px-1 py-3">
                                               <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                  Pedir
+                                                  {getTextCurrentLocale("request")}
                                                   <svg aria-hidden="true" class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                                               </button>
                                           </td>
@@ -91,13 +92,13 @@ export default function Home() {
                                       </tr>
                                       <tr class="border-b dark:border-gray-700">
                                           <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">Ibuprofeno 600mg</th>
-                                          <td class="px-4 py-3"><p class="bg-red-500 px-3 text-gray-900  py-1 rounded-lg w-min">Agotado</p></td>
+                                          <td class="px-4 py-3"><p class="bg-red-500 px-3 text-gray-900  py-1 rounded-lg w-min">{getTextCurrentLocale('sold_out')}</p></td>
                                           <td class="px-4 py-3">1.221.690</td>
                                           <td class="px-24 py-3">T</td>
                                           <td class="px-4 py-3"></td>
                                           <td class="px-1 py-3">
                                               <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                  Pedir
+                                                {getTextCurrentLocale("request")}
                                                   <svg aria-hidden="true" class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                                               </button>
                                           </td>
@@ -189,7 +190,7 @@ export default function Home() {
                                   </li>
                                   <li>
                                       <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                          <span class="sr-only">Next</span>
+                                          <span class="sr-only">{getTextCurrentLocale('next')}</span>
                                           <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                               <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                                           </svg>

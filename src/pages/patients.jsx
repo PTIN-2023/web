@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import Layout from "../component/Layout"
-import {Table, Checkbox, Pagination} from 'flowbite-react'
 import fsPromises from 'fs/promises';
 import path from 'path';
 import Tablapacientes from "../component/TablaPacientes"

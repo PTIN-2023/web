@@ -6,7 +6,22 @@ export default function getTextCurrentLocale(key) {
     const locale = (typeof localeCookie === 'undefined' ) ? 'es' : localeCookie
 
     if (textDictionaryJson[locale] == undefined)
-        return undefined
-    else
-        return textDictionaryJson[locale][key]
+        return "undefined"
+
+    if (textDictionaryJson[locale][key] == undefined)
+        return "undefined"
+
+    return textDictionaryJson[locale][key];
+}
+
+export function getText(key, passedLocale) {
+    const locale = (typeof passedLocale === 'undefined' ) ? 'es' : passedLocale
+
+    if (textDictionaryJson[locale] == undefined)
+        return "undefined"
+
+    if (textDictionaryJson[locale][key] == undefined)
+        return "undefined"
+
+    return textDictionaryJson[locale][key];
 }
