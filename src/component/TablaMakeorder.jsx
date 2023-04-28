@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import useTable from "../hooks/useTable.js";
 import TableFooter from "./TableFooter.jsx";
 import {Table, Checkbox, Button, Modal, Tooltip, Dropdown} from 'flowbite-react'
 import style from "../styles/Makeorder.module.css"
-
-import '../utils/med_server.js'
+import orderButton from "../component/orderButton.jsx"
 
 const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
     //componente que renderiza la tabla con los pedidos
@@ -19,16 +18,15 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
     }  
     var { slice, range } = useTable(data, page, rowsPerPage);
 
-    let [meds, setMeds] = useState([])
+    const [showModal, setShowModal] = useState(false);
 
-    useEffect(() => {
-        fetch("/api/meds")
-            .then((res) => res.json())
-            .then((json) => {
-                setMeds(json.meds)
-            })
-            .catch((err) => console.log(err))
-    }, [])
+    const handleCloseModal = () => {
+        setShowModal(false);
+    }
+
+    const handleOpenModal = () => {
+        setShowModal(true);
+    }
 
     return (
         <>
@@ -44,7 +42,7 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                     <Table.HeadCell><span className="sr-only"> Pedir </span></Table.HeadCell>
                 </Table.Head>
                 <Table.Body className="divide-y">
-                {meds.map((med) =>
+                {slice.map((med) =>
                     <>
                         <Table.Row className={style.tableRow}>
                             <Table.Cell className="!p-4"><Checkbox /></Table.Cell>
@@ -54,10 +52,29 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                             <Table.Cell className={style.tableCell}>{med.dosis}</Table.Cell>
                             <Table.Cell className={style.tableCell}>{med.detalles}</Table.Cell>
                             <Table.Cell>
-                                <a href="/makeorder" 
-                                    className="font-medium text-blue-600 hover:underline dark:text-blue-500" >
-                                    Pedir 
-                                </a>
+                                <React.Fragment>
+                                    <Button onClick={handleOpenModal}>
+                                        Pedir
+                                    </Button>
+                                    <Modal show={showModal} size="md" popup={true} onClose={handleCloseModal}>
+                                        <Modal.Header />
+                                            <Modal.Body>
+                                                <div className="text-center">
+                                                    <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                                        Seguro que quieres seguir con la compra ?
+                                                    </h3>
+                                                        <div className="flex justify-center gap-4">
+                                                            <Button color="green" onClick={handleCloseModal}>
+                                                                Si, estoy segur@
+                                                            </Button>
+                                                            <Button color="failure" onClick={handleCloseModal}>
+                                                                No, cancelar
+                                                            </Button>
+                                                        </div>
+                                                </div>
+                                            </Modal.Body>
+                                    </Modal>
+                                </React.Fragment>                            
                             </Table.Cell>
                         </Table.Row>
                     </>

@@ -1,25 +1,24 @@
 import Head from 'next/head'
 import Layout from "../component/Layout"
-import fsPromises from 'fs/promises';
-import path from 'path';
 import Tabla from "../component/TablaMakeorder"
 import myordersStyles from "../styles/Makeorder.module.css"
-import {useState} from "react";
+import {useState, useEffect} from "react";
 
-export async function getStaticProps() {
-    //función de nextjs que se encarga de cargar los datos medicamentos.json (placeholder que después se cambiará por la API)
-    const filePath = path.join('public/', 'medicamentos.json');
-    const jsonData = await fsPromises.readFile(filePath);
-    const data = JSON.parse(jsonData);
-  
-    return {
-      props: data
-    }
-}
+import '../utils/med_server.js'
 
-export default function Home(props) {
+export default function Home() {
     const [searchValue, setSearchValue] = useState({value:"",isCompleted:false});
-    const med = props.medicamentos;
+
+    let [meds, setMeds] = useState([])
+
+    useEffect(() => {
+        fetch("/api/meds")
+            .then((res) => res.json())
+            .then((json) => {
+                setMeds(json.meds)
+            })
+            .catch((err) => console.log(err))
+    }, [])
 
     return (
         <>
@@ -33,7 +32,7 @@ export default function Home(props) {
             <Layout navBarValue={setSearchValue}>
             <div className={myordersStyles.mainContainer}>
             {/**Tablamakeorder recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
-            <Tabla data={med} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>
+            <Tabla data={meds} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>
             </div>
             </Layout> 
         </main>
