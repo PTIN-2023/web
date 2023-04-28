@@ -29,6 +29,8 @@
         "english" : "Inglés",
         "profile" : "Perfil",
         "map" : "Mapa",
+        "map_global" : "Global",
+        "map_local" : "Local",
         "inventory" : "Inventario",
         "orders" : "Pedidos",
         "stats" : "Estadísticas",
