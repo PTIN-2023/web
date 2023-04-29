@@ -8,9 +8,9 @@ export default function Custom404() {
         <>
 
         <Layout>
-            <p className="text-center text-gray-900 text-7xl dark:text-white">404</p>
+            <p className="text-center text-gray-900 text-7xl dark:text-white">403</p>
             <br/>
-            <p className="text-center text-gray-900 text-5xl dark:text-white">Página no encontrada</p>
+            <p className="text-center text-gray-900 text-5xl dark:text-white">No tienes permiso para acceder a esta página</p>
 
             <br/>
             <br/>
