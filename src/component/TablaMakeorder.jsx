@@ -4,7 +4,6 @@ import TableFooter from "./TableFooter.jsx";
 import {Table, Checkbox, Button, Modal } from 'flowbite-react';
 import style from "../styles/Makeorder.module.css";
 import myOrders from "../pages/myorders.jsx";
-import popup from "../component/popUp.jsx";
 
 const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
     //componente que renderiza la tabla con los pedidos
