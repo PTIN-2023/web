@@ -252,11 +252,11 @@ export default function Map({ mapType }) {
 
     fetchData();
   }, [mapType, map]);
-
+  //TODO: hacer el diseño más responsivo!!
   return (
     <div className={mapStyles.mapContainer}>
       Mapa {mapType}
-      <div id="mapbox-map" style={{ width: "100%", height: "250px" }}></div>
+      <div id="mapbox-map" style={{ width: "100%", height: "500px" }}></div>
     </div>
   );
 }

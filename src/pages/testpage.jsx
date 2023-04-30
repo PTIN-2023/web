@@ -1,10 +1,11 @@
 import * as env_config from "../utils/env_config"
 import Head from 'next/head'
-import {useState, useEffect} from "react";
-import {Tabs, Label, TextInput, Button, Toast} from 'flowbite-react'
+import {useState} from "react";
+import {Tabs, Label, TextInput, Button} from 'flowbite-react'
 import { Select } from "flowbite-react";
-import useLocalStorageState from 'use-local-storage-state'
+import useCookie from "../hooks/useCookie";
 import React from "react";
+import getTextCurrentLocale from '../utils/getTextCurrentLocale'
 
 // Temporal testing page to make sure the env variables + api requests work as 
 // intented
@@ -44,15 +45,9 @@ function EnviromentVarsComponent({props}) {
 }
 
 function UserDataComponent() {
-  const [userFullName, setUserFullName] = useLocalStorageState("userFullName", {
-    defaultValue: 'Ibai Llanos Garatea'
-  });
-  const [userRole, setUserRole] = useLocalStorageState("userRole", {
-    defaultValue: 'patient'
-  });
-  const [userToken, setUserToken] = useLocalStorageState("userToken", {
-    defaultValue: '3'
-  });
+  const [fullNameCookie, setFullNameCookie] = useCookie('user_full_name', '')
+  const [userRoleCookie, setUserRoleCookie] = useCookie('user_role', '')
+  const [userTokenCookie, setUserTokenCookie] = useCookie('user_token', '')
   // TODO: define a more secure way to handle the userToken e.g. encryption
 
   const [tmpFullName, setTmpFullName] = useState('');
@@ -62,20 +57,20 @@ function UserDataComponent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(tmpFullName != '')
-      setUserFullName(tmpFullName);
+      setFullNameCookie(tmpFullName);
 
     if(tmpUserRole != '')
-      setUserRole(tmpUserRole);
+      setUserRoleCookie(tmpUserRole);
 
     if(tmpUserToken != '')
-      setUserToken(tmpUserToken);
+      setUserTokenCookie(tmpUserToken);
   };
 
   return(<>
     <div>
-      <p>userFullName={userFullName}</p>
-      <p>userRole={userRole}</p>
-      <p>userToken={userToken}</p>
+      <p>userFullName={fullNameCookie}</p>
+      <p>userRole={userRoleCookie}</p>
+      <p>userToken={userTokenCookie}</p>
     </div>
     <br></br>
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
@@ -83,7 +78,7 @@ function UserDataComponent() {
       <div className="mb-2 block">
         <Label
           htmlFor="name1"
-          value="Full name"
+          value={getTextCurrentLocale('full_name')}
         />
       </div>
       <TextInput
@@ -97,7 +92,7 @@ function UserDataComponent() {
       <div className="mb-2 block">
         <Label
           htmlFor="role1"
-          value="User role"
+          value={getTextCurrentLocale('user_role')}
         />
       </div>
       <Select 
@@ -105,6 +100,7 @@ function UserDataComponent() {
         required={false}
         onChange={(e) => setTmpUserRole(e.target.value)}
       >
+        <option>         </option>
         <option> patient </option>
         <option> doctor  </option>
         <option> manager </option>
@@ -114,7 +110,7 @@ function UserDataComponent() {
       <div className="mb-2 block">
         <Label
           htmlFor="token1"
-          value="User token"
+          value={getTextCurrentLocale('user_token')}
         />
       </div>
       <TextInput
@@ -125,18 +121,19 @@ function UserDataComponent() {
       />
     </div>
     <Button type="submit">
-      Store
+      {getTextCurrentLocale('sumbit_button')}
     </Button>
   </form>
   </>)
 }
 
 function LoginUserComponent({apiEndpoint}) {
-  const [email, setEmail] = useState('');
+  const [, setUserTokenCookie]  = useCookie('user_token', '')
+  const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
   const [response, setResponse] = useState('');
 
-  async function apiCall(email, password) {
+  async function apiCall() {
     return fetch(apiEndpoint+"/api/login", {
       method: 'POST',
       headers: {
@@ -151,14 +148,9 @@ function LoginUserComponent({apiEndpoint}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(`Email: ${email}, Password: ${password}`);
-    console.log(
-      JSON.stringify({
-        email,
-        password
-      })
-    )
-    setResponse(JSON.stringify(await apiCall(email, password)))
+    const res = await apiCall();
+    setResponse(JSON.stringify(res))
+    setUserTokenCookie(res.session_token)
   };
 
   return(<>
@@ -167,13 +159,13 @@ function LoginUserComponent({apiEndpoint}) {
       <div className="mb-2 block">
         <Label
           htmlFor="email1"
-          value="Your email"
+          value={getTextCurrentLocale('user_email')}
         />
       </div>
       <TextInput
         id="email1"
         type="email"
-        placeholder="name@flowbite.com"
+        placeholder="name@example.com"
         required={true}
         onChange={(e) => setEmail(e.target.value)}
       />
@@ -182,7 +174,7 @@ function LoginUserComponent({apiEndpoint}) {
       <div className="mb-2 block">
         <Label
           htmlFor="password1"
-          value="Your password"
+          value={getTextCurrentLocale('user_pass')}
         />
       </div>
       <TextInput
@@ -193,7 +185,7 @@ function LoginUserComponent({apiEndpoint}) {
       />
     </div>
     <Button type="submit">
-      Submit
+      {getTextCurrentLocale('sumbit_button')}
     </Button>
   </form>
   <br></br>
@@ -203,13 +195,14 @@ function LoginUserComponent({apiEndpoint}) {
 }
 
 function RegisterUserComponent({apiEndpoint}) {
+  const [, setUserTokenCookie] = useCookie('user_token', '')
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [response, setResponse] = useState('');
 
-  async function apiCall(email, password) {
+  async function apiCall() {
     return fetch(apiEndpoint+"/api/register", {
       method: 'POST',
       headers: {
@@ -226,24 +219,18 @@ function RegisterUserComponent({apiEndpoint}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(`Email: ${email}, Password: ${password}`);
-    console.log(
-      JSON.stringify({
-        email,
-        password
-      })
-    )
-    setResponse(JSON.stringify(await apiCall(email, password)))
+    const res = await apiCall();
+    setResponse(JSON.stringify(res))
+    setUserTokenCookie(res.session_token)
   };
 
   return(<>
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-
     <div>
       <div className="mb-2 block">
         <Label
           htmlFor="name1"
-          value="Your name"
+          value={getTextCurrentLocale('full_name')}
         />
       </div>
       <TextInput
@@ -257,7 +244,7 @@ function RegisterUserComponent({apiEndpoint}) {
       <div className="mb-2 block">
         <Label
           htmlFor="phone1"
-          value="Your phone"
+          value={getTextCurrentLocale('full_name')}
         />
       </div>
       <TextInput
@@ -271,7 +258,7 @@ function RegisterUserComponent({apiEndpoint}) {
       <div className="mb-2 block">
         <Label
           htmlFor="email1"
-          value="Your email"
+          value={getTextCurrentLocale('user_email')}
         />
       </div>
       <TextInput
@@ -286,7 +273,7 @@ function RegisterUserComponent({apiEndpoint}) {
       <div className="mb-2 block">
         <Label
           htmlFor="password1"
-          value="Your password"
+          value={getTextCurrentLocale('user_pass')}
         />
       </div>
       <TextInput
@@ -309,7 +296,7 @@ function RegisterUserComponent({apiEndpoint}) {
 function AvailableMedicinesComponent({apiEndpoint}) {
   const [response, setResponse] = useState('');
 
-  async function apiCall(email, password) {
+  async function apiCall() {
     return fetch(apiEndpoint+"/api/medicines_list", {
       method: 'POST',
       headers: {
@@ -321,15 +308,14 @@ function AvailableMedicinesComponent({apiEndpoint}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(`Asking for medicine list...`);
     setResponse(JSON.stringify(await apiCall()))
   };
 
   return(<>
-    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-    <Button type="submit">
-      AskForMedicineList
-    </Button>
+  <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+  <Button type="submit">
+    AskForMedicineList
+  </Button>
   </form>
   <br></br>
   {response}
@@ -338,7 +324,7 @@ function AvailableMedicinesComponent({apiEndpoint}) {
 }
 
 function CarPositionComponent({apiEndpoint}) {
-  const [userToken,] = useLocalStorageState("userToken")
+  const [userToken,] = useCookie("user_token")
   const [responseFull, setResponseFull] = useState('');
   const [responseOnlyPos, setResponseOnlyPos] = useState('');
 
@@ -354,13 +340,11 @@ function CarPositionComponent({apiEndpoint}) {
 
   const handleSubmitFull = async (e) => {
     e.preventDefault();
-    console.log(`Asking for all car position info...`);
     setResponseFull(JSON.stringify(await apiCall("full")))
   };  
   
   const handleSubmitPos = async (e) => {
     e.preventDefault();
-    console.log(`Asking for all car position info...`);
     setResponseOnlyPos(JSON.stringify(await apiCall("pos")))
   };
 
@@ -377,9 +361,8 @@ function CarPositionComponent({apiEndpoint}) {
   )
 }
 
-
 function DronePositionComponent({apiEndpoint}) {
-  const [userToken,] = useLocalStorageState("userToken")
+  const [userToken,] = useCookie("user_token")
   const [responseFull, setResponseFull] = useState('');
   const [responseOnlyPos, setResponseOnlyPos] = useState('');
 
@@ -395,13 +378,11 @@ function DronePositionComponent({apiEndpoint}) {
 
   const handleSubmitFull = async (e) => {
     e.preventDefault();
-    console.log(`Asking for all drone position info...`);
     setResponseFull(JSON.stringify(await apiCall("full")))
   };  
   
   const handleSubmitPos = async (e) => {
     e.preventDefault();
-    console.log(`Asking for all drone position info...`);
     setResponseOnlyPos(JSON.stringify(await apiCall("pos")))
   };
 

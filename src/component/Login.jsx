@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import 'flowbite/dist/flowbite.min.css';
-import Link from 'next/link';
+import getTextCurrentLocale from '../utils/getTextCurrentLocale'
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -17,11 +17,11 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="container mx-auto p-4 bg-white rounded-md shadow-md">
-        <h1 className="text-3xl mb-6 text-center">Iniciar sesión</h1>
+        <h1 className="text-3xl mb-6 text-center">{getTextCurrentLocale('login')}</h1>
         <form onSubmit={handleSubmit}>
             <div className="mb-4">
             <label className="block text-sm mb-2" htmlFor="email">
-                Correo electrónico
+                {getTextCurrentLocale('user_email')}
             </label>
             <input
                 className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
@@ -34,7 +34,7 @@ const Login = () => {
             </div>
             <div className="mb-4">
             <label className="block text-sm mb-2" htmlFor="password">
-                Contraseña
+                {getTextCurrentLocale('user_pass')}
             </label>
             <input
                 className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
@@ -54,7 +54,7 @@ const Login = () => {
                 onChange={(e) => setRememberMe(e.target.checked)}
                 />
                 <label className="text-sm" htmlFor="rememberMe">
-                Recordarme
+                    {getTextCurrentLocale('remember_me')}
                 </label>
             </div>
             <button
@@ -76,11 +76,11 @@ const Login = () => {
                     alt="Google"
                     className="w-5 h-5 mr-2"
                 />
-                Continuar con Google
+                {getTextCurrentLocale('google_login')}
             </button>
             <div className="mt-4 text-center">
                 <a className="text-sm text-primary-600 hover:text-primary-500 underline">
-                ¿Olvidaste tu contraseña?
+                {getTextCurrentLocale('forgotten_password')}
                 </a>
             </div>
         </form>

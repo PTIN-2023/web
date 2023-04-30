@@ -35,9 +35,7 @@ export default function Home(props) {
       </Head>
       <main>
         <Layout>
-          <Map mapType="global"></Map>
-          {props.isLocal && <Map mapType="local"></Map>}
-          
+          <Map mapType="local"></Map>        
         </Layout>
       </main>
     </>

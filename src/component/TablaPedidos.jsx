@@ -1,9 +1,11 @@
 import React, { useState, useRef } from "react";
 import useTable from "../hooks/useTable.js";
 import TableFooter from "./TableFooter.jsx";
-import {Table, Checkbox, Button, Modal, Tooltip, Dropdown} from 'flowbite-react'
+import {Table, Button, Modal, Dropdown} from 'flowbite-react'
 import myordersStyles from "../styles/Myorders.module.css"
 import {HiOutlineArrowRight, HiTrash, HiOutlineExclamationCircle} from "react-icons/hi"
+import useCookie from "../hooks/useCookie.js";
+import { getText } from "../utils/getTextCurrentLocale.js";
 
 //TODO: modular estas funciones de modal
 function ModalContactar({currentTarget, currentItem, modalContactarState, setModalContactarState}){
@@ -11,6 +13,8 @@ function ModalContactar({currentTarget, currentItem, modalContactarState, setMod
 //currentTarget: identifica la fila a la que hicimos click dentro de la tabla
 //currentItem: identifica la fila en cuestión para que no se ejecuten todos los modals a la vez (TODO: intentar optimizar)
 //modalContactarState y setModalContactarState: muestran o esconden el modal
+    const [localeCookie, ] = useCookie('locale')
+
     const onCloseContactarHandler = () =>{
         setModalContactarState(false);
     }
@@ -24,7 +28,7 @@ function ModalContactar({currentTarget, currentItem, modalContactarState, setMod
     return(
     <>    
       <Button onClick={onClickContactarHandler}>
-        Contactar
+        {getText('contact', localeCookie)}
         <HiOutlineArrowRight className="ml-2 h-5 w-5" />
       </Button>
       <Modal
@@ -32,16 +36,15 @@ function ModalContactar({currentTarget, currentItem, modalContactarState, setMod
         show={(currentTarget.current == currentItem && modalContactarState) ? true : false}
       >
         <Modal.Header>
-         Contactar
+          {getText('contact', localeCookie)}
         </Modal.Header>
         <Modal.Body>
           <div className="space-y-6">
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-            Su pedido ha sido cancelado.
+              {getText('cancelled_notice', localeCookie)}
             </p>
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-            Esto se puede deber principalmente a falta de stock o por decisión profesional de su medico.
-            Puede ponerse en contacto con el/ella a través del correo o número de télefono.
+              {getText('cancelled_cause', localeCookie)}
             </p>
             <p className="text-base font-bold leading-relaxed text-gray-500 dark:text-gray-400">
             {/*TODO: en el proximo sprint, relacionar paciente con sus datos de doctor!*/}
@@ -52,7 +55,7 @@ function ModalContactar({currentTarget, currentItem, modalContactarState, setMod
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={onCloseContactarHandler}>
-            Cerrar
+          {getText('close', localeCookie)}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -64,6 +67,7 @@ function ModalCancelarPedido({currentTarget, currentItem, modalCancelarPedidoSta
     //funciona igual que el modal anterior pero con el botón de cancelar pedido
     //TODO: hacer que borre el pedido
     console.log(currentTarget.current);
+    const [localeCookie, ] = useCookie('locale')
     const onCloseCancelarPedidoHandler = () =>{
         setModalCancelarPedidoState(false);
     }
@@ -80,7 +84,7 @@ function ModalCancelarPedido({currentTarget, currentItem, modalCancelarPedidoSta
 
     return(
     <>    
-        <Dropdown.Item onClick={onClickCancelarPedidoHandler} className={myordersStyles.cancelarPedidoDropdown} icon={HiTrash}>Cancelar pedido</Dropdown.Item>      
+        <Dropdown.Item onClick={onClickCancelarPedidoHandler} className={myordersStyles.cancelarPedidoDropdown} icon={HiTrash}>{getText('cancel_order', localeCookie)}</Dropdown.Item>      
         <Modal
             show={(currentTarget.current == currentItem && modalCancelarPedidoState) ? true : false}
             size="md"
@@ -92,20 +96,20 @@ function ModalCancelarPedido({currentTarget, currentItem, modalCancelarPedidoSta
             <div className="text-center">
                 <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
                 <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                Segur@ que quieres cancelar el pedido <span className="font-bold leading-relaxed text-gray-500 dark:text-gray-400">{currentItem}</span>?
+                {getText('cancelation_confirmation', localeCookie)} <span className="font-bold leading-relaxed text-gray-500 dark:text-gray-400">{currentItem}</span>?
                 </h3>
                 <div className="flex justify-center gap-4">
                 <Button
                     color="failure"
                     onClick={onClickCancelarPedidoHandler_CANCELAR}
                 >
-                    Si, cancelar
+                  {getText('cancelation_confirmation_yes', localeCookie)}
                 </Button>
                 <Button
                     color="gray"
                     onClick={onCloseCancelarPedidoHandler}
                 >
-                    No, cerrar
+                  {getText('cancelation_confirmation_no', localeCookie)}
                 </Button>
                 </div>
             </div>
@@ -121,6 +125,9 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
   //recibe data -> json de pedidos
   //rowsPerPage -> cuantas filas va a renderizar
   //searchValue -> el filtro en caso de que se active el componente MyOrdersSearch
+
+  const [localeCookie, ] = useCookie('locale')
+
   const [page, setPage] = useState(1);
   //estos dos hooks de abajo sirven para mostrar o bien ocultar los modals
   const [modalContactarState, setModalContactarState] = useState(false);
@@ -154,43 +161,43 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
             <Table.HeadCell className="!p-4">
             </Table.HeadCell>
             <Table.HeadCell>
-              Medicamento
+              {getText('name', localeCookie)}
             </Table.HeadCell>
             <Table.HeadCell>
-              Fecha de compra
+              {getText('purchased_date', localeCookie)}
             </Table.HeadCell>
             <Table.HeadCell>
-              Estado
+              {getText('state', localeCookie)}
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-          {slice.map((pedido) =>
+          {slice.map((order) =>
             <>
                 <Table.Row className={myordersStyles.tableRow}>
                   <Table.Cell className={myordersStyles.firstTableCell}> 
                     <Dropdown className={myordersStyles.chevronDown} label="" inline={true}>
-                        <ModalCancelarPedido currentTarget={currentTarget} currentItem={pedido.nombre} modalCancelarPedidoState={modalCancelarPedidoState} setModalCancelarPedidoState={changeModalCancelarPedidoState}/>
+                        <ModalCancelarPedido currentTarget={currentTarget} currentItem={order.name} modalCancelarPedidoState={modalCancelarPedidoState} setModalCancelarPedidoState={changeModalCancelarPedidoState}/>
                     </Dropdown>
                   </Table.Cell>
                   <Table.Cell className={myordersStyles.tableCell}>
-                    {pedido.nombre}
+                    {order.name}
                   </Table.Cell>
                   <Table.Cell>
-                    {pedido.estado != "Cancelado" ? pedido.fecha_compra : <ModalContactar currentTarget={currentTarget} currentItem={pedido.nombre} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>}
+                    {order.state != "cancelled" ? order.fecha_compra : <ModalContactar currentTarget={currentTarget} currentItem={order.nombre} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>}
                   </Table.Cell>
                   <Table.Cell>
-                  {pedido.estado == "Entregado" &&
-                    <span className={myordersStyles.deliveryStateEntregado}>{pedido.estado}</span>
+                  {order.state == "delivered" &&
+                    <span className={myordersStyles.deliveryStateEntregado}>{getText(order.state, localeCookie)}</span>
                   }
-                  {pedido.estado == "Enviado" &&
-                    <span className={myordersStyles.deliveryStateEnviado}>{pedido.estado}</span>
+                  {order.state == "sent" &&
+                    <span className={myordersStyles.deliveryStateEnviado}>{getText(order.state, localeCookie)}</span>
                   }
-                  {pedido.estado == "Esperando confirmación" &&
-                    <span className={myordersStyles.deliveryStateEspConfirm}>{pedido.estado}</span>
+                  {order.state == "awaiting_confirmation" &&
+                    <span className={myordersStyles.deliveryStateEspConfirm}>{getText(order.state, localeCookie)}</span>
                   }
-                  {pedido.estado == "Cancelado" &&
-                    <span className={myordersStyles.deliveryStateCancelado}>{pedido.estado}</span>
-                  }                                                      
+                  {order.state == "cancelled" &&
+                    <span className={myordersStyles.deliveryStateCancelado}>{getText(order.state, localeCookie)}</span>
+                  }
                   </Table.Cell>
                 </Table.Row>
             </>
