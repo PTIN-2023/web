@@ -45,7 +45,7 @@ const Signup = () => {
             }
 
             console.log('Registrado con éxito');
-            //router.push("/")
+            router.push("/")
         } catch (error) {
             console.error(error);
         }

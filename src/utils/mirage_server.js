@@ -141,9 +141,10 @@ export function makeServer() {
 
       this.post("/api/login", (schema, request) => {
         const { email, password } = JSON.parse(request.requestBody);
-
-        // Aquí puedes validar las credenciales del usuario.
-        if (email === "usuario@example.com" && password === "contraseña") {
+        const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+        const user = storedUsers.find(u => u.email === email);
+      
+        if (user && user.password === password) {
           return {
             status: "success",
             message: "Inicio de sesión exitoso",
@@ -152,6 +153,7 @@ export function makeServer() {
           return new Response(401, {}, { status: "error", message: "Credenciales incorrectas" });
         }
       });
+      
 
 
       // Basic login endpoint
@@ -167,19 +169,20 @@ export function makeServer() {
 
       this.post('/api/users', (schema, request) => {
         const attrs = JSON.parse(request.requestBody);
-        console.log('Datos recibidos:', attrs);
-
+      
         const newUser = schema.users.create(attrs);
-        console.log('Nuevo usuario creado:', newUser);
-
+        const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+        storedUsers.push(newUser.attrs);
+        localStorage.setItem('users', JSON.stringify(storedUsers));
+      
         return newUser;
       });
-      this.get('/api/users', (schema, request) => {
-        const allUsers = schema.users.all();
-        console.log('Todos los usuarios:', allUsers);
 
-        return allUsers;
+      this.get('/api/users', (schema, request) => {
+        const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+        return storedUsers;
       });
+      
 
       // Basic register endpoint. TODO: simulate diferent logins depending on the user email
       /*this.post("/api/register", (schema, request) => {
