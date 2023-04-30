@@ -78,7 +78,8 @@ export function makeServer() {
     return createServer({
         models: {
           cars: Model,
-          drones: Model
+          drones: Model,
+          medicamento: Model
         },
 
         seeds(server) {
