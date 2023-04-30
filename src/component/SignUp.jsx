@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const Signup = () => {
     const [name, setName] = useState('');
@@ -11,11 +12,43 @@ const Signup = () => {
     const [address, setAddress] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const router = useRouter();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Aquí puedes manejar el registro
-        console.log('Registrarse');
+        // Comprueba si las contraseñas coinciden
+        if (password !== confirmPassword) {
+            console.log('Las contraseñas no coinciden');
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name,
+                    lastName,
+                    username,
+                    email,
+                    phone,
+                    city,
+                    address,
+                    password,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al registrarse. Por favor, inténtalo de nuevo.');
+            }
+
+            console.log('Registrado con éxito');
+            //router.push("/")
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
@@ -107,7 +140,7 @@ const Signup = () => {
                                             id="phone"
                                             type="tel"
                                             value={phone}
-                                            onChange={(e) => setphone(e.target.value)}
+                                            onChange={(e) => setPhone(e.target.value)}
                                             placeholder="+34 Número de teléfono"
                                             required
                                         />

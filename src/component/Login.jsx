@@ -2,21 +2,54 @@ import React, { useState } from 'react';
 import { Tab } from 'flowbite';
 import 'flowbite/dist/flowbite.min.css';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import ErrorModal from "../component/ErrorModal";
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [message, setMessage] = useState("");
+  const router = useRouter();
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí puedes manejar la autenticación
-    console.log(`Email: ${email}, Password: ${password}`);
+
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (data.status === "success") {
+        setMessage("Login exitoso!");
+        setShowErrorModal(false);
+        router.push("/profile")
+      } else {
+        setMessage("Error en el inicio de sesión, verifica tus credenciales.");
+        setShowErrorModal(true);
+      }
+    } catch (error) {
+      setMessage("Error en la conexión con el servidor.");
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      {showErrorModal && (
+        <ErrorModal
+          message={message}
+          onClose={() => {
+            setShowErrorModal(false);
+          }}
+        />
+      )}
       <div className="flex w-full max-w-6xl">
         <div className="flex flex-col justify-center items-center p-4 bg-white rounded-md shadow-md w-1/2">
           <h1 className="text-3xl mb-4">Transmed</h1>
@@ -90,6 +123,10 @@ const Login = () => {
                     Iniciar sesión
                   </button>
                 </div>
+                {/* Mensaje de error */}
+                <div className="flex justify-center mb-4">
+                  <p className="text-red-600">{message}</p>
+                </div>*/
                 <div className="flex justify-center mb-4">
                   <button
                     className="inline-flex items-center justify-center px-4 py-2 bg-white text-gray-900 border border-gray-300 rounded-md hover:bg-gray-100"
