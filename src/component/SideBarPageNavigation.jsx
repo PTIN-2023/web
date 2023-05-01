@@ -86,7 +86,7 @@ const SideBarPagesNavigation = ({ currentPage }, props) => {
                 >  
                 { getText(item.global, localeCookie) }                
                 </Sidebar.Item>
-                {props.isLocal && 
+                {!props.isLocal && 
                   <>
                     <Sidebar.Item 
                       key={item.local}

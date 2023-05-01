@@ -55,28 +55,6 @@ export default function Home(props) {
     }
   }
 
-  const [infoRouteDrone, setinfoRouteDrone] = React.useState(null); // usar estado para almacenar infoRouteDrone
-  async function getDroneRoute(props) {
-    try {
-      console.log("entra");
-      const response = await fetch(props.apiEndpoint + "/api/drones", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({  })
-      });
-  
-      const data = await response.json();
-      console.log("getDroneRoute " + data)
-      setinfoRouteDrone(data);
-     } catch (error) {
-      console.log("error");
-      console.error('API request failed:', error);
-      setinfoRouteDrone("-1");
-    }
-  }
-
   const [storeCoord, setStoreCoord] = React.useState({}); // usar estado para almacenar storeCoord
   async function getStoreCoordinates(props) {
     try {
@@ -116,11 +94,9 @@ export default function Home(props) {
   }, [infoRouteCar]);
 
   useEffect(() => {
-    getDroneRoute(props);
     getCarRoute(props);
     getStoreCoordinates(props);
     //fetchData(infoRouteCar); // llamada a fetchData() una vez que el componente está montado
-    //setLoading(false);
   }, [/* infoRouteCar */]);
 
   const route_layer = {
@@ -225,12 +201,12 @@ export default function Home(props) {
     }
   }
 
-  console.log("--- getDroneRoute");
+  /* console.log("--- getDroneRoute");
   console.log(infoRouteDrone);
   console.log("--- getCarRoute");
   console.log(infoRouteCar);
   console.log("--- getStoreCoordinates");
-  console.log(storeCoord);
+  console.log(storeCoord); */
 
   return (
     <>
@@ -261,7 +237,6 @@ export default function Home(props) {
             <Layer {...store_layer}/>
           </Source>
           </Map>
-          {props.isLocal && <Map mapType="local"></Map>}
           
         </Layout>
       </main>
