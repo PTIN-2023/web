@@ -13,7 +13,15 @@ const SignupForm = ({ formData, handleChange, handleSubmit }) => (
     <InputField id="city" type="text" value={formData.city} onChange={handleChange} placeholder="Ciudad" required pattern="^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+(?:[-\s][a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+)*$" />
     <InputField id="address" type="text" value={formData.address} onChange={handleChange} placeholder="Dirección de domicilio" required pattern="^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\s,.-]+$" />
     <InputField id="password" type="password" value={formData.password} onChange={handleChange} placeholder="Contraseña" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" />
+    <div className="mb-4 flex justify-center">
+      <div className="w-2/4">
+        <p className="text-sm text-gray-500">
+          La contraseña debe tener al menos 8 caracteres e incluir al menos una letra minúscula, una letra mayúscula, un número y un carácter especial (@, $, !, %, *, ?, &).
+        </p>
+      </div>
+    </div>
     <InputField id="confirmPassword" type="password" value={formData.confirmPassword} onChange={handleChange} placeholder="Confirmar contraseña" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" />
+    
 
     <div className="flex justify-center">
       <button
