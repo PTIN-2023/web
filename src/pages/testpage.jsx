@@ -6,6 +6,8 @@ import { Select } from "flowbite-react";
 import useCookie from "../hooks/useCookie";
 import React from "react";
 import getTextCurrentLocale from '../utils/getTextCurrentLocale'
+import useLocalStorageState from 'use-local-storage-state'
+import useCookie from "../hooks/useCookie";
 
 // Temporal testing page to make sure the env variables + api requests work as 
 // intented
@@ -49,7 +51,6 @@ function UserDataComponent() {
   const [userRoleCookie, setUserRoleCookie] = useCookie('user_role', '')
   const [userTokenCookie, setUserTokenCookie] = useCookie('user_token', '')
   // TODO: define a more secure way to handle the userToken e.g. encryption
-
   const [tmpFullName, setTmpFullName] = useState('');
   const [tmpUserRole, setTmpUserRole] = useState('');
   const [tmpUserToken, setTmpUserToken] = useState('');
@@ -64,6 +65,13 @@ function UserDataComponent() {
 
     if(tmpUserToken != '')
       setUserTokenCookie(tmpUserToken);
+      setFullNameCookie(tmpFullName)
+
+    if(tmpUserRole != '')
+      setUserRoleCookie(tmpUserRole)
+
+    if(tmpUserToken != '')
+      setUserTokenCookie(tmpUserToken)
   };
 
   return(<>
@@ -101,6 +109,7 @@ function UserDataComponent() {
         onChange={(e) => setTmpUserRole(e.target.value)}
       >
         <option>         </option>
+        <option>  </option>
         <option> patient </option>
         <option> doctor  </option>
         <option> manager </option>
@@ -149,6 +158,15 @@ function LoginUserComponent({apiEndpoint}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await apiCall();
+    console.log(`Email: ${email}, Password: ${password}`);
+    console.log(
+      JSON.stringify({
+        email,
+        password
+      })
+    )
+    
+    const res = await apiCall(email, password);
     setResponse(JSON.stringify(res))
     setUserTokenCookie(res.session_token)
   };
@@ -219,6 +237,16 @@ function RegisterUserComponent({apiEndpoint}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(`Email: ${email}, Password: ${password}`);
+    console.log(
+      JSON.stringify({
+        email,
+        password,
+        name,
+        phone
+      })
+    )
+    
     const res = await apiCall();
     setResponse(JSON.stringify(res))
     setUserTokenCookie(res.session_token)

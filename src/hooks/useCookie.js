@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 const useCookie = (key, defaultValue) => {
     const [cookie, setCookieValue] = useState(null);
 
+  
     useEffect(() => {
         const storedCookie = getCookie(key);
         if (storedCookie) {

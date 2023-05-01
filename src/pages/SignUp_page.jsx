@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Layout from "../component/Layout"
-import LoginRefact from "../component/LoginRefact"
+import SignUpRefact from "../component/SignUpRefact"
 
 export default function Home() {
 
@@ -12,9 +12,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-          <LoginRefact></LoginRefact>
+        <SignUpRefact></SignUpRefact>
       </main>
     </>
   )
 }
-

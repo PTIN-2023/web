@@ -1,27 +1,51 @@
 import React, { useState } from 'react';
+import { Tab } from 'flowbite';
 import 'flowbite/dist/flowbite.min.css';
-import getTextCurrentLocale from '../utils/getTextCurrentLocale'
+import Link from 'next/link';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [message, setMessage] = useState("");
+  const router = useRouter();
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí puedes manejar la autenticación
-    console.log(`Email: ${email}, Password: ${password}`);
+
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (data.status === "success") {
+        setMessage("Login exitoso!");
+        setShowErrorModal(false);
+        router.push("/profile")
+      } else {
+        setMessage("Error en el inicio de sesión, verifica tus credenciales.");
+        setShowErrorModal(true);
+      }
+    } catch (error) {
+      setMessage("Error en la conexión con el servidor.");
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="container mx-auto p-4 bg-white rounded-md shadow-md">
-        <h1 className="text-3xl mb-6 text-center">{getTextCurrentLocale('login')}</h1>
+        <h1 className="text-3xl mb-6 text-center">Iniciar sesión</h1>
         <form onSubmit={handleSubmit}>
             <div className="mb-4">
             <label className="block text-sm mb-2" htmlFor="email">
-                {getTextCurrentLocale('user_email')}
+                Correo electrónico
             </label>
             <input
                 className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
@@ -34,7 +58,7 @@ const Login = () => {
             </div>
             <div className="mb-4">
             <label className="block text-sm mb-2" htmlFor="password">
-                {getTextCurrentLocale('user_pass')}
+                Contraseña
             </label>
             <input
                 className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
@@ -54,7 +78,7 @@ const Login = () => {
                 onChange={(e) => setRememberMe(e.target.checked)}
                 />
                 <label className="text-sm" htmlFor="rememberMe">
-                    {getTextCurrentLocale('remember_me')}
+                Recordarme
                 </label>
             </div>
             <button
@@ -76,16 +100,18 @@ const Login = () => {
                     alt="Google"
                     className="w-5 h-5 mr-2"
                 />
-                {getTextCurrentLocale('google_login')}
+                Continuar con Google
             </button>
             <div className="mt-4 text-center">
                 <a className="text-sm text-primary-600 hover:text-primary-500 underline">
-                {getTextCurrentLocale('forgotten_password')}
+                ¿Olvidaste tu contraseña?
                 </a>
             </div>
         </form>
       </div>
     </div>
+
+
   );
 };
 
