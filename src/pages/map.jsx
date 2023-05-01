@@ -33,7 +33,8 @@ export default function Home(props) {
   mapboxgl.accessToken = 'pk.eyJ1IjoiYWVrc3AiLCJhIjoiY2xmd2dtbDNhMGU4bjNjbWkwa2VqbzhhciJ9.LYgWVHhGLoY9T-ix_qC73g'; // GIT IGNORE !! 
   //const [loading, setLoading] = useState(true)
 
-  const [infoRouteCar, setinfoRouteCar] = React.useState(null); // usar estado para almacenar infoRouteCar
+  const [infoRouteCar, setinfoRouteCar] = React.useState({}); // usar estado para almacenar infoRouteCar
+
   async function getCarRoute(props) {
     try {
       const response = await fetch(props.apiEndpoint + "/api/cars", {
@@ -49,7 +50,7 @@ export default function Home(props) {
       setinfoRouteCar(data); */
       console.log("getCarRoute " + JSON.stringify(data))
       //console.log("Parse:" + JSON.parse(JSON.stringify(data)).car_longitude )
-      setinfoRouteCar(JSON.stringify(data));
+      setinfoRouteCar(data);
      } catch (error) {
       console.log("error");
       console.error('API request failed:', error);
@@ -147,33 +148,41 @@ export default function Home(props) {
   
   const error_infoRouteCar = JSON.parse('{"car_longitude": 1.746184,"car_latitude": 41.226825,"dest_longitude": 1.7651,"dest_latitude": 41.2583}');
 
-  const points_geojson = {
-    type: 'FeatureCollection',
-    features: [
-      {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [error_infoRouteCar.car_longitude, error_infoRouteCar.car_latitude]
+  const [pointsGeojson, setPointsGeojson] = useState({})
+
+  useEffect(() => {
+    setPointsGeojson({
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [infoRouteCar.car_longitude, infoRouteCar.car_latitude],
+          },
+          properties: {
+            title: 'Coche',
+            icon: 'car',
+          },
         },
-        properties: {
-          title: 'Coche',
-          icon: 'car'
-        }
-      },
-      {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [error_infoRouteCar.dest_longitude, error_infoRouteCar.dest_latitude]
+        {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [infoRouteCar.dest_longitude, infoRouteCar.dest_latitude],
+          },
+          properties: {
+            title: 'Tu destino',
+            icon: 'marker',
+          },
         },
-        properties: {
-          title: 'Tu destino',
-          icon: 'marker'
-        }
-      }
-    ]
-  }
+      ],
+    });
+    console.log("buenassssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
+    console.log(infoRouteCar)
+    console.log(error_infoRouteCar)
+    console.log("buenassssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
+  }, [infoRouteCar]);
 
   const points_layer = {
     id: 'puntos-de-interes',
@@ -249,7 +258,7 @@ export default function Home(props) {
           <Source id="my-route" type="geojson" data={route_geojson}>
             <Layer {...route_layer}/>
           </Source>
-          <Source id="my-points" type="geojson" data={points_geojson}>
+          <Source id="my-points" type="geojson" data={pointsGeojson}>
             <Layer {...points_layer}/>
           </Source>
           <Source id="my-store" type="geojson" data={store_geojson}>
