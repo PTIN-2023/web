@@ -1,5 +1,7 @@
 import Head from 'next/head'
 import Layout from "../component/Layout"
+import Profile from "../component/Profile"
+import UserProfile from '../component/Profile'
 
 export default function Home() {
   return (
@@ -11,7 +13,7 @@ export default function Home() {
       </Head>
       <main>
         <Layout>
-          TODO
+          <UserProfile/>
         </Layout>
       </main>
     </>
