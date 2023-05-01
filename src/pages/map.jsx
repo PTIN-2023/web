@@ -99,21 +99,27 @@ export default function Home(props) {
   }
 
   // Obtener la ruta desde la API Directions de Mapbox
-  const [route, setRoute] = React.useState(null); // usar estado para almacenar route
+  const [route, setRoute] = React.useState({}); // usar estado para almacenar route
   async function fetchData(iRC) {
-    const response = await fetch(
-      `https://api.mapbox.com/directions/v5/mapbox/driving/${iRC.car_longitude},${iRC.car_latitude};${iRC.dest_longitude},${iRC.dest_latitude}?geometries=geojson&alternatives=true&access_token=${mapboxgl.accessToken}`
-    );
-    const data = await response.json();
-    // Agrega la línea para el recorrido
-    setRoute(data.routes[0].geometry);
+    if(iRC.car_longitude !== undefined){ //if any of the 4s data are undefined
+      const response = await fetch(
+        `https://api.mapbox.com/directions/v5/mapbox/driving/${iRC.car_longitude},${iRC.car_latitude};${iRC.dest_longitude},${iRC.dest_latitude}?geometries=geojson&alternatives=true&access_token=${mapboxgl.accessToken}`
+      );
+      const data = await response.json();
+      // Agrega la línea para el recorrido
+      setRoute(data.routes[0].geometry);
+    }
   }
   
+  useEffect(() => {
+    fetchData(infoRouteCar);
+  }, [infoRouteCar]);
+
   useEffect(() => {
     getDroneRoute(props);
     getCarRoute(props);
     getStoreCoordinates(props);
-    fetchData(infoRouteCar); // llamada a fetchData() una vez que el componente está montado
+    //fetchData(infoRouteCar); // llamada a fetchData() una vez que el componente está montado
     //setLoading(false);
   }, [/* infoRouteCar */]);
 
@@ -130,13 +136,17 @@ export default function Home(props) {
     }
   }
   
-  const route_geojson = {
-    type: 'FeatureCollection',
-    features: [{
-      type: "Feature",
-      geometry: route
-    }]
-  };
+  const [routeGeojson, setRouteGeojson] = useState({})
+
+  useEffect(() => {
+    setRouteGeojson({
+      type: 'FeatureCollection',
+      features: [{
+        type: "Feature",
+        geometry: route
+      }]
+    })
+  }, [route]);
   
   const [pointsGeojson, setPointsGeojson] = useState({})
 
@@ -241,7 +251,7 @@ export default function Home(props) {
             style={{width: "100%", height: "100%" }}
             mapStyle="mapbox://styles/aeksp/clg9out5b000i01l0p2yiq26g"
           >
-          <Source id="my-route" type="geojson" data={route_geojson}>
+          <Source id="my-route" type="geojson" data={routeGeojson}>
             <Layer {...route_layer}/>
           </Source>
           <Source id="my-points" type="geojson" data={pointsGeojson}>
