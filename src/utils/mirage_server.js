@@ -220,6 +220,38 @@ export function makeServer() {
 
             return filteredDrones
           })
+
+          // Endpoint which returns the information of our store
+          this.post("/api/store_coordinates", (schema, request) => {
+            console.log("Received store_info req with:" + request.requestBody)
+            return{
+              "st_longitude": 1.7474957,
+              "st_latitude": 41.2278786
+            }
+          })
+          
+          // Endpoint which returns the information of our car
+          this.post("/api/cars", (schema, request) => {
+            console.log("Received cars_info req with:" + request.requestBody)
+            return{
+              "car_longitude": 1.7474957,
+              "car_latitude": 41.2278786,
+              "dest_longitude": 1.7651,
+              "dest_latitude": 41.2583
+            }
+          })
+
+          // Endpoint which returns the information of our drones
+          this.post("/api/drones", (schema, request) => {
+            console.log("Received drones_info req with:" + request.requestBody)
+            return{
+              "drone_longitude": 1.7474957,
+              "drone_latitude": 41.2278786,
+              "dest_longitude": 1.7651,
+              "dest_latitude": 41.2583
+            }
+          })
+
         }
     })
   }
