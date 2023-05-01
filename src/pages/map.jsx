@@ -46,10 +46,7 @@ export default function Home(props) {
       });
   
       const data = await response.json();
-      /* console.log("getCarRoute " + data)
-      setinfoRouteCar(data); */
       console.log("getCarRoute " + JSON.stringify(data))
-      //console.log("Parse:" + JSON.parse(JSON.stringify(data)).car_longitude )
       setinfoRouteCar(data);
      } catch (error) {
       console.log("error");
@@ -70,13 +67,9 @@ export default function Home(props) {
         body: JSON.stringify({  })
       });
   
-      if (!response.ok) {
-        throw new Error('API request failed with status ' + response.status);
-      }
-      
       const data = await response.json();
-      console.log("getDroneRoute " + JSON.stringify(data))
-      setinfoRouteDrone(JSON.stringify(data));
+      console.log("getDroneRoute " + data)
+      setinfoRouteDrone(data);
      } catch (error) {
       console.log("error");
       console.error('API request failed:', error);
@@ -84,10 +77,9 @@ export default function Home(props) {
     }
   }
 
-  const [storeCoord, setStoreCoord] = React.useState(null); // usar estado para almacenar storeCoord
+  const [storeCoord, setStoreCoord] = React.useState({}); // usar estado para almacenar storeCoord
   async function getStoreCoordinates(props) {
     try {
-      console.log("entra");
       const response = await fetch(props.apiEndpoint + "/api/store_coordinates", {
         method: 'POST',
         headers: {
@@ -97,8 +89,8 @@ export default function Home(props) {
       });
       
       const data = await response.json();
-      console.log("getStoreCoordinates " + JSON.stringify(data))
-      setStoreCoord(JSON.stringify(data));
+      //console.log("getStoreCoordinates " + JSON.stringify(data))
+      setStoreCoord(data);
     } catch (error) {
       console.log("error");
       console.error('API request failed:', error);
@@ -108,9 +100,9 @@ export default function Home(props) {
 
   // Obtener la ruta desde la API Directions de Mapbox
   const [route, setRoute] = React.useState(null); // usar estado para almacenar route
-  async function fetchData() {
+  async function fetchData(iRC) {
     const response = await fetch(
-      `https://api.mapbox.com/directions/v5/mapbox/driving/${1.746184},${41.226825};${1.7651},${41.2583}?geometries=geojson&alternatives=true&access_token=${mapboxgl.accessToken}`
+      `https://api.mapbox.com/directions/v5/mapbox/driving/${iRC.car_longitude},${iRC.car_latitude};${iRC.dest_longitude},${iRC.dest_latitude}?geometries=geojson&alternatives=true&access_token=${mapboxgl.accessToken}`
     );
     const data = await response.json();
     // Agrega la línea para el recorrido
@@ -121,9 +113,9 @@ export default function Home(props) {
     getDroneRoute(props);
     getCarRoute(props);
     getStoreCoordinates(props);
-    fetchData(); // llamada a fetchData() una vez que el componente está montado
+    fetchData(infoRouteCar); // llamada a fetchData() una vez que el componente está montado
     //setLoading(false);
-  }, []);
+  }, [/* infoRouteCar */]);
 
   const route_layer = {
     id: 'route',
@@ -146,8 +138,6 @@ export default function Home(props) {
     }]
   };
   
-  const error_infoRouteCar = JSON.parse('{"car_longitude": 1.746184,"car_latitude": 41.226825,"dest_longitude": 1.7651,"dest_latitude": 41.2583}');
-
   const [pointsGeojson, setPointsGeojson] = useState({})
 
   useEffect(() => {
@@ -178,11 +168,7 @@ export default function Home(props) {
         },
       ],
     });
-    console.log("buenassssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
-    console.log(infoRouteCar)
-    console.log(error_infoRouteCar)
-    console.log("buenassssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
-  }, [infoRouteCar]);
+    }, [infoRouteCar]);
 
   const points_layer = {
     id: 'puntos-de-interes',
@@ -196,22 +182,26 @@ export default function Home(props) {
     }
   }
 
-  const store_geojson = {
-    type: 'FeatureCollection',
-    features: [
-      {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [1.7474957, 41.2278786]
-        },
-        properties: {
-          title: 'Almacén',
-          icon: 'industry'
+  const [storeGeojson, setStoreGeojson] = useState({})
+
+  useEffect(() => {
+    setStoreGeojson({
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [storeCoord.st_longitude, storeCoord.st_latitude]
+          },
+          properties: {
+            title: 'Almacén',
+            icon: 'industry'
+          }
         }
-      }
-    ]
-  }
+      ]
+    });
+    }, [storeCoord]);
 
   const store_layer = {
     id: 'warehouse',
@@ -225,10 +215,6 @@ export default function Home(props) {
     }
   }
 
-/*   if(loading){
-    return(<div>Replace me with a loading component...</div>)
-  }
- */
   console.log("--- getDroneRoute");
   console.log(infoRouteDrone);
   console.log("--- getCarRoute");
@@ -261,7 +247,7 @@ export default function Home(props) {
           <Source id="my-points" type="geojson" data={pointsGeojson}>
             <Layer {...points_layer}/>
           </Source>
-          <Source id="my-store" type="geojson" data={store_geojson}>
+          <Source id="my-store" type="geojson" data={storeGeojson}>
             <Layer {...store_layer}/>
           </Source>
           </Map>
