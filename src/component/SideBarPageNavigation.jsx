@@ -3,6 +3,7 @@ import { HiChartPie, HiGlobeAlt, HiHome, HiTable, HiUser, HiInboxIn, HiBell, HiU
 import useCookie from "../hooks/useCookie";
 import { Sidebar } from "flowbite-react";
 import { getText } from "../utils/getTextCurrentLocale";
+
 //TODO: ver si getServerSideProps() se puede poner en un sólo archivo y no repetir
 export async function getServerSideProps() {
   const isLocal           = env_config.isLocal();

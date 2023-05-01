@@ -6,6 +6,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.11.0",
+    "axios": "^1.4.0",
     "cookies-next": "^2.1.1",
     "flowbite": "^1.6.4",
     "flowbite-react": "^0.4.2",

@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import LoginForm from './LoginForm';
 import Link from 'next/link';
+import {GoogleOAuthProvider} from '@react-oauth/google';
 
 
 //Cuerpo del Login
-const Login = () => {
-    const router = useRouter();
+const Login = ({props}) => {
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -35,7 +35,9 @@ const Login = () => {
                         <div className="pt-16">
                             <h1 className="text-3xl font-bold mb-6 text-center">Iniciar sesión</h1>
                         </div>
-                        <LoginForm />
+                        <GoogleOAuthProvider clientId="692056364291-m1m2edfdtmjt69q2qrh1eshejauo900j.apps.googleusercontent.com">
+                            <LoginForm />
+                        </GoogleOAuthProvider>
                     </div>
                 </div>
             </div>

@@ -8,7 +8,7 @@ import MyOrdersSearch from "./MyOrdersSearch"
 import useCookie from "../hooks/useCookie";
 import SideBarPagesNavigation from "../component/SideBarPageNavigation"
 import getTextCurrentLocale from "../utils/getTextCurrentLocale";
-
+import { googleLogout } from '@react-oauth/google';
 // Main Component
 
 export default function Layout({ children, navBarValue}) {
@@ -33,6 +33,25 @@ export default function Layout({ children, navBarValue}) {
   // Locale settings
   const [, setLocaleCookie] = useCookie("locale");
   const setLocale = (locale) => {setLocaleCookie(locale); router.reload()}
+
+  const [, setUserTokenCookie]  = useCookie('user_token', '')
+  const [, setFullNameCookie] = useCookie('user_full_name', '')
+  const [, setGivenNameCookie] = useCookie('user_given_name', '')
+  const [, setUserEmailCookie] = useCookie('user_email', '')
+  const [, setUserRoleCookie] = useCookie('user_role', '')
+  const [, setUserAvatarCookie] = useCookie('user_picture', '')
+
+  //logOutHandler
+  const logOutHandler = () => {
+    googleLogout();
+    setFullNameCookie("");
+    setGivenNameCookie("");
+    setUserRoleCookie("");
+    setUserEmailCookie("");
+    setUserTokenCookie("");
+    setUserAvatarCookie("");
+    router.push("/");
+  }
 
   return (
     <div className={layoutStyles.layoutContainer}>
@@ -62,7 +81,7 @@ export default function Layout({ children, navBarValue}) {
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
               {/**TODO: hacer el cerrar sesión!! (onClick(handler??))*/}
-              <Sidebar.Item className={layoutStyles.sideBarItem} href="/" icon={HiLockClosed}>Cerrar Sesión</Sidebar.Item>
+              <Sidebar.Item className={layoutStyles.sideBarItem} onClick={logOutHandler} icon={HiLockClosed}>Cerrar Sesión</Sidebar.Item>
             </Sidebar.ItemGroup>
           </Sidebar.Items>
         </Sidebar>

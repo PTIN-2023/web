@@ -133,11 +133,12 @@ export function makeServer() {
       })
     },
 
-    routes() {
-      // Setup config + passthrough
-      this.passthrough("https://api.mapbox.com/**")
-      this.passthrough("https://events.mapbox.com/**")
-      this.urlPrefix = env_config.getApiEndpoint();
+        routes() {
+          // Setup config + passthrough
+          this.passthrough("https://api.mapbox.com/**")
+          this.passthrough("https://events.mapbox.com/**")
+          
+          this.urlPrefix=env_config.getApiEndpoint();
 
       /* Basic login endpoint
       this.post("/api/login", (schema, request) => {
@@ -152,12 +153,24 @@ export function makeServer() {
       this.post("/api/register", (schema, request) => {
         console.log("Received register req with:" + request.requestBody)
 
-        return {
-          result: 'ok',
-          role: 'pacient',
-          session_token: '7456394693456'
-        }
-      })
+            return { 
+              result : 'ok',
+              role : 'pacient',
+              session_token : '7456394693456'
+            }
+          })
+          this.post("/api/google", (schema, request) => {
+            console.log("Received register req with:" + request.requestBody)
+
+            return { 
+              result : 'ok',
+              role : 'patient',
+              email : request.requestBody.email,
+              fullName : request.requestBody.name,
+              picture: request.requestBody.picture,
+              session_token : 'googleToken'
+            }
+          })          
 
       // Basic medicine list endpoint. TODO: simulate filters
       this.post("/api/medicines_list", (schema, request) => {
@@ -367,8 +380,10 @@ export function makeServer() {
     });
     makeAllDronesApproachDestiny(schema)
 
-    return filteredDrones
-  })
-}
-  })
-}
+            return filteredDrones
+          })
+
+          this.passthrough('https://www.googleapis.com/**');  
+        }
+    })
+  }

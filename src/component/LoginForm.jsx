@@ -1,6 +1,10 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import useLogin from '../hooks/useLogin';
 import ErrorModal from '../component/ErrorModal';
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import useCookie from "../hooks/useCookie";
+import {useRouter} from 'next/router'
+
 
 //Algunas funciones de control de patrones de inputs + Form de inputs
 
@@ -46,6 +50,79 @@ const LoginForm = () => {
             setPassword(value);
         }
     }
+
+    //google oauth handlers
+
+    const [ user, setUser ] = useState(null);
+    const [response, setResponse] = useState('');
+  
+    const [, setUserTokenCookie]  = useCookie('user_token', '')
+    const [fullNameCookie, setFullNameCookie] = useCookie('user_full_name', '')
+    const [givenNameCookie, setGivenNameCookie] = useCookie('user_given_name', '')
+    const [userEmailCookie, setUserEmailCookie] = useCookie('user_email', '')
+    const [userRoleCookie, setUserRoleCookie] = useCookie('user_role', '')
+    const [userAvatarCookie, setUserAvatarCookie] = useCookie('user_picture', '')
+    const router = useRouter()
+
+    async function googleCookiesHander(apires){
+        console.log("Guardando galletas...")
+        await setFullNameCookie(apires.fullName);
+        const auxName = apires.fullName.split(" ");
+        setGivenNameCookie(auxName[0]);
+        setUserRoleCookie(apires.role);
+        setUserEmailCookie(apires.email);
+        setUserTokenCookie(apires.session_token);
+        setUserAvatarCookie(apires.picture);
+
+    }
+    useEffect(
+        () => {
+            if (user) {
+            fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+                headers: {
+                    Authorization: `Bearer ${user.access_token}`,
+                    Accept: 'application/json'
+                }
+            })
+            .then((res) => res.json())
+            .then(async (data) => {
+                const apires = await apiCall(data);
+                console.log(apires)
+                await googleCookiesHander(apires);
+                router.push('/profile')             
+
+                })
+            .catch((err) => console.log(err));
+            }
+        },
+        [ user ]
+    );
+
+    async function apiCall(data) {
+        return await fetch("http://localhost:3000/api/google", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: {
+            email: data.email,
+            name: data.name,
+            picture: data.picture
+        }
+        }).then(data => data.json())
+    }
+
+    const login = useGoogleLogin({
+        onSuccess: (codeResponse) => {
+            setUser(codeResponse),
+            console.log(user)          
+        },
+        onError: (error) => console.log('Login Failed:', error)
+    });
+
+    const logOut = () => {
+        googleLogout();
+    };    
 
 
     return (
@@ -120,10 +197,7 @@ const LoginForm = () => {
                     <button
                         className="inline-flex items-center justify-center px-4 py-2 bg-white text-gray-900 border border-gray-300 rounded-md hover:bg-gray-100"
                         type="button"
-                        onClick={() => {
-                            // Aquí puedes manejar el inicio de sesión con Google
-                            console.log('Iniciar sesión con Google');
-                        }}
+                        onClick={() => login()}
                     >
                         <img
                             src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
