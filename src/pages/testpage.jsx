@@ -7,7 +7,6 @@ import useCookie from "../hooks/useCookie";
 import React from "react";
 import getTextCurrentLocale from '../utils/getTextCurrentLocale'
 import useLocalStorageState from 'use-local-storage-state'
-import useCookie from "../hooks/useCookie";
 
 // Temporal testing page to make sure the env variables + api requests work as 
 // intented
@@ -166,7 +165,7 @@ function LoginUserComponent({apiEndpoint}) {
       })
     )
     
-    res = await apiCall(email, password);
+    
     setResponse(JSON.stringify(res))
     setUserTokenCookie(res.session_token)
   };
