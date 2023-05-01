@@ -126,7 +126,7 @@ const Login = () => {
                 {/* Mensaje de error */}
                 <div className="flex justify-center mb-4">
                   <p className="text-red-600">{message}</p>
-                </div>*/
+                </div>
                 <div className="flex justify-center mb-4">
                   <button
                     className="inline-flex items-center justify-center px-4 py-2 bg-white text-gray-900 border border-gray-300 rounded-md hover:bg-gray-100"
