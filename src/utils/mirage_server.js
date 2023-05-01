@@ -234,8 +234,8 @@ export function makeServer() {
           this.post("/api/cars", (schema, request) => {
             console.log("Received cars_info req with:" + request.requestBody)
             return{
-              "car_longitude": 1.7474957,
-              "car_latitude": 41.2278786,
+              "car_longitude": 1.746184,
+              "car_latitude": 41.226825,
               "dest_longitude": 1.7651,
               "dest_latitude": 41.2583
             }
@@ -245,8 +245,8 @@ export function makeServer() {
           this.post("/api/drones", (schema, request) => {
             console.log("Received drones_info req with:" + request.requestBody)
             return{
-              "drone_longitude": 1.7474957,
-              "drone_latitude": 41.2278786,
+              "drone_longitude": 1.746184,
+              "drone_latitude": 41.226825,
               "dest_longitude": 1.7651,
               "dest_latitude": 41.2583
             }
