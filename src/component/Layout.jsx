@@ -19,7 +19,7 @@ export default function Layout({ children, navBarValue}) {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   //asPath es un hook de nextjs que guarda la ruta del navegador en la que estamos y así detectamos la pagina
   const { asPath } = useRouter();
-  const currentPage = asPath;  
+  //const currentPage = asPath;  
   const [userRole,] = useCookie("user_role");
 
   const toggleSidebar = () => {

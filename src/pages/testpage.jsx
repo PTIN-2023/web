@@ -166,7 +166,7 @@ function LoginUserComponent({apiEndpoint}) {
       })
     )
     
-    const res = await apiCall(email, password);
+    res = await apiCall(email, password);
     setResponse(JSON.stringify(res))
     setUserTokenCookie(res.session_token)
   };
