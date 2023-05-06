@@ -53,7 +53,7 @@ export default function  RegisterUserTestComponent({apiEndpoint}) {
       setResponse(JSON.stringify(res))
 
       if (res.result === "ok") {
-        setUserGivenNameCookie(userFullName)
+        setUserGivenNameCookie(userGivenName)
         setUserRoleCookie("patient")
         setUserTokenCookie(res.session_token)
       }

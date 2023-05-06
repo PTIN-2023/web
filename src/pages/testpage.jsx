@@ -1,13 +1,13 @@
 import * as env_config from "../utils/env_config"
 import Head from 'next/head'
 import {useState} from "react";
-import {Tabs, Label, TextInput, Button} from 'flowbite-react'
-import { Select } from "flowbite-react";
+import {Tabs, Button} from 'flowbite-react'
 import useCookie from "../hooks/useCookie";
 import React from "react";
-import getTextCurrentLocale from '../utils/getTextCurrentLocale'
-import RegisterUserTestComponent from "../component/testpage/RegisterUserTestComponent";
 import UserDataTestComponent from "../component/testpage/UserDataTestComponent";
+import RegisterUserTestComponent from "../component/testpage/RegisterUserTestComponent";
+import LoginUserTestComponent from "../component/testpage/LoginUserTestComponent";
+import TokenCheckTestComponent from "../component/testpage/TokenCheckTestComponent";
 
 // Temporal testing page to make sure the env variables + api requests work as 
 // intented
@@ -46,81 +46,7 @@ function EnviromentVarsComponent({props}) {
   </>)
 }
 
-function LoginUserComponent({apiEndpoint}) {
-  const [, setUserTokenCookie]  = useCookie('user_token', '')
-  const [email, setEmail]       = useState('');
-  const [password, setPassword] = useState('');
-  const [response, setResponse] = useState('');
 
-  async function apiCall() {
-    return fetch(apiEndpoint+"/api/login", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email,
-        password
-      })
-    }).then(data => data.json())
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const res = await apiCall();
-    console.log(`Email: ${email}, Password: ${password}`);
-    console.log(
-      JSON.stringify({
-        email,
-        password
-      })
-    )
-    
-    
-    setResponse(JSON.stringify(res))
-    setUserTokenCookie(res.session_token)
-  };
-
-  return(<>
-    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-    <div>
-      <div className="mb-2 block">
-        <Label
-          htmlFor="email1"
-          value={getTextCurrentLocale('user_email')}
-        />
-      </div>
-      <TextInput
-        id="email1"
-        type="email"
-        placeholder="name@example.com"
-        required={true}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-    </div>
-    <div>
-      <div className="mb-2 block">
-        <Label
-          htmlFor="password1"
-          value={getTextCurrentLocale('user_pass')}
-        />
-      </div>
-      <TextInput
-        id="password1"
-        type="password"
-        required={true}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-    </div>
-    <Button type="submit">
-      {getTextCurrentLocale('sumbit_button')}
-    </Button>
-  </form>
-  <br></br>
-  {response}
-  <br></br>
-  </>)
-}
 
 function AvailableMedicinesComponent({apiEndpoint}) {
   const [response, setResponse] = useState('');
@@ -247,7 +173,10 @@ export default function Home(props) {
             <RegisterUserTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
           <Tabs.Item title="Login API test">
-            <LoginUserComponent apiEndpoint={props.apiEndpoint}/>
+            <LoginUserTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Token check test">
+            <TokenCheckTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
           <Tabs.Item title="Get available medicines API test">
             <AvailableMedicinesComponent apiEndpoint={props.apiEndpoint}/>

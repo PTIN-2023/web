@@ -25,6 +25,9 @@ export function seedMirageAuth(server) {
 export function defineMirageAuthRoutes(server) {
   // Username+password register endpoint
   server.post("/api/register", (schema, request) => {
+    const requestPayload = JSON.parse(request.requestBody)
+
+    // Check payload
     const expectedFields = [
       "user_full_name", 
       "user_given_name", 
@@ -34,7 +37,6 @@ export function defineMirageAuthRoutes(server) {
       "user_address", 
       "user_password"
     ]
-    const requestPayload = JSON.parse(request.requestBody)
     const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
 
     if (!expectedFieldsOk) {
@@ -44,6 +46,7 @@ export function defineMirageAuthRoutes(server) {
       })
     }
 
+    // Check validity
     if (schema.users.findBy({ user_email : requestPayload.user_email })) {
       return ({
         result : "error",
@@ -58,6 +61,7 @@ export function defineMirageAuthRoutes(server) {
       })
     }
 
+    // Add user
     schema.db.users.insert({
       user_full_name: requestPayload.user_full_name,
       user_given_name: requestPayload.user_given_name,
@@ -65,9 +69,11 @@ export function defineMirageAuthRoutes(server) {
       user_city: requestPayload.user_city,
       user_address: requestPayload.user_address,
       user_password: requestPayload.user_password,
-      user_picture : ''
+      user_picture : '',
+      user_role : 'patient'
     })
 
+    // Return
     return { 
       result : 'ok',
       role : 'pacient',
@@ -75,24 +81,47 @@ export function defineMirageAuthRoutes(server) {
     }
   })
 
+  // Username+password login endpoint
   server.post("/api/login", (schema, request) => {
-    const { email, password } = JSON.parse(request.requestBody);
-    const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
-    const user = storedUsers.find(u => u.email === email);
+    const requestPayload = JSON.parse(request.requestBody)
 
-    if (user && user.password === password) {
-      return {
-        status: "success",
-        message: "Inicio de sesión exitoso",
-      };
-    } else {
-      return new Response(401, {}, { status: "error", message: "Credenciales incorrectas" });
+    // Check payload
+    const expectedFields = [
+      "user_email", 
+      "user_password"
+    ]
+    const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
+
+    if (!expectedFieldsOk) {
+      return ({
+        result : "error",
+        description: "Wrong fields"
+      })
     }
-  });
 
+    // Check validity
+    const user_entry = schema.users.findBy({ user_email : requestPayload.user_email })
+    console.log(user_entry)
+    if (!user_entry || user_entry.user_password != requestPayload.user_password) {
+      return ({
+        result : "error",
+        description: "Incorrect login"
+      })
+    }
 
+    // Return
+    return { 
+      result : 'ok',
+      user_given_name : user_entry.user_given_name,
+      user_role : user_entry.user_role,
+      user_picture : user_entry.user_picture,
+      user_token : user_entry.user_email
+    }
+  })
+
+  // google signin endpoint
   server.post("/api/google", (schema, request) => {
-    console.log("Received register req with:" + request.requestBody)
+    const requestPayload = JSON.parse(request.requestBody)
 
     return { 
       result : 'ok',
@@ -101,6 +130,69 @@ export function defineMirageAuthRoutes(server) {
       fullName : request.requestBody.name,
       picture: request.requestBody.picture,
       session_token : 'googleToken'
+    }
+
+    // Check payload
+    const expectedFields = [
+      "user_google_token", 
+      "user_email"
+    ]
+    const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
+
+    if (!expectedFieldsOk) {
+      return ({
+        result : "error",
+        description: "Wrong fields"
+      })
+    }
+
+    // Check validity, create user if needed
+    if (!schema.users.findBy({ user_email : requestPayload.user_email })) {
+      return ({
+        result : "error",
+        description: "Incorrect login"
+      })
+    }
+
+    const user_entry = schema.users.findBy({ user_email : requestPayload.user_email })
+
+    // Return
+    return { 
+      result : 'ok',
+      user_given_name : user_entry.user_given_name,
+      user_role : user_entry.user_role,
+      user_picture : user_entry.user_picture,
+      user_token : user_entry.user_email
+    }
+  })
+
+  // google signin endpoint
+  server.post("/api/checktoken", (schema, request) => {
+    const requestPayload = JSON.parse(request.requestBody)
+
+    // Check payload
+    const expectedFields = [
+      "token"
+    ]
+    const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
+
+    if (!expectedFieldsOk) {
+      return ({
+        result : "error",
+        description: "Wrong fields"
+      })
+    }
+
+    const user_entry = schema.users.findBy({ user_email : requestPayload.token })
+    if (user_entry) {
+      return ({
+        valid : "yes",
+        type: user_entry.user_role
+      })
+    } else {
+      return ({
+        valid : "no"
+      })
     }
   })
 }
