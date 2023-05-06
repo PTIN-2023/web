@@ -6,7 +6,7 @@ import { Select } from "flowbite-react";
 import useCookie from "../hooks/useCookie";
 import React from "react";
 import getTextCurrentLocale from '../utils/getTextCurrentLocale'
-import useLocalStorageState from 'use-local-storage-state'
+import RegisterUserTestComponent from "../component/testpage/RegisterUserTestComponent";
 
 // Temporal testing page to make sure the env variables + api requests work as 
 // intented
@@ -211,115 +211,6 @@ function LoginUserComponent({apiEndpoint}) {
   </>)
 }
 
-function RegisterUserComponent({apiEndpoint}) {
-  const [, setUserTokenCookie] = useCookie('user_token', '')
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [response, setResponse] = useState('');
-
-  async function apiCall() {
-    return fetch(apiEndpoint+"/api/register", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name,
-        phone,
-        email,
-        password
-      })
-    }).then(data => data.json())
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(`Email: ${email}, Password: ${password}`);
-    console.log(
-      JSON.stringify({
-        email,
-        password,
-        name,
-        phone
-      })
-    )
-    
-    const res = await apiCall();
-    setResponse(JSON.stringify(res))
-    setUserTokenCookie(res.session_token)
-  };
-
-  return(<>
-    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-    <div>
-      <div className="mb-2 block">
-        <Label
-          htmlFor="name1"
-          value={getTextCurrentLocale('full_name')}
-        />
-      </div>
-      <TextInput
-        id="name1"
-        type="text"
-        required={true}
-        onChange={(e) => setName(e.target.value)}
-      />
-    </div>
-    <div>
-      <div className="mb-2 block">
-        <Label
-          htmlFor="phone1"
-          value={getTextCurrentLocale('full_name')}
-        />
-      </div>
-      <TextInput
-        id="phone1"
-        type="tel"
-        required={true}
-        onChange={(e) => setPhone(e.target.value)}
-      />
-    </div>
-    <div>
-      <div className="mb-2 block">
-        <Label
-          htmlFor="email1"
-          value={getTextCurrentLocale('user_email')}
-        />
-      </div>
-      <TextInput
-        id="email1"
-        type="email"
-        placeholder="name@flowbite.com"
-        required={true}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-    </div>
-    <div>
-      <div className="mb-2 block">
-        <Label
-          htmlFor="password1"
-          value={getTextCurrentLocale('user_pass')}
-        />
-      </div>
-      <TextInput
-        id="password1"
-        type="password"
-        required={true}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-    </div>
-    <Button type="submit">
-      Submit
-    </Button>
-  </form>
-  <br></br>
-  {response}
-  <br></br>
-  </>)
-}
-
 function AvailableMedicinesComponent({apiEndpoint}) {
   const [response, setResponse] = useState('');
 
@@ -445,7 +336,7 @@ export default function Home(props) {
             <LoginUserComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
           <Tabs.Item title="Register API test">
-            <RegisterUserComponent apiEndpoint={props.apiEndpoint}/>
+            <RegisterUserTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
           <Tabs.Item title="Get available medicines API test">
             <AvailableMedicinesComponent apiEndpoint={props.apiEndpoint}/>

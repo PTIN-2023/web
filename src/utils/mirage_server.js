@@ -9,7 +9,8 @@ import { seedMirageMisc, defineMirageMiscRoutes } from "./mirage_calls/misc"
 export function makeServer() {
   return createServer({
     models: {
-      user: Model,
+      tokens : Model,
+      users: Model,
       cars: Model,
       drones: Model,
       medicamento: Model
