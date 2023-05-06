@@ -7,6 +7,7 @@ import useCookie from "../hooks/useCookie";
 import React from "react";
 import getTextCurrentLocale from '../utils/getTextCurrentLocale'
 import RegisterUserTestComponent from "../component/testpage/RegisterUserTestComponent";
+import UserDataTestComponent from "../component/testpage/UserDataTestComponent";
 
 // Temporal testing page to make sure the env variables + api requests work as 
 // intented
@@ -42,96 +43,6 @@ function EnviromentVarsComponent({props}) {
     <p>locationLongitude = {props.locationLongitude}</p>
     <p>mapBoxToken = {props.mapBoxToken}</p>
     <p>googleToken = {props.googleToken}</p>
-  </>)
-}
-
-function UserDataComponent() {
-  const [fullNameCookie, setFullNameCookie] = useCookie('user_full_name', '')
-  const [userRoleCookie, setUserRoleCookie] = useCookie('user_role', '')
-  const [userTokenCookie, setUserTokenCookie] = useCookie('user_token', '')
-  // TODO: define a more secure way to handle the userToken e.g. encryption
-  const [tmpFullName, setTmpFullName] = useState('');
-  const [tmpUserRole, setTmpUserRole] = useState('');
-  const [tmpUserToken, setTmpUserToken] = useState('');
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if(tmpFullName != '')
-      setFullNameCookie(tmpFullName);
-
-    if(tmpUserRole != '')
-      setUserRoleCookie(tmpUserRole);
-
-    if(tmpUserToken != '')
-      setUserTokenCookie(tmpUserToken);
-      setFullNameCookie(tmpFullName)
-
-    if(tmpUserRole != '')
-      setUserRoleCookie(tmpUserRole)
-
-    if(tmpUserToken != '')
-      setUserTokenCookie(tmpUserToken)
-  };
-
-  return(<>
-    <div>
-      <p>userFullName={fullNameCookie}</p>
-      <p>userRole={userRoleCookie}</p>
-      <p>userToken={userTokenCookie}</p>
-    </div>
-    <br></br>
-    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-    <div>
-      <div className="mb-2 block">
-        <Label
-          htmlFor="name1"
-          value={getTextCurrentLocale('full_name')}
-        />
-      </div>
-      <TextInput
-        id="name1"
-        type="text"
-        required={false}
-        onChange={(e) => setTmpFullName(e.target.value)}
-      />
-    </div>
-    <div>
-      <div className="mb-2 block">
-        <Label
-          htmlFor="role1"
-          value={getTextCurrentLocale('user_role')}
-        />
-      </div>
-      <Select 
-        id="role1" 
-        required={false}
-        onChange={(e) => setTmpUserRole(e.target.value)}
-      >
-        <option>         </option>
-        <option>  </option>
-        <option> patient </option>
-        <option> doctor  </option>
-        <option> manager </option>
-      </Select>
-    </div>
-    <div>
-      <div className="mb-2 block">
-        <Label
-          htmlFor="token1"
-          value={getTextCurrentLocale('user_token')}
-        />
-      </div>
-      <TextInput
-        id="token1"
-        type="text"
-        required={false}
-        onChange={(e) => setTmpUserToken(e.target.value)}
-      />
-    </div>
-    <Button type="submit">
-      {getTextCurrentLocale('sumbit_button')}
-    </Button>
-  </form>
   </>)
 }
 
@@ -330,13 +241,13 @@ export default function Home(props) {
             <EnviromentVarsComponent props={props}/>
           </Tabs.Item>
           <Tabs.Item title="User Data test">
-            <UserDataComponent/>
-          </Tabs.Item>
-          <Tabs.Item title="Login API test">
-            <LoginUserComponent apiEndpoint={props.apiEndpoint}/>
+            <UserDataTestComponent/>
           </Tabs.Item>
           <Tabs.Item title="Register API test">
             <RegisterUserTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Login API test">
+            <LoginUserComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
           <Tabs.Item title="Get available medicines API test">
             <AvailableMedicinesComponent apiEndpoint={props.apiEndpoint}/>
