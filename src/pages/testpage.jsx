@@ -8,6 +8,8 @@ import UserDataTestComponent from "../component/testpage/UserDataTestComponent";
 import RegisterUserTestComponent from "../component/testpage/RegisterUserTestComponent";
 import LoginUserTestComponent from "../component/testpage/LoginUserTestComponent";
 import TokenCheckTestComponent from "../component/testpage/TokenCheckTestComponent";
+import GoogleOAuthTestComponent from "../component/testpage/GoogleOAuthTestComponent"
+import {GoogleOAuthProvider} from '@react-oauth/google';
 
 // Temporal testing page to make sure the env variables + api requests work as 
 // intented
@@ -177,6 +179,11 @@ export default function Home(props) {
           </Tabs.Item>
           <Tabs.Item title="Token check test">
             <TokenCheckTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Google Ouath test">
+            <GoogleOAuthProvider clientId="692056364291-m1m2edfdtmjt69q2qrh1eshejauo900j.apps.googleusercontent.com">
+              <GoogleOAuthTestComponent apiEndpoint={props.apiEndpoint}/>
+            </GoogleOAuthProvider>
           </Tabs.Item>
           <Tabs.Item title="Get available medicines API test">
             <AvailableMedicinesComponent apiEndpoint={props.apiEndpoint}/>

@@ -1,3 +1,4 @@
+import { useGoogleLogin } from '@react-oauth/google';
 
 export function seedMirageAuth(server) {
   server.create("user", {
@@ -123,20 +124,11 @@ export function defineMirageAuthRoutes(server) {
   server.post("/api/google", (schema, request) => {
     const requestPayload = JSON.parse(request.requestBody)
 
-    return { 
-      result : 'ok',
-      role : 'patient',
-      email : request.requestBody.email,
-      fullName : request.requestBody.name,
-      picture: request.requestBody.picture,
-      session_token : 'googleToken'
-    }
-
     // Check payload
     const expectedFields = [
-      "user_google_token", 
-      "user_email"
+      "user_google_token"
     ]
+    console.log(requestPayload)
     const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
 
     if (!expectedFieldsOk) {
@@ -145,6 +137,8 @@ export function defineMirageAuthRoutes(server) {
         description: "Wrong fields"
       })
     }
+
+    // TODO: use requestPayload.user_google_token to exchange code and update rest of the code
 
     // Check validity, create user if needed
     if (!schema.users.findBy({ user_email : requestPayload.user_email })) {
@@ -166,7 +160,7 @@ export function defineMirageAuthRoutes(server) {
     }
   })
 
-  // google signin endpoint
+  // Check token api endpoint
   server.post("/api/checktoken", (schema, request) => {
     const requestPayload = JSON.parse(request.requestBody)
 
