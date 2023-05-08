@@ -4,8 +4,6 @@ import Tabla from "../component/TablaMakeorder"
 import myordersStyles from "../styles/Makeorder.module.css"
 import {useState, useEffect} from "react";
 
-import '../utils/med_server.js'
-
 export default function Home() {
     const [searchValue, setSearchValue] = useState({value:"",isCompleted:false});
 
