@@ -1,44 +1,41 @@
-import { createServer } from "miragejs"
+import { createServer, Model } from "miragejs"
 import * as env_config from '../utils/env_config'
-import inventario_json from '../../public/inventario.json'
+import { seedMirageCars, defineMirageCarRoutes } from "./mirage_calls/cars"
+import { seedMirageDrones, defineMirageDroneRoutes } from "./mirage_calls/drones"
+import { seedMirageAuth, defineMirageAuthRoutes } from "./mirage_calls/auth"
+import { seedMirageMapLocations, defineMirageMapLocationsRoutes } from "./mirage_calls/map_locations"
+import { seedMirageMisc, defineMirageMiscRoutes } from "./mirage_calls/misc"
 
 export function makeServer() {
-    return createServer({
-        routes() {
-          this.passthrough("https://api.mapbox.com/**")
-          this.passthrough("https://events.mapbox.com/**")
+  return createServer({
+    models: {
+      tokens : Model,
+      users: Model,
+      cars: Model,
+      drones: Model,
+      medicamento: Model
+    },
 
-          this.urlPrefix=env_config.getApiEndpoint();
+    seeds(server) {
+      seedMirageCars(server)
+      seedMirageDrones(server)
+      seedMirageAuth(server)
+      seedMirageMapLocations(server)
+      seedMirageMisc(server)
+    },
 
-          this.post("/api/login", (schema, request) => {
-            let attrs = JSON.parse(request.requestBody)
-            console.log("Received login req with:" + request.requestBody)
-            return { 
-              result : 'ok',
-              role : 'pacient',
-              session_token : '3458764568973496'
-            }
-          })
+    routes() {
+      this.urlPrefix=env_config.getApiEndpoint();
 
-          this.post("/api/register", (schema, request) => {
-            let attrs = JSON.parse(request.requestBody)
-            console.log("Received register req with:" + request.requestBody)
-            return { 
-              result : 'ok',
-              role : 'pacient',
-              session_token : '3458764568973496'
-            }
-          })
+      defineMirageCarRoutes(this)
+      defineMirageDroneRoutes(this)
+      defineMirageAuthRoutes(this)
+      defineMirageMapLocationsRoutes(this)
+      defineMirageMiscRoutes(this)
 
-          this.post("/api/medicines_list", (schema, request) => {
-            let attrs = JSON.parse(request.requestBody)
-            console.log("Received medicine list req with:" + request.requestBody)
-
-            return { 
-              result : 'ok',
-              inventario_json
-            }
-          })
-        },
-    })
-  }
+      this.passthrough("https://api.mapbox.com/**")
+      this.passthrough("https://events.mapbox.com/**")
+      this.passthrough('https://www.googleapis.com/**');  
+    }
+  })
+}

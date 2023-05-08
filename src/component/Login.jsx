@@ -1,21 +1,141 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'flowbite/dist/flowbite.min.css';
+import { Tab } from 'flowbite';
 import Link from 'next/link';
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import useCookie from "../hooks/useCookie";
+import {useRouter} from 'next/router'
+import * as env_config from "../utils/env_config"
+
+export async function getServerSideProps() {
+  const isLocal           = env_config.isLocal();
+  const apiEndpoint       = String(          env_config.getApiEndpoint());
+  const locationName      = String(isLocal ? env_config.getLocationName()      : "N/A");
+  const locationLatitude  = String(isLocal ? env_config.getLocationLatitude()  : "N/A");
+  const locationLongitude = String(isLocal ? env_config.getLocationLongitude() : "N/A");
+  const mapBoxToken       = String(          env_config.getTokenMapBox());
+  const googleToken       = String(          env_config.getTokenGoogleSignIn());
+  return {
+    props: { 
+      isLocal,
+      apiEndpoint,
+      locationName,
+      locationLatitude,
+      locationLongitude,
+      mapBoxToken,
+      googleToken
+    }
+  }
+}
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [message, setMessage] = useState("");
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
+  const [ user, setUser ] = useState(null);
+  const [response, setResponse] = useState('');
 
-  const handleSubmit = (e) => {
+  const [, setUserTokenCookie]  = useCookie('user_token', '')
+  const [fullNameCookie, setFullNameCookie] = useCookie('user_full_name', '')
+  const [givenNameCookie, setGivenNameCookie] = useCookie('user_given_name', '')
+  const [userEmailCookie, setUserEmailCookie] = useCookie('user_email', '')
+  const [userRoleCookie, setUserRoleCookie] = useCookie('user_role', '')
+  const [userAvatarCookie, setUserAvatarCookie] = useCookie('user_picture', '')
+  const router = useRouter()
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí puedes manejar la autenticación
-    console.log(`Email: ${email}, Password: ${password}`);
+
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (data.status === "success") {
+        setMessage("Login exitoso!");
+        setShowErrorModal(false);
+        router.push("/profile")
+      } else {
+        setMessage("Error en el inicio de sesión, verifica tus credenciales.");
+        setShowErrorModal(true);
+      }
+    } catch (error) {
+      setMessage("Error en la conexión con el servidor.");
+    }
+  };
+
+  //google oauth handlers
+  async function googleCookiesHander(apires){
+    console.log("Guardando galletas...")
+    await setFullNameCookie(apires.fullName);
+    const auxName = apires.fullName.split(" ");
+    setGivenNameCookie(auxName[0]);
+    setUserRoleCookie(apires.role);
+    setUserEmailCookie(apires.email);
+    setUserTokenCookie(apires.session_token);
+    setUserAvatarCookie(apires.picture);
+
+  }
+  useEffect(
+    () => {
+        if (user) {
+          fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+            headers: {
+                Authorization: `Bearer ${user.access_token}`,
+                Accept: 'application/json'
+            }
+          })
+          .then((res) => res.json())
+          .then(async (data) => {
+              const apires = await apiCall(data);
+              console.log(apires)
+              await googleCookiesHander(apires);
+              router.push('/profile')             
+
+            })
+          .catch((err) => console.log(err));
+        }
+    },
+    [ user ]
+  );
+
+  async function apiCall(data) {
+    return await fetch("http://localhost:3000/api/google", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: {
+        email: data.email,
+        name: data.name,
+        picture: data.picture
+      }
+    }).then(data => data.json())
+  }
+
+  const login = useGoogleLogin({
+      onSuccess: (codeResponse) => {
+        setUser(codeResponse),
+        console.log(user)          
+      },
+      onError: (error) => console.log('Login Failed:', error)
+  });
+
+  const logOut = () => {
+      googleLogout();
   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+
       <div className="container mx-auto p-4 bg-white rounded-md shadow-md">
         <h1 className="text-3xl mb-6 text-center">Iniciar sesión</h1>
         <form onSubmit={handleSubmit}>
@@ -66,10 +186,7 @@ const Login = () => {
             <button
                 className="w-full flex items-center justify-center px-4 py-2 mt-4 bg-white text-gray-900 border border-gray-300 rounded-md hover:bg-gray-100"
                 type="button"
-                onClick={() => {
-                    // Aquí puedes manejar el inicio de sesión con Google
-                    console.log('Iniciar sesión con Google');
-                }}
+                onClick={() => login()}
                 >
                 <img
                     src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
@@ -86,6 +203,8 @@ const Login = () => {
         </form>
       </div>
     </div>
+
+
   );
 };
 

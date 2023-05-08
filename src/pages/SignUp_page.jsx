@@ -1,8 +1,9 @@
 import Head from 'next/head'
 import Layout from "../component/Layout"
-import Map from "../component/Map"
+import SignUpRefact from "../component/SignUpRefact"
 
 export default function Home() {
+
   return (
     <>
       <Head>
@@ -11,10 +12,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Layout>
-          <Map mapType="global"></Map>
-          <Map mapType="local"></Map>
-        </Layout>
+        <SignUpRefact></SignUpRefact>
       </main>
     </>
   )

@@ -1,32 +1,32 @@
 import React from 'react';
 import { Avatar } from "flowbite-react";
 import layoutStyles from "../styles/Layout.module.css";
-import { UserData } from './UserData';
+import useCookie from '../hooks/useCookie';
+import getTextCurrentLocale from '../utils/getTextCurrentLocale'
 
 export default function SideBarProfileInfo({ isCollapsed }){
-    const profilePlaceholder = UserData;
+    const [userFullName,] = useCookie('user_given_name');
+    const [userPicture,] = useCookie('user_picture');
+    const [userRole,] = useCookie('user_role')
+    const userRoleLocalized = getTextCurrentLocale('role_'+userRole)
 
     return(
-        
-
         <Avatar
-        img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+        img={userPicture}
         rounded={true}
         >
         {!isCollapsed &&
             //muestra el avatar y el nombre
             <div className={layoutStyles.sideBarAvatarName}>
                 <div>
-                {profilePlaceholder.name}
+                {userFullName}
                 </div>
                 <div className={layoutStyles.sideBarAvatarRole}>
-                {profilePlaceholder.role}
+                {userRoleLocalized}
                 </div>
             </div> 
         
         }
-        
-        </Avatar>        
-
+        </Avatar>
     )
 }
