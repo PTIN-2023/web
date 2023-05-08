@@ -1,216 +1,61 @@
 /** @type {import('next').NextConfig} */
+
 module.exports = {
   output: 'standalone',
   async redirects() {
-    return [      
-      /**
-       * "Patient" Redirects
-       */
-      
-      {
-        source: '/patients', 
-        has: [
-          {
-            type: 'cookie',
-            key: 'user_role',
-            value: '"patient"',
-          },
-        ],
-        permanent: false,
-        destination: '/403',
-      },
-      {
-        source: '/notifications', 
-        has: [
-          {
-            type: 'cookie',
-            key: 'user_role',
-            value: '"patient"',
-          },
-        ],
-        permanent: false,
-        destination: '/403',
-      },
-      {
-        source: '/map', 
-        has: [
-          {
-            type: 'cookie',
-            key: 'user_role',
-            value: '"patient"',
-          },
-        ],
-        permanent: false,
-        destination: '/403',
-      },
-      {
-        source: '/inventory', 
-        has: [
-          {
-            type: 'cookie',
-            key: 'user_role',
-            value: '"patient"',
-          },
-        ],
-        permanent: false,
-        destination: '/403',
-      },
-      {
-        source: '/order', 
-        has: [
-          {
-            type: 'cookie',
-            key: 'user_role',
-            value: '"patient"',
-          },
-        ],
-        permanent: false,
-        destination: '/403',
-      },
-      {
-        source: '/stats', 
-        has: [
-          {
-            type: 'cookie',
-            key: 'user_role',
-            value: '"patient"',
-          },
-        ],
-        permanent: false,
-        destination: '/403',
-      },
-      /**
-       * "Doctor" Redirects
-       */
-
-      // if the source, query, and cookie are matched,
-      // this redirect will be applied
-      {
-        source: '/myorders', 
-        has: [
-          {
-            type: 'cookie',
-            key: 'user_role',
-            value: '"doctor"',
-          },
-        ],
-        permanent: false,
-        destination: '/403',
-      },
-      {
-        source: '/makeorder', 
-        has: [
-          {
-            type: 'cookie',
-            key: 'user_role',
-            value: '"doctor"',
-          },
-        ],
-        permanent: false,
-        destination: '/403',
-      },
-      {
-        source: '/map', 
-        has: [
-          {
-            type: 'cookie',
-            key: 'user_role',
-            value: '"doctor"',
-          },
-        ],
-        permanent: false,
-        destination: '/403',
-      },
-      {
-        source: '/inventory', 
-        has: [
-          {
-            type: 'cookie',
-            key: 'user_role',
-            value: '"doctor"',
-          },
-        ],
-        permanent: false,
-        destination: '/403',
-      },
-      {
-        source: '/order', 
-        has: [
-          {
-            type: 'cookie',
-            key: 'user_role',
-            value: '"doctor"',
-          },
-        ],
-        permanent: false,
-        destination: '/403',
-      },
-      {
-        source: '/stats', 
-        has: [
-          {
-            type: 'cookie',
-            key: 'user_role',
-            value: '"doctor"',
-          },
-        ],
-        permanent: false,
-        destination: '/403',
-      },
-
-      /**
-       * "Manager" Redirects
-       * 
-       */
-      {
-        source: '/myorders', 
-        has: [
-          {
-            type: 'cookie',
-            key: 'user_role',
-            value: '"manager"',
-          },
-        ],
-        permanent: false,
-        destination: '/403',
-      },
-      {
-        source: '/makeorder', 
-        has: [
-          {
-            type: 'cookie',
-            key: 'user_role',
-            value: '"manager"',
-          },
-        ],
-        permanent: false,
-        destination: '/403',
-      },
-      {
-        source: '/"patients"', 
-        has: [
-          {
-            type: 'cookie',
-            key: 'user_role',
-            value: '"manager"',
-          },
-        ],
-        permanent: false,
-        destination: '/403',
-      },
-      {
-        source: '/notifications', 
-        has: [
-          {
-            type: 'cookie',
-            key: 'user_role',
-            value: '"manager"',
-          },
-        ],
-        permanent: false,
-        destination: '/403',
-      },
-
-    ]
+    //Rutas no permitidas para cada rol, en el caso de los usuarios que no esten logeados se redirije al login, para los demas ser redirije a /403.
+    const patientRoutes = ['/patients', '/notifications', '/map', '/inventory', '/order', '/stats'];
+    const doctorRoutes = ['/myorders', '/makeorder', '/map', '/inventory', '/order', '/stats'];
+    const managerRoutes = ['/myorders', '/makeorder', '/patients', '/notifications'];
+    const unloggedRoutes = ['/myorders', '/makeorder', '/map', '/inventory', '/order', '/stats', '/patients', '/notifications', '/profile'];
+    const redirectPatient = patientRoutes.map((patientRoutes) => ({
+      source: patientRoutes,
+      has: [
+        {
+          type: 'cookie',
+          key: 'user_role',
+          value: '"patient"',
+        },
+      ],
+      destination: '/403',
+      permanent: false,
+    }));
+    const redirectDoctor = doctorRoutes.map((doctorRoutes) => ({
+      source: doctorRoutes,
+      has: [
+        {
+          type: 'cookie',
+          key: 'user_role',
+          value: '"doctor"',
+        },
+      ],
+      destination: '/403',
+      permanent: false,
+    }));
+    const redirectManager = managerRoutes.map((managerRoutes) => ({
+      source: managerRoutes,
+      has: [
+        {
+          type: 'cookie',
+          key: 'user_role',
+          value: '"admin"',
+        },
+      ],
+      destination: '/403',
+      permanent: false,
+    }));
+    const redirectUnlogged = unloggedRoutes.map((unloggedRoutes) => ({
+      source: unloggedRoutes,
+      missing: [
+        {
+          type: 'cookie',
+          key: 'user_role',
+          value: 'undefined',
+        },
+      ],
+      destination: '/',
+      permanent: false,
+    }));
+    return redirectPatient.concat(redirectDoctor, redirectManager, redirectUnlogged);
   },
-}
+};
