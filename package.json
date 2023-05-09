@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "bootstrap": "^5.2.3",
     "cookies-next": "^2.1.1",
     "flowbite": "^1.6.4",
     "flowbite-react": "^0.4.2",
@@ -14,6 +15,7 @@
     "next": "latest",
     "promises": "^0.2.5",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.7.4",
     "react-data-table-component": "^7.5.3",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",

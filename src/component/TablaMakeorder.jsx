@@ -35,7 +35,7 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
     }
 
     return (
-        <div>
+        <div className="mx-auto">
             <>
                 <Table hoverable={true}>
                     {console.log(searchValue)}
