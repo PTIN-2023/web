@@ -33,7 +33,6 @@ export default function Home() {
             <Layout navBarValue={setSearchValue}>
             <div className={myordersStyles.mainContainer}>
             <FilterPrice />
-            <input type='range' />
             {/**Tablamakeorder recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
             <Tabla data={meds} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>
             </div>

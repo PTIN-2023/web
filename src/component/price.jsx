@@ -1,10 +1,10 @@
 import React from "react";
 import rangePriceStyles from "../styles/price.module.css"
 
-const filterPrice = () => {
-    <input type="range" className={rangePriceStyles.rangePrice} >
-        Precio
-    </input>
+export default function filterPrice () {
+    <label>
+        <input type="checkbox" className="accent-pink-500" >
+            Precio
+        </input>
+    </label>
 }
-
-export default filterPrice;
