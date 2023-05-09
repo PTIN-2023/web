@@ -19,8 +19,8 @@ export function seedMirageCars(server) {
     model: "Civic",
     pos_latitude: 41.2209492,
     pos_longitude: 1.7298172,
-    objective_latitude: 41.3994323,
-    objective_longitude: 2.1458492,
+    objective_latitude: 41.2583,
+    objective_longitude: 1.7651,
     cargo: [
       { name: 'ibuprofeno' },
       { name: 'ibuprofeno' },

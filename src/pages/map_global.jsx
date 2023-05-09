@@ -31,13 +31,13 @@ export async function getServerSideProps() {
 
 export default function Home(props) {
   mapboxgl.accessToken = 'pk.eyJ1IjoiYWVrc3AiLCJhIjoiY2xmd2dtbDNhMGU4bjNjbWkwa2VqbzhhciJ9.LYgWVHhGLoY9T-ix_qC73g'; // GIT IGNORE !! 
-  //const [loading, setLoading] = useState(true)
 
-  const [infoRouteCar, setinfoRouteCar] = React.useState({}); // usar estado para almacenar infoRouteCar
+  const select = 0
+  const [infoRouteCar, setinfoRouteCar] = React.useState(null); // usar estado para almacenar infoRouteCar
 
   async function getCarRoute(props) {
     try {
-      const response = await fetch(props.apiEndpoint + "/api/cars", {
+      const response = await fetch(props.apiEndpoint + "/api/cars_full_info", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -77,15 +77,17 @@ export default function Home(props) {
   }
 
   // Obtener la ruta desde la API Directions de Mapbox
-  const [route, setRoute] = React.useState({}); // usar estado para almacenar route
+  const [route, setRoute] = React.useState([]); // usar estado para almacenar route
   async function fetchData(iRC) {
-    if(iRC.car_longitude !== undefined){ //if any of the 4s data are undefined
-      const response = await fetch(
-        `https://api.mapbox.com/directions/v5/mapbox/driving/${iRC.car_longitude},${iRC.car_latitude};${iRC.dest_longitude},${iRC.dest_latitude}?geometries=geojson&alternatives=true&access_token=${mapboxgl.accessToken}`
-      );
-      const data = await response.json();
-      // Agrega la línea para el recorrido
-      setRoute(data.routes[0].geometry);
+    if(iRC != null){ //if undefined we have no data
+      for(let i = 0; i < infoRouteCar.cars.length;++i){
+        const response = await fetch(
+          `https://api.mapbox.com/directions/v5/mapbox/driving/${iRC.cars[i].pos_longitude},${iRC.cars[i].pos_latitude};${iRC.cars[i].objective_longitude},${iRC.cars[i].objective_latitude}?geometries=geojson&alternatives=true&access_token=${mapboxgl.accessToken}`
+        );
+        const data = await response.json();
+        // Agrega la línea para el recorrido
+        setRoute(route => [...route, data.routes[0].geometry]);
+      }
     }
   }
   
@@ -96,8 +98,7 @@ export default function Home(props) {
   useEffect(() => {
     getCarRoute(props);
     getStoreCoordinates(props);
-    //fetchData(infoRouteCar); // llamada a fetchData() una vez que el componente está montado
-  }, [/* infoRouteCar */]);
+  }, []);
 
   const route_layer = {
     id: 'route',
@@ -112,49 +113,59 @@ export default function Home(props) {
     }
   }
   
-  const [routeGeojson, setRouteGeojson] = useState({})
+  const [routeGeojson, setRouteGeojson] = useState(null)
 
   useEffect(() => {
+    console.log(route)
     setRouteGeojson({
       type: 'FeatureCollection',
       features: [{
         type: "Feature",
-        geometry: route
+        geometry: route[select]
       }]
     })
   }, [route]);
   
-  const [pointsGeojson, setPointsGeojson] = useState({})
+  const [pointsGeojson, setPointsGeojson] = useState([])
 
   useEffect(() => {
-    setPointsGeojson({
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [infoRouteCar.car_longitude, infoRouteCar.car_latitude],
-          },
-          properties: {
-            title: 'Coche',
-            icon: 'car',
-          },
-        },
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [infoRouteCar.dest_longitude, infoRouteCar.dest_latitude],
-          },
-          properties: {
-            title: 'Tu destino',
-            icon: 'marker',
-          },
-        },
-      ],
-    });
-    }, [infoRouteCar]);
+    if(infoRouteCar != null){
+      const iterateCars = () => {
+        for(let i = 0; i <infoRouteCar.cars.length; ++i){
+          console.log("Length:" + infoRouteCar.cars.length)
+          setPointsGeojson(pointsGeojson => [...pointsGeojson, {
+            type: 'FeatureCollection',
+            features: [
+              {
+                type: 'Feature',
+                geometry: {
+                  type: 'Point',
+                  coordinates: [infoRouteCar.cars[i].pos_longitude, infoRouteCar.cars[i].pos_latitude],
+                },
+                properties: {
+                  title: 'Coche',
+                  icon: 'car',
+                },
+              },
+              {
+                type: 'Feature',
+                geometry: {
+                  type: 'Point',
+                  coordinates: [infoRouteCar.cars[i].objective_longitude, infoRouteCar.cars[i].objective_latitude],
+                },
+                properties: {
+                  title: 'Tu destino',
+                  icon: 'marker',
+                },
+              },
+            ],
+          }]);
+        }
+      };
+      
+      iterateCars();
+    }
+  }, [infoRouteCar]);
 
   const points_layer = {
     id: 'puntos-de-interes',
@@ -201,12 +212,10 @@ export default function Home(props) {
     }
   }
 
-  /* console.log("--- getDroneRoute");
-  console.log(infoRouteDrone);
-  console.log("--- getCarRoute");
-  console.log(infoRouteCar);
-  console.log("--- getStoreCoordinates");
-  console.log(storeCoord); */
+  // console.log("--- getCarRoute");
+  // console.log(infoRouteCar);
+  // console.log("--- getStoreCoordinates");
+  // console.log(storeCoord);
 
   return (
     <>
@@ -230,7 +239,7 @@ export default function Home(props) {
           <Source id="my-route" type="geojson" data={routeGeojson}>
             <Layer {...route_layer}/>
           </Source>
-          <Source id="my-points" type="geojson" data={pointsGeojson}>
+          <Source id="my-points" type="geojson" data={pointsGeojson[select]}>
             <Layer {...points_layer}/>
           </Source>
           <Source id="my-store" type="geojson" data={storeGeojson}>
