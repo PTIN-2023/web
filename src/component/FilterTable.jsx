@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import rangePriceStyles from "../styles/price.module.css"
 import { Sidebar } from "flowbite-react";
 
 const FilterTable = () => {
+    
+    // default price
+    const [price, setPrice] = useState(50);
+    
+    const changePrice = (event) => {
+        setPrice(event.target.value);
+    };
+
+    // función que sirve para enviar un mensaje a la API i que nos pase aquellos medicamentos cuyo precio és (<= price) al levantar el mouse del priceRange
+    const submitPriceChange = (event) => {
+        console.log("mouseUp")
+    }
+
     return(
         <span className="border border-primary">
             <div className="mx-auto">
@@ -11,7 +24,8 @@ const FilterTable = () => {
                         <Sidebar.ItemGroup>
                             <label style={{ fontWeight: 'bold' }}>PRECIO</label>
                             <Sidebar.Item>
-                                <input type="range" className=""/>
+                                <h4>{price}€</h4>
+                                <input type="range" onChange={changePrice} onMouseUp={submitPriceChange} min={0} max={100} step={1} value={price}/>
                             </Sidebar.Item>
                         </Sidebar.ItemGroup>
                         <Sidebar.ItemGroup>
