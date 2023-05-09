@@ -52,7 +52,9 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                     {slice.map((med) =>
                         <>
                             <Table.Row className={style.tableRow}>
-                                <Table.Cell className="!p-4"><Checkbox /></Table.Cell>
+                                <Table.Cell className="!p-4">
+                                    <input type="checkbox"></input>
+                                </Table.Cell>
                                 <Table.Cell className={style.tableCell}>{med.name}</Table.Cell>
                                 <Table.Cell className={style.tableCell}>{med.act_exc}</Table.Cell>
                                 <Table.Cell className={style.tableCell}>{med.pvp}</Table.Cell>
