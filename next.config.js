@@ -3,7 +3,7 @@
 module.exports = {
   output: 'standalone',
   async redirects() {
-    //Rutas no permitidas para cada rol, en el caso de los usuarios que no esten logeados se redirije al login, para los demas ser redirije a /403.
+    //Rutas no permitidas para cada rol, en el caso de los usuarios que no esten logeados se redirige al login, para los demas ser redirige a /403.
     const patientRoutes = ['/patients', '/notifications', '/map', '/inventory', '/order', '/stats'];
     const doctorRoutes = ['/myorders', '/makeorder', '/map', '/inventory', '/order', '/stats'];
     const managerRoutes = ['/myorders', '/makeorder', '/patients', '/notifications'];
@@ -44,7 +44,7 @@ module.exports = {
       destination: '/403',
       permanent: false,
     }));
-    const redirectUnlogged_1 = unloggedRoutes.map((unloggedRoutes) => ({
+    const redirectUnlogged = unloggedRoutes.map((unloggedRoutes) => ({
       source: unloggedRoutes,
       missing: [
         {
@@ -55,32 +55,6 @@ module.exports = {
       destination: '/',
       permanent: false,
     }));
-    /*
-    const redirectUnlogged_2 = unloggedRoutes.map((unloggedRoutes) => ({
-      source: unloggedRoutes,
-      missing: [
-        {
-          type: 'cookie',
-          key: 'user_role',
-          value: '%22doctor%22',
-        },
-      ],
-      destination: '/',
-      permanent: false,
-    }));
-    const redirectUnlogged_3 = unloggedRoutes.map((unloggedRoutes) => ({
-      source: unloggedRoutes,
-      missing: [
-        {
-          type: 'cookie',
-          key: 'user_role',
-          value: '"manager"',
-        },
-      ],
-      destination: '/',
-      permanent: false,
-    }));
-    */
-    return redirectPatient.concat(redirectDoctor, redirectManager, redirectUnlogged_1);
+    return redirectPatient.concat(redirectDoctor, redirectManager, redirectUnlogged);
   },
 };
