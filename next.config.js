@@ -38,24 +38,49 @@ module.exports = {
         {
           type: 'cookie',
           key: 'user_role',
-          value: '"admin"',
+          value: '"manager"',
         },
       ],
       destination: '/403',
       permanent: false,
     }));
-    const redirectUnlogged = unloggedRoutes.map((unloggedRoutes) => ({
+    const redirectUnlogged_1 = unloggedRoutes.map((unloggedRoutes) => ({
       source: unloggedRoutes,
       missing: [
         {
           type: 'cookie',
           key: 'user_role',
-          value: 'undefined',
         },
       ],
       destination: '/',
       permanent: false,
     }));
-    return redirectPatient.concat(redirectDoctor, redirectManager, redirectUnlogged);
+    /*
+    const redirectUnlogged_2 = unloggedRoutes.map((unloggedRoutes) => ({
+      source: unloggedRoutes,
+      missing: [
+        {
+          type: 'cookie',
+          key: 'user_role',
+          value: '%22doctor%22',
+        },
+      ],
+      destination: '/',
+      permanent: false,
+    }));
+    const redirectUnlogged_3 = unloggedRoutes.map((unloggedRoutes) => ({
+      source: unloggedRoutes,
+      missing: [
+        {
+          type: 'cookie',
+          key: 'user_role',
+          value: '"manager"',
+        },
+      ],
+      destination: '/',
+      permanent: false,
+    }));
+    */
+    return redirectPatient.concat(redirectDoctor, redirectManager, redirectUnlogged_1);
   },
 };
