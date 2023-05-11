@@ -17,7 +17,8 @@ export function makeServer() {
       drones: Model,
       medicines: Model,
       prescriptions : Model,
-      orders : Model
+      orders : Model,
+      beehives : Model
     },
 
     seeds(server) {
