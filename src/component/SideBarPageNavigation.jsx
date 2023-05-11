@@ -63,10 +63,11 @@ const sidebarItemClassName = (currentPage, itemHref) => {
 const SideBarPagesNavigation = ({ currentPage }, props) => {
   const [userRole,] = useCookie("user_role");
   const [localeCookie,] = useCookie('locale')
-
+  userRole == "none" && alert("El usuario no está registrado! deberá completar su perfil!");
   return(<>
     {sidebarItemGroups.map(group => {
     if (group.role === userRole) {
+
       return (
       <Sidebar.ItemGroup key={group.role}>
         {group.items.map((item) => {

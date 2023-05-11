@@ -17,8 +17,8 @@ export function seedMirageCars(server) {
   server.create("car", {
     make: "Honda",
     model: "Civic",
-    pos_latitude: 41.2209492,
-    pos_longitude: 1.7298172,
+    pos_latitude: 41.2229666,
+    pos_longitude: 1.7210832,
     objective_latitude: 41.2583,
     objective_longitude: 1.7651,
     cargo: [
