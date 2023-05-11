@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Button } from 'flowbite';
+import { Button, Modal } from 'flowbite';
 
 function cartButton() {
   return (
     <React.Fragment>
-        <Modal show={false} size="md" popup={true} onClose={onClose} >
+        <Modal show={false} size="md" popup={true} onClose={onClose}>
             <Modal.Header />
                 <Modal.Body>
                 <div className="text-center">
@@ -20,3 +20,5 @@ function cartButton() {
     </React.Fragment>
   );
 }
+
+export default cartButton;

@@ -34,6 +34,35 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
         setTriggerPopUp(false)
     }
 
+    const [medicamentosSeleccionados, setMedicamentosSeleccionados] = useState({});
+    const [carrito, setCarrito] = useState([]);
+    const handleCheckboxChange = (med) => {
+        if(medicamentosSeleccionados[med.id]) {
+            // si el medicamento ya está seleccionado lo eliminamos del carrito
+            setCarrito(carrito.filter((item) => item.id !== med.id));
+        } else {
+            // si el medicamento no está seleccionado lo agregamos al carrito
+            setCarrito([...carrito, med]);
+        }
+
+        // Actualizamos el estado de medicamentos seleccionados
+        setMedicamentosSeleccionados({
+            ...medicamentosSeleccionados,
+            [med.id]: !medicamentosSeleccionados[med.id],
+        });
+
+        // Generamos el archivo JSON actualizado
+        generarJSON();
+    };
+
+    const generarJSON = () => {
+        const medicamentosJSON = JSON.stringify(carrito);
+        // Hacer algo con el archivo JSON generado, como enviarlo a otro componente o descargarlo
+        console.log(medicamentosJSON); // En este ejemplo, imprimimos el JSON en la consola
+        return medicamentosJSON;
+    };
+
+
     return (
         <div>
             <>
@@ -53,7 +82,8 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                         <>
                             <Table.Row className={style.tableRow}>
                                 <Table.Cell className="!p-4">
-                                    <input type="checkbox"></input>
+                                    <input type="checkbox" checked={medicamentosSeleccionados[med.id] || false} 
+                                    onChange={() => handleCheckboxChange(med)} />
                                 </Table.Cell>
                                 <Table.Cell className={style.tableCell}>{med.name}</Table.Cell>
                                 <Table.Cell className={style.tableCell}>{med.act_exc}</Table.Cell>
@@ -63,7 +93,7 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                                 <Table.Cell>
                                     <>
                                         <Button onClick={handleOpenModal}>
-                                            Pedir
+                                            Añadir al Carrito
                                         </Button>
                                         <Modal show={showModal} size="md" popup={true} onClose={handleCloseModal}>
                                             <Modal.Header />

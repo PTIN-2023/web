@@ -31,11 +31,11 @@ export default function Home() {
         <main>
             {/**le pasamos a Layout el valor del componente de la página que está renderizando (Layout se encarga de detectar en que pagina está) */}
             <Layout navBarValue={setSearchValue}>
-            <div className={myordersStyles.mainContainer}>
-            <FilterPrice />
-            {/**Tablamakeorder recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
-            <Tabla data={meds} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>
-            </div>
+                <div className={myordersStyles.mainContainer}>
+                    <FilterPrice />
+                    {/**Tablamakeorder recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
+                    <Tabla data={meds} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>
+                </div>
             </Layout> 
         </main>
         </>
