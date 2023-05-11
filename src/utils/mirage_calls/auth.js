@@ -149,7 +149,17 @@ export function defineMirageAuthRoutes(server) {
     }
 
     const user_entry = schema.users.findBy({ user_email : requestPayload.user_email })
-
+    // const newUserTester = true;
+    // if (newUserTester){
+    //   return { 
+    //     result : 'newuser',
+    //     role : 'none',
+    //     email : request.requestBody.email,
+    //     fullName : request.requestBody.name,
+    //     picture: request.requestBody.picture,
+    //     session_token : 'googleToken'
+    //   }  
+    // }
     // Return
     return { 
       result : 'ok',
