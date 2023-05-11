@@ -79,9 +79,6 @@ export default function Home() {
 
     return (
         <>
-            <button onClick={handleClick}>Enviar pedido</button>
-            <button onClick={handleButtonClick}>Consultar Medicamentos</button>
-
             <Head>
                 <title>TransMedWebPTIN</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -92,17 +89,17 @@ export default function Home() {
                 <Layout navBarValue={setSearchValue}>
 
                     <div className={myordersStyles.mainContainer}>
-                        {/**Tablamakeorder recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
-                        <Row>
-                            <Col xs={3}>
-                                <FilterTable />
-                            </Col>
-                            <Col xs={9}>
-                                <Tabla data={meds} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue} />
-                            </Col>
-                        </Row>
+                    {/**Tablamakeorder recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
+                    <Row>
+                        <Col xs={3}>
+                            <FilterTable />
+                        </Col>
+                        <Col xs={9}>
+                            <Tabla data={meds} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>
+                        </Col>
+                    </Row>
                     </div>
-                </Layout>
+                </Layout> 
             </main>
         </>
     );
