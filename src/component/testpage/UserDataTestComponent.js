@@ -3,6 +3,11 @@ import { Select } from "flowbite-react";
 import useCookie from "../../hooks/useCookie";
 import React from "react";
 import getTextCurrentLocale from '../../utils/getTextCurrentLocale'
+import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest";
+import useSumbitAndFetch from "../../hooks/useSumbitAndFetch";
+import TestPageTabLayout from "./TestPageTabLayout";
+import LabeledTextInputComponent from "./LabeledTextInput";
+import LabeledSelect from "./LabeledSelect"
 
 export default function UserDataTestComponent() {
   // Cookies
@@ -10,64 +15,37 @@ export default function UserDataTestComponent() {
   const [userRoleCookie, setUserRoleCookie] = useCookie('user_role')
   const [userTokenCookie, setUserTokenCookie] = useCookie('user_token')
 
-  return(<>
-    <h1 className="text-3xl font-bold mb-6 text-center">Cookies</h1>
-    <div>
-      <p>userGivenName={userGivenNameCookie}</p>
-      <p>userRole={userRoleCookie}</p>
-      <p>userToken={userTokenCookie}</p>
-    </div>
-
-    <br></br>
-
-    <h1 className="text-3xl font-bold mb-6 text-center">Form</h1>
-    <form className="flex flex-col gap-4">
-    <div>
-      <div className="mb-2 block">
-          <Label
-          htmlFor="user_given_name"
-          value={getTextCurrentLocale('user_given_name')}
-          />
-      </div>
-      <TextInput
-          id="user_given_name"
-          type="text"
-          required={true}
-          onChange={(e) => setUserGivenNameCookie(e.target.value)}
+  // Define the HTML/React code
+  return(
+    <TestPageTabLayout 
+      title="Cancel/Sumbit Order API test"
+      cookiesToShow={{
+        'user_given_name' : userGivenNameCookie,
+        'user_role' : userRoleCookie,
+        'user_token' : userTokenCookie
+      }}
+    >
+      <LabeledTextInputComponent
+        id="user_given_name"
+        label_text={getTextCurrentLocale('user_given_name')}
+        input_type="text"
+        required={true}
+        on_change={(e) => setUserGivenNameCookie(e.target.value)}
       />
-    </div>
-    <div>
-      <div className="mb-2 block">
-        <Label
-          htmlFor="user_role"
-          value={getTextCurrentLocale('user_role')}
-        />
-      </div>
-      <Select 
-        id="user_role" 
-        required={false}
-        onChange={(e) => setUserRoleCookie(e.target.value)}
-      >
-        <option>         </option>
-        <option> patient </option>
-        <option> doctor  </option>
-        <option> manager </option>
-      </Select>
-    </div>
-    <div>
-      <div className="mb-2 block">
-        <Label
-          htmlFor="token1"
-          value={getTextCurrentLocale('user_token')}
-        />
-      </div>
-      <TextInput
-        id="token1"
-        type="text"
-        required={false}
-        onChange={(e) => setUserTokenCookie(e.target.value)}
+      <LabeledSelect
+        id="user_role"
+        label_text={getTextCurrentLocale('user_role')}
+        required={true}
+        options={['', 'patient', 'doctor', 'manager']}
+        on_change={(e) => setUserRoleCookie(e.target.value)}
       />
-    </div>
-  </form>
-  </>)
+      <LabeledTextInputComponent
+        id="user_token"
+        label_text={getTextCurrentLocale('user_token')}
+        input_type="text"
+        required={true}
+        on_change={(e) => setUserTokenCookie(e.target.value)}
+      />
+    </TestPageTabLayout>
+  )
 }
