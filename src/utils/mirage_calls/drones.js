@@ -2,27 +2,56 @@ import { getNextLatitudeAndLongitude } from "../sphere_movement"
 
 export function seedMirageDrones(server) {
   server.create("drone", {
-    make: "DJI",
-    model: "Mavic Air 2",
-    pos_latitude: 41.2209492,
-    pos_longitude: 1.7298172,
-    objective_latitude: 41.2077096,
-    objective_longitude: 1.7330467,
-    cargo: [
-      { name: 'ibuprofen' }
-    ]
-  })
+    id_dron: 1,
+    battery: 100,
+    status: 5,
+    autonomy: 30,
+    capacity: 1,
+    last_maintenance_date: "2023-05-10",
+    id_pack: 100,
+    id_beehive: 1,
+    location_in: {
+      latitude: 41.2209492,
+      longitude: 1.7298172,
+      altitude: 0,
+    },
+    location_act: {
+      latitude: 41.2209492,
+      longitude: 1.7298172,
+      altitude: 0,
+    },
+    location_end: {
+      latitude: 41.2077096,
+      longitude: 1.7330467,
+      altitude: 0,
+    },
+  });
+
   server.create("drone", {
-    make: "Parrot",
-    model: "Anafi USA",
-    pos_latitude: 41.2209492,
-    pos_longitude: 1.7298172,
-    objective_latitude: 41.241707,
-    objective_longitude: 1.7342994,
-    cargo: [
-      { name: 'ibuprofen' }
-    ]
-  })
+    id_dron: 2,
+    battery: 80,
+    status: 5,
+    autonomy: 25,
+    capacity: 1,
+    last_maintenance_date: "2023-05-08",
+    id_pack: 102,
+    id_beehive: 2,
+    location_in: {
+      latitude: 41.2209492,
+      longitude: 1.7298172,
+      altitude: 0,
+    },
+    location_act: {
+      latitude: 41.2209492,
+      longitude: 1.7298172,
+      altitude: 0,
+    },
+    location_end: {
+      latitude: 41.241707,
+      longitude: 1.7342994,
+      altitude: 0,
+    },
+  });
 }
 
 export function defineMirageDroneRoutes(server) {
@@ -33,7 +62,7 @@ export function defineMirageDroneRoutes(server) {
     const drones = schema.drones.all()
     makeAllDronesApproachDestiny(schema)
 
-    return drones
+    return {"response": "ok", "drones": drones.models}
   })
 
   // Endpoint which returns the positions of all the drones
@@ -42,14 +71,14 @@ export function defineMirageDroneRoutes(server) {
 
     const filteredDrones = schema.drones.all().models.map(drone => {
       return {
-        "id": drone.id,
-        "pos_latitude": drone.pos_latitude,
-        "pos_longitude": drone.pos_longitude
+        "id_dron": drone.id_dron,
+        "latitude": drone.location_act.latitude,
+        "longitude": drone.location_act.pos_longitude
       };
     });
     makeAllDronesApproachDestiny(schema)
 
-    return filteredDrones
+    return {"response": "ok", "drones": filteredDrones}
   })
 }
 
@@ -58,8 +87,8 @@ function makeAllDronesApproachDestiny(schema) {
 
   schema.drones.all().models.map(drone => {
     const [new_latitude, new_longitude] = getNextLatitudeAndLongitude(
-      drone.pos_latitude, drone.pos_longitude,
-      drone.objective_latitude, drone.objective_longitude,
+      drone.location_act.latitude, drone.location_act.longitude,
+      drone.location_end.latitude, drone.location_end.longitude,
       distanceToMove
     )
 
@@ -67,8 +96,10 @@ function makeAllDronesApproachDestiny(schema) {
     schema.db.drones.update(
       drone.id,
       {
-        pos_latitude: new_latitude,
-        pos_longitude: new_longitude
+        location_act : {
+          latitude: new_latitude,
+          longitude: new_longitude
+        }
       }
     )
   });

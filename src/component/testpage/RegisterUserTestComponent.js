@@ -50,7 +50,7 @@ export default function  RegisterUserTestComponent({apiEndpoint}) {
   // Define the HTML/React code
   return(
     <TestPageTabLayout 
-      title="Cancel/Sumbit Order API test" 
+      title="Register API test" 
       onSubmit={sumbitAndFetch}
       stringRequest={stringRequest}
       stringResponse={stringResponse}

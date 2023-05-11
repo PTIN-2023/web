@@ -42,7 +42,7 @@ export default function ListMedicinesTestComponent({apiEndpoint}) {
   // Define the HTML/React code
   return(
   <TestPageTabLayout 
-      title="Cancel/Sumbit Order API test" 
+      title="List available medicines API test" 
       onSubmit={sumbitAndFetch}
       stringRequest={stringRequest}
       stringResponse={stringResponse}

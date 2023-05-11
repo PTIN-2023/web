@@ -28,7 +28,7 @@ export default function CancelConfirmOrderTestComponent({apiEndpoint}) {
   // Define the HTML/React code
   return(
     <TestPageTabLayout 
-      title="Cancel/Sumbit Order API test" 
+      title="Cancel/Confirm Order API test" 
       onSubmit={sumbitAndFetch}
       stringRequest={stringRequest}
       stringResponse={stringResponse}

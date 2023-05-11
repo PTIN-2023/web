@@ -82,7 +82,7 @@ export default function Home(props) {
     if(iRC.cars != undefined){ //if undefined we have no data
       for(let i = 0; i < iRC.cars.length;++i){
         const response = await fetch(
-          `https://api.mapbox.com/directions/v5/mapbox/driving/${iRC.cars[i].pos_longitude},${iRC.cars[i].pos_latitude};${iRC.cars[i].objective_longitude},${iRC.cars[i].objective_latitude}?geometries=geojson&alternatives=true&access_token=${mapboxgl.accessToken}`
+          `https://api.mapbox.com/directions/v5/mapbox/driving/${iRC.cars[i].location_act.longitude},${iRC.cars[i].location_act.latitude};${iRC.cars[i].location_end.longitude},${iRC.cars[i].location_end.latitude}?geometries=geojson&alternatives=true&access_token=${mapboxgl.accessToken}`
         );
         const data = await response.json();
         // Agrega la línea para el recorrido
@@ -151,7 +151,7 @@ export default function Home(props) {
           type: 'Feature',
           geometry: {
             type: 'Point',
-            coordinates: [cars.pos_longitude, cars.pos_latitude],
+            coordinates: [cars.location_act.longitude, cars.location_act.latitude],
           },
           properties: {
             title: 'Coche',

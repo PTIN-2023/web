@@ -56,7 +56,7 @@ export default function GoogleOAuthTestcomponent({apiEndpoint}) {
   // Define the HTML/React code
   return(
     <TestPageTabLayout 
-      title="Check prescription API test" 
+      title="Google OAuth API test" 
       onSubmit={sumbitAndFetch}
       stringRequest={stringRequest}
       stringResponse={stringResponse}

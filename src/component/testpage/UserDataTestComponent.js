@@ -18,7 +18,7 @@ export default function UserDataTestComponent() {
   // Define the HTML/React code
   return(
     <TestPageTabLayout 
-      title="Cancel/Sumbit Order API test"
+      title="User data API test"
       cookiesToShow={{
         'user_given_name' : userGivenNameCookie,
         'user_role' : userRoleCookie,

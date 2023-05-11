@@ -2,42 +2,76 @@ import { getNextLatitudeAndLongitude } from "../sphere_movement"
 
 export function seedMirageCars(server) {
   server.create("car", {
-    make: "Toyota",
-    model: "Camry",
-    pos_latitude: 41.2209492,
-    pos_longitude: 1.7298172,
-    objective_latitude: 41.2280427,
-    objective_longitude: 1.7350207,
-    cargo: [
-      { name: 'ibuprofeno' },
-      { name: 'ibuprofeno' },
-      { name: 'ibuprofeno' }
-    ]
+    id_car: 1,
+    license_plate: "ABC123",
+    battery: 75,
+    status: 1,
+    autonomy: 120,
+    capacity: 3,
+    last_maintenance_date: "2023-04-15",
+    packages: [
+      { name: 'ibuprofen' },
+      { name: 'ibuprofen' },
+      { name: 'ibuprofen' }
+    ],
+    beehive: "HiveA",
+    location_in: {
+      latitude: 41.2209492,
+      longitude: 1.7298172
+    },
+    location_act: {
+      latitude: 41.2209492,
+      longitude: 1.7298172
+    },
+    location_end: {
+      latitude: 41.2280427,
+      longitude: 1.7350207
+    }
   })
   server.create("car", {
-    make: "Honda",
-    model: "Civic",
-    pos_latitude: 41.2229666,
-    pos_longitude: 1.7210832,
-    objective_latitude: 41.2583,
-    objective_longitude: 1.7651,
-    cargo: [
-      { name: 'ibuprofeno' },
-      { name: 'ibuprofeno' },
-      { name: 'ibuprofeno' }
-    ]
+    id_car: 2,
+    license_plate: "DEF456",
+    battery: 90,
+    status: 2,
+    autonomy: 180,
+    capacity: 5,
+    last_maintenance_date: "2023-04-25",
+    packages: [
+      { name: 'paracetamol' },
+      { name: 'paracetamol' },
+      { name: 'paracetamol' },
+      { name: 'ibuprofen' },
+      { name: 'ibuprofen' }
+    ],
+    beehive: "HiveB",
+    location_in: {
+      latitude: 41.2229666,
+      longitude: 1.7210832
+    },
+    location_act: {
+      latitude: 41.2229666,
+      longitude: 1.7210832
+    },
+    location_end: {
+      latitude: 41.2583,
+      longitude: 1.7651
+    }
   })
 }
+
 
 export function defineMirageCarRoutes(server) {
   // Endpoint which returns the all the information of all the cars
   server.post("/api/cars_full_info", (schema, request) => {
     console.log("Received cars_full_info req with:" + request.requestBody)
 
-    const cars = schema.cars.all()
-    makeAllCarsApproachDestiny(schema, '100')
+    const cars = schema.cars.all().models
+    makeAllCarsApproachDestiny(schema)
 
-    return cars
+    return {
+      response: 'ok',
+      cars
+    }
   })
 
   // Endpoint which returns the positions of all the cars
@@ -46,14 +80,17 @@ export function defineMirageCarRoutes(server) {
 
     const filteredCars = schema.cars.all().models.map(car => {
       return {
-        "id": car.id,
-        "pos_latitude": car.pos_latitude,
-        "pos_longitude": car.pos_longitude
+        "id_car": car.id_car,
+        "pos_latitude": car.location_act.latitude,
+        "pos_longitude": car.location_act.longitude
       };
     });
     makeAllCarsApproachDestiny(schema)
 
-    return filteredCars
+    return {
+      response: 'ok',
+      cars: filteredCars
+    }
   })
 }
 
@@ -62,8 +99,8 @@ function makeAllCarsApproachDestiny(schema) {
 
   schema.cars.all().models.map(car => {
     const [new_latitude, new_longitude] = getNextLatitudeAndLongitude(
-      car.pos_latitude, car.pos_longitude,
-      car.objective_latitude, car.objective_longitude,
+      car.location_act.latitude, car.location_act.longitude,
+      car.location_end.latitude, car.location_end.longitude,
       distanceToMove
     )
 
@@ -71,8 +108,10 @@ function makeAllCarsApproachDestiny(schema) {
     schema.db.cars.update(
       car.id,
       {
-        pos_latitude: new_latitude,
-        pos_longitude: new_longitude
+        location_act : {
+          latitude: new_latitude,
+          longitude: new_longitude
+        }
       }
     )
   });

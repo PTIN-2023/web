@@ -15,19 +15,19 @@ export default function TestPageTabLayout({ children, title, onSubmit, stringReq
     <br/>
   
     {stringRequest && <>
-      <h1 className="text-3xl font-bold mb-6 text-center">Request</h1>
-      {stringRequest}
+      <h2 className="text-3xl font-bold mb-6 text-center">Request</h2>
+      <pre>{stringRequest}</pre>
       <br/><br/>
     </>}
 
     {stringResponse && <>
-      <h1 className="text-3xl font-bold mb-6 text-center">Response received</h1>
-      {stringResponse}
+      <h2 className="text-3xl font-bold mb-6 text-center">Response received</h2>
+      <pre>{stringResponse}</pre>
       <br/>
     </>}
 
     {cookiesToShow && <>
-      <h1 className="text-3xl font-bold mb-6 text-center">Cookies values</h1>
+      <h2 className="text-3xl font-bold mb-6 text-center">Cookies values</h2>
       {Object.entries(cookiesToShow).map(([key, value]) => (
         <p key={key}>
           <strong>{key}: </strong>

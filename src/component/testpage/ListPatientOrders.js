@@ -28,7 +28,7 @@ export default function ListPatientOrders({apiEndpoint}) {
   // Define the HTML/React code
   return(
     <TestPageTabLayout 
-      title="Cancel/Sumbit Order API test" 
+      title="List Patient Orders API test" 
       onSubmit={sumbitAndFetch}
       stringRequest={stringRequest}
       stringResponse={stringResponse}

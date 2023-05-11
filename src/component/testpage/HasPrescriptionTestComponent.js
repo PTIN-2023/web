@@ -26,7 +26,7 @@ export default function HasPrescriptionTestComponent({apiEndpoint}) {
   // Define the HTML/React code
   return(
     <TestPageTabLayout 
-      title="Check prescription API test" 
+      title="Has prescription API test" 
       onSubmit={sumbitAndFetch}
       stringRequest={stringRequest}
       stringResponse={stringResponse}

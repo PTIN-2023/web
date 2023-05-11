@@ -21,7 +21,7 @@ export default function tokenCheckTestComponent({apiEndpoint}) {
   // Define the HTML/React code
   return(
     <TestPageTabLayout 
-      title="Cancel/Sumbit Order API test" 
+      title="Token check API test" 
       onSubmit={sumbitAndFetch}
       stringRequest={stringRequest}
       stringResponse={stringResponse}

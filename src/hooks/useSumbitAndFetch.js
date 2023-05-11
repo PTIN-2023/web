@@ -28,7 +28,7 @@ export default function useSumbitAndFetch(request, url, evaluateResponse) {
         e.preventDefault();
     
         const res = await fetchAndExtractBody(url, request);
-        setStringResponse(JSON.stringify(res))
+        setStringResponse(JSON.stringify(res, null, 2))
 
         if(evaluateResponse)
             evaluateResponse(res)
