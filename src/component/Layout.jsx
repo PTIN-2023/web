@@ -8,7 +8,7 @@ import MyOrdersSearch from "./MyOrdersSearch"
 import useCookie from "../hooks/useCookie";
 import SideBarPagesNavigation from "../component/SideBarPageNavigation"
 import getTextCurrentLocale from "../utils/getTextCurrentLocale";
-import ShopCartButton from "./shopCartButton";
+import CartButton from "./shopCartButton";
 
 // Main Component
 
@@ -40,13 +40,6 @@ export default function Layout({ children, navBarValue}) {
           {currentPage == "/myorders" || currentPage == "/makeorder" && <MyOrdersSearch setSearchValue={navBarValue}/>}
           {/**aqui hay que añadir el componente que corresponde a cada página si asi se requiere */}
         </div>
-        {/** para cuando el botón del carrito esté implementado
-         * {currentPage == "/makeorder" && 
-         *    <div>
-         *        <ShopCartButton />
-         *    </div>
-         * }
-         */}
         <Dropdown label={getTextCurrentLocale('language')} inline={true}>
           <Dropdown.Item onClick={() => { setLocale('es')}}>{getTextCurrentLocale('spanish')}</Dropdown.Item>
           <Dropdown.Item onClick={() => { setLocale('ca')}}>{getTextCurrentLocale('catalan')}</Dropdown.Item>

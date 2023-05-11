@@ -79,44 +79,42 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                     </Table.Head>
                     <Table.Body className="divide-y">
                     {slice.map((med) =>
-                        <>
-                            <Table.Row className={style.tableRow}>
-                                <Table.Cell className="!p-4">
-                                    <input type="checkbox" checked={medicamentosSeleccionados[med.id] || false} 
-                                    onChange={() => handleCheckboxChange(med)} />
-                                </Table.Cell>
-                                <Table.Cell className={style.tableCell}>{med.name}</Table.Cell>
-                                <Table.Cell className={style.tableCell}>{med.act_exc}</Table.Cell>
-                                <Table.Cell className={style.tableCell}>{med.pvp}</Table.Cell>
-                                <Table.Cell className={style.tableCell}>{med.dosis}</Table.Cell>
-                                <Table.Cell className={style.tableCell}>{med.detalles}</Table.Cell>
-                                <Table.Cell>
-                                    <>
-                                        <Button onClick={handleOpenModal}>
-                                            Añadir al Carrito
-                                        </Button>
-                                        <Modal show={showModal} size="md" popup={true} onClose={handleCloseModal}>
-                                            <Modal.Header />
-                                            <Modal.Body>
-                                                <div className="text-center">
-                                                    <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                                        Seguro que quieres comprar este medicamento ?
-                                                    </h3>
-                                                    <div className="flex justify-center gap-4">
-                                                        <Button color="green" onClick={() => { setTriggerPopUp(true); setShowModal(false); }}>
-                                                            Si, estoy segur@
-                                                        </Button>
-                                                        <Button color="failure" onClick={handleCloseModal}>
-                                                            No, cancelar
-                                                        </Button>
-                                                    </div>
+                        <Table.Row className={style.tableRow} >
+                            <Table.Cell className="!p-4">
+                                <input type="checkbox" checked={medicamentosSeleccionados[med.id] || false} 
+                                onChange={() => handleCheckboxChange(med)} />
+                            </Table.Cell>
+                            <Table.Cell className={style.tableCell} key="{med}">{med.name}</Table.Cell>
+                            <Table.Cell className={style.tableCell}>{med.act_exc}</Table.Cell>
+                            <Table.Cell className={style.tableCell}>{med.pvp}</Table.Cell>
+                            <Table.Cell className={style.tableCell}>{med.dosis}</Table.Cell>
+                            <Table.Cell className={style.tableCell}>{med.detalles}</Table.Cell>
+                            <Table.Cell>
+                                <>
+                                    <Button onClick={handleOpenModal}>
+                                        Añadir al Carrito
+                                    </Button>
+                                    <Modal show={showModal} size="md" popup={true} onClose={handleCloseModal}>
+                                        <Modal.Header />
+                                        <Modal.Body>
+                                            <div className="text-center">
+                                                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                                    Seguro que quieres comprar este medicamento ?
+                                                </h3>
+                                                <div className="flex justify-center gap-4">
+                                                    <Button color="green" onClick={() => { setTriggerPopUp(true); setShowModal(false); }}>
+                                                        Si, estoy segur@
+                                                    </Button>
+                                                    <Button color="failure" onClick={handleCloseModal}>
+                                                        No, cancelar
+                                                    </Button>
                                                 </div>
-                                            </Modal.Body>
-                                        </Modal>
-                                    </>                         
-                                </Table.Cell>
-                            </Table.Row>
-                        </>
+                                            </div>
+                                        </Modal.Body>
+                                    </Modal>
+                                </>                         
+                            </Table.Cell>
+                        </Table.Row>
                     )}
                     </Table.Body>
                 </Table>
