@@ -1,4 +1,4 @@
-import { useGoogleLogin } from '@react-oauth/google';
+import hasExpectedFields from '../hasExpectedFields'
 
 export function seedMirageAuth(server) {
   server.create("user", {
@@ -189,14 +189,4 @@ export function defineMirageAuthRoutes(server) {
       })
     }
   })
-}
-
-function hasExpectedFields(object, expectedFields) {
-  var hasAllFields = true
-
-  expectedFields.forEach(field =>
-    hasAllFields = hasAllFields && object.hasOwnProperty(field)
-  )
-
-  return hasAllFields
 }

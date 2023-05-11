@@ -9,6 +9,8 @@ import RegisterUserTestComponent from "../component/testpage/RegisterUserTestCom
 import LoginUserTestComponent from "../component/testpage/LoginUserTestComponent";
 import TokenCheckTestComponent from "../component/testpage/TokenCheckTestComponent";
 import GoogleOAuthTestComponent from "../component/testpage/GoogleOAuthTestComponent"
+import ListMedicinesTestComponent from "../component/testpage/ListMedicinesTestComponent"
+import HasPrescriptionTestComponent from "../component/testpage/HasPrescriptionTestComponent";
 import {GoogleOAuthProvider} from '@react-oauth/google';
 
 // Temporal testing page to make sure the env variables + api requests work as 
@@ -49,36 +51,6 @@ function EnviromentVarsComponent({props}) {
 }
 
 
-
-function AvailableMedicinesComponent({apiEndpoint}) {
-  const [response, setResponse] = useState('');
-
-  async function apiCall() {
-    return fetch(apiEndpoint+"/api/medicines_list", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({})
-    }).then(data => data.json())
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setResponse(JSON.stringify(await apiCall()))
-  };
-
-  return(<>
-  <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-  <Button type="submit">
-    AskForMedicineList
-  </Button>
-  </form>
-  <br></br>
-  {response}
-  <br></br>
-  </>)
-}
 
 function CarPositionComponent({apiEndpoint}) {
   const [userToken,] = useCookie("user_token")
@@ -186,7 +158,10 @@ export default function Home(props) {
             </GoogleOAuthProvider>
           </Tabs.Item>
           <Tabs.Item title="Get available medicines API test">
-            <AvailableMedicinesComponent apiEndpoint={props.apiEndpoint}/>
+            <ListMedicinesTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Check has prescription API test">
+            <HasPrescriptionTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
           <Tabs.Item title="Get car pos API test">
             <CarPositionComponent apiEndpoint={props.apiEndpoint}/>
