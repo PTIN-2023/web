@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Layout from "../component/Layout"
 import * as env_config from "../utils/env_config"
-import Map, {Source, Layer} from "react-map-gl"
+import Map, {Source, Layer, Popup} from "react-map-gl"
 import mapboxgl from 'mapbox-gl';
 import React, { useState, useEffect } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -33,7 +33,7 @@ export default function Home(props) {
   mapboxgl.accessToken = 'pk.eyJ1IjoiYWVrc3AiLCJhIjoiY2xmd2dtbDNhMGU4bjNjbWkwa2VqbzhhciJ9.LYgWVHhGLoY9T-ix_qC73g'; // GIT IGNORE !! 
 
   const select = 0
-  const [infoRouteCar, setinfoRouteCar] = React.useState(null); // usar estado para almacenar infoRouteCar
+  const [infoRouteCar, setinfoRouteCar] = React.useState([]); // usar estado para almacenar infoRouteCar
 
   async function getCarRoute(props) {
     try {
@@ -79,10 +79,10 @@ export default function Home(props) {
   // Obtener la ruta desde la API Directions de Mapbox
   const [route, setRoute] = React.useState([]); // usar estado para almacenar route
   async function fetchData(iRC) {
-    if(iRC != null){ //if undefined we have no data
-      for(let i = 0; i < infoRouteCar.cars.length;++i){
+    if(iRC.cars != undefined){ //if undefined we have no data
+      for(let i = 0; i < iRC.cars.length;++i){
         const response = await fetch(
-          `https://api.mapbox.com/directions/v5/mapbox/driving/${iRC.cars[i].pos_longitude},${iRC.cars[i].pos_latitude};${iRC.cars[i].objective_longitude},${iRC.cars[i].objective_latitude}?geometries=geojson&alternatives=true&access_token=${mapboxgl.accessToken}`
+          `https://api.mapbox.com/directions/v5/mapbox/driving/${iRC.cars[i].location_act.longitude},${iRC.cars[i].location_act.latitude};${iRC.cars[i].location_end.longitude},${iRC.cars[i].location_end.latitude}?geometries=geojson&alternatives=true&access_token=${mapboxgl.accessToken}`
         );
         const data = await response.json();
         // Agrega la línea para el recorrido
@@ -113,58 +113,77 @@ export default function Home(props) {
     }
   }
   
-  const [routeGeojson, setRouteGeojson] = useState(null)
+  const [routeGeojson, setRouteGeojson] = useState([])
 
-  useEffect(() => {
-    console.log(route)
-    setRouteGeojson({
+  function DoRouteGeojson(route) {
+    if (route[0] === undefined) return;
+    
+    const routeFeatures = route.map((coordinates) => ({
+      type: 'Feature',
+      geometry:
+        coordinates
+    }));
+  
+    const routeCollection = {
       type: 'FeatureCollection',
-      features: [{
-        type: "Feature",
-        geometry: route[select]
-      }]
-    })
+      features: routeFeatures
+    };
+  
+    setRouteGeojson([routeCollection]);
+  }
+  
+  useEffect(() => {
+    DoRouteGeojson(route);
   }, [route]);
   
   const [pointsGeojson, setPointsGeojson] = useState([])
+//#############################################
 
-  useEffect(() => {
-    if(infoRouteCar != null){
-      const iterateCars = () => {
-        for(let i = 0; i <infoRouteCar.cars.length; ++i){
-          console.log("Length:" + infoRouteCar.cars.length)
-          setPointsGeojson(pointsGeojson => [...pointsGeojson, {
-            type: 'FeatureCollection',
-            features: [
-              {
-                type: 'Feature',
-                geometry: {
-                  type: 'Point',
-                  coordinates: [infoRouteCar.cars[i].pos_longitude, infoRouteCar.cars[i].pos_latitude],
-                },
-                properties: {
-                  title: 'Coche',
-                  icon: 'car',
-                },
-              },
-              {
-                type: 'Feature',
-                geometry: {
-                  type: 'Point',
-                  coordinates: [infoRouteCar.cars[i].objective_longitude, infoRouteCar.cars[i].objective_latitude],
-                },
-                properties: {
-                  title: 'Tu destino',
-                  icon: 'marker',
-                },
-              },
-            ],
-          }]);
-        }
-      };
+//########################################
+
+  function DoPointsGeojson(iRC){
+    if(iRC == null) return;
+    if(iRC.cars == null) return;
+    iRC = [iRC]
+    console.log("iRC")
+    console.log(iRC)
+    const pointsFeatures = iRC[0].cars.map((cars) => ({
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [cars.location_act.longitude, cars.location_act.latitude],
+          },
+          properties: {
+            title: 'Coche',
+            icon: 'car',
+          }
+    }))
+
+    const pointsENDFeatures = iRC[0].cars.map((cars) => ({
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [cars.objective_longitude, cars.objective_latitude],
+      },
+      properties: {
+        title: 'Destino',
+        icon: 'marker',
+      }
+    }))
+
+    const combinedFeatures = [...pointsFeatures, ...pointsENDFeatures];
+
+    const pointsCollection = {
+      type: 'FeatureCollection',
+      features: combinedFeatures
       
-      iterateCars();
-    }
+    };
+   
+    setPointsGeojson(pointsGeojson => [...pointsGeojson, pointsCollection])
+   
+  }
+  useEffect(() => {
+    DoPointsGeojson(infoRouteCar);    
   }, [infoRouteCar]);
 
   const points_layer = {
@@ -236,17 +255,16 @@ export default function Home(props) {
             style={{width: "100%", height: "100%" }}
             mapStyle="mapbox://styles/aeksp/clg9out5b000i01l0p2yiq26g"
           >
-          <Source id="my-route" type="geojson" data={routeGeojson}>
+          <Source id="my-route" type="geojson" data={routeGeojson[0]}>
             <Layer {...route_layer}/>
           </Source>
-          <Source id="my-points" type="geojson" data={pointsGeojson[select]}>
+          <Source id="my-points" type="geojson" data={pointsGeojson[0]}>
             <Layer {...points_layer}/>
           </Source>
           <Source id="my-store" type="geojson" data={storeGeojson}>
             <Layer {...store_layer}/>
           </Source>
           </Map>
-          
         </Layout>
       </main>
     </>

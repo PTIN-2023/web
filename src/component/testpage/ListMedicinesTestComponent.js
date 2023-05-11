@@ -1,11 +1,14 @@
-import {useState, useEffect} from "react";
-import {Button, Label, TextInput} from 'flowbite-react'
+import {useState} from "react";
 import React from "react";
 import useCookie from "../../hooks/useCookie";
+import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest";
+import useSumbitAndFetch from "../../hooks/useSumbitAndFetch";
+import TestPageTabLayout from "./TestPageTabLayout";
+import LabeledTextInputComponent from "./LabeledTextInput";
 
 export default function ListMedicinesTestComponent({apiEndpoint}) {
   // Cookies
-  const [userTokenCookie, setUserTokenCookie] = useCookie('user_token')
+  const [userTokenCookie, ] = useCookie('user_token')
 
   // Form values
   const [medsPerPage, setMedsPerPage] = useState('');
@@ -17,12 +20,8 @@ export default function ListMedicinesTestComponent({apiEndpoint}) {
   const [medForm, setMedForm] = useState(['pill', 'cream', 'powder', 'liquid']);
   const [typeOfAdminst, setTypeOfAdminst] = useState(['oral', 'topical', 'inhalation', 'ophthalmic']);
   
-  // Call values
-  const [request, setRequest] = useState('none');
-  const [response, setResponse] = useState('none');
-
-  // Update request accordingly with the form values
-  useEffect(() => {setRequest({
+  // Request
+  const stringRequest = usePrepareBodyRequest({
     "session_token" : userTokenCookie,
     "filter" : {
         "meds_per_page" : medsPerPage,
@@ -34,170 +33,77 @@ export default function ListMedicinesTestComponent({apiEndpoint}) {
         "form" : medForm,
         "type_of_administration" : typeOfAdminst
     }
-  })}, [userTokenCookie, medsPerPage, page, medName, pvpMin, pvpMax, prescriptionNeeded, medForm, typeOfAdminst])
-
-  // Define the api call based on the state
-  async function apiCall() {
-    return fetch(apiEndpoint+"/api/list_available_medicines", {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(request)
-    }).then(data => data.json())
-  }
-  
-  // Define the action of the sumbit button
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const res = await apiCall();
-    setResponse(JSON.stringify(res))
-  };
-
+  })
+  const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
+    stringRequest,
+    apiEndpoint+"/api/list_available_medicines"
+  )
 
   // Define the HTML/React code
-  return(<>
-    <h1 className="text-3xl font-bold mb-6 text-center">List medicines test</h1>
-    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-      <div>
-      <div className="mb-2 block">
-          <Label
-          htmlFor="meds_per_page"
-          value={'Meds per page'}
-          />
-      </div>
-      <TextInput
-          id="meds_per_page"
-          type="text"
-          required={true}
-          value={JSON.stringify(medsPerPage)}
-          onChange={(e) => setMedsPerPage((e.target.value))}
-      />
-      </div>
-      <div>
-      <div className="mb-2 block">
-          <Label
-          htmlFor="page"
-          value={'Page'}
-          />
-      </div>
-      <TextInput
-          id="page"
-          type="text"
-          required={true}
-          value={JSON.stringify(page)}
-          onChange={(e) => setPage((e.target.value))}
-      />
-      </div>
-      <div>
-      <div className="mb-2 block">
-          <Label
-          htmlFor="med_name"
-          value={'med_name'}
-          />
-      </div>
-      <TextInput
-          id="page"
-          type="text"
-          required={true}
-          value={JSON.stringify(medName)}
-          onChange={(e) => setMedName((e.target.value))}
-      />
-      </div>
-      <div>
-      <div className="mb-2 block">
-          <Label
-          htmlFor="pvp_min"
-          value={'pvp_min'}
-          />
-      </div>
-      <TextInput
-          id="page"
-          type="text"
-          required={true}
-          value={JSON.stringify(pvpMin)}
-          onChange={(e) => setPvpMin((e.target.value))}
-      />
-      </div>
-      <div>
-      <div className="mb-2 block">
-          <Label
-          htmlFor="pvp_max"
-          value={'pvp_max'}
-          />
-      </div>
-      <TextInput
-          id="page"
-          type="text"
-          required={true}
-          value={JSON.stringify(pvpMax)}
-          onChange={(e) => setPvpMax((e.target.value))}
-      />
-      </div>
-      <div>
-      <div className="mb-2 block">
-          <Label
-          htmlFor="prescription_needed"
-          value={'prescription_needed'}
-          />
-      </div>
-      <TextInput
-          id="page"
-          type="text"
-          required={true}
-          value={JSON.stringify(prescriptionNeeded)}
-          onChange={(e) => setPrescriptionNeeded(JSON.parse(e.target.value))}
-      />
-      </div>
-      <div>
-      <div className="mb-2 block">
-          <Label
-          htmlFor="form"
-          value={'form'}
-          />
-      </div>
-      <TextInput
-          id="page"
-          type="text"
-          required={true}
-          value={JSON.stringify(medForm)}
-          onChange={(e) => setMedForm(JSON.parse(e.target.value))}
-      />
-      </div>
-      <div>
-      <div className="mb-2 block">
-          <Label
-          htmlFor="type_of_administration"
-          value={'type_of_administration'}
-          />
-      </div>
-      <TextInput
-          id="page"
-          type="type_of_administration"
-          required={true}
-          value={JSON.stringify(typeOfAdminst)}
-          onChange={(e) => setTypeOfAdminst(JSON.parse(e.target.value))}
-      />
-      </div>
-      <Button type="submit">
-      Submit
-      </Button>
-    </form>
-    <br/>
-  
-    <h1 className="text-3xl font-bold mb-6 text-center">Request</h1>
-    {JSON.stringify(request)}
-  
-    <br/>
-  
-    <h1 className="text-3xl font-bold mb-6 text-center">Response received</h1>
-    {response}
-    
-    <br/>  
-    
-    <h1 className="text-3xl font-bold mb-6 text-center">Cookies values</h1>
-      <p>user_token = {userTokenCookie}</p>  
-    <br/>
-    </>)
+  return(
+  <TestPageTabLayout 
+      title="List available medicines API test" 
+      onSubmit={sumbitAndFetch}
+      stringRequest={stringRequest}
+      stringResponse={stringResponse}
+      cookiesToShow={{'user_token' : userTokenCookie}}
+  >
+    <LabeledTextInputComponent
+      id="meds_per_page"
+      label_text="Meds per page"
+      input_type="text"
+      required={true}
+      on_change={(e) => setMedsPerPage(e.target.value)}
+      value={medsPerPage}
+    />
+    <LabeledTextInputComponent
+      id="page"
+      label_text="Page"
+      input_type="text"
+      required={true}
+      on_change={(e) => setPage(e.target.value)}
+      value={page}
+    />
+    <LabeledTextInputComponent
+      id="med_name"
+      label_text="Medicine Name"
+      input_type="text"
+      required={true}
+      on_change={(e) => setMedName(e.target.value)}
+      value={medName}
+    />
+    <LabeledTextInputComponent
+      id="pvp_min"
+      label_text="pvp_min"
+      input_type="text"
+      required={true}
+      on_change={(e) => setPvpMin(e.target.value)}
+      value={pvpMin}
+    />
+    <LabeledTextInputComponent
+      id="pvp_max"
+      label_text="pvp_max"
+      input_type="text"
+      required={true}
+      on_change={(e) => setPvpMax(e.target.value)}
+      value={pvpMax}
+    />
+    <LabeledTextInputComponent
+      id="prescription_needed"
+      label_text="prescription_needed"
+      input_type="text"
+      required={true}
+      on_change={(e) => setPrescriptionNeeded(e.target.value.split(','))}
+      value={prescriptionNeeded}
+    />
+    <LabeledTextInputComponent
+      id="type_of_administration"
+      label_text="type_of_administration"
+      input_type="text"
+      required={true}
+      on_change={(e) => setTypeOfAdminst(e.target.value.split(','))}
+      value={typeOfAdminst}
+    />
+  </TestPageTabLayout>
+  )
 }
