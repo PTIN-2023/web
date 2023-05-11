@@ -1,9 +1,9 @@
 import hasExpectedFields from '../hasExpectedFields'
 
-export function seedMirageListOrders(server) {
+export function seedMirageMakeOrders(server) {
   server.create("medicine", {
     medicine_identifier: '0',
-    medicine_image_url: '',
+    medicine_image_url: 'https://picsum.photos/200',
     medicine_name: 'Ibuprofeno',
     excipient: 'Sorbitol (E-420)',
     pvp: 4,
@@ -14,7 +14,7 @@ export function seedMirageListOrders(server) {
   })
   server.create("medicine", {
     medicine_identifier: '1',
-    medicine_image_url: '',
+    medicine_image_url: 'https://picsum.photos/200',
     medicine_name: 'medicine1',
     excipient: 'excipient1',
     pvp: '1',
@@ -25,7 +25,7 @@ export function seedMirageListOrders(server) {
   })
   server.create("medicine", {
     medicine_identifier: '2',
-    medicine_image_url: '',
+    medicine_image_url: 'https://picsum.photos/200',
     medicine_name: 'medicine2',
     excipient: 'excipient2',
     pvp: '2',
@@ -36,7 +36,7 @@ export function seedMirageListOrders(server) {
   })
   server.create("medicine", {
     medicine_identifier: '3',
-    medicine_image_url: '',
+    medicine_image_url: 'https://picsum.photos/200',
     medicine_name: 'medicine3',
     excipient: 'excipient3',
     pvp: '3',
@@ -47,7 +47,7 @@ export function seedMirageListOrders(server) {
   })
 }
 
-export function defineListOrdersRoutes(server) {
+export function defineMakeOrdersRoutes(server) {
     server.post("/api/list_available_medicines", (schema, request) => {
       console.log("Received list available medicines req with:" + request.requestBody)
 
@@ -78,10 +78,32 @@ export function defineListOrdersRoutes(server) {
         return {result : 'error_med'}
       }
 
+      // Return
       return {
         result: 'ok',
         prescription_needed : medicine.prescription_needed,
         prescription_given : (medicine.medicine_identifier === '2')
+      }
+    })
+
+    server.post("/api/get_prescription_meds", (schema, request) => {
+      const requestPayload = JSON.parse(request.requestBody)
+      console.log("Received has prescription req with:" + request.requestBody)
+
+      // Check payload
+      const expectedFields = [
+        "session_token",
+        "prescription_identifier"
+      ]
+      const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
+      if (!expectedFieldsOk) {
+        return {result : 'error_fields'}
+      }
+
+      // Return
+      return {
+        result: 'ok',
+        medicine_list : (schema.medicines.where(medicine => medicine.medicine_identifier == '1' || medicine.medicine_identifier == '2'))
       }
     })
 }

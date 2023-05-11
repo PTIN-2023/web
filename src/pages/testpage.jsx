@@ -12,6 +12,7 @@ import GoogleOAuthTestComponent from "../component/testpage/GoogleOAuthTestCompo
 import ListMedicinesTestComponent from "../component/testpage/ListMedicinesTestComponent"
 import HasPrescriptionTestComponent from "../component/testpage/HasPrescriptionTestComponent";
 import {GoogleOAuthProvider} from '@react-oauth/google';
+import GetPrecriptionMedsTestComponent from "../component/testpage/GetPrescriptionMedsTestComponent";
 
 // Temporal testing page to make sure the env variables + api requests work as 
 // intented
@@ -162,6 +163,9 @@ export default function Home(props) {
           </Tabs.Item>
           <Tabs.Item title="Check has prescription API test">
             <HasPrescriptionTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Get prescription meds API test">
+            <GetPrecriptionMedsTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
           <Tabs.Item title="Get car pos API test">
             <CarPositionComponent apiEndpoint={props.apiEndpoint}/>

@@ -5,7 +5,7 @@ import { seedMirageDrones, defineMirageDroneRoutes } from "./mirage_calls/drones
 import { seedMirageAuth, defineMirageAuthRoutes } from "./mirage_calls/auth"
 import { seedMirageMapLocations, defineMirageMapLocationsRoutes } from "./mirage_calls/map_locations"
 import { seedMirageMisc, defineMirageMiscRoutes } from "./mirage_calls/misc"
-import { seedMirageListOrders, defineListOrdersRoutes } from "./mirage_calls/list_orders"
+import { seedMirageMakeOrders, defineMakeOrdersRoutes } from "./mirage_calls/make_orders"
 
 export function makeServer() {
   return createServer({
@@ -23,7 +23,7 @@ export function makeServer() {
       seedMirageAuth(server)
       seedMirageMapLocations(server)
       seedMirageMisc(server)
-      seedMirageListOrders(server)
+      seedMirageMakeOrders(server)
     },
 
     routes() {
@@ -34,7 +34,7 @@ export function makeServer() {
       defineMirageAuthRoutes(this)
       defineMirageMapLocationsRoutes(this)
       defineMirageMiscRoutes(this)
-      defineListOrdersRoutes(this)
+      defineMakeOrdersRoutes(this)
 
       this.passthrough("https://api.mapbox.com/**")
       this.passthrough("https://events.mapbox.com/**")
