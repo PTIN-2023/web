@@ -42,6 +42,7 @@
         "myorders" : "Mis pedidos",
         "makeorder" : "Solicitar",
         "search_order" : "Buscar pedido(s)",
+        "ID" : "ID",
         "name" : "Nombre",
         "purchased_date" : "Fecha de compra",
         "state" : "Estado",

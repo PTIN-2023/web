@@ -20,12 +20,12 @@ const Signup = () => {
             <div className="flex w-full max-w-6xl">
                 {/* Primer contenedor (Transmed) */}
                 <div className="container mx-auto p-4 bg-white rounded-md shadow-md w-1/2 flex flex-col items-center justify-center">
-                    <h1 className="text-3xl mb-4 text-center">Transmed</h1>
+
                     <div className="flex justify-center mb-4">
                         <img
-                            src="https://via.placeholder.com/150"
-                            alt="Placeholder"
-                            className="w-32 h-32"
+                            src="media/logo/blanco.svg"
+                            alt="TransMed"
+                            className="w-[350px] h-[350px]"
                         />
                     </div>
                     <p className="text-center">

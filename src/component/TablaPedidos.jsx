@@ -7,7 +7,15 @@ import {HiOutlineArrowRight, HiTrash, HiOutlineExclamationCircle} from "react-ic
 import useCookie from "../hooks/useCookie.js";
 import { getText } from "../utils/getTextCurrentLocale.js";
 
-//TODO: modular estas funciones de modal
+// //TODO: modular estas funciones de modal
+// function ModalSeeAll({currentTarget, currentIteam, modalontactarState, setModalCancelarState}){
+//   const [localeCookie, ] = useCookie('local');
+
+
+
+
+
+// }
 function ModalContactar({currentTarget, currentItem, modalContactarState, setModalContactarState}){
 //recibe: 
 //currentTarget: identifica la fila a la que hicimos click dentro de la tabla
@@ -154,17 +162,23 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
   
   return (
     <>
-        <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
+
         <Table hoverable={true}>
           {console.log(searchValue)}
           <Table.Head>
             <Table.HeadCell className="!p-4">
             </Table.HeadCell>
             <Table.HeadCell>
+              {getText('ID', localeCookie)}
+            </Table.HeadCell>
+            <Table.HeadCell>
               {getText('name', localeCookie)}
             </Table.HeadCell>
             <Table.HeadCell>
               {getText('purchased_date', localeCookie)}
+            </Table.HeadCell>
+            <Table.HeadCell>
+
             </Table.HeadCell>
             <Table.HeadCell>
               {getText('state', localeCookie)}
@@ -176,28 +190,36 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                 <Table.Row className={myordersStyles.tableRow}>
                   <Table.Cell className={myordersStyles.firstTableCell}> 
                     <Dropdown className={myordersStyles.chevronDown} label="" inline={true}>
-                        <ModalCancelarPedido currentTarget={currentTarget} currentItem={order.name} modalCancelarPedidoState={modalCancelarPedidoState} setModalCancelarPedidoState={changeModalCancelarPedidoState}/>
+                        <ModalCancelarPedido currentTarget={currentTarget} currentItem={order.id} modalCancelarPedidoState={modalCancelarPedidoState} setModalCancelarPedidoState={changeModalCancelarPedidoState}/>
                     </Dropdown>
                   </Table.Cell>
                   <Table.Cell className={myordersStyles.tableCell}>
-                    {order.name}
+                    {order.id}
                   </Table.Cell>
                   <Table.Cell>
-                    {order.state != "cancelled" ? order.fecha_compra : <ModalContactar currentTarget={currentTarget} currentItem={order.nombre} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>}
+                    <Button size="md">
+                      Ver todo
+                    </Button>
                   </Table.Cell>
                   <Table.Cell>
-                  {order.state == "delivered" &&
-                    <span className={myordersStyles.deliveryStateEntregado}>{getText(order.state, localeCookie)}</span>
-                  }
-                  {order.state == "sent" &&
-                    <span className={myordersStyles.deliveryStateEnviado}>{getText(order.state, localeCookie)}</span>
-                  }
-                  {order.state == "awaiting_confirmation" &&
-                    <span className={myordersStyles.deliveryStateEspConfirm}>{getText(order.state, localeCookie)}</span>
-                  }
-                  {order.state == "cancelled" &&
-                    <span className={myordersStyles.deliveryStateCancelado}>{getText(order.state, localeCookie)}</span>
-                  }
+                    {order.purchasing_date}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {order.state != "cancelled" ? order.fecha_compra : <ModalContactar currentTarget={currentTarget} currentItem={order.id} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {order.state == "delivered" &&
+                      <span className={myordersStyles.deliveryStateEntregado}>{getText(order.state, localeCookie)}</span>
+                    }
+                    {order.state == "sent" &&
+                      <span className={myordersStyles.deliveryStateEnviado}>{getText(order.state, localeCookie)}</span>
+                    }
+                    {order.state == "awaiting_confirmation" &&
+                      <span className={myordersStyles.deliveryStateEspConfirm}>{getText(order.state, localeCookie)}</span>
+                    }
+                    {order.state == "cancelled" &&
+                      <span className={myordersStyles.deliveryStateCancelado}>{getText(order.state, localeCookie)}</span>
+                    }
                   </Table.Cell>
                 </Table.Row>
             </>
@@ -205,7 +227,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
           </Table.Body>
         </Table> 
-
+        <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
     </>
   );
 };

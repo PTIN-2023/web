@@ -12,12 +12,11 @@ const Login = ({props}) => {
         <div className="min-h-screen bg-gray-100 flex items-center justify-center">
             <div className="flex w-full max-w-6xl">
                 <div className="flex flex-col justify-center items-center p-4 bg-white rounded-md shadow-md w-1/2">
-                    <h1 className="text-3xl mb-4">Transmed</h1>
                     <div className="flex justify-center mb-4">
                         <img
-                            src="https://via.placeholder.com/150"
-                            alt="Placeholder"
-                            className="w-32 h-32"
+                            src="media/logo/blanco.svg"
+                            alt="TransMed"
+                            className="w-[350px] h-[350px]"
                         />
                     </div>
                     <p className="text-center">
