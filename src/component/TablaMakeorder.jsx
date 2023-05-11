@@ -64,8 +64,21 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
 
     return (
-        <div className="mx-auto">
-            <>
+        <div className="mx-auto" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+            <div className="bg-white">
+                <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+                    <h2 class="text-2xl font-bold tracking-tight text-gray-900">Customers also purchased</h2>
+
+                    <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                        <div class="group relative">
+                            <div class="min-h-80 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                                <img src="../../public/media/Ibuprofeno.png" alt="Foto caja Ibuprofeno" class="h-full w-full object-cover object-center lg:h-full lg:w-full" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style={{ marginLeft: 'auto' }}>
                 <Table hoverable={true}>
                     {console.log(searchValue)}
                     <Table.Head>
@@ -79,16 +92,16 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                     </Table.Head>
                     <Table.Body className="divide-y">
                     {slice.map((med) =>
-                        <Table.Row className={style.tableRow} >
+                        <Table.Row className={style.tableRow} key={med.id}>
                             <Table.Cell className="!p-4">
                                 <input type="checkbox" checked={medicamentosSeleccionados[med.id] || false} 
                                 onChange={() => handleCheckboxChange(med)} />
                             </Table.Cell>
-                            <Table.Cell className={style.tableCell} key="{med}">{med.name}</Table.Cell>
-                            <Table.Cell className={style.tableCell}>{med.act_exc}</Table.Cell>
-                            <Table.Cell className={style.tableCell}>{med.pvp}</Table.Cell>
-                            <Table.Cell className={style.tableCell}>{med.dosis}</Table.Cell>
-                            <Table.Cell className={style.tableCell}>{med.detalles}</Table.Cell>
+                            <Table.Cell className={style.tableCell} >{med.name}</Table.Cell>
+                            <Table.Cell className={style.tableCell} >{med.act_exc}</Table.Cell>
+                            <Table.Cell className={style.tableCell} >{med.pvp}</Table.Cell>
+                            <Table.Cell className={style.tableCell} >{med.dosis}</Table.Cell>
+                            <Table.Cell className={style.tableCell} >{med.detalles}</Table.Cell>
                             <Table.Cell>
                                 <>
                                     <Button onClick={handleOpenModal}>
@@ -119,8 +132,10 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                     </Table.Body>
                 </Table>
                 <br></br>
-            </>
-            <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
+            </div>
+            <div style={{ marginLeft: 'auto' }}>
+                <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
+            </div>
             { triggerPopUp && 
                 <Modal show={triggerPopUp} size="md" popup={true} onClose={handleClosePopUp} >
                     <Modal.Header />
@@ -141,6 +156,7 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                     </Modal.Body>
                 </Modal> }
         </div>
+        
     );
 }
 

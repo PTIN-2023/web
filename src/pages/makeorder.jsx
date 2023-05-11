@@ -13,14 +13,14 @@ export default function Home() {
 
     let [meds, setMeds] = useState([])
 
-    /*useEffect(() => {
+    useEffect(() => {
         fetch("/api/meds")
             .then((res) => res.json())
             .then((json) => {
                 setMeds(json.meds)
             })
             .catch((err) => console.log(err))
-    }, [])*/
+    }, [])
 
     const handleClick = () => {
         const medicamentos = [
@@ -88,16 +88,14 @@ export default function Home() {
                 {/**le pasamos a Layout el valor del componente de la página que está renderizando (Layout se encarga de detectar en que pagina está) */}
                 <Layout navBarValue={setSearchValue}>
 
-                    <div className={myordersStyles.mainContainer}>
-                    {/**Tablamakeorder recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
-                    <Row>
-                        <Col xs={3}>
+                    <div className={myordersStyles.mainContainer} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <div style={{ marginLeft: '0px' }}>
                             <FilterTable />
-                        </Col>
-                        <Col xs={9}>
+                        </div>
+                        <div style={{ flex: 1, marginTop: '25px', marginLeft: '5px' }}>
+                            {/**Tablamakeorder recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}                 
                             <Tabla data={meds} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>
-                        </Col>
-                    </Row>
+                        </div>
                     </div>
                 </Layout> 
             </main>
