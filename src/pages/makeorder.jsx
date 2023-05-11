@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Layout from "../component/Layout"
 import Tabla from "../component/TablaMakeorder"
-import myordersStyles from "../styles/Makeorder.module.css"
+import makeorderStyles from "../styles/Makeorder.module.css"
 import { useState, useEffect } from "react";
 import FilterTable from "../component/FilterTable"
 import { Row, Col } from 'react-bootstrap'
@@ -88,11 +88,11 @@ export default function Home() {
                 {/**le pasamos a Layout el valor del componente de la página que está renderizando (Layout se encarga de detectar en que pagina está) */}
                 <Layout navBarValue={setSearchValue}>
 
-                    <div className={myordersStyles.mainContainer} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <div style={{ marginLeft: '0px' }}>
+                    <div className='flex space-between flex-start'>
+                        <div>
                             <FilterTable />
                         </div>
-                        <div style={{ flex: 1, marginTop: '25px', marginLeft: '5px' }}>
+                        <div style={{ flex: 1, marginLeft: '5px' }}>
                             {/**Tablamakeorder recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}                 
                             <Tabla data={meds} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>
                         </div>

@@ -17,7 +17,7 @@ const FilterTable = () => {
     }
 
     return(
-        <span className="border border-primary">
+        <span>
             <div className="mx-auto">
                 <Sidebar aria-label="Sidebar with filters">
                     <Sidebar.Items>
