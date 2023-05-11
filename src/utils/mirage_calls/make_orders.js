@@ -1,6 +1,7 @@
 import hasExpectedFields from '../hasExpectedFields'
 
 export function seedMirageMakeOrders(server) {
+  // Create medicines
   server.create("medicine", {
     medicine_identifier: '0',
     medicine_image_url: 'https://picsum.photos/200',
@@ -45,6 +46,35 @@ export function seedMirageMakeOrders(server) {
     form: 'liquid',
     type_of_adminstration: 'ophthalmic'
   })
+
+  // Create prescriptions
+  server.create("prescription", {
+    prescription_identifier : '32',
+    medicine_list : [
+      {
+        medicine_identifier: '1',
+        medicine_image_url: 'https://picsum.photos/200',
+        medicine_name: 'medicine1',
+        excipient: 'excipient1',
+        pvp: '1',
+        contents: 'contents1',
+        prescription_needed: true,
+        form: 'cream',
+        type_of_adminstration: 'topical'
+      },
+      {
+        medicine_identifier: '0',
+        medicine_image_url: 'https://picsum.photos/200',
+        medicine_name: 'Ibuprofeno',
+        excipient: 'Sorbitol (E-420)',
+        pvp: 4,
+        contents: '30 comprimidos',
+        prescription_needed: false,
+        form: 'pill',
+        type_of_adminstration: 'oral'
+      }
+    ]
+  })
 }
 
 export function defineMakeOrdersRoutes(server) {
@@ -58,6 +88,7 @@ export function defineMakeOrdersRoutes(server) {
           medicines
       }
     })
+
     server.post("/api/has_prescription", (schema, request) => {
       const requestPayload = JSON.parse(request.requestBody)
       console.log("Received has prescription req with:" + request.requestBody)
@@ -88,7 +119,7 @@ export function defineMakeOrdersRoutes(server) {
 
     server.post("/api/get_prescription_meds", (schema, request) => {
       const requestPayload = JSON.parse(request.requestBody)
-      console.log("Received has prescription req with:" + request.requestBody)
+      console.log("Received get prescription meds prescription req with:" + request.requestBody)
 
       // Check payload
       const expectedFields = [
@@ -100,10 +131,16 @@ export function defineMakeOrdersRoutes(server) {
         return {result : 'error_fields'}
       }
 
+      // Try to get the prescription
+      const prescription = schema.prescriptions.findBy({ prescription_identifier : requestPayload.prescription_identifier })
+      if (!prescription) {
+        return {result : 'error_prescription'}
+      }
+
       // Return
       return {
         result: 'ok',
-        medicine_list : (schema.medicines.where(medicine => medicine.medicine_identifier == '1' || medicine.medicine_identifier == '2'))
+        medicine_list : prescription.medicine_list
       }
     })
 }
