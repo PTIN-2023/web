@@ -24,7 +24,6 @@ export default function Home() {
 
     return (
         <>
-<<<<<<< HEAD
         <Head>
             <title>TransMedWebPTIN</title>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -40,30 +39,6 @@ export default function Home() {
                 </div>
             </Layout> 
         </main>
-=======
-            <Head>
-                <title>TransMedWebPTIN</title>
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
-            <main>
-                {/**le pasamos a Layout el valor del componente de la página que está renderizando (Layout se encarga de detectar en que pagina está) */}
-                <Layout navBarValue={setSearchValue}>
-
-                    <div className={myordersStyles.mainContainer}>
-                    {/**Tablamakeorder recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
-                    <Row>
-                        <Col xs={3}>
-                            <FilterTable />
-                        </Col>
-                        <Col xs={9}>
-                            <Tabla data={meds} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>
-                        </Col>
-                    </Row>
-                    </div>
-                </Layout> 
-            </main>
->>>>>>> c7496ad1ec63f09e6d43c24110933779e822447a
         </>
     );
 }
