@@ -2,51 +2,33 @@
 
 Web interface for the TransMed - Transportation of Medicines project developed in the context of the subject "PTIN" in the Spring 2023 semester of the group A3.
 
-## Roadmap
-- [ ] Static website
-  - [ ] Sample login page
-  - [ ] Profile for users
-  - [ ] Management area
-    - [ ] Map with the positioning of the (local) drones
-    - [ ] Map with the positioning of the cars
-    - [ ] Inventory with filtering
-  - [ ] Patient area
-    - [ ] My orders
-    - [ ] Request medicine
-  - [ ] Doctor area
-    - [ ] Assigned patient list
-    - [ ] Notifications
-- [ ] Interactivity with sample/local information
-- [ ] Retrieval/Storage of information through the common API developed
-
 ## Local build/deployment with docker
 
-### Development environment - for doing testing
+Build the image with:
 
 ```
-make build-development
-make start-development
+make build
 ```
 
-Open http://localhost:3001
-
-### Staging environment - for doing UAT testing
+Start the image with:
 
 ```
-make build-staging
-make start-staging
+make start
 ```
 
-Open http://localhost:3002
+Open http://localhost:300
 
-### Production environment - for users
+You can check the logs of the started image with:
 
 ```
-make build-production
-make start-production
+make logs
 ```
 
-Open http://localhost:3003
+You can stop the image with:
+
+```
+make stop
+```
 
 ## Running Locally without docker
 
@@ -54,14 +36,12 @@ First, install the dependencies:
 
 ```bash
 npm install
-
 ```
+
 Then, run the development server:
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result. The page auto-updates as you edit the file in this way.
