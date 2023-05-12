@@ -43,7 +43,8 @@ const useLogin = () => {
                 setMessage('Login exitoso!');
                 setShowErrorModal(false);
 
-                router.push('/profile');
+                if (response.user_role == "patient") router.push('/makeorder');
+                else router.push('/profile');
             } else {
                 setMessage('Error en el inicio de sesión, verifica tus credenciales.');
                 setShowErrorModal(true);
