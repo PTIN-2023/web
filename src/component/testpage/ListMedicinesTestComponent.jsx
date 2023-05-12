@@ -97,6 +97,14 @@ export default function ListMedicinesTestComponent({apiEndpoint}) {
       value={prescriptionNeeded}
     />
     <LabeledTextInputComponent
+      id="med_form"
+      label_text="med_form"
+      input_type="text"
+      required={true}
+      on_change={(e) => setMedForm(e.target.value.split(','))}
+      value={medForm}
+    />
+    <LabeledTextInputComponent
       id="type_of_administration"
       label_text="type_of_administration"
       input_type="text"

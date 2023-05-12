@@ -102,7 +102,6 @@ export function defineMirageAuthRoutes(server) {
 
     // Check validity
     const user_entry = schema.users.findBy({ user_email : requestPayload.user_email })
-    console.log(user_entry)
     if (!user_entry || user_entry.user_password != requestPayload.user_password) {
       return ({
         result : "error",

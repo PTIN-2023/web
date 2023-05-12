@@ -22,13 +22,21 @@ export function makeServer() {
     },
 
     seeds(server) {
-      seedMirageCars(server)
-      seedMirageDrones(server)
-      seedMirageAuth(server)
-      seedMirageMapLocations(server)
-      seedMirageMisc(server)
-      seedMirageMakeOrders(server)
-      seedMirageMyOrders(server)
+      if(typeof window !== 'undefined') {
+        const dbData = localStorage.getItem('db');
+        if (dbData) {
+          // https://miragejs.com/api/classes/db/#load-data
+          server.db.loadData(JSON.parse(dbData));
+        } else {
+          seedMirageCars(server)
+          seedMirageDrones(server)
+          seedMirageAuth(server)
+          seedMirageMapLocations(server)
+          seedMirageMisc(server)
+          seedMirageMakeOrders(server)
+          seedMirageMyOrders(server)
+        }
+      }
     },
 
     routes() {
