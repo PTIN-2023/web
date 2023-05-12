@@ -57,6 +57,7 @@ export function makeServer() {
       this.passthrough("https://api.mapbox.com/**")
       this.passthrough("https://events.mapbox.com/**")
       this.passthrough('https://www.googleapis.com/**');  
+      this.passthrough()
     }
   })
 }
