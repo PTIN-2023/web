@@ -40,9 +40,11 @@ export default function Layout({ children, navBarValue}) {
           {currentPage == "/myorders" || currentPage == "/makeorder" && <MyOrdersSearch setSearchValue={navBarValue}/>}
           {/**aqui hay que añadir el componente que corresponde a cada página si asi se requiere */}
         </div>
-        { currentPage == "/makeorder" &&
-          <ShoppingCart />
-        }
+        <div>
+          { currentPage == "/makeorder" &&
+            <ShoppingCart />
+          }
+        </div>
         <Dropdown label={getTextCurrentLocale('language')} inline={true}>
           <Dropdown.Item onClick={() => { setLocale('es')}}>{getTextCurrentLocale('spanish')}</Dropdown.Item>
           <Dropdown.Item onClick={() => { setLocale('ca')}}>{getTextCurrentLocale('catalan')}</Dropdown.Item>
