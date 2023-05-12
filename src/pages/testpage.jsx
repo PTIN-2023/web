@@ -15,6 +15,9 @@ import CancelConfirmOrderTestComponent from "../component/testpage/CancelConfirm
 import CarInfoTestComponent from "../component/testpage/CarInfoTestComponent";
 import DronesInfoTestComponent from "../component/testpage/DronesInfoTestComponent";
 import BeehivesInfoTestComponent from "../component/testpage/BeehivesInfoTestComponent";
+import ListDoctorPendingConfirmations from "../component/testpage/ListDoctorPendingConfirmations";
+import ListDoctorApprovedConfirmations from "../component/testpage/ListDoctorApprovedConfirmations";
+import DoctorConfirmOrder from "../component/testpage/DoctorConfirmOrder";
 import {GoogleOAuthProvider} from '@react-oauth/google';
 
 // Temporal testing page to make sure the env variables + api requests work as 
@@ -106,6 +109,15 @@ export default function Home(props) {
           </Tabs.Item>
           <Tabs.Item title="Beehives info API test">
             <BeehivesInfoTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="List doctor pending confirmations API test">
+            <ListDoctorPendingConfirmations apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="List doctor approved confirmations API test">
+            <ListDoctorApprovedConfirmations apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Doctor confirm order API test">
+            <DoctorConfirmOrder apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
         </Tabs.Group>
         </main>
