@@ -1,8 +1,16 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import useCookie from './useCookie';
 
 //Funciones y logica de Login
 const useLogin = () => {
+    // Cookies
+    const [, setUserGivenNameCookie] = useCookie('user_given_name')
+    const [, setUserRoleCookie] = useCookie('user_role')
+    const [, setUserPictureCookie] = useCookie('user_picture')
+    const [, setUserTokenCookie] = useCookie('user_token')
+
+    // Form values
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
@@ -20,15 +28,23 @@ const useLogin = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
-            });
+                body: JSON.stringify({ 
+                    user_email : email,
+                    user_password : password 
+                }),
+            }).then(data => data.json());
 
-            const data = await response.json();
+            if (response.result === 'ok') {
+                setUserGivenNameCookie(response.user_given_name)
+                setUserRoleCookie(response.user_role)
+                setUserPictureCookie(response.user_picture)
+                setUserTokenCookie(response.user_token)
 
-            if (data.status === 'success') {
                 setMessage('Login exitoso!');
                 setShowErrorModal(false);
-                router.push('/profile');
+
+                if (response.user_role == "patient") router.push('/makeorder');
+                else router.push('/profile');
             } else {
                 setMessage('Error en el inicio de sesión, verifica tus credenciales.');
                 setShowErrorModal(true);

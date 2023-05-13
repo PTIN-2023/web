@@ -1,7 +1,7 @@
 import Head from 'next/head'
-import Layout from "../component/Layout"
-import LoginRefact from "../component/LoginRefact"
 import * as env_config from '../utils/env_config'
+import AuthWebInfoCard from '../component/auth/AuthWebInfoCard';
+import AuthSignCard from '../component/auth/AuthSignCard';
 
 export async function getServerSideProps() {
   const isLocal           = env_config.isLocal();
@@ -35,7 +35,12 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <LoginRefact></LoginRefact>
+        <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+          <div className="flex w-full max-w-6xl">
+            <AuthWebInfoCard/>
+            <AuthSignCard/>
+          </div>
+        </div>
       </main>
     </>
   )

@@ -1,14 +1,24 @@
 import * as env_config from "../utils/env_config"
 import Head from 'next/head'
-import {useState} from "react";
 import {Tabs, Button} from 'flowbite-react'
-import useCookie from "../hooks/useCookie";
 import React from "react";
 import UserDataTestComponent from "../component/testpage/UserDataTestComponent";
 import RegisterUserTestComponent from "../component/testpage/RegisterUserTestComponent";
 import LoginUserTestComponent from "../component/testpage/LoginUserTestComponent";
 import TokenCheckTestComponent from "../component/testpage/TokenCheckTestComponent";
 import GoogleOAuthTestComponent from "../component/testpage/GoogleOAuthTestComponent"
+import ListMedicinesTestComponent from "../component/testpage/ListMedicinesTestComponent"
+import HasPrescriptionTestComponent from "../component/testpage/HasPrescriptionTestComponent";
+import ListPatientOrders from "../component/testpage/ListPatientOrders";
+import GetPrecriptionMedsTestComponent from "../component/testpage/GetPrescriptionMedsTestComponent";
+import CancelConfirmOrderTestComponent from "../component/testpage/CancelConfirmOrderTestComponent";
+import CarInfoTestComponent from "../component/testpage/CarInfoTestComponent";
+import DronesInfoTestComponent from "../component/testpage/DronesInfoTestComponent";
+import BeehivesInfoTestComponent from "../component/testpage/BeehivesInfoTestComponent";
+import ListDoctorPendingConfirmations from "../component/testpage/ListDoctorPendingConfirmations";
+import ListDoctorApprovedConfirmations from "../component/testpage/ListDoctorApprovedConfirmations";
+import DoctorConfirmOrder from "../component/testpage/DoctorConfirmOrder";
+import GenerateRouteTestComponent from "../component/testpage/GenerateRouteTestComponent";
 import {GoogleOAuthProvider} from '@react-oauth/google';
 
 // Temporal testing page to make sure the env variables + api requests work as 
@@ -48,114 +58,6 @@ function EnviromentVarsComponent({props}) {
   </>)
 }
 
-
-
-function AvailableMedicinesComponent({apiEndpoint}) {
-  const [response, setResponse] = useState('');
-
-  async function apiCall() {
-    return fetch(apiEndpoint+"/api/medicines_list", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({})
-    }).then(data => data.json())
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setResponse(JSON.stringify(await apiCall()))
-  };
-
-  return(<>
-  <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-  <Button type="submit">
-    AskForMedicineList
-  </Button>
-  </form>
-  <br></br>
-  {response}
-  <br></br>
-  </>)
-}
-
-function CarPositionComponent({apiEndpoint}) {
-  const [userToken,] = useCookie("user_token")
-  const [responseFull, setResponseFull] = useState('');
-  const [responseOnlyPos, setResponseOnlyPos] = useState('');
-
-  async function apiCall(kind) {
-    return fetch(apiEndpoint+"/api/cars_" + kind + "_info", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({userToken})
-    }).then(data => data.json())
-  }
-
-  const handleSubmitFull = async (e) => {
-    e.preventDefault();
-    setResponseFull(JSON.stringify(await apiCall("full")))
-  };  
-  
-  const handleSubmitPos = async (e) => {
-    e.preventDefault();
-    setResponseOnlyPos(JSON.stringify(await apiCall("pos")))
-  };
-
-  return(<>
-    <form className="flex flex-col gap-4" onSubmit={handleSubmitFull}>
-      <Button type="submit"> AskForAllCarInfo </Button>
-    </form>
-    <br></br> {responseFull} <br></br>
-    <form className="flex flex-col gap-4" onSubmit={handleSubmitPos}>
-      <Button type="submit"> AskForPosCarInfo </Button>
-    </form>
-    <br></br> {responseOnlyPos} <br></br>
-    </>
-  )
-}
-
-function DronePositionComponent({apiEndpoint}) {
-  const [userToken,] = useCookie("user_token")
-  const [responseFull, setResponseFull] = useState('');
-  const [responseOnlyPos, setResponseOnlyPos] = useState('');
-
-  async function apiCall(kind) {
-    return fetch(apiEndpoint+"/api/drones_" + kind + "_info", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({userToken})
-    }).then(data => data.json())
-  }
-
-  const handleSubmitFull = async (e) => {
-    e.preventDefault();
-    setResponseFull(JSON.stringify(await apiCall("full")))
-  };  
-  
-  const handleSubmitPos = async (e) => {
-    e.preventDefault();
-    setResponseOnlyPos(JSON.stringify(await apiCall("pos")))
-  };
-
-  return(<>
-    <form className="flex flex-col gap-4" onSubmit={handleSubmitFull}>
-      <Button type="submit"> AskForAllDroneInfo </Button>
-    </form>
-    <br></br> {responseFull} <br></br>
-    <form className="flex flex-col gap-4" onSubmit={handleSubmitPos}>
-      <Button type="submit"> AskForPosDroneInfo </Button>
-    </form>
-    <br></br> {responseOnlyPos} <br></br>
-    </>
-  )
-}
-
 export default function Home(props) {
     return (<>
       <Head>
@@ -177,22 +79,49 @@ export default function Home(props) {
           <Tabs.Item title="Login API test">
             <LoginUserTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
-          <Tabs.Item title="Token check test">
+          <Tabs.Item title="Token check API test">
             <TokenCheckTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
-          <Tabs.Item title="Google Ouath test">
+          <Tabs.Item title="Google Ouath API test">
             <GoogleOAuthProvider clientId="692056364291-m1m2edfdtmjt69q2qrh1eshejauo900j.apps.googleusercontent.com">
               <GoogleOAuthTestComponent apiEndpoint={props.apiEndpoint}/>
             </GoogleOAuthProvider>
           </Tabs.Item>
-          <Tabs.Item title="Get available medicines API test">
-            <AvailableMedicinesComponent apiEndpoint={props.apiEndpoint}/>
+          <Tabs.Item title="List available medicines API test">
+            <ListMedicinesTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
-          <Tabs.Item title="Get car pos API test">
-            <CarPositionComponent apiEndpoint={props.apiEndpoint}/>
+          <Tabs.Item title="Has prescription API test">
+            <HasPrescriptionTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
-          <Tabs.Item title="Get drone pos API test">
-            <DronePositionComponent apiEndpoint={props.apiEndpoint}/>
+          <Tabs.Item title="Get prescription meds API test">
+            <GetPrecriptionMedsTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="List Patient Orders API test">
+            <ListPatientOrders apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Cancel/confirm Order API test">
+            <CancelConfirmOrderTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Get car info API test">
+            <CarInfoTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Get drone info API test">
+            <DronesInfoTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Beehives info API test">
+            <BeehivesInfoTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="List doctor pending confirmations API test">
+            <ListDoctorPendingConfirmations apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="List doctor approved confirmations API test">
+            <ListDoctorApprovedConfirmations apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Doctor confirm order API test">
+            <DoctorConfirmOrder apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Generate route API test">
+            <GenerateRouteTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
         </Tabs.Group>
         </main>

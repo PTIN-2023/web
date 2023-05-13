@@ -5,6 +5,7 @@ import { seedMirageDrones, defineMirageDroneRoutes } from "./mirage_calls/drones
 import { seedMirageAuth, defineMirageAuthRoutes } from "./mirage_calls/auth"
 import { seedMirageMapLocations, defineMirageMapLocationsRoutes } from "./mirage_calls/map_locations"
 import { seedMirageMisc, defineMirageMiscRoutes } from "./mirage_calls/misc"
+import { seedMirageUserInf, defineMirageProfileRoutes } from "./mirage_calls/profile"
 
 export function makeServer() {
   return createServer({
@@ -22,6 +23,7 @@ export function makeServer() {
       seedMirageAuth(server)
       seedMirageMapLocations(server)
       seedMirageMisc(server)
+      seedMirageUserInf(server) // Simula la creación de dos usuarios
     },
 
     routes() {
@@ -32,6 +34,7 @@ export function makeServer() {
       defineMirageAuthRoutes(this)
       defineMirageMapLocationsRoutes(this)
       defineMirageMiscRoutes(this)
+      defineMirageProfileRoutes(this) // Ruta para gestionar los datos de la pagina del PERFIL
 
       this.passthrough("https://api.mapbox.com/**")
       this.passthrough("https://events.mapbox.com/**")

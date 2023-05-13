@@ -1,4 +1,4 @@
-import { useGoogleLogin } from '@react-oauth/google';
+import hasExpectedFields from '../hasExpectedFields'
 
 export function seedMirageAuth(server) {
   server.create("user", {
@@ -102,7 +102,6 @@ export function defineMirageAuthRoutes(server) {
 
     // Check validity
     const user_entry = schema.users.findBy({ user_email : requestPayload.user_email })
-    console.log(user_entry)
     if (!user_entry || user_entry.user_password != requestPayload.user_password) {
       return ({
         result : "error",
@@ -149,7 +148,17 @@ export function defineMirageAuthRoutes(server) {
     }
 
     const user_entry = schema.users.findBy({ user_email : requestPayload.user_email })
-
+    // const newUserTester = true;
+    // if (newUserTester){
+    //   return { 
+    //     result : 'newuser',
+    //     role : 'none',
+    //     email : request.requestBody.email,
+    //     fullName : request.requestBody.name,
+    //     picture: request.requestBody.picture,
+    //     session_token : 'googleToken'
+    //   }  
+    // }
     // Return
     return { 
       result : 'ok',
@@ -189,14 +198,4 @@ export function defineMirageAuthRoutes(server) {
       })
     }
   })
-}
-
-function hasExpectedFields(object, expectedFields) {
-  var hasAllFields = true
-
-  expectedFields.forEach(field =>
-    hasAllFields = hasAllFields && object.hasOwnProperty(field)
-  )
-
-  return hasAllFields
 }

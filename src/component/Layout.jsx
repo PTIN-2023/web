@@ -9,6 +9,7 @@ import useCookie from "../hooks/useCookie";
 import SideBarPagesNavigation from "../component/SideBarPageNavigation"
 import getTextCurrentLocale from "../utils/getTextCurrentLocale";
 import { googleLogout } from '@react-oauth/google';
+import Image from 'next/image';
 // Main Component
 
 export default function Layout({ children, navBarValue}) {
@@ -58,7 +59,12 @@ export default function Layout({ children, navBarValue}) {
       <Navbar fluid className={layoutStyles.navBar}>
         <div className={layoutStyles.navBarContents}>
           <HiMenuAlt1 className={layoutStyles.navBarIcon} onClick={toggleSidebar}/>
-          <span className={layoutStyles.navBarTitle}>TransMed</span>
+          <Image
+            src="/media/logo/Blanco-layout.png"
+            width={150}
+            height={150}
+            alt="TransMed-logo"
+          />
           {/**estoy en Mis pedidos? carga la barra de busqueda */}
           {currentPage == "/myorders" && <MyOrdersSearch setSearchValue={navBarValue}/>}
           {/**aqui hay que añadir el componente que corresponde a cada página si asi se requiere */}
