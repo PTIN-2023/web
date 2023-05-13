@@ -1,276 +1,370 @@
-import React, { useState, useRef } from "react";
-import { Checkbox, Button, Modal, Tooltip, Dropdown } from 'flowbite-react'
-import { HiOutlineArrowRight, HiTrash, HiOutlineExclamationCircle } from "react-icons/hi"
+import React, { useState } from "react";
+import { Button } from 'flowbite-react'
+import { useEffect } from 'react';
+import styles from "../styles/ProfileStyles";
 
-
-/* README
-- Primero estan definidas las variables con la información del usuario
-  y estas en un futuro se llenaran con la informacion procedente de la API.
-- A contuniación esta los estilos de Fuente/Texto que se usan en el 
-  documento, por ejemplo (text_title) corresponde al titulo.
-- Luego los containers que mantienen la estuctura de la pagina por orden
-  segun te los encuentras en el codigo, siguen el siguiente formato: 
-    -- Ej: (cont_main) -> corresponde al contenedor "main" que contiene a
-       todos los otros.
-- Por ultimo los estilos individuales de objectos concretos de la pagina
-  con el formato de (style_profilePic) que corresponde con el estilo de
-  la foto de perfil
-*/
+// Ver estilos en /styles/ProfileStyles.jsx
 
 export default function UserProfile() {
-  var userName = 'John Doe';
-  var userAge = '62';
-  var userPseudoname = 'Yasminita12';
-  var userMail = 'ejemplo@gmail.com';
-  var userPasswd = '*********';
-  var userPhone = '+34 674461824';
-  var userCity = 'Madrid';
-  var userAddres = 'Avinguda Laire, 34, 2ºA';
 
-  const text_title = {
-    fontSize: '17px',
-    fontWeight: 'bold',
-    textAling: 'left',
-    color: 'black'
-    //fontStyle: 'italic',
-    //fontFamily: 'Arial'    
+  //  Datos del usuario
+  const [userName, getName] = useState("");
+  const [userAge, getAge] = useState("");
+  const [userPseudoname, getPseudoname] = useState("");
+  const [userMail, getEmail] = useState("");
+  const [userPasswd, getPasswd] = useState("");
+  const [userPhone, getPhone] = useState("");
+  const [userCity, getCity] = useState("");
+  const [userAddres, getAddres] = useState("");
+
+  // Email para simular llamada api (identificar cliente)
+  const email = "ejemplo@gmail.com";
+
+  // Metodo para gestionar los cambios de datos que haga el cliente
+  /*
+      - Se hace una llamada con el email del usuario para poder identificarlo dentro 
+        de la base de datos, posteriormente se pasan una serie de datos que corresponden 
+        con la nueva informacion del cliente despues de ser modificada.
+        De esta manera la api recibira los datos que debera actualizar dentro de la basa de datos.
+  */
+  const setNewUserData = async (e) => {
+    try {
+      const response = await fetch('/api/user_modifyInfo?user_email=' + email, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          pseudoname: userPseudoname,
+          email: userMail,
+          passwd: userPasswd,
+          phone: userPhone,
+          city: userCity,
+          addres: userAddres
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al registrarse. Por favor, inténtalo de nuevo.');
+      }
+
+      console.log('Registrado con éxito');
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  const text_subtitle = {
-    fontSize: '15px',
-    fontWeight: 'normal',
-    textAling: 'left',
-    color: '#5f5f5f'
-    //fontStyle: 'italic',
-    //fontFamily: 'Arial'    
+  // Metodo para pedir la informacion con la que rellenar los campos del perfil.
+  /*
+      - Se hace una llamada con el email del usuario para poder identificarlo dentro 
+        de la base de datos, la api devuelve los valores que se asignaran a cada campo del perfil
+        en su sitio correspondiente, en caso de que se produzca un error, se rellenaran con "none"
+  */
+  const getUserData = async (e) => {
+    try {
+      const response = await fetch('/api/user_info?user_email=' + email, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await response.json();
+      if (data.result === "ok") {
+        getName(data.user.name);
+        getAge(data.user.age);
+        getPseudoname(data.user.pseudoname);
+        getEmail(data.user.email);
+        getPasswd(data.user.passwd);
+        getPhone(data.user.phone);
+        getCity(data.user.city);
+        getAddres(data.user.addres);
+      } else {
+        getName('John Doe');
+        getAge('0');
+        getPseudoname('none');
+        getEmail('none');
+        getPasswd('none');
+        getPhone('none');
+        getCity('none');
+        getAddres('none');
+      }
+    }
+    catch (error) {
+      console.error(error);
+    }
   }
 
-  const text_importantText = {
-    fontSize: '13px',
-    fontWeight: 'bold',
-    textAling: 'left',
-    color: 'black'
-    //fontStyle: 'italic',
-    //fontFamily: 'Arial'    
+  // Metodo para controlar que se llame a la funcion solo cuando se carge la pagina o cuando se la llame
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+
+  //  Handlers para los accesos rapidos
+  const handlerOnClick_L = (e) => {
+    //  Redirecciona a MYORDERS
+    window.location.href = 'http://localhost:3000/myorders';
   }
-
-  const text_normalText = {
-    fontSize: '12px',
-    fontWeight: 'normal',
-    textAling: 'left',
-    color: '#5f5f5f'
+  const handlerOnClick_C = (e) => {
+    //  Redirecciona a INVENTORY
+    window.location.href = 'http://localhost:3000/inventory';
   }
-
-  const cont_main = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: '2cm',
-    marginTop: '75px',
-    overflow: 'auto',
-  };
-
-  const cont_imagZone = {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  };
-
-  const cont_subImagZone = {
-    //textAling: 'left',
-    marginLeft: '10px'
-  };
-
-  const cont_userZone = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '70%',
-    marginTop: '35px',
-  };
-
-  const cont_subUserZone = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
-    height: '2cm',
-    borderBottom: '2px solid #a4a4a4',
-  };
-
-  const cont_userZoneInfo = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'left',
-  };
-
-  const cont_userZoneButton = {
-    display: 'flex',
-    alignItems: 'right',
-  };
-
-  const cont_quickAccess = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '70%',
-    height: '150px',
-    marginTop: '50px',
-  };
-
-  const cont_subQuickAccess = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%'
-  };
-
-  const style_profilePic = {
-    borderRadius: '50%',
-    width: '90px',
-    height: '90px',
-    objectFit: 'cover'
-  };
+  const handlerOnClick_R = (e) => {
+    //  Redirecciona a MAP_LOCAL
+    window.location.href = 'http://localhost:3000/map_local';
+  }
 
   
-  const handlerOnClick = (e) => {
-    // console.log (e.target.value) // si || no
-    setValue2(e.target.value);
-    handleButtonClick();
-  }
-/*
-  const [showModal, setShowModal] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  /////////////////////////////////////////////////////////////////////
+  ///  Handlers para los botones de editar de cada campo del perfil ///
 
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
-  }
+  /////////////////////////////////////////////////////////////////////
+  const [showPseudoInput, setShowPseudoInput] = useState(false);
 
-  const handleButtonClick = () => {
-    setShowModal(true);
-  }
+  const handlePseudoChange = (event) => {
+    getPseudoname(event.target.value);
+  };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  }
-*/
+  const handleEditPseudoClick = () => {
+    setShowPseudoInput(true);
+  };
+
+  const handleConfirmPseudoClick = () => {
+    setShowPseudoInput(false);
+    setNewUserData();
+    getUserData();
+  };
+  /////////////////////////////////////////////////////////////////////
+
+  /////////////////////////////////////////////////////////////////////
+  const [showEmailInput, setShowEmailInput] = useState(false);
+
+  const handleEmailChange = (event) => {
+    getEmail(event.target.value);
+  };
+
+  const handleEditEmailClick = () => {
+    setShowEmailInput(true);
+  };
+
+  const handleConfirmEmailClick = () => {
+    setShowEmailInput(false);
+    setNewUserData();
+    getUserData();
+  };
+  /////////////////////////////////////////////////////////////////////
+
+  /////////////////////////////////////////////////////////////////////
+  const [showPasswdInput, setShowPasswdInput] = useState(false);
+
+  const handlePasswdChange = (event) => {
+    getPasswd(event.target.value);
+  };
+
+  const handleEditPasswdClick = () => {
+    setShowPasswdInput(true);
+  };
+
+  const handleConfirmPasswdClick = () => {
+    setShowPasswdInput(false);
+    setNewUserData();
+    getUserData();
+  };
+  /////////////////////////////////////////////////////////////////////
+
+  /////////////////////////////////////////////////////////////////////
+  const [showPhoneInput, setShowPhoneInput] = useState(false);
+
+  const handlePhoneChange = (event) => {
+    getPhone(event.target.value);
+  };
+
+  const handleEditPhoneClick = () => {
+    setShowPhoneInput(true);
+  };
+
+  const handleConfirmPhoneClick = () => {
+    setShowPhoneInput(false);
+    setNewUserData();
+    getUserData();
+  };
+  /////////////////////////////////////////////////////////////////////
+
+  /////////////////////////////////////////////////////////////////////
+  const [showCityInput, setShowCityInput] = useState(false);
+
+  const handleCityChange = (event) => {
+    getCity(event.target.value);
+  };
+
+  const handleEditCityClick = () => {
+    setShowCityInput(true);
+  };
+
+  const handleConfirmCityClick = () => {
+    setShowCityInput(false);
+    setNewUserData();
+    getUserData();
+  };
+  /////////////////////////////////////////////////////////////////////
+
+  /////////////////////////////////////////////////////////////////////
+  const [showAddrInput, setShowAddresInput] = useState(false);
+
+  const handleAddresChange = (event) => {
+    getAddres(event.target.value);
+  };
+
+  const handleEditAddresClick = () => {
+    setShowAddresInput(true);
+  };
+
+  const handleConfirmAddresClick = () => {
+    setShowAddresInput(false);
+    setNewUserData();
+    getUserData();
+  };
+  /////////////////////////////////////////////////////////////////////
+
   return (
     <div>
-      <div style={cont_main}>
-        <div style={cont_imagZone}>
-          <img src="https://gdb.radiotelevisionmarti.com/7AD124DA-E083-4810-9D61-DAD45E006040_cx0_cy12_cw0_w408_r1_s.jpg" alt="Profile Picture" style={style_profilePic} />
-          <div style={cont_subImagZone}>
-            <h1 style={text_title}>{userName}</h1>
-            <h2 style={text_subtitle}>Age: {userAge}</h2>
+      <div style={styles.cont_main}>
+        <div style={styles.cont_imagZone}>
+          <img src="https://img.pccomponentes.com/pcblog/1678057200000/mi-cuenta.jpg" alt="Profile Picture" style={styles.style_profilePic} />
+          <div style={styles.cont_subImagZone}>
+            <h1 style={styles.text_title}>{userName}</h1>
+            <h2 style={styles.text_subtitle}>Age: {userAge}</h2>
           </div>
         </div>
-        <div style={cont_userZone}>
-          <div style={cont_subUserZone}>
-            <div style={cont_userZoneInfo}>
-              <h1 style={text_importantText}>Nombre de usuario</h1>
-              <h2 style={text_normalText}>{userPseudoname}</h2>
+        <div style={styles.cont_userZone}>
+          <div style={styles.cont_subUserZoneF}>
+            <div style={styles.cont_userZoneInfo}>
+              <h1 id="user_given_name" style={styles.text_importantText}>Nombre de usuario</h1>
+              {showPseudoInput ? (
+                <input type="userPseudoname" value={userPseudoname} onChange={handlePseudoChange} />
+              ) : (
+                <h2 style={styles.text_normalText}>{userPseudoname}</h2>
+              )}
             </div>
-            <div style={cont_userZoneButton}>
-              <Button onClick={handlerOnClick}>
-                Editar
+            <div style={styles.cont_userZoneButton}>
+              <Button onClick={showPseudoInput ? handleConfirmPseudoClick : handleEditPseudoClick}>
+                {showPseudoInput ? 'Confirmar' : 'Editar'}
               </Button>
             </div>
           </div>
-          <div style={cont_subUserZone}>
-            <div style={cont_userZoneInfo}>
-              <h1 style={text_importantText}>Correo electronico</h1>
-              <h2 style={text_normalText}>{userMail}</h2>
+          <div style={styles.cont_subUserZone}>
+            <div style={styles.cont_userZoneInfo}>
+              <h1 style={styles.text_importantText}>Correo electronico</h1>
+              {showEmailInput ? (
+                <input type="userMail" value={userMail} onChange={handleEmailChange} />
+              ) : (
+                <h2 style={styles.text_normalText}>{userMail}</h2>
+              )}
             </div>
-            <div style={cont_userZoneButton}>
-              <Button onClick={handlerOnClick}>
-                Editar
+            <div style={styles.cont_userZoneButton}>
+              <Button onClick={showEmailInput ? handleConfirmEmailClick : handleEditEmailClick}>
+                {showEmailInput ? 'Confirmar' : 'Editar'}
               </Button>
             </div>
           </div>
-          <div style={cont_subUserZone}>
-            <div style={cont_userZoneInfo}>
-              <h1 style={text_importantText}>Contraseña</h1>
-              <h2 style={text_normalText}>{userPasswd}</h2>
+          <div style={styles.cont_subUserZone}>
+            <div style={styles.cont_userZoneInfo}>
+              <h1 style={styles.text_importantText}>Contraseña</h1>
+              {showPasswdInput ? (
+                <input type="userPasswd" value={userPasswd} onChange={handlePasswdChange} />
+              ) : (
+                <h2 style={styles.text_normalText}>{userPasswd}</h2>
+              )}
             </div>
-            <div style={cont_userZoneButton}>
-              <Button onClick={handlerOnClick}>
-                Editar
+            <div style={styles.cont_userZoneButton}>
+              <Button onClick={showPasswdInput ? handleConfirmPasswdClick : handleEditPasswdClick}>
+                {showPasswdInput ? 'Confirmar' : 'Editar'}
               </Button>
             </div>
           </div>
-          <div style={cont_subUserZone}>
-            <div style={cont_userZoneInfo}>
-              <h1 style={text_importantText}>Numero de telefono</h1>
-              <h2 style={text_normalText}>{userPhone}</h2>
+          <div style={styles.cont_subUserZone}>
+            <div style={styles.cont_userZoneInfo}>
+              <h1 style={styles.text_importantText}>Numero de telefono</h1>
+              {showPhoneInput ? (
+                <input type="userPhone" value={userPhone} onChange={handlePhoneChange} />
+              ) : (
+                <h2 style={styles.text_normalText}>{userPhone}</h2>
+              )}
             </div>
-            <div style={cont_userZoneButton}>
-              <Button onClick={handlerOnClick}>
-                Editar
+            <div style={styles.cont_userZoneButton}>
+              <Button onClick={showPhoneInput ? handleConfirmPhoneClick : handleEditPhoneClick}>
+                {showPhoneInput ? 'Confirmar' : 'Editar'}
               </Button>
             </div>
           </div>
-          <div style={cont_subUserZone}>
-            <div style={cont_userZoneInfo}>
-              <h1 style={text_importantText}>Ciudad de residencia</h1>
-              <h2 style={text_normalText}>{userCity}</h2>
+          <div style={styles.cont_subUserZone}>
+            <div style={styles.cont_userZoneInfo}>
+              <h1 style={styles.text_importantText}>Ciudad de residencia</h1>
+              {showCityInput ? (
+                <input type="userCity" value={userCity} onChange={handleCityChange} />
+              ) : (
+                <h2 style={styles.text_normalText}>{userCity}</h2>
+              )}
             </div>
-            <div style={cont_userZoneButton}>
-              <Button onClick={handlerOnClick}>
-                Editar
+            <div style={styles.cont_userZoneButton}>
+              <Button onClick={showCityInput ? handleConfirmCityClick : handleEditCityClick}>
+                {showCityInput ? 'Confirmar' : 'Editar'}
               </Button>
             </div>
           </div>
-          <div style={cont_subUserZone}>
-            <div style={cont_userZoneInfo}>
-              <h1 style={text_importantText}>Direccion de domicilio</h1>
-              <h2 style={text_normalText}>{userAddres}</h2>
+          <div style={styles.cont_subUserZone}>
+            <div style={styles.cont_userZoneInfo}>
+              <h1 style={styles.text_importantText}>Direccion de domicilio</h1>
+              {showAddrInput ? (
+                <input type="userAddres" value={userAddres} onChange={handleAddresChange} />
+              ) : (
+                <h2 style={styles.text_normalText}>{userAddres}</h2>
+              )}
             </div>
-            <div style={cont_userZoneButton}>
-              <Button onClick={handlerOnClick}>
-                Editar
+            <div style={styles.cont_userZoneButton}>
+              <Button onClick={showAddrInput ? handleEditAddresClick : handleConfirmAddresClick}>
+                {showAddrInput ? 'Confirmar' : 'Editar'}
               </Button>
             </div>
           </div>
         </div>
-        <div style={cont_quickAccess}>
-          <div style={cont_subQuickAccess}>
+        <div style={styles.cont_quickAccess}>
+          <div style={styles.cont_subQuickAccess}>
             <div>
-              <img src="https://autoescolabaixcamp.com/wp-content/uploads/2016/02/interrogante-icono.png" alt="Profile Picture" style={style_profilePic} />
+              <img src="https://img.pccomponentes.com/pcblog/1678057200000/como-comprar.jpg" alt="Profile Picture" style={styles.style_shortcutsPic} />
             </div>
-            <h1 style={text_title}>Mis Pedidos</h1>
-            <div style={{ marginTop: '5px' }}>
-              <Button onClick={handlerOnClick}>
-                Contactar
-                <HiOutlineArrowRight className="ml-1 h-3 w-3" />
+            <div style={styles.cont_subQuickAccessText}>
+              <h1 style={styles.text_title}>Mis Pedidos</h1>
+            </div>
+            <div>
+              <Button onClick={handlerOnClick_L}>
+                Abrir
               </Button>
             </div>
           </div>
-          <div style={cont_subQuickAccess}>
+          <div style={styles.cont_subQuickAccess}>
             <div>
-              <img src="https://autoescolabaixcamp.com/wp-content/uploads/2016/02/interrogante-icono.png" alt="Profile Picture" style={style_profilePic} />
+              <img src="https://img.pccomponentes.com/pcblog/1678057200000/pedidos.jpg" alt="Profile Picture" style={styles.style_shortcutsPic} />
             </div>
-            <h1 style={text_title}>Mis Pedidos</h1>
-            <div style={{ marginTop: '5px' }}>
-              <Button onClick={handlerOnClick}>
-                Contactar
-                <HiOutlineArrowRight className="ml-1 h-3 w-3" />
+            <div style={styles.cont_subQuickAccessText}>
+              <h1 style={styles.text_title}>Inventario</h1>
+            </div>
+            <div>
+              <Button onClick={handlerOnClick_C}>
+                Abrir
               </Button>
             </div>
           </div>
-          <div style={cont_subQuickAccess}>
+          <div style={styles.cont_subQuickAccess}>
             <div>
-              <img src="https://autoescolabaixcamp.com/wp-content/uploads/2016/02/interrogante-icono.png" alt="Profile Picture" style={style_profilePic} />
+              <img src="https://img.pccomponentes.com/pcblog/1678057200000/facturas.jpg" alt="Profile Picture" style={styles.style_shortcutsPic} />
             </div>
-            <h1 style={text_title}>Mis Pedidos</h1>
-            <div style={{ marginTop: '5px' }}>
-              <Button onClick={handlerOnClick}>
-                Contactar
-                <HiOutlineArrowRight className="ml-1 h-3 w-3" />
+            <div style={styles.cont_subQuickAccessText}>
+              <h1 style={styles.text_title}>Mapa local</h1>
+            </div>
+            <div>
+              <Button onClick={handlerOnClick_R}>
+                Abrir
               </Button>
             </div>
           </div>
