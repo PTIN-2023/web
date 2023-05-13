@@ -163,7 +163,7 @@ export default function Home(props) {
       type: 'Feature',
       geometry: {
         type: 'Point',
-        coordinates: [cars.objective_longitude, cars.objective_latitude],
+        coordinates: [cars.location_end.longitude, cars.location_end.latitude],
       },
       properties: {
         title: 'Destino',
@@ -182,6 +182,7 @@ export default function Home(props) {
     setPointsGeojson(pointsGeojson => [...pointsGeojson, pointsCollection])
    
   }
+
   useEffect(() => {
     DoPointsGeojson(infoRouteCar);    
   }, [infoRouteCar]);
@@ -231,10 +232,30 @@ export default function Home(props) {
     }
   }
 
-  // console.log("--- getCarRoute");
-  // console.log(infoRouteCar);
-  // console.log("--- getStoreCoordinates");
-  // console.log(storeCoord);
+
+  const [clickPopup, setClickPopup] = useState(null);
+  const handleClick = (event) => {
+    // console.log("evento")
+    // console.log(event)
+    if(infoRouteCar == null) return;
+    if(infoRouteCar.cars == null) return;
+    // console.log("info")
+    // console.log(infoRouteCar)
+    //if(infoRouteCar.cars == undefined) return;
+    infoRouteCar.cars.forEach((cars) => {
+      console.log("-----")
+      console.log(event.lngLat.lat.toFixed(4))
+      console.log(cars.location_act.latitude.toFixed(4))
+      console.log(event.lngLat.lng.toFixed(4))
+      console.log(cars.location_act.longitude.toFixed(4))
+      console.log("-----")
+      if(event.lngLat.lat.toFixed(4) == cars.location_act.latitude.toFixed(4)){
+        if(event.lngLat.lng.toFixed(4) == cars.location_act.longitude.toFixed(4)){
+          setClickPopup(cars);
+        }
+      }
+    })
+  };
 
   return (
     <>
@@ -254,6 +275,7 @@ export default function Home(props) {
             mapboxAccessToken={props.mapBoxToken}
             style={{width: "100%", height: "100%" }}
             mapStyle="mapbox://styles/aeksp/clg9out5b000i01l0p2yiq26g"
+            onClick={handleClick}
           >
           <Source id="my-route" type="geojson" data={routeGeojson[0]}>
             <Layer {...route_layer}/>
@@ -264,6 +286,20 @@ export default function Home(props) {
           <Source id="my-store" type="geojson" data={storeGeojson}>
             <Layer {...store_layer}/>
           </Source>
+         
+          {console.log("click")}
+          {console.log(clickPopup)}
+          {clickPopup && (
+          <Popup longitude={clickPopup.location_act.longitude} latitude={clickPopup.location_act.latitude} anchor="bottom" 
+          onClose={() => setClickPopup(false)}>
+          Matricula: {clickPopup.license_plate} <br/>
+          Contiene:
+          <ul>
+            {clickPopup.packages.map((pack, index) => (
+              <li key={index}>{pack.name}</li>
+            ))}
+          </ul>
+          </Popup>)}
           </Map>
         </Layout>
       </main>
