@@ -261,7 +261,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
   //recibe data -> json de pedidos
   //rowsPerPage -> cuantas filas va a renderizar
   //searchValue -> el filtro en caso de que se active el componente MyOrdersSearch
-  console.log("HOLAAA")
+
   console.log(data.orders)
   const [localeCookie, ] = useCookie('locale')
 
@@ -336,7 +336,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                     {order.date}
                   </Table.Cell>
                   <Table.Cell>
-                    {order.state != "canceled" ? order.date : <ModalContactar currentTarget={currentTarget} currentItem={order.id} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>}
+                    {order.state == "canceled" && <ModalContactar currentTarget={currentTarget} currentItem={order.id} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>}
                   </Table.Cell>
                   <Table.Cell>
                     {order.state == "delivered" &&
