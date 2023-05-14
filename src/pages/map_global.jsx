@@ -28,11 +28,9 @@ export async function getServerSideProps() {
   }
 }
 
-
 export default function Home(props) {
   mapboxgl.accessToken = 'pk.eyJ1IjoiYWVrc3AiLCJhIjoiY2xmd2dtbDNhMGU4bjNjbWkwa2VqbzhhciJ9.LYgWVHhGLoY9T-ix_qC73g'; // GIT IGNORE !! 
 
-  const select = 0
   const [infoRouteCar, setinfoRouteCar] = React.useState([]); // usar estado para almacenar infoRouteCar
 
   async function getCarRoute(props) {
