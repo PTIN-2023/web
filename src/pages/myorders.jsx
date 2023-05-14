@@ -50,21 +50,19 @@ export default function Home(props) {
     "orders_per_page" : ordersPerPage,
     "page" : page
   })
-  console.log(stringRequest)
+
   const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
     stringRequest,
     props.apiEndpoint+"/api/list_patient_orders"
   )
+
   useEffect(() => {
-    console.log("fetched:" + stringResponse)
-  }, [callData()]);
-  
-  async function callData(){
-    console.log("fetching")
-    await sumbitAndFetch();
+    if(stringResponse != 'none') {
+      console.log(stringResponse)
+    }
+  }, [stringResponse])
 
-  }
-
+  sumbitAndFetch();
   
   return (
     <>
@@ -77,7 +75,6 @@ export default function Home(props) {
         {/**le pasamos a Layout el valor del componente de la página que está renderizando (Layout se encarga de detectar en que pagina está) */}
         <Layout navBarValue={setSearchValue}>
         <div className={myordersStyles.mainContainer}>
-
           {/**TablaPedidos recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
           <TablaPedidos data={stringResponse} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>
         </div>
