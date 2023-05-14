@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import useTable from "../hooks/useTable.js";
 import TableFooter from "./TableFooter.jsx";
-import {Table, Checkbox, Button, Modal } from 'flowbite-react';
-import style from "../styles/Makeorder.module.css";
-import myOrders from "../pages/myorders.jsx";
 
 const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
     //componente que renderiza la tabla con los pedidos
@@ -18,99 +15,40 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
     }  
     var { slice, range } = useTable(data, page, rowsPerPage);
 
-    const [showModal, setShowModal] = useState(false);
-
-    const handleCloseModal = () => {
-        setShowModal(false);
-    };
-
-    const handleOpenModal = () => {
-        setShowModal(true);
-    };
-
-    const [ triggerPopUp, setTriggerPopUp ] = useState(false);
-
-    const handleClosePopUp = () => {
-        setTriggerPopUp(false)
-    }
-
     return (
-        <div>
-            <>
-                <Table hoverable={true}>
-                    {console.log(searchValue)}
-                    <Table.Head>
-                        <Table.HeadCell className="" column=""></Table.HeadCell>
-                        <Table.HeadCell> Medicamento </Table.HeadCell>
-                        <Table.HeadCell> Activo/Excipiente </Table.HeadCell>
-                        <Table.HeadCell> PVP </Table.HeadCell>
-                        <Table.HeadCell> Dosis </Table.HeadCell>
-                        <Table.HeadCell> Detalles </Table.HeadCell>
-                        <Table.HeadCell><span className="sr-only"> Pedir </span></Table.HeadCell>
-                    </Table.Head>
-                    <Table.Body className="divide-y">
-                    {slice.map((med) =>
-                        <>
-                            <Table.Row className={style.tableRow}>
-                                <Table.Cell className="!p-4"><Checkbox /></Table.Cell>
-                                <Table.Cell className={style.tableCell}>{med.name}</Table.Cell>
-                                <Table.Cell className={style.tableCell}>{med.act_exc}</Table.Cell>
-                                <Table.Cell className={style.tableCell}>{med.pvp}</Table.Cell>
-                                <Table.Cell className={style.tableCell}>{med.dosis}</Table.Cell>
-                                <Table.Cell className={style.tableCell}>{med.detalles}</Table.Cell>
-                                <Table.Cell>
-                                    <>
-                                        <Button onClick={handleOpenModal}>
-                                            Pedir
-                                        </Button>
-                                        <Modal show={showModal} size="md" popup={true} onClose={handleCloseModal}>
-                                            <Modal.Header />
-                                            <Modal.Body>
-                                                <div className="text-center">
-                                                    <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                                        Seguro que quieres comprar este medicamento ?
-                                                    </h3>
-                                                    <div className="flex justify-center gap-4">
-                                                        <Button color="green" onClick={() => { setTriggerPopUp(true); setShowModal(false); }}>
-                                                            Si, estoy segur@
-                                                        </Button>
-                                                        <Button color="failure" onClick={handleCloseModal}>
-                                                            No, cancelar
-                                                        </Button>
-                                                    </div>
-                                                </div>
-                                            </Modal.Body>
-                                        </Modal>
-                                    </>                         
-                                </Table.Cell>
-                            </Table.Row>
-                        </>
-                    )}
-                    </Table.Body>
-                </Table>
-                <br></br>
-            </>
-            <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
-            { triggerPopUp && 
-                <Modal show={triggerPopUp} size="md" popup={true} onClose={handleClosePopUp} >
-                    <Modal.Header />
-                    <Modal.Body>
-                        <div className="text-center">
-                            <h3 className="mb-5 text-lg font-normal text-blue-500">
-                                Enhorabuena, tu pedido se ha realizado con éxito. Quieres ver su estado ?
-                            </h3>
-                            <div className="flex justify-center gap-4"> 
-                                <Button color="gray" href="./myorders" >
-                                    Ver Pedido
-                                </Button>
-                                <Button color="gray" onClick={handleClosePopUp} >
-                                    No, gracias.
-                                </Button>
+        <div className="mx-auto flex flex-col justify-start">
+            <div className="bg-white">
+                <div className="mx-auto max-w-2x1 px-4 py-2 sm:px-6 lg:max-w-7xl lg:px-8">
+                    <h2 className="text-2xl font-bold tracking-tight text-gray-900">Medicamentos</h2>
+                    
+                    <div className="mt-6 grid grid-cols-1 gap-x-6 sm:grid-cols-2 lg:grid-cols-5 xl:gap-x-8">
+                        {slice.map((med) => (
+                            <div key={med.id} className="group relative">
+                                <div className="min-h-80 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                                    <img src="/media/default.png" alt="Foto caja Ibuprofeno" className="h-full w-full object-cover object-center lg:h-full lg:w-full" />
+                                </div>
+                                <div className="mt-4 flex justify-between">
+                                    <div>
+                                        <h3 className="text-sm text-gray-700">
+                                            <a href="#">
+                                                <span aria-hidden="true" className="absolute inset-0"></span>
+                                                {med.act_exc}
+                                            </a>
+                                        </h3>
+                                        <p className="mt-1 text-sm text-gray-500">{med.detalles}</p>
+                                    </div>
+                                    <p className="text-sm font-medium text-gray-900">{med.pvp}</p>
+                                </div>
                             </div>
-                        </div>
-                    </Modal.Body>
-                </Modal> }
+                        ))}
+                    </div>
+                </div>
+            </div>
+            <div style={{ marginLeft: 'auto', marginTop: '10px' }}>
+                <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
+            </div>
         </div>
+        
     );
 }
 

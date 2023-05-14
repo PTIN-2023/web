@@ -1,0 +1,6 @@
+/*
+price slider
+*/
+.rangePrice {
+  @apply bg-blue-500;
+}
