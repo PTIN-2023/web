@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 
 export default function usePrepareBodyRequest(values) {
     const [bodyRequest, setBodyRequest] = useState(JSON.stringify(values, null, 2));
-    console.log("bodyRequest: "+ bodyRequest)
+
     useEffect(() => {setBodyRequest(JSON.stringify(values, null, 2))}, Object.values(values));
     return bodyRequest;
 };

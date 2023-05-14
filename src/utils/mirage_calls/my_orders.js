@@ -1,25 +1,31 @@
 import hasExpectedFields from '../hasExpectedFields'
 
 export function seedMirageMyOrders(server) {
-    const states = [
-        {num: 0, name: 'awaiting_confirmation'},
-        {num: 1, name: 'ordered'},
-        {num: 2, name: 'car_sent'},
-        {num: 3, name: 'drone_sent'},
-        {num: 4, name: 'delivered_waiting'},
-        {num: 5, name: 'delivered'},
-        {num: 6, name: 'denied'},
-        {num: 7, name: 'canceled'}
-    ]
+  const states = [
+    {num: 0, name: 'awaiting_confirmation'},   
+    {num: 1, name: 'sent'},
+    {num: 2, name: 'delivered'},
+    {num: 3, name: 'canceled'}
+  ]
+    // const states = [
+    //     {num: 0, name: 'awaiting_confirmation'},
+    //     {num: 1, name: 'ordered'},
+    //     {num: 2, name: 'car_sent'},
+    //     {num: 3, name: 'drone_sent'},
+    //     {num: 4, name: 'delivered_waiting'},
+    //     {num: 5, name: 'delivered'},
+    //     {num: 6, name: 'denied'},
+    //     {num: 7, name: 'canceled'}
+    // ]
 
     states.forEach(state => {
         server.create("order", {
-            order_identifier : state.num,
+            order_identifier : (state.num + 23 * 100),
             medicine_list : [
                 {
                   medicine_identifier: '1',
                   medicine_image_url: 'https://picsum.photos/200',
-                  medicine_name: 'medicine1',
+                  medicine_name: 'Omeprazol',
                   excipient: 'excipient1',
                   pvp: '1',
                   contents: 'contents1',
@@ -37,7 +43,63 @@ export function seedMirageMyOrders(server) {
                   prescription_needed: false,
                   form: 'pill',
                   type_of_adminstration: 'oral'
+                },
+                {
+                  medicine_identifier: '0',
+                  medicine_image_url: 'https://picsum.photos/200',
+                  medicine_name: 'Diazepam',
+                  excipient: 'Sorbitol (E-420)',
+                  pvp: 4,
+                  contents: '30 comprimidos',
+                  prescription_needed: false,
+                  form: 'pill',
+                  type_of_adminstration: 'oral'
+                },
+                {
+                  medicine_identifier: '0',
+                  medicine_image_url: 'https://picsum.photos/200',
+                  medicine_name: 'Adiro',
+                  excipient: 'Sorbitol (E-420)',
+                  pvp: 4,
+                  contents: '30 comprimidos',
+                  prescription_needed: false,
+                  form: 'pill',
+                  type_of_adminstration: 'oral'
+                },
+                {
+                  medicine_identifier: '0',
+                  medicine_image_url: 'https://picsum.photos/200',
+                  medicine_name: 'Paracetamol',
+                  excipient: 'Sorbitol (E-420)',
+                  pvp: 4,
+                  contents: '30 comprimidos',
+                  prescription_needed: false,
+                  form: 'pill',
+                  type_of_adminstration: 'oral'
+                },
+                {
+                  medicine_identifier: '0',
+                  medicine_image_url: 'https://picsum.photos/200',
+                  medicine_name: 'Heparina',
+                  excipient: 'Sorbitol (E-420)',
+                  pvp: 4,
+                  contents: '30 comprimidos',
+                  prescription_needed: false,
+                  form: 'pill',
+                  type_of_adminstration: 'oral'
+                },
+                {
+                  medicine_identifier: '0',
+                  medicine_image_url: 'https://picsum.photos/200',
+                  medicine_name: 'Barra de metal 26mm',
+                  excipient: 'Sorbitol (E-420)',
+                  pvp: 4,
+                  contents: '30 comprimidos',
+                  prescription_needed: false,
+                  form: 'pill',
+                  type_of_adminstration: 'oral'
                 }
+                
             ],
             date : '2023-01-0' + state.num,
             state : state.name

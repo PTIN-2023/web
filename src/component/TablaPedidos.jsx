@@ -107,12 +107,12 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
                 </div>
                 <div className="flow-root h-[200px] overflow-auto">
                   <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-                    {currentItem.all_meds.map((item) =>
+                    {currentItem.medicine_list.map((item) =>
                     <li className="py-3 sm:py-4">
                       <div className="flex items-center space-x-4">
                         <div className="min-w-0 flex-1">
                           <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
-                            {item}
+                            {item.medicine_name}
                           </p>
                         </div>
                       </div>
@@ -261,7 +261,8 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
   //recibe data -> json de pedidos
   //rowsPerPage -> cuantas filas va a renderizar
   //searchValue -> el filtro en caso de que se active el componente MyOrdersSearch
-  console.log(data)
+  console.log("HOLAAA")
+  console.log(data.orders)
   const [localeCookie, ] = useCookie('locale')
 
   const [page, setPage] = useState(1);
@@ -289,8 +290,10 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
   //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
   if(searchValue.value.length > 0 && searchValue.isCompleted){
-    data = data.filter((pedido) => pedido.id.toLowerCase().includes(searchValue.value));  
-  }  
+    data = data.orders.filter((pedido) => pedido.id.toLowerCase().includes(searchValue.value));  
+
+  }else data = data.orders;
+  
   var { slice, range } = useTable(data, page, rowsPerPage);
   
   return (
@@ -330,10 +333,10 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                     {order.id}
                   </Table.Cell>
                   <Table.Cell>
-                    {order.purchasing_date}
+                    {order.date}
                   </Table.Cell>
                   <Table.Cell>
-                    {order.state != "canceled" ? order.fecha_compra : <ModalContactar currentTarget={currentTarget} currentItem={order.id} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>}
+                    {order.state != "canceled" ? order.date : <ModalContactar currentTarget={currentTarget} currentItem={order.id} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>}
                   </Table.Cell>
                   <Table.Cell>
                     {order.state == "delivered" &&

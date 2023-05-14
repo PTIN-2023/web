@@ -46,7 +46,7 @@ export default function Home(props) {
 
 
   const stringRequest = usePrepareBodyRequest({
-    "session_token" : "pepe@pepe.com",
+    "session_token" : userTokenCookie,
     "orders_per_page" : ordersPerPage,
     "page" : page
   })
@@ -58,7 +58,7 @@ export default function Home(props) {
 
   useEffect(() => {
     if(stringResponse != 'none') {
-      console.log(stringResponse)
+      console.log("response not none")
     }
   }, [stringResponse])
 
@@ -76,7 +76,8 @@ export default function Home(props) {
         <Layout navBarValue={setSearchValue}>
         <div className={myordersStyles.mainContainer}>
           {/**TablaPedidos recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
-          <TablaPedidos data={stringResponse} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>
+          {stringResponse != 'none' && <TablaPedidos data={JSON.parse(stringResponse)} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>}
+          
         </div>
         </Layout> 
       </main>
