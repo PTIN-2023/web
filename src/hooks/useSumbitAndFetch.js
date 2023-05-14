@@ -13,7 +13,7 @@ import { useState, useEffect } from "react";
 
 export default function useSumbitAndFetch(request, url, evaluateResponse) {
     const [stringResponse, setStringResponse] = useState('none');
-
+    
     async function fetchAndExtractBody(url, body) {
         return fetch(url, {
           method: 'POST',
@@ -25,8 +25,7 @@ export default function useSumbitAndFetch(request, url, evaluateResponse) {
     }
 
     const sumbitAndFetch = async (e) => {
-        e.preventDefault();
-    
+        if(e) e.preventDefault();
         const res = await fetchAndExtractBody(url, request);
         setStringResponse(JSON.stringify(res, null, 2))
 
