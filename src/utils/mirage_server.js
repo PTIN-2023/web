@@ -11,20 +11,20 @@ import { seedMirageDoctorsNotifications, defineMirageDoctorsNotificationsRoutes 
 import { seedMirageUserInf, defineMirageProfileRoutes } from "./mirage_calls/profile"
 
 export function makeServer() {
-  return createServer({
-    models: {
+    return createServer({
+        models: {
       tokens : Model,
       users: Model,
-      cars: Model,
-      drones: Model,
+          cars: Model,
+          drones: Model,
       medicines: Model,
       prescriptions : Model,
       orders : Model,
       beehives : Model,
       notifications : Model
-    },
+        },
 
-    seeds(server) {
+        seeds(server) {
       if(typeof window !== 'undefined') {
         const dbData = localStorage.getItem('db');
         if (dbData) {
@@ -42,10 +42,10 @@ export function makeServer() {
           seedMirageUserInf(server) // Simula la creación de dos usuarios
         }
       }
-    },
+        },
 
-    routes() {
-      this.urlPrefix=env_config.getApiEndpoint();
+        routes() {
+          this.urlPrefix=env_config.getApiEndpoint();
 
       defineMirageCarRoutes(this)
       defineMirageDroneRoutes(this)
@@ -61,6 +61,6 @@ export function makeServer() {
       this.passthrough("https://events.mapbox.com/**")
       this.passthrough('https://www.googleapis.com/**');  
       this.passthrough()
-    }
-  })
-}
+        }
+    })
+  }

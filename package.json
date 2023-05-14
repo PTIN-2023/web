@@ -27,7 +27,7 @@
     "react-map-gl": "^7.0.23",
     "styled-components": "^5.3.9",
     "use-local-storage-state": "^18.3.2",
-    "use-session-storage-state": "^18.1.1"
+    "use-session-storage-state": "^18.1.1",
     "react-router-dom": "^6.11.1",
     "styled-components": "^5.3.9"
   },
