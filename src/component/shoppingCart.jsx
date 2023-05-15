@@ -204,21 +204,21 @@ const shoppingCartButton = () => {
                                                                                 <div>
                                                                                     <div className="flex justify-between text-base font-medium text-gray-900">
                                                                                         <h3>
-                                                                                            <a href={product.href}>{product.name}</a>
+                                                                                            <a href={product.href}>{product.act_exc}</a>
                                                                                         </h3>
                                                                                         <p className="ml-4">{product.price}</p>
                                                                                     </div>
                                                                                     <p className="mt-1 text-sm text-gray-500">{product.color}</p>
                                                                                 </div>
                                                                                 <div className="flex flex-1 items-end justify-between text-sm">
-                                                                                    <p className="text-gray-500">Qty {product.quantity}</p>
+                                                                                    <p className="text-gray-500"> {product.quantity}</p>
 
                                                                                     <div className="flex">
                                                                                         <button
                                                                                             type="button"
                                                                                             className="font-medium text-indigo-600 hover:text-indigo-500"
                                                                                         >
-                                                                                            Remove
+                                                                                            
                                                                                         </button>
                                                                                     </div>
                                                                                 </div>
@@ -233,10 +233,10 @@ const shoppingCartButton = () => {
 
                                             <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                                                 <div className="flex justify-between text-base font-medium text-gray-900">
-                                                    <p>Subtotal</p>
-                                                    <p>$262.00</p>
+                                                    <p></p>
+                                                    <p></p>
                                                 </div>
-                                                <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+                                                <p className="mt-0.5 text-sm text-gray-500"></p>
                                                 <div className="mt-6">
                                                     <Button onClick={handleCheckoutClick} >
                                                         Checkout
