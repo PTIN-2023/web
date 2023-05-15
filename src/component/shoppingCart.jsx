@@ -1,37 +1,40 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useContext, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { Button } from 'flowbite-react'
 import { HiShoppingCart } from 'react-icons/hi'
+import { ShopContext } from '../context/shopContext'
 
-const products = [
-    {
-        id: 1,
-        name: 'Throwback Hip Bag',
-        href: '',
-        color: 'Salmon',
-        price: '$90.00',
-        quantity: 1,
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg',
-        imageAlt: 'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.',
-    },
-    {
-        id: 2,
-        name: 'Medium Stuff Satchel',
-        href: '',
-        color: 'Blue',
-        price: '$32.00',
-        quantity: 1,
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg',
-        imageAlt:
-            'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.',
-    },
-    // More products...
+const meds = [
+    { id:1, name: "Ibuprofeno", act_exc: "Ibuprofeno/Sorbitol(E-420)", pvp: "4,68€", dosis: "1 comprimido (600 mg) cada 6 a 8 horas",
+                    detalles: "Pedido con receta", precio: "4.68", fomra: "solido", via: "oral", page: 1 },
+                    { id:2, name: "Ibuprofeno", act_exc: "Ibuprofeno/Sorbitol(E-420)", pvp: "4,68€", dosis: "1 comprimido (600 mg) cada 6 a 8 horas",
+                    detalles: "Pedido con receta", precio: "4.68", fomra: "solido", via: "oral", page: 1 },
+                    { id:3, name: "Ibuprofeno", act_exc: "Ibuprofeno/Sorbitol(E-420)", pvp: "4,68€", dosis: "1 comprimido (600 mg) cada 6 a 8 horas",
+                    detalles: "Pedido con receta", precio: "4.68", fomra: "solido", via: "oral", page: 1 },
+                    { id:4, name: "Ibuprofeno", act_exc: "Ibuprofeno/Sorbitol(E-420)", pvp: "4,68€", dosis: "1 comprimido (600 mg) cada 6 a 8 horas",
+                    detalles: "Pedido con receta", precio: "4.68", fomra: "solido", via: "oral", page: 1 },
+                    { id:5, name: "Ibuprofeno", act_exc: "Ibuprofeno/Sorbitol(E-420)", pvp: "4,68€", dosis: "1 comprimido (600 mg) cada 6 a 8 horas",
+                    detalles: "Pedido con receta", precio: "4.68", fomra: "solido", via: "oral", page: 1 },
+                    { id:6, name: "Ibuprofeno", act_exc: "Ibuprofeno/Sorbitol(E-420)", pvp: "4,68€", dosis: "1 comprimido (600 mg) cada 6 a 8 horas",
+                    detalles: "Pedido con receta", precio: "4.68", fomra: "solido", via: "oral", page: 1 },
+                    { id:7, name: "Ibuprofeno", act_exc: "Ibuprofeno/Sorbitol(E-420)", pvp: "4,68€", dosis: "1 comprimido (600 mg) cada 6 a 8 horas",
+                    detalles: "Pedido con receta", precio: "4.68", fomra: "solido", via: "oral", page: 1 },
+                    { id:8, name: "Ibuprofeno", act_exc: "Ibuprofeno/Sorbitol(E-420)", pvp: "4,68€", dosis: "1 comprimido (600 mg) cada 6 a 8 horas",
+                    detalles: "Pedido con receta", precio: "4.68", fomra: "solido", via: "oral", page: 1 },
+                    { id:9, name: "Ibuprofeno", act_exc: "Ibuprofeno/Sorbitol(E-420)", pvp: "4,68€", dosis: "1 comprimido (600 mg) cada 6 a 8 horas",
+                    detalles: "Pedido con receta", precio: "4.68", fomra: "solido", via: "oral", page: 1 },
+                    { id:10, name: "Ibuprofeno", act_exc: "Ibuprofeno/Sorbitol(E-420)", pvp: "4,68€", dosis: "1 comprimido (600 mg) cada 6 a 8 horas",
+                    detalles: "Pedido con receta", precio: "4.68", fomra: "solido", via: "oral", page: 1 },
+                    { id:11, name: "Ibuprofeno", act_exc: "Ibuprofeno/Sorbitol(E-420)", pvp: "4,68€", dosis: "1 comprimido (600 mg) cada 6 a 8 horas",
+                    detalles: "Pedido con receta", precio: "4.68", fomra: "solido", via: "oral", page: 2 }
 ]
 
 
 
 const shoppingCartButton = () => {
+
+    const { cartItems } = useContext(ShopContext);
 
     const [open, setOpen] = useState(false)
 
@@ -186,41 +189,43 @@ const shoppingCartButton = () => {
                                                 <div className="mt-8">
                                                     <div className="flow-root">
                                                         <ul role="list" className="-my-6 divide-y divide-gray-200">
-                                                            {products.map((product) => (
-                                                                <li key={product.id} className="flex py-6">
-                                                                    <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                                                        <img
-                                                                            src={product.imageSrc}
-                                                                            alt={product.imageAlt}
-                                                                            className="h-full w-full object-cover object-center"
-                                                                        />
-                                                                    </div>
-
-                                                                    <div className="ml-4 flex flex-1 flex-col">
-                                                                        <div>
-                                                                            <div className="flex justify-between text-base font-medium text-gray-900">
-                                                                                <h3>
-                                                                                    <a href={product.href}>{product.name}</a>
-                                                                                </h3>
-                                                                                <p className="ml-4">{product.price}</p>
+                                                            {meds.map((product) => {
+                                                                if (cartItems[product.id] !== 0) {
+                                                                    return (
+                                                                        <li key={product.id} className="flex py-6">
+                                                                            <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                                                                <img
+                                                                                    src="/media/default.png"
+                                                                                    className="h-full w-full object-cover object-center"
+                                                                                />
                                                                             </div>
-                                                                            <p className="mt-1 text-sm text-gray-500">{product.color}</p>
-                                                                        </div>
-                                                                        <div className="flex flex-1 items-end justify-between text-sm">
-                                                                            <p className="text-gray-500">Qty {product.quantity}</p>
 
-                                                                            <div className="flex">
-                                                                                <button
-                                                                                    type="button"
-                                                                                    className="font-medium text-indigo-600 hover:text-indigo-500"
-                                                                                >
-                                                                                    Remove
-                                                                                </button>
+                                                                            <div className="ml-4 flex flex-1 flex-col">
+                                                                                <div>
+                                                                                    <div className="flex justify-between text-base font-medium text-gray-900">
+                                                                                        <h3>
+                                                                                            <a href={product.href}>{product.name}</a>
+                                                                                        </h3>
+                                                                                        <p className="ml-4">{product.price}</p>
+                                                                                    </div>
+                                                                                    <p className="mt-1 text-sm text-gray-500">{product.color}</p>
+                                                                                </div>
+                                                                                <div className="flex flex-1 items-end justify-between text-sm">
+                                                                                    <p className="text-gray-500">Qty {product.quantity}</p>
+
+                                                                                    <div className="flex">
+                                                                                        <button
+                                                                                            type="button"
+                                                                                            className="font-medium text-indigo-600 hover:text-indigo-500"
+                                                                                        >
+                                                                                            Remove
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-                                                            ))}
+                                                                        </li>);
+                                                                } 
+                                                            })}
                                                         </ul>
                                                     </div>
                                                 </div>

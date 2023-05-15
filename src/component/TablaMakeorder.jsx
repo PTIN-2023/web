@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import useTable from "../hooks/useTable.js";
 import TableFooter from "./TableFooter.jsx";
+import { ShopContext } from "../context/shopContext.jsx"
+
 
 const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
     //componente que renderiza la tabla con los pedidos
@@ -15,6 +17,8 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
     }  
     var { slice, range } = useTable(data, page, rowsPerPage);
 
+    const {addToCart} = useContext(ShopContext);
+
     return (
         <div className="mx-auto flex flex-col justify-start">
             <div className="bg-white">
@@ -22,7 +26,7 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                     <h2 className="text-2xl font-bold tracking-tight text-gray-900">Medicamentos</h2>
                     
                     <div className="mt-6 grid grid-cols-1 gap-x-6 sm:grid-cols-2 lg:grid-cols-5 xl:gap-x-8">
-                        {slice.map((med) => (
+                    {slice.map((med) => (
                             <div key={med.id} className="group relative">
                                 <div className="min-h-80 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                                     <img src="/media/default.png" alt="Foto caja Ibuprofeno" className="h-full w-full object-cover object-center lg:h-full lg:w-full" />
@@ -30,10 +34,10 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                                 <div className="mt-4 flex justify-between">
                                     <div>
                                         <h3 className="text-sm text-gray-700">
-                                            <a href="#">
+                                            <button onClick={() => addToCart(med.id)}>
                                                 <span aria-hidden="true" className="absolute inset-0"></span>
                                                 {med.act_exc}
-                                            </a>
+                                            </button>
                                         </h3>
                                         <p className="mt-1 text-sm text-gray-500">{med.detalles}</p>
                                     </div>
