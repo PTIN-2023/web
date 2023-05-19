@@ -20,8 +20,9 @@ export default function Home() {
                 setMeds(json.meds)
             })
             .catch((err) => console.log(err))
+            console.log(meds)
     }, [])
-
+    
     const handleClick = () => {
         const medicamentos = [
             {
