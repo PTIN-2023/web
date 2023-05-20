@@ -53,15 +53,15 @@ export default function Home(props) {
     }
   }
 
-  const [storeCoord, setStoreCoord] = React.useState({}); // usar estado para almacenar storeCoord
+  const [storeCoord, setStoreCoord] = React.useState([]); // usar estado para almacenar storeCoord
   async function getStoreCoordinates(props) {
     try {
-      const response = await fetch(props.apiEndpoint + "/api/store_coordinates", {
+      const response = await fetch(props.apiEndpoint + "/api/beehives_global", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({  })
+        body: JSON.stringify({})
       });
       
       const data = await response.json();
@@ -201,26 +201,37 @@ export default function Home(props) {
     }
   }
 
-  const [storeGeojson, setStoreGeojson] = useState({})
+  const [storeGeojson, setStoreGeojson] = useState([])
+
+  function DoStoreGeojson(sC){
+    if(sC == null) return;
+    if(sC.beehives == null) return;
+    sC = [sC]
+
+    const storeFeatures = sC[0].beehives.map((beehives) => ({
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [beehives.longitude, beehives.latitude],
+      },
+      properties: {
+        title: 'Colmena',
+        icon: 'ranger-station',
+      }
+    }))
+
+    const storeCollection = {
+      type: 'FeatureCollection',
+      features: storeFeatures
+      
+    };
+   
+    setStoreGeojson(storeGeojson => [...storeGeojson, storeCollection])
+  }
 
   useEffect(() => {
-    setStoreGeojson({
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [storeCoord.st_longitude, storeCoord.st_latitude]
-          },
-          properties: {
-            title: 'Colmena',
-            icon: 'ranger-station'
-          }
-        }
-      ]
-    });
-    }, [storeCoord]);
+    DoStoreGeojson(storeCoord);
+  }, [storeCoord])
 
   const store_layer = {
     id: 'colmena',
@@ -273,7 +284,7 @@ export default function Home(props) {
           <Source id="my-points" type="geojson" data={pointsGeojson[0]}>
             <Layer {...points_layer}/>
           </Source>
-          <Source id="my-store" type="geojson" data={storeGeojson}>
+          <Source id="my-store" type="geojson" data={storeGeojson[0]}>
             <Layer {...store_layer}/>
           </Source>
 
