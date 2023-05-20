@@ -4,6 +4,75 @@ export function seedMirageDoctorsNotifications(server) {
 }
 
 export function defineMirageDoctorsNotificationsRoutes(server) {
+    server.post("/api/num_pages_doctor_pending_confirmations", (schema, request) => {
+      const requestPayload = JSON.parse(request.requestBody)
+      console.log("Received num pages pending notifications orders req with:" + request.requestBody)
+
+      // Check payload
+      const expectedFields = [
+        "session_token",
+        "confirmations_per_page"
+      ]
+      const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
+      if (!expectedFieldsOk) {
+        return {result : 'error_fields'}
+      }
+
+      const orders = schema.orders.where((order) => order.state === 'awaiting_confirmation').models.map((order) => {
+        return {
+            order_identifier : order.order_identifier,
+            date : order.date,
+            patient_fullname : "John Doe",
+            medicine_list : order.medicine_list
+        }
+      })
+      
+      // Return
+      return {
+        result: 'ok',
+        num_pages : orders.length
+      }
+    })
+
+    server.post("/api/num_pages_doctor_approved_confirmations", (schema, request) => {
+      const requestPayload = JSON.parse(request.requestBody)
+      console.log("Received list pending notifications orders req with:" + request.requestBody)
+
+      // Check payload
+      const expectedFields = [
+        "session_token",
+        "confirmations_per_page"
+      ]
+      const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
+      if (!expectedFieldsOk) {
+        return {result : 'error_fields'}
+      }
+
+      const orders = schema.orders.where((order) => order.state != 'awaiting_confirmation').models.map((order) => {
+        const stateToApproved = (state) => {
+            if (state === 'canceled')
+                return 'canceled'
+            if (state === 'denied')
+                return 'no'
+            return 'yes'
+        }
+
+        return {
+            order_identifier : order.order_identifier,
+            date : order.date,
+            patient_fullname : "John Doe",
+            medicine_list : order.medicine_list,
+            approved : stateToApproved(order.state)
+        }
+      })
+      
+      // Return
+      return {
+        result: 'ok',
+        num_pages : orders.length
+      }
+    })
+
     server.post("/api/list_doctor_pending_confirmations", (schema, request) => {
       const requestPayload = JSON.parse(request.requestBody)
       console.log("Received list pending notifications orders req with:" + request.requestBody)
