@@ -1,4 +1,5 @@
 import * as env_config from "../../utils/env_config"
+import generate_map_route from "../../utils/generate_map_route";
 
 export default async function handler(req, res) {
     const { session_token, location_act, location_end } = req.body;
@@ -29,23 +30,20 @@ export default async function handler(req, res) {
     // Extract from and to
     const query = {
         location_in: {
-            latitude: 41.2209492,
-            longitude: 1.7298172
+            longitude: act_lat,
+            latitude: act_lon
         },
         location_end: {
-            latitude: 41.2280427,
-            longitude: 1.7350207
+            longitude: end_lat,
+            latitude: end_lon
         }
     }
 
     // Generate route
-    const mapbox_public_token = 'pk.eyJ1IjoiYWVrc3AiLCJhIjoiY2xmd2dtbDNhMGU4bjNjbWkwa2VqbzhhciJ9.LYgWVHhGLoY9T-ix_qC73g';
-    const response = await fetch(
-        `https://api.mapbox.com/directions/v5/mapbox/driving/${query.location_in.longitude},${query.location_in.latitude};${query.location_end.longitude},${query.location_end.latitude}?geometries=geojson&access_token=${mapbox_public_token}`
-    ).then(data => data.json());
-    
-    if(!response || response.code != 'Ok' || !response.routes || !response.routes[0])
-        return
+    const response = await generate_map_route(query)
+
+    if(!response)
+        return res.status(500).json({ result: 'Error generating route' })
 
     const coordinates = response.routes[0].geometry.coordinates
 

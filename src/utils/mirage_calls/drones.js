@@ -3,6 +3,7 @@ import { getNextLatitudeAndLongitude } from "../sphere_movement"
 export function seedMirageDrones(server) {
   server.create("drone", {
     id_dron: 1,
+    id_route: 0,
     battery: 100,
     status: 5,
     autonomy: 30,
@@ -29,6 +30,7 @@ export function seedMirageDrones(server) {
 
   server.create("drone", {
     id_dron: 2,
+    id_route: 1,
     battery: 80,
     status: 5,
     autonomy: 25,

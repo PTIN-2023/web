@@ -9,28 +9,30 @@ import { seedMirageMakeOrders, defineMakeOrdersRoutes } from "./mirage_calls/mak
 import { seedMirageMyOrders, defineMirageMyOrdersRoutes } from "./mirage_calls/my_orders"
 import { seedMirageDoctorsNotifications, defineMirageDoctorsNotificationsRoutes } from "./mirage_calls/doctors_notifications"
 import { seedMirageUserInf, defineMirageProfileRoutes } from "./mirage_calls/profile"
+import { seedMirageRoutes, defineMirageRoutesRoutes } from "./mirage_calls/routes"
 
 export function makeServer() {
-    return createServer({
-        models: {
+  return createServer({
+    models: {
       tokens : Model,
       users: Model,
-          cars: Model,
-          drones: Model,
+      cars: Model,
+      drones: Model,
       medicines: Model,
       prescriptions : Model,
       orders : Model,
       beehives : Model,
-      notifications : Model
-        },
+      notifications : Model,
+      routes : Model
+    },
 
-        seeds(server) {
+    seeds(server) {
       if(typeof window !== 'undefined') {
-        const dbData = localStorage.getItem('db');
-        if (dbData) {
-          // https://miragejs.com/api/classes/db/#load-data
-          server.db.loadData(JSON.parse(dbData));
-        } else {
+          const dbData = localStorage.getItem('db');
+      if (dbData) {
+        // https://miragejs.com/api/classes/db/#load-data
+        server.db.loadData(JSON.parse(dbData));
+      } else {
           seedMirageCars(server)
           seedMirageDrones(server)
           seedMirageAuth(server)
@@ -39,13 +41,14 @@ export function makeServer() {
           seedMirageMakeOrders(server)
           seedMirageMyOrders(server)
           seedMirageDoctorsNotifications(server)
-          seedMirageUserInf(server) // Simula la creación de dos usuarios
+          seedMirageUserInf(server)
+          seedMirageRoutes(server)
         }
       }
-        },
+    },
 
-        routes() {
-          this.urlPrefix=env_config.getApiEndpoint();
+    routes() {
+      this.urlPrefix=env_config.getApiEndpoint();
 
       defineMirageCarRoutes(this)
       defineMirageDroneRoutes(this)
@@ -55,12 +58,13 @@ export function makeServer() {
       defineMakeOrdersRoutes(this)
       defineMirageMyOrdersRoutes(this)
       defineMirageDoctorsNotificationsRoutes(this)
-      defineMirageProfileRoutes(this) // Ruta para gestionar los datos de la pagina del PERFIL
+      defineMirageProfileRoutes(this)
+      defineMirageRoutesRoutes(this)
 
       this.passthrough("https://api.mapbox.com/**")
       this.passthrough("https://events.mapbox.com/**")
       this.passthrough('https://www.googleapis.com/**');  
       this.passthrough()
-        }
-    })
-  }
+    }
+  })
+}

@@ -3,6 +3,7 @@ import { getNextLatitudeAndLongitude } from "../sphere_movement"
 export function seedMirageCars(server) {
   server.create("car", {
     id_car: 1,
+    id_route: 0,
     license_plate: "ABC123",
     battery: 75,
     status: 1,
@@ -30,6 +31,7 @@ export function seedMirageCars(server) {
   })
   server.create("car", {
     id_car: 2,
+    id_route: 1,
     license_plate: "DEF456",
     battery: 90,
     status: 2,
