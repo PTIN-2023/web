@@ -19,7 +19,10 @@ import ListDoctorPendingConfirmations from "../component/testpage/ListDoctorPend
 import ListDoctorApprovedConfirmations from "../component/testpage/ListDoctorApprovedConfirmations";
 import DoctorConfirmOrder from "../component/testpage/DoctorConfirmOrder";
 import GenerateRouteTestComponent from "../component/testpage/GenerateRouteTestComponent";
+import MakeOrderTestComponent from "../component/testpage/MakeOrderTestComponent";
 import {GoogleOAuthProvider} from '@react-oauth/google';
+import NumPagesMedicinesTestComponent from "../component/testpage/NumPagesMedicinesTestComponent";
+import NumPagesPatientOrdersTestComponent from "../component/testpage/NumPagesPatientOrdersTestComponent";
 
 // Temporal testing page to make sure the env variables + api requests work as 
 // intented
@@ -87,14 +90,23 @@ export default function Home(props) {
               <GoogleOAuthTestComponent apiEndpoint={props.apiEndpoint}/>
             </GoogleOAuthProvider>
           </Tabs.Item>
+          <Tabs.Item title="Num pages available medicines API test">
+            <NumPagesMedicinesTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
           <Tabs.Item title="List available medicines API test">
             <ListMedicinesTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
           <Tabs.Item title="Has prescription API test">
             <HasPrescriptionTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
+          <Tabs.Item title="Make order API test">
+            <MakeOrderTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
           <Tabs.Item title="Get prescription meds API test">
             <GetPrecriptionMedsTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Num pages patient Orders API test">
+            <NumPagesPatientOrdersTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
           <Tabs.Item title="List Patient Orders API test">
             <ListPatientOrders apiEndpoint={props.apiEndpoint}/>
