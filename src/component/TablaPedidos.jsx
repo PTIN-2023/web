@@ -340,10 +340,10 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                   </Table.Cell>
                   <Table.Cell>
                     {(order.state == "delivered" || order.state == "delivered_waiting" ) &&
-                      <span className={myordersStyles.deliveryStateEntregado}>{getText(order.state, localeCookie)}</span>
+                      <span className={myordersStyles.deliveryStateEntregado}>{getText("delivered", localeCookie)}</span>
                     }
                     {(order.state == "car_sent" || order.state == "drone_sent" ) &&
-                      <span className={myordersStyles.deliveryStateEnviado}>{getText(order.state, localeCookie)}</span>
+                      <span className={myordersStyles.deliveryStateEnviado}>{getText("sent", localeCookie)}</span>
                     }
                     {order.state == "awaiting_confirmation" &&
                       <span className={myordersStyles.deliveryStateEspConfirm}>{getText(order.state, localeCookie)}</span>
