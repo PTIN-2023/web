@@ -1,6 +1,5 @@
 .mainContainer {
     @apply container mx-auto space-y-4;
-   
 }
 
 /**

@@ -3,6 +3,7 @@ import { getNextLatitudeAndLongitude } from "../sphere_movement"
 export function seedMirageDrones(server) {
   server.create("drone", {
     id_dron: 1,
+    id_route: 0,
     battery: 100,
     status: 5,
     autonomy: 30,
@@ -21,14 +22,15 @@ export function seedMirageDrones(server) {
       altitude: 0,
     },
     location_end: {
-      latitude: 41.2077096,
-      longitude: 1.7330467,
+      latitude: 41.2280427,
+      longitude: 1.7350207,
       altitude: 0,
     },
   });
 
   server.create("drone", {
     id_dron: 2,
+    id_route: 1,
     battery: 80,
     status: 5,
     autonomy: 25,
@@ -37,18 +39,18 @@ export function seedMirageDrones(server) {
     id_pack: 102,
     id_beehive: 2,
     location_in: {
-      latitude: 41.2209492,
-      longitude: 1.7298172,
+      latitude: 41.2229666,
+      longitude: 1.7210832,
       altitude: 0,
     },
     location_act: {
-      latitude: 41.2209492,
-      longitude: 1.7298172,
+      latitude: 41.2229666,
+      longitude: 1.7210832,
       altitude: 0,
     },
     location_end: {
-      latitude: 41.241707,
-      longitude: 1.7342994,
+      latitude: 41.2583,
+      longitude: 1.7651,
       altitude: 0,
     },
   });

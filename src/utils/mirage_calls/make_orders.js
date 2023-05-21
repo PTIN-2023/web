@@ -78,10 +78,27 @@ export function seedMirageMakeOrders(server) {
 }
 
 export function defineMakeOrdersRoutes(server) {
+    server.post("/api/num_pages_available_medicines", (schema, request) => {
+      console.log("Received list available medicines req with:" + request.requestBody)
+      const requestPayload = JSON.parse(request.requestBody)
+      const filter = requestPayload.filter
+
+      const medicinesNum = schema.medicines.all().models.length
+      
+      return {
+          result: 'ok',
+          number_of_pages : medicinesNum/filter.meds_per_page
+      }
+    })
+
     server.post("/api/list_available_medicines", (schema, request) => {
       console.log("Received list available medicines req with:" + request.requestBody)
+      const requestPayload = JSON.parse(request.requestBody)
+      const filter = requestPayload.filter
 
-      const medicines = schema.medicines.all()
+      const start = filter.meds_per_page*(filter.page-1)
+      const end = start+filter.meds_per_page
+      const medicines = schema.medicines.all().models.slice(start, end)
 
       return {
           result: 'ok',
@@ -114,6 +131,44 @@ export function defineMakeOrdersRoutes(server) {
         result: 'ok',
         prescription_needed : medicine.prescription_needed,
         prescription_given : (medicine.medicine_identifier === '2')
+      }
+    })
+
+    server.post("/api/make_order", (schema, request) => {
+      const requestPayload = JSON.parse(request.requestBody)
+      console.log("Received make order req with:" + request.requestBody)
+
+      // Check payload
+      const expectedFields = [
+        "session_token",
+        "medicine_identifiers"
+      ]
+      const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
+      if (!expectedFieldsOk) {
+        return {result : 'error_fields'}
+      }
+
+      // Generate list
+      const medicine_list = requestPayload.medicine_identifiers.map((id) => {
+        const med = schema.medicines.findBy({medicine_identifier : id})
+        console.log(med.attrs)
+        return med.attrs
+      })
+
+      // Create order
+      const order = {
+        order_identifier : Math.random(),
+        medicine_list : medicine_list,
+        date : new Date().toISOString().split('T')[0],
+        state : 'ordered'
+      }
+
+      // Add to db
+      schema.orders.create(order)
+
+      // Return
+      return {
+        result: 'ok'
       }
     })
 

@@ -28,11 +28,9 @@ export async function getServerSideProps() {
   }
 }
 
-
 export default function Home(props) {
   mapboxgl.accessToken = 'pk.eyJ1IjoiYWVrc3AiLCJhIjoiY2xmd2dtbDNhMGU4bjNjbWkwa2VqbzhhciJ9.LYgWVHhGLoY9T-ix_qC73g'; // GIT IGNORE !! 
 
-  const select = 0
   const [infoRouteCar, setinfoRouteCar] = React.useState([]); // usar estado para almacenar infoRouteCar
 
   async function getCarRoute(props) {
@@ -137,9 +135,6 @@ export default function Home(props) {
   }, [route]);
   
   const [pointsGeojson, setPointsGeojson] = useState([])
-//#############################################
-
-//########################################
 
   function DoPointsGeojson(iRC){
     if(iRC == null) return;
@@ -235,20 +230,9 @@ export default function Home(props) {
 
   const [clickPopup, setClickPopup] = useState(null);
   const handleClick = (event) => {
-    // console.log("evento")
-    // console.log(event)
     if(infoRouteCar == null) return;
     if(infoRouteCar.cars == null) return;
-    // console.log("info")
-    // console.log(infoRouteCar)
-    //if(infoRouteCar.cars == undefined) return;
     infoRouteCar.cars.forEach((cars) => {
-      console.log("-----")
-      console.log(event.lngLat.lat.toFixed(4))
-      console.log(cars.location_act.latitude.toFixed(4))
-      console.log(event.lngLat.lng.toFixed(4))
-      console.log(cars.location_act.longitude.toFixed(4))
-      console.log("-----")
       if(event.lngLat.lat.toFixed(4) == cars.location_act.latitude.toFixed(4)){
         if(event.lngLat.lng.toFixed(4) == cars.location_act.longitude.toFixed(4)){
           setClickPopup(cars);
@@ -299,6 +283,8 @@ export default function Home(props) {
               <li key={index}>{pack.name}</li>
             ))}
           </ul>
+          Batería: {clickPopup.battery}% <br/>
+          Último mantenimiento: {clickPopup.last_maintenance_date}
           </Popup>)}
           </Map>
         </Layout>

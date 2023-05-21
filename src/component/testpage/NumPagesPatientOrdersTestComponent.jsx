@@ -6,47 +6,38 @@ import useSumbitAndFetch from "../../hooks/useSumbitAndFetch";
 import TestPageTabLayout from "./TestPageTabLayout";
 import LabeledTextInputComponent from "./LabeledTextInput";
 
-export default function ListDoctorApprovedConfirmations({apiEndpoint}) {
+export default function NumPagesPatientOrdersTestComponent({apiEndpoint}) {
   // Cookies
   const [userTokenCookie, ] = useCookie('user_token')
 
   // Form values
-  const [confirmationsPerPage, setConfirmationsPerPage] = useState('');
-  const [page, setPage] = useState('');
+  const [ordersPerPage, setOrdersPerPage] = useState('');
 
   // Request
   const stringRequest = usePrepareBodyRequest({
     "session_token" : userTokenCookie,
-    "confirmations_per_page" : confirmationsPerPage,
-    "page" : page
+    "orders_per_page" : ordersPerPage
   })
   const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
     stringRequest,
-    apiEndpoint+"/api/list_doctor_approved_confirmations"
+    apiEndpoint+"/api/num_pages_patient_orders"
   )
   
   // Define the HTML/React code
   return(
     <TestPageTabLayout 
-      title="List doctor approved confirmations API test" 
+      title="Num pages Patient Orders API test" 
       onSubmit={sumbitAndFetch}
       stringRequest={stringRequest}
       stringResponse={stringResponse}
       cookiesToShow={{'user_token' : userTokenCookie}}
     >
       <LabeledTextInputComponent
-        id="confirmations_per_page"
-        label_text="confirmations_per_page"
+        id="orders_per_page"
+        label_text="orders_per_page"
         input_type="text"
         required={true}
-        on_change={(e) => setConfirmationsPerPage(e.target.value)}
-      />
-      <LabeledTextInputComponent
-        id="page"
-        label_text="page"
-        input_type="text"
-        required={true}
-        on_change={(e) => setPage(e.target.value)}
+        on_change={(e) => setOrdersPerPage(e.target.value)}
       />
     </TestPageTabLayout>
   )

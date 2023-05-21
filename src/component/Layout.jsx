@@ -10,6 +10,8 @@ import SideBarPagesNavigation from "../component/SideBarPageNavigation"
 import getTextCurrentLocale from "../utils/getTextCurrentLocale";
 import { googleLogout } from '@react-oauth/google';
 import Image from 'next/image';
+import ShoppingCart from "./shoppingCart";
+
 // Main Component
 
 export default function Layout({ children, navBarValue}) {
@@ -29,7 +31,7 @@ export default function Layout({ children, navBarValue}) {
 
   // Routing info
   const router = useRouter();
-  const currentPage = router.asPath;  
+  const currentPage = asPath;  
 
   // Locale settings
   const [, setLocaleCookie] = useCookie("locale");
@@ -65,9 +67,15 @@ export default function Layout({ children, navBarValue}) {
             height={150}
             alt="TransMed-logo"
           />
+          
           {/**estoy en Mis pedidos? carga la barra de busqueda */}
-          {currentPage == "/myorders" && <MyOrdersSearch setSearchValue={navBarValue}/>}
+          {(currentPage == "/myorders" || currentPage == "/makeorder") && <MyOrdersSearch setSearchValue={navBarValue}/>}
           {/**aqui hay que añadir el componente que corresponde a cada página si asi se requiere */}
+        </div>
+        <div style={{ marginLeft: '700px' }}>
+          { currentPage == "/makeorder" &&
+            <ShoppingCart />
+          }
         </div>
         <Dropdown label={getTextCurrentLocale('language')} inline={true}>
           <Dropdown.Item onClick={() => { setLocale('es')}}>{getTextCurrentLocale('spanish')}</Dropdown.Item>

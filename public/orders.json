@@ -1,610 +1,88 @@
 {
 "orders": [
     {   
-        "id":"12345678",
+        "id":"12345671",
         "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },    
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     },
     {   
-        "id":"12345678",
+        "id":"12345672",
         "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
         "state":"delivered"       
     },
     {   
-        "id":"12345678",
+        "id":"12345673",
         "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"canceled"       
     },
     {   
-        "id":"12345678",
+        "id":"12345674",
         "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {   
-        "id":"12345678",
-        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"awaiting_confirmation"       
     },
     {   
-        "id":"12345678",
+        "id":"12345675",
         "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     },
     {   
-        "id":"12345678",
+        "id":"123456786",
         "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     },
     {   
-        "id":"12345678",
+        "id":"123456787",
         "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     },
     {   
-        "id":"12345678",
+        "id":"123456788",
         "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     },
     {   
-        "id":"12345678",
+        "id":"123456789",
         "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     },
     {   
-        "id":"12345678",
+        "id":"1234567899",
         "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     },
     {   
-        "id":"12345678",
+        "id":"1234567811",
         "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     },
     {   
-        "id":"12345678",
+        "id":"1234567822",
         "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     },
     {   
-        "id":"12345678",
+        "id":"1234567833",
         "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     },
     {   
-        "id":"12345678",
+        "id":"1234567844",
         "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     }
 ]
 }

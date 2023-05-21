@@ -19,7 +19,14 @@ import ListDoctorPendingConfirmations from "../component/testpage/ListDoctorPend
 import ListDoctorApprovedConfirmations from "../component/testpage/ListDoctorApprovedConfirmations";
 import DoctorConfirmOrder from "../component/testpage/DoctorConfirmOrder";
 import GenerateRouteTestComponent from "../component/testpage/GenerateRouteTestComponent";
+import MakeOrderTestComponent from "../component/testpage/MakeOrderTestComponent";
 import {GoogleOAuthProvider} from '@react-oauth/google';
+import NumPagesMedicinesTestComponent from "../component/testpage/NumPagesMedicinesTestComponent";
+import NumPagesPatientOrdersTestComponent from "../component/testpage/NumPagesPatientOrdersTestComponent";
+import NumPagesDoctorPendingConfirmations from "../component/testpage/NumPagesDoctorPendingConfirmations";
+import NumPagesDoctorApprovedConfirmations from "../component/testpage/NumPagesDoctorApprovedConfirmations";
+import StoreRouteTestComponent from "../component/testpage/StoreRouteTestComponent";
+import GetRouteTestComponent from "../component/testpage/GetRouteTestComponent";
 
 // Temporal testing page to make sure the env variables + api requests work as 
 // intented
@@ -87,14 +94,23 @@ export default function Home(props) {
               <GoogleOAuthTestComponent apiEndpoint={props.apiEndpoint}/>
             </GoogleOAuthProvider>
           </Tabs.Item>
+          <Tabs.Item title="Num pages available medicines API test">
+            <NumPagesMedicinesTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
           <Tabs.Item title="List available medicines API test">
             <ListMedicinesTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
           <Tabs.Item title="Has prescription API test">
             <HasPrescriptionTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
+          <Tabs.Item title="Make order API test">
+            <MakeOrderTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
           <Tabs.Item title="Get prescription meds API test">
             <GetPrecriptionMedsTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Num pages patient Orders API test">
+            <NumPagesPatientOrdersTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
           <Tabs.Item title="List Patient Orders API test">
             <ListPatientOrders apiEndpoint={props.apiEndpoint}/>
@@ -111,6 +127,12 @@ export default function Home(props) {
           <Tabs.Item title="Beehives info API test">
             <BeehivesInfoTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
+          <Tabs.Item title="Num pages doctor pending confirmations API test">
+            <NumPagesDoctorPendingConfirmations apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Num pages doctor approved confirmations API test">
+            <NumPagesDoctorApprovedConfirmations apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
           <Tabs.Item title="List doctor pending confirmations API test">
             <ListDoctorPendingConfirmations apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
@@ -122,6 +144,12 @@ export default function Home(props) {
           </Tabs.Item>
           <Tabs.Item title="Generate route API test">
             <GenerateRouteTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Store route API test">
+            <StoreRouteTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Get route API test">
+            <GetRouteTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
         </Tabs.Group>
         </main>
