@@ -6,6 +6,16 @@ import useCookie from '../hooks/useCookie';
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest.js";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetch.js";
 
+export async function getServerSideProps() {
+  const apiEndpoint = String(env_config.getApiEndpoint());
+
+  return {
+    props: {
+      apiEndpoint
+    }
+  }
+}
+
 export default function Home(props) {
 
   const [userTokenCookie, ] = useCookie('user_token')
