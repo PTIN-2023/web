@@ -1,0 +1,33 @@
+.cart {
+    @apply flex flex-col justify-center items-center;
+  }
+  
+  .cartItem {
+    @apply w-full h-[25] items-center shadow-md rounded-xl m-[30px];
+  }
+  
+  .cartItem img {
+    @apply w-[300px];
+  }
+
+  .cartItem .description {
+    @apply w-full text-[20px] ml-5;
+  }
+  
+  .countHandler input {
+    @apply w-[50px] text-center font-bold;
+  }
+  
+  .removeBtton button {
+    @apply text-red-600;
+  }
+  /*.checkout button {
+    width: 150px;
+    height: 50px;
+    background-color: rgb(19, 19, 19);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin: 10px;
+    cursor: pointer;
+  }*/

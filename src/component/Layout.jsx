@@ -72,7 +72,7 @@ export default function Layout({ children, navBarValue}) {
           {(currentPage == "/myorders" || currentPage == "/makeorder") && <MyOrdersSearch setSearchValue={navBarValue}/>}
           {/**aqui hay que añadir el componente que corresponde a cada página si asi se requiere */}
         </div>
-        <div>
+        <div style={{ marginLeft: '700px' }}>
           { currentPage == "/makeorder" &&
             <ShoppingCart />
           }

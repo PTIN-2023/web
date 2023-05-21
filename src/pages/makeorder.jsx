@@ -4,7 +4,8 @@ import Tabla from "../component/TablaMakeorder"
 import makeorderStyles from "../styles/Makeorder.module.css"
 import { useState, useEffect } from "react";
 import FilterTable from "../component/FilterTable"
-import { Row, Col } from 'react-bootstrap'
+import '../utils/med_server.js'
+import { ShopContextProvider } from '../context/shopContext';
 
 export default function Home() {
     const [searchValue, setSearchValue] = useState({ value: "", isCompleted: false });
@@ -18,8 +19,9 @@ export default function Home() {
                 setMeds(json.meds)
             })
             .catch((err) => console.log(err))
+            console.log(meds)
     }, [])
-
+    
     const handleClick = () => {
         const medicamentos = [
             {
@@ -77,6 +79,7 @@ export default function Home() {
 
     return (
         <>
+            <ShopContextProvider>
             <Head>
                 <title>TransMedWebPTIN</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -85,7 +88,6 @@ export default function Home() {
             <main>
                 {/**le pasamos a Layout el valor del componente de la página que está renderizando (Layout se encarga de detectar en que pagina está) */}
                 <Layout navBarValue={setSearchValue}>
-
                     <div className='flex space-between flex-start'>
                         <div>
                             <FilterTable />
@@ -97,6 +99,7 @@ export default function Home() {
                     </div>
                 </Layout> 
             </main>
+            </ShopContextProvider>
         </>
     );
 }
