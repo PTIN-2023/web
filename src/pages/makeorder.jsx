@@ -21,61 +21,6 @@ export default function Home() {
             .catch((err) => console.log(err))
             console.log(meds)
     }, [])
-    
-    const handleClick = () => {
-        const medicamentos = [
-            {
-                "medName": "Ibuprofeno",
-                "act_exc": "Ibuprofeno/Sorbitol (E-420)",
-                "pvp": "30 comprimidos 4,68$",
-                "dosis": "1 comprimido (600 mg) cada 6 a 8 horas",
-                "detalles": "Pedido con receta"
-            },
-            {
-                "medName": "Ibuprofeno",
-                "act_exc": "Ibuprofeno/Sorbitol (E-420)",
-                "pvp": "30 comprimidos 4,68$",
-                "dosis": "1 comprimido (600 mg) cada 6 a 8 horas",
-                "detalles": "Pedido sin receta"
-            },
-            {
-                "medName": "Ibuprofeno",
-                "act_exc": "Ibuprofeno/Sorbitol (E-420)",
-                "pvp": "30 comprimidos 4,68$",
-                "dosis": "1 comprimido (600 mg) cada 6 a 8 horas",
-                "detalles": "Pedido sin receta"
-            },
-            {
-                "medName": "Ibuprofeno",
-                "act_exc": "Ibuprofeno/Sorbitol (E-420)",
-                "pvp": "30 comprimidos 4,68$",
-                "dosis": "1 comprimido (600 mg) cada 6 a 8 horas",
-                "detalles": "Pedido sin receta"
-            }
-        ];
-
-        fetch('/api/makeorder', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ medicamentos })
-        })
-            .then(res => res.json())
-            .then(data => console.log(data))
-            .catch(err => console.error(err));
-    };
-
-    const fetchMedicamentos = () => {
-        fetch('/api/medicamentos')
-            .then((res) => res.json())
-            .then((data) => console.log('Medicamentos:', data.medicamentos))
-            .catch((err) => console.error(err));
-    };
-
-    const handleButtonClick = () => {
-        fetchMedicamentos();
-    };
 
     return (
         <>
