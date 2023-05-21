@@ -12,7 +12,7 @@ import { useState, useEffect } from "react";
 //   })
 //   [sumbitAndFetch, response] = useSumbitAndFetch(request, '/api/check', (res) => console.log(res))
 
-export default function useSumbitAndFetch(request, url, evaluateResponse) {
+export default function useSumbitAndFetchObject(request, url, evaluateResponse) {
     const [response, setResponse] = useState('none');
     
     async function fetchAndExtractBody(url, body) {
