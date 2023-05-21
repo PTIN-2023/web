@@ -1,5 +1,5 @@
 .mainContainer {
- @apply container mx-auto space-y-4;
+ @apply container mx-auto space-y-3;
 
 }
 
@@ -29,6 +29,15 @@ Component TablaPedidos
     @apply whitespace-nowrap font-medium text-gray-900 dark:text-white;
 
 }
+.detailsRow > *{
+    @apply ml-5;
+
+} 
+.informationIcon {
+    @apply w-5 h-5;
+    @apply cursor-pointer;
+
+}
 .deliveryStateEntregado {
     @apply bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-1.5 rounded dark:bg-green-900 dark:text-green-300;
 
@@ -46,7 +55,22 @@ Component TablaPedidos
     @apply text-sm font-medium text-red-600;
 
 }
-
+.detallesFeedback{
+    @apply w-10 h-10 inline-flex ml-auto mr-auto mt-10 mb-10;
+}
+.detallesFeedbackConfirm{
+    @apply w-10 h-10 inline-flex ml-auto mr-auto mt-10 mb-10 text-green-500;
+}
+.detallesFeedbackCancelled{
+    @apply w-10 h-10 inline-flex ml-auto mr-auto mt-10 mb-10 text-red-500;
+}
+.detallesFeedbackCanceledText{
+    @apply w-auto h-10 inline-flex ml-auto mr-auto mb-10 text-sm font-medium text-center underline underline-offset-2 text-red-500 cursor-pointer;
+}
+.detallesFeedbackText{
+    @apply w-auto h-10 inline-flex ml-auto mr-auto mb-10 text-sm font-medium text-center;
+}
+/* clock paperairplane x-circle rocket launch */
 /*
 Component TableFooter
 */

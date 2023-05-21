@@ -4,7 +4,6 @@ import Tabla from "../component/TablaMakeorder"
 import makeorderStyles from "../styles/Makeorder.module.css"
 import { useState, useEffect } from "react";
 import FilterTable from "../component/FilterTable"
-
 import '../utils/med_server.js'
 import { ShopContextProvider } from '../context/shopContext';
 

@@ -1,365 +1,88 @@
 {
 "orders": [
-    {
-        "name":"Ibuprofeno 600mg a",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg b",
-        "purchasing_date":".",
-        "state":"awaiting_confirmation"       
-    },
-    {
-        "name":"Abduscan 30mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"cancelled"       
-    },
-    {
-        "name":"Ibuprofeno 600mg c",
+    {   
+        "id":"12345671",
+        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
         "state":"sent"       
     },
-    {
-        "name":"Ibuprofeno 600mg d",
+    {   
+        "id":"12345672",
+        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
         "state":"delivered"       
     },
-    {
-        "name":"Ibuprofeno 600mg e",
+    {   
+        "id":"12345673",
+        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg f",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"cancelled"       
-    },
-    {
-        "name":"Ibuprofeno 600mg g",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"cancelled"       
-    },
-    {
-        "name":"Ibuprofeno 600mg h",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"decimo Ibuprofeno 600mg i",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg j",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"20 Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"canceled"       
     },
-    {
-        "name":"Ibuprofeno 600mg",
+    {   
+        "id":"12345674",
+        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"awaiting_confirmation"       
     },
-    {
-        "name":"Ibuprofeno 600mg",
+    {   
+        "id":"12345675",
+        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
-    },
-    {
-        "name":"Ibuprofeno 600mg",
-        "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     },
-    {
-        "name":"Ibuprofeno 600mg",
+    {   
+        "id":"123456786",
+        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     },
-    {
-        "name":"Ibuprofeno 600mg",
+    {   
+        "id":"123456787",
+        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     },
-    {
-        "name":"Ibuprofeno 600mg",
+    {   
+        "id":"123456788",
+        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     },
-    {
-        "name":"Ibuprofeno 600mg",
+    {   
+        "id":"123456789",
+        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     },
-    {
-        "name":"Ibuprofeno 600mg",
+    {   
+        "id":"1234567899",
+        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     },
-    {
-        "name":"Ibuprofeno 600mg",
+    {   
+        "id":"1234567811",
+        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     },
-    {
-        "name":"Ibuprofeno 600mg",
+    {   
+        "id":"1234567822",
+        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     },
-    {
-        "name":"Ibuprofeno 600mg",
+    {   
+        "id":"1234567833",
+        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     },
-    {
-        "name":"Ibuprofeno 600mg",
+    {   
+        "id":"1234567844",
+        "all_meds": ["Iburofeno 600mg","Morfina 1g","elantyum 50mg","Diazepam 500mg","Botiquín"],
         "purchasing_date":"Apr 23, 2021",
-        "state":"delivered"       
+        "state":"sent"       
     }
-
 ]
 }
