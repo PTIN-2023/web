@@ -21,6 +21,8 @@ export default function Home() {
             .catch((err) => console.log(err))
             console.log(meds)
     }, [])
+    
+
 
     return (
         <>
@@ -33,7 +35,7 @@ export default function Home() {
             <main>
                 {/**le pasamos a Layout el valor del componente de la página que está renderizando (Layout se encarga de detectar en que pagina está) */}
                 <Layout navBarValue={setSearchValue}>
-                    <div className='flex space-between flex-start'>
+                    <div className='flex space-between flex-start' style={{ backgroundColor: '#87CEFA' }}>
                         <div>
                             <FilterTable />
                         </div>

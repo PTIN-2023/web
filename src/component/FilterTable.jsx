@@ -1,17 +1,42 @@
 import React, { useState } from "react";
+import InputRange from 'react-input-range';
+import 'react-input-range/lib/css/index.css';
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import rangePriceStyles from "../styles/price.module.css"
 import { Sidebar } from "flowbite-react";
+
+// Personalización de los estilos
+const CustomCheckbox = styled.input`
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border-radius: 50%;
+  vertical-align: middle;
+  border: 1px solid #ddd;
+  -webkit-appearance: none;
+  outline: none;
+  cursor:pointer;
+
+  &:checked {
+    background-color: #007BFF;
+  }
+`;
+
+const Label = styled.label`
+  font-size: 14px;
+  color: #333;
+`;
 
 const FilterTable = () => {
     
     // default price
-    const [price, setPrice] = useState(50);
+    const [price, setPrice] = useState({min: 0, max: 50});
     
-    const changePrice = (event) => {
-        setPrice(event.target.value);
+    const changePrice = (value) => {
+        setPrice(value);
     };
 
-    // función que sirve para enviar un mensaje a la API i que nos pase aquellos medicamentos cuyo precio és (<= price) al levantar el mouse del priceRange
     const submitPriceChange = (event) => {
         console.log("mouseUp")
     }
@@ -24,22 +49,27 @@ const FilterTable = () => {
                         <Sidebar.ItemGroup>
                             <label style={{ fontWeight: 'bold' }}>PRECIO</label>
                             <Sidebar.Item>
-                                <h4>{price}€</h4>
-                                <input type="range" onChange={changePrice} onMouseUp={submitPriceChange} min={0} max={100} step={1} value={price}/>
+                                <h4>{price.min}€ - {price.max}€</h4>
+                                <InputRange
+                                    maxValue={100}
+                                    minValue={0}
+                                    value={price}
+                                    onChange={changePrice}
+                                    onChangeComplete={submitPriceChange} />
                             </Sidebar.Item>
                         </Sidebar.ItemGroup>
                         <Sidebar.ItemGroup>
                             <label style={{ fontWeight: 'bold' }}>RECETA</label>
                             <Sidebar.Item style={{ marginBottom: '-15px', marginTop: '-10px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
-                                    <label >Con receta</label>
+                                    <CustomCheckbox type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
+                                    <Label >Con receta</Label>
                                 </div>
                             </Sidebar.Item>
                             <Sidebar.Item>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
-                                    <label >Sin receta</label>
+                                    <CustomCheckbox type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
+                                    <Label >Sin receta</Label>
                                 </div>
                             </Sidebar.Item>
                         </Sidebar.ItemGroup>
@@ -47,20 +77,20 @@ const FilterTable = () => {
                             <label style={{ fontWeight: 'bold' }}>FORMA</label>
                             <Sidebar.Item style={{ marginBottom: '-15px', marginTop: '-10px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
-                                    <label>Pastillas / Cremas</label>
-                                </div>
-                            </Sidebar.Item>
-                            <Sidebar.Item style={{ marginBottom: '-15px' }}>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
-                                    <label >Polvos</label>
+                                    <CustomCheckbox type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
+                                    <Label>Pastillas / Cremas</Label>
                                 </div>
                             </Sidebar.Item>
                             <Sidebar.Item>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
-                                    <label >Líquido</label>
+                                    <CustomCheckbox type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
+                                    <Label >Polvos</Label>
+                                </div>
+                            </Sidebar.Item>
+                            <Sidebar.Item>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <CustomCheckbox type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
+                                    <Label >Líquido</Label>
                                 </div>
                             </Sidebar.Item>
                         </Sidebar.ItemGroup>
@@ -68,26 +98,26 @@ const FilterTable = () => {
                             <label style={{ fontWeight: 'bold' }}>VÍA</label>
                             <Sidebar.Item style={{ marginBottom: '-15px', marginTop: '-10px'}}>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
-                                    <label >Oral</label>
+                                    <CustomCheckbox type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
+                                    <Label >Oral</Label>
                                 </div>
                             </Sidebar.Item>
                             <Sidebar.Item style={{ marginBottom: '-15px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
-                                    <label >Tópico</label>
+                                    <CustomCheckbox type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
+                                    <Label >Tópico</Label>
                                 </div>
                             </Sidebar.Item>
                             <Sidebar.Item style={{ marginBottom: '-15px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
-                                    <label >Inhalatoria</label>
+                                    <CustomCheckbox type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
+                                    <Label >Inhalatoria</Label>
                                 </div>
                             </Sidebar.Item>
                             <Sidebar.Item>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
-                                    <label >Oftalmológica</label>
+                                    <CustomCheckbox type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
+                                    <Label >Oftalmológica</Label>
                                 </div>
                             </Sidebar.Item>
                         </Sidebar.ItemGroup>
