@@ -20,7 +20,9 @@ export const CartItem = (props) => {
                 <button onClick={() => removeFromCart(id)}> - </button>
                 <input value={cartItems[id]}/>
                 <button onClick={() => addToCart(id)}> + </button>
-                <button className={cartStyle.removeBtton} onClick={() => removeAll(id)}> remove all </button>
+            </div>
+            <div className={cartStyle.removeBtton}>
+                <button onClick={() => removeAll(id)}> Eliminar </button>
             </div>
         </div>
     </div>

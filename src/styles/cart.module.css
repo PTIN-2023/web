@@ -3,25 +3,24 @@
   }
   
   .cartItem {
-    @apply w-[700px] h-[250px] flex items-center shadow-md rounded-xl m-[30px];
+    @apply w-full h-[25] items-center shadow-md rounded-xl m-[30px];
   }
   
   .cartItem img {
-    @apply w-[200px];
-  }
-  
-  .removeBtton button {
-    @apply mr-40;
+    @apply w-[300px];
   }
 
   .cartItem .description {
-    @apply w-full text-[30px];
+    @apply w-full text-[20px] ml-5;
   }
   
   .countHandler input {
-    @apply w-[40px] text-center font-bold;
+    @apply w-[50px] text-center font-bold;
   }
   
+  .removeBtton button {
+    @apply text-red-600;
+  }
   /*.checkout button {
     width: 150px;
     height: 50px;
