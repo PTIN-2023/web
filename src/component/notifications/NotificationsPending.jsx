@@ -35,12 +35,15 @@ function NotificationsPending (props) {
 
     const [sumbitAndFetch, stringResponse] = useSumbitAndFetchObject(
         stringRequest,
-       [ "http://localhost:3000/api/list_doctor_pending_confirmations"]
+        "http://localhost:3000/api/list_doctor_pending_confirmations"
     )
+
+    
 
     useEffect(() => {
         sumbitAndFetch();
-    }, [stringResponse])
+    }, [page])
+    
 
 
 
