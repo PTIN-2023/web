@@ -11,51 +11,40 @@ import useSumbitAndFetchObject from "../../hooks/useSumbitAndFetchObject.js";
 import { HiOutlineCheckCircle, HiXCircle } from 'react-icons/hi';
 
 export async function getServerSideProps() {
-    const isLocal           = env_config.isLocal();
-    const apiEndpoint       = String(          env_config.getApiEndpoint());
-    const locationName      = String(isLocal ? env_config.getLocationName()      : "N/A");
-    const locationLatitude  = String(isLocal ? env_config.getLocationLatitude()  : "N/A");
-    const locationLongitude = String(isLocal ? env_config.getLocationLongitude() : "N/A");
-    const mapBoxToken       = String(          env_config.getTokenMapBox());
-    const googleToken       = String(          env_config.getTokenGoogleSignIn());
+    const apiEndpoint = String(env_config.getApiEndpoint());
   
     return {
       props: { 
-        isLocal,
         apiEndpoint,
-        locationName,
-        locationLatitude,
-        locationLongitude,
-        mapBoxToken,
-        googleToken
       }
     }
 }
 
 function NotificationsPending (props) {
 
-    const [userTokenCookie, ] = useCookie('user_token')
+    const [userTokenCookie, ] = useCookie('user_token');
     const [rowsPerPage, setrowsPerPage] = useState('10');
     const [page, setPage] = useState('1');
-
+    const [data, setData] = useState();
+    
     const stringRequest = usePrepareBodyRequest({
-        "session_token" : 'jondoe2@example.com',
+        "session_token" : userTokenCookie,
         "confirmations_per_page" : rowsPerPage,
         "page" : page
     })
 
     const [sumbitAndFetch, stringResponse] = useSumbitAndFetchObject(
         stringRequest,
-        "http://localhost:3000/api/list_doctor_pending_confirmations"
+       [ "http://localhost:3000/api/list_doctor_pending_confirmations"]
     )
 
     useEffect(() => {
         sumbitAndFetch();
     }, [stringResponse])
 
+
+
     
-
-
     
 
     //useState de los modales de accept y deny, para decirle cuando se tienen que mostrar
@@ -91,9 +80,15 @@ function NotificationsPending (props) {
     }
 
     return (
-        <div>
+        <div></div>
+    );  
+}
+
+export default NotificationsPending;
+
+/*<div>
             <>
-                <TableFooter range={stringResponse.orders.length} slice={stringResponse.orders} setPage={setPage} page={page} />
+                <TableFooter range={data.length} slice={stringResponse} setPage={setPage} page={page} />
                 <Table hoverable={true}>
                     <Table.Head>
                         <Table.HeadCell>Paciente</Table.HeadCell>
@@ -103,7 +98,8 @@ function NotificationsPending (props) {
                         <Table.HeadCell/>
                     </Table.Head>
                     <Table.Body className="divide-y">
-                    {stringResponse.orders.map((notification) =>
+                    
+                    {data.map((notification) =>
                         <>
                             <Table.Row className={style.tableRow}>
                                 <Table.Cell className={style.tableCell}>{notification.patient_fullname}</Table.Cell>
@@ -173,8 +169,4 @@ function NotificationsPending (props) {
                 <br></br>
             </>
         </div>
-        
-    );  
-}
-
-export default NotificationsPending;
+        */

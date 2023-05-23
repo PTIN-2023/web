@@ -10,26 +10,24 @@ import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest.js";
 import useSumbitAndFetchObject from "../../hooks/useSumbitAndFetchObject.js";
 
 export async function getServerSideProps() {
-    const isLocal           = env_config.isLocal();
-    const apiEndpoint       = String(          env_config.getApiEndpoint());
-    const locationName      = String(isLocal ? env_config.getLocationName()      : "N/A");
-    const locationLatitude  = String(isLocal ? env_config.getLocationLatitude()  : "N/A");
-    const locationLongitude = String(isLocal ? env_config.getLocationLongitude() : "N/A");
-    const mapBoxToken       = String(          env_config.getTokenMapBox());
-    const googleToken       = String(          env_config.getTokenGoogleSignIn());
+    const apiEndpoint = String(env_config.getApiEndpoint());
   
     return {
       props: { 
-        isLocal,
         apiEndpoint,
-        locationName,
-        locationLatitude,
-        locationLongitude,
-        mapBoxToken,
-        googleToken
       }
     }
 }
+
+const calculateRange = (orders, rowsPerPage) => {
+    const range = [];
+    const num = Math.ceil(orders.length / rowsPerPage);
+    let i = 1;
+    for (let i = 1; i <= num; i++) {
+      range.push(i);
+    }
+    return range;
+};
 
 function NotificationsPending (props) {
 
@@ -53,27 +51,38 @@ function NotificationsPending (props) {
     }, [stringResponse])
 
     
+    const orders = stringResponse.orders ? stringResponse.orders.map(order => {
+        const { order_identifier, date, patient_fullname, approved } = order;
+        return {
+          orderIdentifier: order_identifier,
+          date,
+          patientFullName: patient_fullname,
+          approved
+        };
+    }) : [];
 
+    const range = calculateRange(orders, rowsPerPage);
 
     return (
         <div>
             <>
-                <TableFooter range={stringResponse.orders.length} slice={stringResponse.orders} setPage={setPage} page={page} />
+                <TableFooter range={range} slice={orders} setPage={setPage} page={page} />
                 <Table hoverable={true}>
                     <Table.Head>
+                        <Table.HeadCell>Id orden</Table.HeadCell>
                         <Table.HeadCell>Paciente</Table.HeadCell>
-                        <Table.HeadCell>Medicamentos</Table.HeadCell>
-                        <Table.HeadCell>Cantidad</Table.HeadCell>
-                        <Table.HeadCell>ID orden</Table.HeadCell>
+                        <Table.HeadCell>Fecha</Table.HeadCell>
+                        <Table.HeadCell>Accion</Table.HeadCell>
                     </Table.Head>
                     <Table.Body className="divide-y">
-                    {stringResponse.orders.map((notification) =>
+                    
+                    {orders.map(notification =>
                         <>
                             <Table.Row className={style.tableRow}>
-                                <Table.Cell className={style.tableCell}>{notification.paciente}</Table.Cell>
-                                <Table.Cell className={style.tableCell}>{notification.medicamento}</Table.Cell>
-                                <Table.Cell className={style.tableCell}>{notification.cantidad}</Table.Cell>
-                                <Table.Cell className={style.tableCell}>{notification.id_orden}</Table.Cell>
+                                <Table.Cell className={style.tableCell}>{notification.orderIdentifier}</Table.Cell>
+                                <Table.Cell className={style.tableCell}>{notification.patientFullName}</Table.Cell>
+                                <Table.Cell className={style.tableCell}>{notification.date}</Table.Cell>
+                                <Table.Cell className={style.tableCell}>{notification.approved}</Table.Cell>
                             </Table.Row>
                         </>
                     )}
