@@ -14,8 +14,9 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
     //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
     if (searchValue.value.length > 0 && searchValue.isCompleted) {
-        data = data.filter((med) => med.nombre.toLowerCase().includes(searchValue.value));
-    }
+        data = data.orders((med) => med.nombre.toLowerCase().includes(searchValue.value));
+    } else data = data.orders;
+
     var { slice, range } = useTable(data, page, rowsPerPage);
 
     const { addToCart } = useContext(ShopContext);
