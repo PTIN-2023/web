@@ -1,13 +1,13 @@
 import React from "react";
-import {Table, Button, Modal, Tooltip, Dropdown} from 'flowbite-react';
+import { Table, Tooltip, Dropdown } from 'flowbite-react';
 import TableFooter from "../TableFooter.jsx";
 import style from "../../styles/Makeorder.module.css";
-import {useState, useEffect} from "react";
+import { useState, useEffect, useRef } from "react";
 import * as env_config from "../../utils/env_config"
 import useCookie from '../../hooks/useCookie';
 import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest.js";
 import useSumbitAndFetchObject from "../../hooks/useSumbitAndFetchObject.js";
-import { HiOutlineCheckCircle, HiXCircle, HiInformationCircle } from 'react-icons/hi';
+import { HiInformationCircle } from 'react-icons/hi';
 import NotificationsModal from "./NotificationsModal.jsx";
 
 export async function getServerSideProps() {
@@ -66,6 +66,8 @@ function NotificationsPending (props) {
 
     const range = calculateRange(orders, rowsPerPage);
 
+    const currentTarget = useRef("");
+
     return (
         <div>
             <>
@@ -96,14 +98,12 @@ function NotificationsPending (props) {
                                 <Table.Cell className={style.tableCell}>
                                     <Dropdown label="Lista Medicamentos">
                                         {notification.medicamentos.map(med =>
-                                            
-                                            <option>{med.medicine_name}</option>
-                                               
+                                            <option key={med.medicine_identifier}>{med.medicine_name}</option>
                                         )}
                                     </Dropdown> 
                                 </Table.Cell>
                                 <Table.Cell>
-                                    <NotificationsModal />
+                                    <NotificationsModal currentTarget={currentTarget} currentItem={notification.orderIdentifier} />
                                 </Table.Cell>
                             </Table.Row>
                         </>
