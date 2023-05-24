@@ -36,8 +36,6 @@ function NotificationsPending (props) {
     const [rowsPerPage, setrowsPerPage] = useState('10');
     const [page, setPage] = useState('1');
     const [data, setData] = useState();
-    const [action, setAction] = useState();
-    const [showModal, setShowModal] =useState('false');
     
     const stringRequest = usePrepareBodyRequest({
         "session_token" : userTokenCookie,
@@ -67,17 +65,6 @@ function NotificationsPending (props) {
     }) : [];
 
     const range = calculateRange(orders, rowsPerPage);
-
-     //Para cerrar el modal 
-     const handleCloseModal = () => {
-        setShowModal(false);
-    };
-
-
-    //Para abrir el modal 
-    const handleOpenModal = () => {
-        setShowModal(true);
-    };
 
     return (
         <div>
