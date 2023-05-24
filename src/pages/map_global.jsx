@@ -56,7 +56,7 @@ export default function Home(props) {
   const [storeCoord, setStoreCoord] = React.useState({}); // usar estado para almacenar storeCoord
   async function getStoreCoordinates(props) {
     try {
-      const response = await fetch(props.apiEndpoint + "/api/store_coordinates", {
+      const response = await fetch(props.apiEndpoint + "/api/general_storage_pos", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -205,7 +205,7 @@ export default function Home(props) {
           type: 'Feature',
           geometry: {
             type: 'Point',
-            coordinates: [storeCoord.st_longitude, storeCoord.st_latitude]
+            coordinates: [storeCoord.longitude, storeCoord.latitude]
           },
           properties: {
             title: 'Almacén',
