@@ -111,8 +111,8 @@ function makeAllCarsApproachDestiny(schema) {
       car.id,
       {
         location_act : {
-          latitude: new_latitude,
-          longitude: new_longitude
+          latitude: JSON.parse(new_latitude.toFixed(7)),
+          longitude: JSON.parse(new_longitude.toFixed(7))
         }
       }
     )
