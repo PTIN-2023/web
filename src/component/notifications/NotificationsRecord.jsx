@@ -48,7 +48,7 @@ function NotificationsPending (props) {
 
     useEffect(() => {
         sumbitAndFetch();
-    }, [stringResponse])
+    }, [page])
 
     
     const orders = stringResponse.orders ? stringResponse.orders.map(order => {

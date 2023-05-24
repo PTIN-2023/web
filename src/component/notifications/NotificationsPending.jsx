@@ -1,6 +1,5 @@
 import React from "react";
-import {Table, Button, Modal} from 'flowbite-react';
-import useTable from "../../hooks/useTable.js";
+import {Table, Button, Modal, Tooltip, Dropdown} from 'flowbite-react';
 import TableFooter from "../TableFooter.jsx";
 import style from "../../styles/Makeorder.module.css";
 import {useState, useEffect} from "react";
@@ -8,7 +7,7 @@ import * as env_config from "../../utils/env_config"
 import useCookie from '../../hooks/useCookie';
 import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest.js";
 import useSumbitAndFetchObject from "../../hooks/useSumbitAndFetchObject.js";
-import { HiOutlineCheckCircle, HiXCircle } from 'react-icons/hi';
+import { HiOutlineCheckCircle, HiXCircle, HiInformationCircle } from 'react-icons/hi';
 
 export async function getServerSideProps() {
     const apiEndpoint = String(env_config.getApiEndpoint());
@@ -19,6 +18,16 @@ export async function getServerSideProps() {
       }
     }
 }
+
+const calculateRange = (orders, rowsPerPage) => {
+    const range = [];
+    const num = Math.ceil(orders.length / rowsPerPage);
+    let i = 1;
+    for (let i = 1; i <= num; i++) {
+      range.push(i);
+    }
+    return range;
+};
 
 function NotificationsPending (props) {
 
@@ -44,7 +53,15 @@ function NotificationsPending (props) {
         sumbitAndFetch();
     }, [page])
     
-
+    const orders = stringResponse.orders ? stringResponse.orders.map(order => {
+        const { order_identifier, date, patient_fullname, medicine_list } = order;
+        return {
+          orderIdentifier: order_identifier,
+          date,
+          patientFullName: patient_fullname,
+          medicamentos: medicine_list
+        };
+    }) : [];
 
 
     
@@ -82,33 +99,44 @@ function NotificationsPending (props) {
       event.preventDefault();
     }
 
+    const range = calculateRange(orders, rowsPerPage);
+
     return (
-        <div></div>
-    );  
-}
-
-export default NotificationsPending;
-
-/*<div>
+        <div>
             <>
-                <TableFooter range={data.length} slice={stringResponse} setPage={setPage} page={page} />
+                <TableFooter range={range} slice={orders} setPage={setPage} page={page} />
                 <Table hoverable={true}>
                     <Table.Head>
+                    <Table.HeadCell>Id orden</Table.HeadCell>
                         <Table.HeadCell>Paciente</Table.HeadCell>
+                        <Table.HeadCell>
+                            <Tooltip
+                                content="AAAA/MM/DD"
+                                style="dark"
+                            >
+                                Fecha <HiInformationCircle />
+                            </Tooltip>
+                        </Table.HeadCell>
                         <Table.HeadCell>Medicamentos</Table.HeadCell>
-                        <Table.HeadCell>Cantidad</Table.HeadCell>
-                        <Table.HeadCell>ID orden</Table.HeadCell>
-                        <Table.HeadCell/>
+                        <Table.HeadCell>Accion</Table.HeadCell>
                     </Table.Head>
                     <Table.Body className="divide-y">
                     
-                    {data.map((notification) =>
+                    {orders.map((notification) =>
                         <>
                             <Table.Row className={style.tableRow}>
-                                <Table.Cell className={style.tableCell}>{notification.patient_fullname}</Table.Cell>
-                                <Table.Cell className={style.tableCell}>{notification.medicine_list}</Table.Cell>
+                                <Table.Cell className={style.tableCell}>{notification.orderIdentifier}</Table.Cell>
+                                <Table.Cell className={style.tableCell}>{notification.patientFullName}</Table.Cell>
                                 <Table.Cell className={style.tableCell}>{notification.date}</Table.Cell>
-                                <Table.Cell className={style.tableCell}>{notification.order_identifier}</Table.Cell>
+                                <Table.Cell className={style.tableCell}>
+                                    <Dropdown label="Lista Medicamentos">
+                                        {notification.medicamentos.map(med =>
+                                            
+                                            <option>{med.medicine_name}</option>
+                                               
+                                        )}
+                                    </Dropdown> 
+                                </Table.Cell>
                                 <Table.Cell>
                                     <>
                                         <button type="button" className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" onClick={handleOpenAcceptModal}><HiOutlineCheckCircle/></button>
@@ -172,4 +200,10 @@ export default NotificationsPending;
                 <br></br>
             </>
         </div>
+    );  
+}
+
+export default NotificationsPending;
+
+/*
         */
