@@ -1,5 +1,5 @@
 import hasExpectedFields from '../hasExpectedFields'
-import generate_map_route from '../generate_map_route'
+import generate_map_route from '../../lib/generate_map_route'
 
 export function seedMirageRoutes(server) {
     server.create("route", {
@@ -26,59 +26,10 @@ export function seedMirageRoutes(server) {
 export function defineMirageRoutesRoutes(server) {
     server.post("/api/generate_map_route", async (schema, request) => {
         const requestPayload = JSON.parse(request.requestBody)
-    
-        // Check payload
-        const expectedFields = [
-          "session_token",
-          "location_act",
-          "location_end"
-        ]
-        const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
-    
-        if (!expectedFieldsOk) {
-          return ({
-            result : "error",
-            description: "Wrong fields"
-          })
-        }
-  
-        // Extract from and to
-        const query = {
-            location_in: {
-                longitude: requestPayload.location_act.longitude,
-                latitude: requestPayload.location_act.latitude
-            },
-            location_end: {
-                longitude: requestPayload.location_end.longitude,
-                latitude: requestPayload.location_end.latitude
-            }
-        }
-
-        // Generate route
-        const response = await generate_map_route(query)
-
-        // Check valid route
-        if (!response) {
-            return ({
-            result : "error",
-            description: "Cannot generate route"
-            })
-        }
-  
-        // Store route if new
-        if (!schema.routes.findBy({ id_route : response.uuid })) {
-            schema.db.routes.insert({
-                id_route: response.uuid,
-                coordinates: response.routes[0].geometry.coordinates,
-            })
-        }
+        const result = await generate_map_route('', requestPayload)
         
         // Return
-        return { 
-            result : 'ok',
-            id_route : response.uuid,
-            coordinates : response.routes[0].geometry.coordinates
-        }
+        return result.response_body
     })
 
     // Username+password register endpoint
@@ -99,20 +50,13 @@ export function defineMirageRoutesRoutes(server) {
           description: "Wrong fields"
         })
       }
-
-      // Check validity
-      if (schema.routes.findBy({ id_route : requestPayload.id_route })) {
-        return ({
-          result : "error",
-          description: "Id already exists"
+      // Store if new
+      if (!schema.routes.findBy({ id_route : requestPayload.id_route })) {
+        schema.db.routes.insert({
+          id_route: requestPayload.id_route,
+          coordinates: requestPayload.coordinates,
         })
       }
-
-      // Store route
-      schema.db.routes.insert({
-        id_route: requestPayload.id_route,
-        coordinates: requestPayload.coordinates,
-      })
   
       // Return
       return { 
