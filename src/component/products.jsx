@@ -3,7 +3,7 @@ import { ShopContext } from "../context/shopContext";
 import productsStyles from "../styles/product.module.css";
 
 export const Product = (props) => {
-    const { medicineIdentifier, medicineName, act_exc, pvp, images, description, stock, reviews } = props.data;
+    const { medicineIdentifier, medicineName, excipient, price, images, description, stock, reviews } = props.data;
     const { addToCart, cartItems } = useContext(ShopContext);
 
     const cartItemAmount = cartItems[medicineIdentifier];
@@ -20,7 +20,7 @@ export const Product = (props) => {
                 <h2 className="text-lg leading-6 font-medium text-gray-900">{medicineName}</h2>
                 <p className="mt-1 text-sm text-gray-500">{description}</p>
                 <div className="my-2 text-sm text-gray-700">
-                    <p><strong>Price:</strong> {pvp}€</p>
+                    <p><strong>Price:</strong> {price}€</p>
                     <p><strong>In stock:</strong> {stock}</p>
                 </div>
                 <div className="my-2 text-sm text-gray-700">
