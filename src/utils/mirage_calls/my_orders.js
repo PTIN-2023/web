@@ -12,6 +12,51 @@ export function seedMirageMyOrders(server) {
         {num: 7, name: 'canceled'}
     ]
 
+    Array.from(Array(10).keys()).forEach(i => {
+      const meds = i%3==0 ? 
+        [{
+          medicine_identifier: '5',
+          medicine_image_url: 'https://picsum.photos/200',
+          medicine_name: 'Paracetamol',
+          excipient: 'Sorbitol (E-420)',
+          pvp: 4,
+          contents: '30 comprimidos',
+          prescription_needed: false,
+          form: 'pill',
+          type_of_adminstration: 'oral'
+        },
+        {
+          medicine_identifier: '7',
+          medicine_image_url: 'https://picsum.photos/200',
+          medicine_name: 'Barra de metal 26mm',
+          excipient: 'Sorbitol (E-420)',
+          pvp: 4,
+          contents: '30 comprimidos',
+          prescription_needed: false,
+          form: 'pill',
+          type_of_adminstration: 'oral'
+        }]
+      :
+        [{
+          medicine_identifier: '5',
+          medicine_image_url: 'https://picsum.photos/200',
+          medicine_name: 'Paracetamol',
+          excipient: 'Sorbitol (E-420)',
+          pvp: 4,
+          contents: '30 comprimidos',
+          prescription_needed: false,
+          form: 'pill',
+          type_of_adminstration: 'oral'
+        }]
+      
+      server.create("order", {
+        order_identifier : (i + 21 * 100),
+            medicine_list : meds,
+            date : '2023-01-01',
+            state : 'ordered'
+        })
+    })
+
     states.forEach(state => {
         server.create("order", {
             order_identifier : (state.num + 23 * 100),
