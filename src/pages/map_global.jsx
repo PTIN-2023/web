@@ -4,6 +4,9 @@ import * as env_config from "../utils/env_config"
 import Map, {Source, Layer, Popup} from "react-map-gl"
 import mapboxgl from 'mapbox-gl';
 import React, { useState, useEffect } from 'react';
+import useCookie from '../hooks/useCookie';
+import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest.js";
+import useSumbitAndFetchObject from "../hooks/useSumbitAndFetchObject.js";
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 export async function getServerSideProps() {
@@ -44,10 +47,8 @@ export default function Home(props) {
       });
   
       const data = await response.json();
-      console.log("getCarRoute " + JSON.stringify(data))
       setinfoRouteCar(data);
      } catch (error) {
-      console.log("error");
       console.error('API request failed:', error);
       setinfoRouteCar("-1");
     }
@@ -65,10 +66,8 @@ export default function Home(props) {
       });
       
       const data = await response.json();
-      //console.log("getStoreCoordinates " + JSON.stringify(data))
       setStoreCoord(data);
     } catch (error) {
-      console.log("error");
       console.error('API request failed:', error);
       setStoreCoord("-1");
     }
@@ -76,25 +75,70 @@ export default function Home(props) {
 
   // Obtener la ruta desde la API Directions de Mapbox
   const [route, setRoute] = React.useState([]); // usar estado para almacenar route
-  async function fetchData(iRC) {
-    if(iRC.cars != undefined){ //if undefined we have no data
-      for(let i = 0; i < iRC.cars.length;++i){
-        const response = await fetch(
-          `https://api.mapbox.com/directions/v5/mapbox/driving/${iRC.cars[i].location_act.longitude},${iRC.cars[i].location_act.latitude};${iRC.cars[i].location_end.longitude},${iRC.cars[i].location_end.latitude}?geometries=geojson&alternatives=true&access_token=${mapboxgl.accessToken}`
-        );
+  // const [PRINT, SETPRINT] = React.useState([]);
+  // async function fetchData(iRC) {
+  //   if(iRC.cars != undefined){ //if undefined we have no data
+  //     for(let i = 0; i < iRC.cars.length;++i){
+  //       const response = await fetch(
+  //         `https://api.mapbox.com/directions/v5/mapbox/driving/${iRC.cars[i].location_act.longitude},${iRC.cars[i].location_act.latitude};${iRC.cars[i].location_end.longitude},${iRC.cars[i].location_end.latitude}?geometries=geojson&alternatives=true&access_token=${mapboxgl.accessToken}`
+  //       );
+  //       const data = await response.json();
+  //       // Agrega la línea para el recorrido
+  //       SETPRINT(PRINT => [...PRINT, data.routes[0].geometry]);
+  //     }
+  //   }
+  // }
+
+  async function getRoute(props, iRC){
+    if(iRC.cars != undefined){
+      await Promise.all(iRC.cars.map(async (car) => {
+        const stringRequest = JSON.stringify({
+          "session_token": 'jondoe2@example.com',
+          "id_route": car.id_route.toString()
+        });
+      
+        const response = await fetch(props.apiEndpoint + "/api/get_route", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: stringRequest
+        });
+      
         const data = await response.json();
-        // Agrega la línea para el recorrido
-        setRoute(route => [...route, data.routes[0].geometry]);
-      }
-    }
+        const coords = { "coordinates": data.coordinates, "type": 'LineString' };
+      
+        setRoute(route => [...route, coords]);
+      }));
+    } 
   }
-  
-  useEffect(() => {
-    fetchData(infoRouteCar);
-  }, [infoRouteCar]);
+
+  // const [userTokenCookie, ] = useCookie('user_token');
+  // async function generateRoute(props, iRC){
+  //   if(iRC.cars != undefined){
+  //     for(let i = 0; i < iRC.cars.length;++i){
+  //       const stringRequest = JSON.stringify({
+  //         "session_token": 'jondoe2@example.com',
+  //         "location_act": iRC.cars[i].location_act,
+  //         "location_end": iRC.cars[i].location_end
+  //       })
+      
+  //       const response = await fetch(props.apiEndpoint + "/api/generate_map_route", {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json'
+  //         },
+  //         body: stringRequest
+  //       });
+        
+  //       const data = await response.json();
+  //       const coords = {"coordinates": data.coordinates}
+  //       setRoute(route => [...route, coords]);
+  //     }
+  //   } 
+  // }
 
   useEffect(() => {
-    getCarRoute(props);
     getStoreCoordinates(props);
   }, []);
 
@@ -115,11 +159,13 @@ export default function Home(props) {
 
   function DoRouteGeojson(route) {
     if (route[0] === undefined) return;
-    
-    const routeFeatures = route.map((coordinates) => ({
+   
+    const routeFeatures = route.map((coordinatesR) => ({
       type: 'Feature',
+      properties: {},
       geometry:
-        coordinates
+        coordinatesR
+      
     }));
   
     const routeCollection = {
@@ -128,19 +174,15 @@ export default function Home(props) {
     };
   
     setRouteGeojson([routeCollection]);
+    //Si se hace un IF para no añadir la ruta una vez ya se encuentra en "route", se podría quitar esto (sería más limpio)
+    setRoute([]);
   }
-  
-  useEffect(() => {
-    DoRouteGeojson(route);
-  }, [route]);
   
   const [pointsGeojson, setPointsGeojson] = useState([])
 
   function DoPointsGeojson(iRC){
     if(iRC == null || iRC.cars == null) return;
     iRC = [iRC]
-    console.log("iRC")
-    console.log(iRC)
     setPointsGeojson([])
     const pointsFeatures = iRC[0].cars.map((cars) => ({
           type: 'Feature',
@@ -179,9 +221,25 @@ export default function Home(props) {
   }
 
   useEffect(() => {
-    getCarRoute(props);
-    DoPointsGeojson(infoRouteCar);    
-  }, [infoRouteCar]);
+    const interval = setInterval(() => {
+      getCarRoute(props);
+    }, 5000);
+  
+    // Limpieza del intervalo cuando el componente se desmonta
+    return () => {
+      clearInterval(interval);
+    };
+  });
+
+  useEffect(() => {
+    DoPointsGeojson(infoRouteCar);  
+    getRoute(props, infoRouteCar);
+  }, [infoRouteCar])
+
+  useEffect(() => {
+    //Podría estar dentro del useEffect de arriba
+    DoRouteGeojson(route);
+  }, [route]);
 
   const points_layer = {
     id: 'puntos-de-interes',
@@ -272,8 +330,6 @@ export default function Home(props) {
             <Layer {...store_layer}/>
           </Source>
          
-          {console.log("click")}
-          {console.log(pointsGeojson)}
           {clickPopup && (
           <Popup longitude={clickPopup.location_act.longitude} latitude={clickPopup.location_act.latitude} anchor="bottom" 
           onClose={() => setClickPopup(false)}>
