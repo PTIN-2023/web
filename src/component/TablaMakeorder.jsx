@@ -1,23 +1,93 @@
-import React, { useContext, useState } from "react";
-import useTable from "../hooks/useTable.js";
+import React, { useContext, useState, useEffect } from "react";
 import TableFooter from "./TableFooter.jsx";
-import { ShopContext } from "../context/shopContext.jsx"
-import { Product } from "../component/products.jsx"
+import { ShopContext } from "../context/shopContext.jsx";
+import { Product } from "../component/products.jsx";
+import * as env_config from "../utils/env_config.js";
+import useCookie from '../hooks/useCookie';
+import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest.js";
+import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
 
+export async function getServerSideProps() {
+    const apiEndpoint = String(env_config.getApiEndpoint());
 
-const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
-    //componente que renderiza la tabla con los pedidos
-    //recibe data -> json de pedidos
-    //rowsPerPage -> cuantas filas va a renderizar
-    //searchValue -> el filtro en caso de que se active el componente MyOrdersSearch
-    const [page, setPage] = useState(1);
+    return {
+        props: {
+            apiEndpoint
+        }
+    }
+}
+
+const calculateRange = (meds, rowsPerPage) => {
+    const range = [];
+    const num = Math.ceil(meds.length / rowsPerPage);
+    let i = 1;
+    for (let i = 1; i <= num; i++) {
+      range.push(i);
+    }
+    return range;
+};
+
+const TablaMakeOrder = ({ props, searchValue }) => {
+    const [userTokenCookie, ] = useCookie('user_token')
+    const [medName, setMedName] = useState();
+    const [price, setPrice] = useState();
+    const [ordersPerPage, setOrdersPerPage] = useState('10');
+    const [page, setPage] = useState('1');  
+
+    const stringRequest = usePrepareBodyRequest({
+        "session_token" : userTokenCookie,
+        "medicine_identifier": '0',
+        "medicine_image_url": 'https://picsum.photos/200',
+        "medicine_name": medName,
+        "excipient": 'Sorbitol (E-420)',
+        "pvp": price,
+        "contents": '30 comprimidos',
+        "prescription_needed": false,
+        "form": 'pill',
+        "type_of_adminstration": 'oral',
+        "orders_per_page" : ordersPerPage,
+        "page" : page
+    })
+
+    const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
+        stringRequest,
+        "http://localhost:3000/api/list_available_medicines"
+        //props.apiEndpoint+"/api/list_patient_orders
+    )
+
+    useEffect(() => {
+        if(stringResponse != 'none') {
+          console.log("response not none")
+        }
+    }, [stringResponse])
+    
+    sumbitAndFetch();
+
+    const meds = stringResponse.orders ? stringResponse.orders.map(med => {
+        const { medicine_identifier, medicine_image_url, medicine_name, pvp } = med;
+        return {
+          medicineIdentifier: medicine_identifier,
+          medicineImageUrl: medicine_image_url,
+          medicineName: medicine_name,
+          price: pvp,
+          ordersPerPage : ordersPerPage,
+          page : page,
+          excipient: 'Sorbitol (E-420)',
+          contents: '30 comprimidos',
+          prescriptionNeeded: false,
+          form: 'pill',
+          typeOfAdminstration: 'oral'
+        };
+    }) : [];
+
+    const range = calculateRange(meds, ordersPerPage);
+
+    console.log(meds.medicine)
 
     //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
-    if (searchValue.value.length > 0 && searchValue.isCompleted) {
-        data = data.orders((med) => med.nombre.toLowerCase().includes(searchValue.value));
-    } else data = data.orders;
-
-    var { slice, range } = useTable(data, page, rowsPerPage);
+    //if (searchValue.value.length > 0 && searchValue.isCompleted) {
+        //meds = meds.medicine.filter((med) => med.id.toLowerCase().includes(searchValue.value));
+    //} else meds = meds.medicine;
 
     const { addToCart } = useContext(ShopContext);
 
@@ -29,14 +99,14 @@ const TablaMakeOrder = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
 
                     <div className="mt-6 grid grid-cols-1 gap-x-6 sm:grid-cols-2 lg:grid-cols-5 xl:gap-x-8">
-                        {slice.map((med) => (
-                            <Product data={med} />
+                        {meds.map((medicine) => (
+                            <Product data={medicine} />
                         ))}
                     </div>
                 </div>
             </div>
             <div style={{ marginLeft: 'auto', marginTop: '10px' }}>
-                <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
+                <TableFooter range={range} slice={meds} setPage={setPage} page={page} />
             </div>
         </div>
 

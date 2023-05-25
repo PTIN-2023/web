@@ -3,8 +3,6 @@ import Layout from "../component/Layout"
 import TablaPedidos from "../component/TablaPedidos"
 import myordersStyles from "../styles/Myorders.module.css"
 import {useEffect, useState} from "react";
-import orders from '../../public/orders.json'
-import { Card } from 'flowbite-react';
 import * as env_config from "../utils/env_config"
 import useCookie from "../hooks/useCookie";
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";

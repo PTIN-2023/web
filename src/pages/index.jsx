@@ -30,9 +30,9 @@ export default function Home(props) {
   return (
     <>
       <Head>
-        <title>TransMedWebPTIN</title>
+        <title>TransMed</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="media/logo/favicon.ico" />
       </Head>
       <main>
         <div className="min-h-screen bg-gray-100 flex items-center justify-center">
