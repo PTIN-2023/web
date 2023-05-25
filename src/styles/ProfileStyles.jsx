@@ -15,47 +15,55 @@
 
 const styles = {
   text_title: {
-    fontSize: '17px',
+    fontSize: '24px',
     fontWeight: 'bold',
     textAling: 'left',
-    color: 'black'
+    color: '#4a4a4a',
+    fontFamily: '"Roboto", sans-serif',
     //fontStyle: 'italic',
     //fontFamily: 'Arial'    
   },
 
   text_subtitle: {
-    fontSize: '15px',
+    fontSize: '18px',
     fontWeight: 'normal',
     textAling: 'left',
-    color: '#5f5f5f'
+    color: '#7a7a7a',
+    fontFamily: '"Roboto", sans-serif',
     //fontStyle: 'italic',
     //fontFamily: 'Arial'    
   },
 
   text_importantText: {
-    fontSize: '13px',
+    fontSize: '16px',
     fontWeight: 'bold',
     textAling: 'left',
-    color: 'black'
+    color: '#4a4a4a',
+    fontFamily: '"Roboto", sans-serif',
     //fontStyle: 'italic',
     //fontFamily: 'Arial'    
   },
 
   text_normalText: {
-    fontSize: '12px',
+    fontSize: '14px',
     fontWeight: 'normal',
     textAling: 'left',
-    color: '#5f5f5f'
+    color: '#7a7a7a',
+    fontFamily: '"Roboto", sans-serif',
   },
 
   cont_main: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    gap: '2cm',
-    marginTop: '75px',
+    gap: '2.5cm',
+    marginTop: '100px',
     overflow: 'auto',
-  },
+    backgroundColor: '#ffffff', // Más blanco
+    borderRadius: '25px', // Esquinas redondeadas
+    boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.1)', // Sombra para darle profundidad
+    padding: '50px', // Espacio interior para evitar que el contenido toque los bordes
+},
 
   cont_imagZone: {
     display: 'flex',
@@ -142,7 +150,11 @@ const styles = {
     borderRadius: '50%',
     width: '110px',
     height: '110px',
-    objectFit: 'cover'
+    objectFit: 'cover',
+    transition: 'transform 0.3s ease-in-out', // CSS Transition
+    '&:hover': {
+      transform: 'scale(1.1)', // Scale image on hover
+    },
   },
 
   style_shortcutsPic: {

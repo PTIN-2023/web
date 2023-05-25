@@ -122,9 +122,6 @@ const shoppingCartButton = () => {
 
     return (
         <>
-            <button onClick={handleButtonClick}>
-                Ver datos de las órdenes
-            </button>
             {/**Botón del carrito de compra, cuando hacemos click en el se abre el carrito deslizante  */}
             <Button onClick={manageOnClick}>
                 <HiShoppingCart className="mr-2 h-5 w-5" />

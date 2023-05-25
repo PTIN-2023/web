@@ -186,6 +186,13 @@ export function defineMirageAuthRoutes(server) {
       })
     }
 
+    if (requestPayload.token == 'internal') {
+      return ({
+        valid : "yes",
+        type : 'internal'
+      })
+    }
+
     const user_entry = schema.users.findBy({ user_email : requestPayload.token })
     if (user_entry) {
       return ({

@@ -6,12 +6,6 @@ import useCookie from "../hooks/useCookie";
 const TableFooter = ({ range, setPage, page, slice }) => {
   const [localeCookie, ] = useCookie('locale')
 
-  useEffect(() => {
-    if (slice.length < 1 && page !== 1) {
-    setPage(page - 1);
-    }
-  }, [slice, page, setPage]);
-
   function checkLimit(buttonType, page, range){
     
     let maxIndex = range.length;

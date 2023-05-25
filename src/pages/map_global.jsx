@@ -56,7 +56,7 @@ export default function Home(props) {
   const [storeCoord, setStoreCoord] = React.useState({}); // usar estado para almacenar storeCoord
   async function getStoreCoordinates(props) {
     try {
-      const response = await fetch(props.apiEndpoint + "/api/store_coordinates", {
+      const response = await fetch(props.apiEndpoint + "/api/general_storage_pos", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -137,11 +137,11 @@ export default function Home(props) {
   const [pointsGeojson, setPointsGeojson] = useState([])
 
   function DoPointsGeojson(iRC){
-    if(iRC == null) return;
-    if(iRC.cars == null) return;
+    if(iRC == null || iRC.cars == null) return;
     iRC = [iRC]
     console.log("iRC")
     console.log(iRC)
+    setPointsGeojson([])
     const pointsFeatures = iRC[0].cars.map((cars) => ({
           type: 'Feature',
           geometry: {
@@ -179,6 +179,7 @@ export default function Home(props) {
   }
 
   useEffect(() => {
+    getCarRoute(props);
     DoPointsGeojson(infoRouteCar);    
   }, [infoRouteCar]);
 
@@ -204,7 +205,7 @@ export default function Home(props) {
           type: 'Feature',
           geometry: {
             type: 'Point',
-            coordinates: [storeCoord.st_longitude, storeCoord.st_latitude]
+            coordinates: [storeCoord.longitude, storeCoord.latitude]
           },
           properties: {
             title: 'Almacén',
@@ -272,7 +273,7 @@ export default function Home(props) {
           </Source>
          
           {console.log("click")}
-          {console.log(clickPopup)}
+          {console.log(pointsGeojson)}
           {clickPopup && (
           <Popup longitude={clickPopup.location_act.longitude} latitude={clickPopup.location_act.latitude} anchor="bottom" 
           onClose={() => setClickPopup(false)}>
