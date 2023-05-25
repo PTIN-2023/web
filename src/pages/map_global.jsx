@@ -4,9 +4,6 @@ import * as env_config from "../utils/env_config"
 import Map, {Source, Layer, Popup} from "react-map-gl"
 import mapboxgl from 'mapbox-gl';
 import React, { useState, useEffect } from 'react';
-import useCookie from '../hooks/useCookie';
-import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest.js";
-import useSumbitAndFetchObject from "../hooks/useSumbitAndFetchObject.js";
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 export async function getServerSideProps() {
@@ -32,10 +29,8 @@ export async function getServerSideProps() {
 }
 
 export default function Home(props) {
-  mapboxgl.accessToken = 'pk.eyJ1IjoiYWVrc3AiLCJhIjoiY2xmd2dtbDNhMGU4bjNjbWkwa2VqbzhhciJ9.LYgWVHhGLoY9T-ix_qC73g'; // GIT IGNORE !! 
 
   const [infoRouteCar, setinfoRouteCar] = React.useState([]); // usar estado para almacenar infoRouteCar
-
   async function getCarRoute(props) {
     try {
       const response = await fetch(props.apiEndpoint + "/api/cars_full_info", {
@@ -73,22 +68,7 @@ export default function Home(props) {
     }
   }
 
-  // Obtener la ruta desde la API Directions de Mapbox
   const [route, setRoute] = React.useState([]); // usar estado para almacenar route
-  // const [PRINT, SETPRINT] = React.useState([]);
-  // async function fetchData(iRC) {
-  //   if(iRC.cars != undefined){ //if undefined we have no data
-  //     for(let i = 0; i < iRC.cars.length;++i){
-  //       const response = await fetch(
-  //         `https://api.mapbox.com/directions/v5/mapbox/driving/${iRC.cars[i].location_act.longitude},${iRC.cars[i].location_act.latitude};${iRC.cars[i].location_end.longitude},${iRC.cars[i].location_end.latitude}?geometries=geojson&alternatives=true&access_token=${mapboxgl.accessToken}`
-  //       );
-  //       const data = await response.json();
-  //       // Agrega la línea para el recorrido
-  //       SETPRINT(PRINT => [...PRINT, data.routes[0].geometry]);
-  //     }
-  //   }
-  // }
-
   async function getRoute(props, iRC){
     if(iRC.cars != undefined){
       await Promise.all(iRC.cars.map(async (car) => {
@@ -113,35 +93,6 @@ export default function Home(props) {
     } 
   }
 
-  // const [userTokenCookie, ] = useCookie('user_token');
-  // async function generateRoute(props, iRC){
-  //   if(iRC.cars != undefined){
-  //     for(let i = 0; i < iRC.cars.length;++i){
-  //       const stringRequest = JSON.stringify({
-  //         "session_token": 'jondoe2@example.com',
-  //         "location_act": iRC.cars[i].location_act,
-  //         "location_end": iRC.cars[i].location_end
-  //       })
-      
-  //       const response = await fetch(props.apiEndpoint + "/api/generate_map_route", {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json'
-  //         },
-  //         body: stringRequest
-  //       });
-        
-  //       const data = await response.json();
-  //       const coords = {"coordinates": data.coordinates}
-  //       setRoute(route => [...route, coords]);
-  //     }
-  //   } 
-  // }
-
-  useEffect(() => {
-    getStoreCoordinates(props);
-  }, []);
-
   const route_layer = {
     id: 'route',
     type: 'line',
@@ -156,7 +107,6 @@ export default function Home(props) {
   }
   
   const [routeGeojson, setRouteGeojson] = useState([])
-
   function DoRouteGeojson(route) {
     if (route[0] === undefined) return;
    
@@ -165,7 +115,6 @@ export default function Home(props) {
       properties: {},
       geometry:
         coordinatesR
-      
     }));
   
     const routeCollection = {
@@ -185,15 +134,15 @@ export default function Home(props) {
     iRC = [iRC]
     setPointsGeojson([])
     const pointsFeatures = iRC[0].cars.map((cars) => ({
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [cars.location_act.longitude, cars.location_act.latitude],
-          },
-          properties: {
-            title: 'Coche',
-            icon: 'car',
-          }
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [cars.location_act.longitude, cars.location_act.latitude],
+      },
+      properties: {
+        title: 'Coche',
+        icon: 'car',
+      }
     }))
 
     const pointsENDFeatures = iRC[0].cars.map((cars) => ({
@@ -217,8 +166,23 @@ export default function Home(props) {
     };
    
     setPointsGeojson(pointsGeojson => [...pointsGeojson, pointsCollection])
-   
   }
+
+  const points_layer = {
+    id: 'puntos-de-interes',
+    type: 'symbol',
+    layout: {
+      'icon-image': '{icon}',
+      'icon-size': 2,
+      'text-field': '{title}',
+      'text-offset': [0, 0.75],
+      'text-anchor': 'top'
+    }
+  }
+
+  useEffect(() => {
+    getStoreCoordinates(props);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -241,20 +205,7 @@ export default function Home(props) {
     DoRouteGeojson(route);
   }, [route]);
 
-  const points_layer = {
-    id: 'puntos-de-interes',
-    type: 'symbol',
-    layout: {
-      'icon-image': '{icon}',
-      'icon-size': 2,
-      'text-field': '{title}',
-      'text-offset': [0, 0.75],
-      'text-anchor': 'top'
-    }
-  }
-
   const [storeGeojson, setStoreGeojson] = useState({})
-
   useEffect(() => {
     setStoreGeojson({
       type: 'FeatureCollection',
@@ -285,7 +236,6 @@ export default function Home(props) {
       'text-anchor': 'top'
     }
   }
-
 
   const [clickPopup, setClickPopup] = useState(null);
   const handleClick = (event) => {
