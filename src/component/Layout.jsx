@@ -69,7 +69,7 @@ export default function Layout({ children, navBarValue}) {
           />
           
           {/**estoy en Mis pedidos? carga la barra de busqueda */}
-          {(currentPage == "/myorders" || currentPage == "/makeorder") && <MyOrdersSearch setSearchValue={navBarValue}/>}
+          {(currentPage == "/myorders" || currentPage == "/makeorder" || currentPage == "/orders") && <MyOrdersSearch setSearchValue={navBarValue}/>}
           {/**aqui hay que añadir el componente que corresponde a cada página si asi se requiere */}
         </div>
         <Dropdown label={getTextCurrentLocale('language')} inline={true}>

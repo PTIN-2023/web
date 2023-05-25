@@ -1,0 +1,28 @@
+.mainContainer{
+    @apply grid grid-cols-4 gap-4 bg-white p-5 rounded-md;
+
+}
+
+.gridItem{
+    @apply mx-auto;
+
+}
+.gridItemExtend{
+    @apply col-span-2 mx-auto;
+
+}
+.gridHeader{
+    @apply text-xl font-medium;
+
+}
+.gridHead{
+    @apply text-base;
+
+}
+.cardInside {
+    @apply pb-5;
+
+
+}
+
+
