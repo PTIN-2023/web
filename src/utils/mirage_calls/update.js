@@ -58,7 +58,7 @@ export function defineMirageUpdateRoutes(server) {
                 medicine_list : order.medicine_list,
                 date : order.date,
                 state : order.state,
-                coords_destiny : {latitude: 41.2278786, longitude: 1.7474957}
+                coords_destiny : {latitude: 41.190724, longitude: 1.8050001}
             }
         })
 
@@ -156,6 +156,36 @@ export function defineMirageUpdateRoutes(server) {
                     }
                 )
             })
+        })
+
+        return { 
+            result : 'ok'
+        }
+    })
+
+    server.post("/api/send_order_drones", (schema, request) => {
+        const requestPayload = JSON.parse(request.requestBody)
+        console.log("Received send order drones with:" + JSON.stringify(requestPayload, null, 2))
+
+        // Check payload
+        const expectedFields = [
+            "session_token",
+            "assignations"
+        ]
+        const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
+        if (!expectedFieldsOk) {
+            return {result : 'error_fields'}
+        }
+
+        // Set orders as drone_sent
+        requestPayload.assignations.forEach((assignation) => {
+            const order_entry = schema.orders.findBy({order_identifier : assignation.order.order_identifier})
+            schema.db.orders.update(
+                order_entry.id,
+                {
+                    state: 'drone_sent'
+                }
+            )
         })
 
         return { 

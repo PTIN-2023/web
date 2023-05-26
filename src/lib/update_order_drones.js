@@ -34,10 +34,10 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
         })
     }
 
-    // Get available cars
-    console.log("[update_order_drones] getting the available cars")
+    // Get available drones
+    console.log("[update_order_drones] getting the available drones")
 
-    const list_cars_response = await fetch(api_endpoint+'/api/list_available_drones', {
+    const list_drones_response = await fetch(api_endpoint+'/api/list_available_drones', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -47,12 +47,12 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
         })
     }).then(data => data.json())
 
-    if(!list_cars_response || list_cars_response.result != 'ok') {
+    if(!list_drones_response || list_drones_response.result != 'ok') {
         return ({
             response_code : 500,
             response_body : {
                 result : "error",
-                description: "Error getting available cars: " + (list_cars_response ? list_cars_response.result + ' ' + list_cars_response.description : '')
+                description: "Error getting available drones: " + (list_drones_response ? list_drones_response.result + ' ' + list_drones_response.description : '')
             }
         })
     }
@@ -60,7 +60,7 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
     // Get orders to send
     console.log("[update_order_drones] getting the orders to send")
 
-    const list_orders_to_send_cars_response = await fetch(api_endpoint+'/api/list_orders_to_send_drones', {
+    const list_orders_to_send_drones_response = await fetch(api_endpoint+'/api/list_orders_to_send_drones', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -70,20 +70,20 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
         })
     }).then(data => data.json())
 
-    if(!list_orders_to_send_cars_response || list_orders_to_send_cars_response.result != 'ok') {
+    if(!list_orders_to_send_drones_response || list_orders_to_send_drones_response.result != 'ok') {
         return ({
             response_code : 500,
             response_body : {
                 result : "error",
-                description: "Error getting the orders to send: " + (list_orders_to_send_cars_response ? list_orders_to_send_cars_response.result + ' ' + list_orders_to_send_cars_response.description : '')
+                description: "Error getting the orders to send: " + (list_orders_to_send_drones_response ? list_orders_to_send_drones_response.result + ' ' + list_orders_to_send_drones_response.description : '')
             }
         })
     }
 
-    // Get general storage position
-    console.log("[update_order_drones] getting the storage position")
+    // Get local beehive storage position
+    console.log("[update_order_drones] getting the beehive storage pos")
 
-    const storage_position_response = await fetch(api_endpoint+'/api/beehive_storage_pos', {
+    const storage_position_response = await fetch(api_endpoint+'/api/beehives_local', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -98,38 +98,22 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
             response_code : 500,
             response_body : {
                 result : "error",
-                description: "Error getting the general storage pos: " + (storage_position_response ? storage_position_response.result + ' ' + storage_position_response.description : '')
+                description: "Error getting the local beehive storage pos: " + (storage_position_response ? storage_position_response.result + ' ' + storage_position_response.description : '')
             }
         })
     }
 
-    // Group orders by destiny
-    console.log("[update_order_drones] grouping orders")
-    const order_destines = new Map();
-    list_orders_to_send_cars_response.orders.map((order) => {
-        const key = order.beehive_coords_destiny.id_beehive
-        const current_entry = order_destines.get(key)
-        order_destines.set(key,
-            current_entry 
-            ? [...current_entry, order]
-            : [order]
-        )
-    })
-
-    // Sort cars and orders
-    console.log("[update_order_drones] sorting orders and cars")
-    order_destines.forEach((value, key, map) => {
-        value.sort((a, b) => {
-            if(a.medicine_list.length == b.medicine_list.length)
-                return 0
-            if(a.medicine_list.length <  b.medicine_list.length)
-                return 1
-            return -1
-        })
-        map.set(key, value)
+    // Sort drones and orders
+    console.log("[update_order_drones] sorting orders and drones")
+    let orders = list_orders_to_send_drones_response.orders.sort((a, b) => {
+        if(a.medicine_list.length == b.medicine_list.length)
+            return 0
+        if(a.medicine_list.length <  b.medicine_list.length)
+            return 1
+        return -1
     })
     
-    const cars = list_cars_response.cars.sort((a, b) => {
+    const drones = list_drones_response.drones.sort((a, b) => {
         if(a.capacity == b.capacity)
             return 0
         if(a.capacity <  b.capacity)
@@ -137,53 +121,18 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
         return -1
     })
 
-    // Match orders and cars
-    console.log("[update_order_drones] matching orders and cars")
+    // Match orders and drones
+    console.log("[update_order_drones] matching orders and drones")
     let matches = []
-    cars.forEach((car) => {
-        // Find the destination with the largest first order
-        let max_medicine_count = Number.NEGATIVE_INFINITY
-        let max_order_destination = null
-
-        order_destines.forEach((orders, destination_id, _) => {
-            const first_order = orders[0]
-            const medicine_count = first_order.medicine_list.length
-            if (medicine_count > max_medicine_count) {
-                max_medicine_count = medicine_count
-                max_order_destination = destination_id
-            }
-        })
-
-        // Interrupt if it is null
-        if(!max_order_destination)
-            return;
-
-        // Get the list of orders that fit in the car
-        const orders = order_destines.get(max_order_destination);
-        const capacity = car.capacity
-        let order_size = 0
-        let selected_orders = []
-
-        orders.some((order) => {
-            if (order_size+order.medicine_list.length <= capacity) {
-                order_size += order.medicine_list.length
-                selected_orders.push(order)
-            }
-
-            return order_size == capacity
-        })
-
-        // Remove the selected orders from order_destinies
-        const remaining_orders = orders.filter((value) => !selected_orders.includes(value))
-        order_destines.set(max_order_destination, remaining_orders)
-
+    drones.some((drone) => {
         matches.push({
-            id_car : car.id_car,
-            orders : selected_orders
+            id_drone : drone.id_drone,
+            order : orders.shift()
         })
+        return orders.length == 0
     })
 
-    // Generate route and assignations for matched cars
+    // Generate route and assignations for matched drones
     console.log("[update_order_drones] generating routes and assignations")
     let assignations = []
     const location_act = {
@@ -193,8 +142,8 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
     
     for (const match of matches) {
         const location_end = {
-            latitude : match.orders[0].beehive_coords_destiny.latitude,
-            longitude : match.orders[0].beehive_coords_destiny.longitude
+            latitude : match.order.coords_destiny.latitude,
+            longitude : match.order.coords_destiny.longitude
         }
         
         const generate_route_response = await generate_map_route(api_endpoint, {
@@ -212,22 +161,14 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
                 }
             })
         }
-        
-        const cargo = match.orders.map((order) => {
-            return {
-                order_identifier : order.order_identifier,
-                medicine_list : order.medicine_list
-            }
-        })
 
         assignations.push({
-            id_car : match.id_car,
-            id_beehive : match.orders[0].beehive_coords_destiny.id_beehive,
+            id_drone : match.id_drone,
             route : {
                 id_route : generate_route_response.response_body.id_route,
                 coordinates : generate_route_response.response_body.coordinates,
             },
-            cargo : cargo
+            order : match.order
         })
     }
 
