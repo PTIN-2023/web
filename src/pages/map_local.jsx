@@ -44,8 +44,12 @@ export default function Home(props) {
       });
   
       const data = await response.json();
-      console.log("getDroneRoute " + data)
-      setinfoRouteDrone(data);
+      console.log("getDroneRoute " + JSON.stringify(data))
+      // filter drones that are in movement (status==3)
+      const fitered_drones = data.drones.filter((drone) => drone.status == 3)
+      setinfoRouteDrone({
+        drones : fitered_drones
+      });
      } catch (error) {
       console.log("error");
       console.error('API request failed:', error);
