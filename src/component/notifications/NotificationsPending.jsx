@@ -35,7 +35,6 @@ function NotificationsPending (props) {
     const [userTokenCookie, ] = useCookie('user_token');
     const [rowsPerPage, setrowsPerPage] = useState('10');
     const [page, setPage] = useState('1');
-    const [data, setData] = useState();
     
     const stringRequest = usePrepareBodyRequest({
         "session_token" : userTokenCookie,
@@ -98,7 +97,7 @@ function NotificationsPending (props) {
                                 <Table.Cell className={style.tableCell}>
                                     <Dropdown label="Lista Medicamentos">
                                         {notification.medicamentos.map(med =>
-                                            <option key={med.medicine_identifier}>{med.medicine_name}</option>
+                                            <Dropdown.Item key={med.medicine_identifier}>{med.medicine_name}</Dropdown.Item>
                                         )}
                                     </Dropdown> 
                                 </Table.Cell>
