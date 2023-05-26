@@ -75,7 +75,11 @@
         "stats_yearOrders_header" : "Pedidos este año",
         "stats_topSeller_header" : "Ciudades que más compran",
         "stats_topSellerMeds_header" : "Medicamentos más vendidos",
-        "stats_sellsComparation_header" : "Comparación ventas 2022 - 2023"
+        "stats_sellsComparation_header" : "Comparación ventas 2022 - 2023",
+        "order_details" : "Detalles",
+        "button_open" : "Abrir",
+        "button_edit" : "Editar",
+        "button_confirm" : "Confirmar"
     },
     "en": {
         "language": "Language",
@@ -134,7 +138,10 @@
         "cancel_order": "Cancel order",
         "cancelation_confirmation": "Are you sure you want to cancel the order",
         "cancelation_confirmation_yes": "Yes, cancel",
-        "cancelation_confirmation_no": "No, close"
+        "cancelation_confirmation_no": "No, close",
+        "button_open" : "Open",
+        "button_edit" : "Edit",
+        "button_confirm" : "Confirm"
     },
     "ca": {
         "language": "Idioma",
@@ -193,6 +200,9 @@
         "cancel_order": "Cancel·lar comanda",
         "cancelation_confirmation": "Segur@ que vols cancel·lar la comanda",
         "cancelation_confirmation_yes": "Sí, cancel·lar",
-        "cancelation_confirmation_no": "No, tancar"
+        "cancelation_confirmation_no": "No, tancar",
+        "button_open" : "Obrir",
+        "button_edit" : "Editar",
+        "button_confirm" : "Confirmar"
     }
 }

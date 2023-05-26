@@ -11,13 +11,14 @@
 export function seedMirageUserInf(server) {
     server.create("user", {
         user_name: "John doe",
-        user_age: "33",
+        user_age: "32",
         user_pseudoname: "John",
         user_email: "ejemplo@gmail.com",
         user_password: "john",
         user_phone: "66472899",
         user_city: "Narnia",
         user_address: "Coolstown st. nº 3",
+        user_test_token: "test"      
     })
     server.create("user", {
         user_name: "PWEV",
@@ -28,6 +29,7 @@ export function seedMirageUserInf(server) {
         user_phone: "66472899",
         user_city: "NaWCECWrnia",
         user_address: "CEWWECWCWEC st. nº 3",
+        user_test_token: "test"
     })
 }
 
@@ -37,12 +39,12 @@ export function defineMirageProfileRoutes(server) {
     // Metodo para enviar los datos del cliente y poder rellenar los campos del perfil
     server.post("/api/user_info", (schema, request) => {
         const queryParams = request.queryParams;
-        const user = schema.users.findBy({ user_email: queryParams.user_email });
+        const user = schema.users.findBy({ user_name: queryParams.user_test_token });
 
         // Si ningun usuario corresponde con el email que hemos recibido
         if (!user) {
             return ({
-                usuario: queryParams.user_email,
+                usuario: queryParams.user_test_token,
                 result: "error",
                 description: "User not found"
             });
@@ -68,7 +70,7 @@ export function defineMirageProfileRoutes(server) {
     server.post("/api/user_modifyInfo", (schema, request) => {
         const requestPayload = JSON.parse(request.requestBody)
         const queryParams = request.queryParams;
-        const user = schema.users.findBy({ user_email: queryParams.user_email });
+        const user = schema.users.findBy({ user_name: queryParams.user_test_token });
 
         // Si ningun usuario corresponde con el email que hemos recibido
         if (!user) {

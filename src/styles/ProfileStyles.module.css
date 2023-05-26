@@ -1,0 +1,323 @@
+/* README
+- Primero estan definidas las variables con la información del usuario
+  y estas en un futuro se llenaran con la informacion procedente de la API.
+- A contuniación esta los estilos de Fuente/Texto que se usan en el 
+  documento, por ejemplo (text_title) corresponde al titulo.
+- Luego los containers que mantienen la estuctura de la pagina por orden
+  segun te los encuentras en el codigo, siguen el siguiente formato: 
+    -- Ej: (cont_main) -> corresponde al contenedor "main" que contiene a
+       todos los otros.
+- Por ultimo los estilos individuales de objectos concretos de la pagina
+  con el formato de (style_profilePic) que corresponde con el estilo de
+  la foto de perfil
+*/
+
+.text_title {
+  font-size: 17px;
+  font-weight: bold;
+  text-align: left;
+  color: black;
+  /* font-style: italic; */
+  /* font-family: Arial; */
+}
+
+.text_subtitle {
+  font-size: 15px;
+  font-weight: normal;
+  text-align: left;
+  color: #5f5f5f;
+  /* font-style: italic; */
+  /* font-family: Arial; */
+}
+
+.text_importantText {
+  font-size: 13px;
+  font-weight: bold;
+  text-align: left;
+  color: black;
+  /* font-style: italic; */
+  /* font-family: Arial; */
+}
+
+.text_normalText {
+  font-size: 12px;
+  font-weight: normal;
+  text-align: left;
+  color: #5f5f5f;
+}
+
+.text_passwd {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: left;
+  color: #5f5f5f;
+  /* font-style: italic; */
+  /* font-family: Arial; */
+}
+
+.cont_main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2cm;
+  /*margin-top: 75px;*/
+  overflow: auto;
+  background-color: white;
+  border-radius: 20px;
+}
+
+.cont_imagZone {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.cont_subImagZone {
+  /* text-align:left; */
+  margin-left: 10px;
+}
+
+.cont_userZone {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  width: 70%;
+  margin-top: 35px;
+  overflow: scroll;
+}
+
+.cont_subUserZoneF {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 2cm;
+  border-bottom: 2px solid #a4a4a4;
+  border-top: 2px solid #a4a4a4;
+}
+
+.cont_subUserZone {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 2cm;
+  border-bottom: 2px solid #a4a4a4;
+}
+
+.cont_userZoneInfo {
+  display: flex;
+  flex-direction:
+    column;
+  align-items: left
+}
+
+.cont_userZoneButton {
+  display: flex;
+  align-items: right
+}
+
+.cont_quickAccess {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  width: 60%;
+  height: 200px;
+  margin-top: 100px;
+  margin-bottom: 10rem;
+}
+
+.cont_subQuickAccess {
+  border-radius: 25px;
+  /*box-shadow: 15px 15px 30px #bebebe;*/
+  box-shadow: 0px 20px 30px 2.5px #bebebe;
+  background: white;
+  display: flex;
+  justify-content: center;
+  flex-direction:
+    column;
+  align-items: center;
+  width: 207px;
+  height: 262px;
+}
+
+.cont_subQuickAccess:hover {
+  border-radius: 25px;
+  box-shadow: 0px 20px 30px 4px #afafaf;
+  width: 210px;
+  height: 265px;
+}
+
+
+.cont_subQuickAccessText {
+  height:
+    15%;
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+
+.style_profilePic {
+  border-radius:
+    50%;
+  width:
+    110px;
+  height:
+    110px;
+  object-fit:
+    cover
+}
+
+.style_shortcutsPic {
+  border-radius:
+    50%;
+  width:
+    85px;
+  height:
+    85px;
+  object-fit:
+    cover
+}
+
+.input {
+  width: 100%;
+  max-width: 250px;
+  height: 30px;
+  padding: 12px;
+  border-radius: 7px;
+  border: 1.5px solid lightgrey;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  box-shadow: 0px 0px 20px -18px;
+  margin-top: 0.3rem;
+}
+
+.input:hover {
+  border: 2.3px solid lightgrey;
+  box-shadow: 0px 0px 20px -17px;
+}
+
+.input:active {
+  transform: scale(0.95);
+}
+
+.input:focus {
+  border: 2px solid grey;
+}
+
+
+.toggle-button-cover {
+  display: table-cell;
+  position: relative;
+  width: 200px;
+  height: 140px;
+  box-sizing: border-box;
+}
+
+.button-cover {
+  height: 100px;
+  margin: 20px;
+  background-color: #fff;
+  box-shadow: 0 10px 20px -8px #c5d6d6;
+  border-radius: 4px;
+}
+
+.button-cover:before {
+  counter-increment: button-counter;
+  content: counter(button-counter);
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: #d7e3e3;
+  font-size: 12px;
+  line-height: 1;
+  padding: 5px;
+}
+
+.button-cover,
+.knobs,
+.layer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.button {
+  position: relative;
+  top: 50%;
+  width: 74px;
+  height: 36px;
+  margin: -20px auto 0 auto;
+  overflow: hidden;
+}
+
+.checkbox {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.knobs {
+  z-index: 2;
+}
+
+.layer {
+  width: 100%;
+  background-color: #ebf7fc;
+  transition: 0.3s ease all;
+  z-index: 1;
+}
+
+.button.r,
+.button.r .layer {
+  border-radius: 100px;
+}
+
+#button-3 .knobs:before {
+  content: "YES";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 20px;
+  height: 10px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1;
+  padding: 9px 4px;
+  background-color: #03a9f4;
+  border-radius: 50%;
+  transition: 0.3s ease all, left 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15);
+}
+
+#button-3 .checkbox:active + .knobs:before {
+  width: 46px;
+  border-radius: 100px;
+}
+
+#button-3 .checkbox:checked:active + .knobs:before {
+  margin-left: -26px;
+}
+
+#button-3 .checkbox:checked + .knobs:before {
+  content: "NO";
+  left: 42px;
+  background-color: #f44336;
+}
+
+#button-3 .checkbox:checked ~ .layer {
+  background-color: #fcebeb;
+}
