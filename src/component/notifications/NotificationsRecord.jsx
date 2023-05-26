@@ -81,7 +81,7 @@ function NotificationsPending (props) {
                             </Tooltip>
                         </Table.HeadCell>
                         <Table.HeadCell>Medicamentos</Table.HeadCell>
-                        <Table.HeadCell>Accion</Table.HeadCell>
+                        <Table.HeadCell>Aprobada</Table.HeadCell>
                     </Table.Head>
                     <Table.Body className="divide-y">
                     
@@ -95,7 +95,7 @@ function NotificationsPending (props) {
                                     <Dropdown label="Lista Medicamentos">
                                         {notification.medicamentos.map(med =>
                                             
-                                            <option>{med.medicine_name}</option>
+                                            <Dropdown.Item key={med.medicine_identifier}>{med.medicine_name}</Dropdown.Item>
                                                
                                         )}
                                     </Dropdown> 

@@ -220,8 +220,6 @@ export default async function update_order_cars(api_endpoint, requestPayload) {
             }
         })
 
-        console.log(cargo)
-
         assignations.push({
             id_car : match.id_car,
             id_beehive : match.orders[0].beehive_coords_destiny.id_beehive,
