@@ -5,8 +5,19 @@ import makeorderStyles from "../styles/Makeorder.module.css"
 import { useState, useEffect } from "react";
 import FilterTable from "../component/FilterTable"
 import { ShopContextProvider } from '../context/shopContext';
+import * as env_config from "../utils/env_config.js";
 
-export default function Home() {
+export async function getServerSideProps() {
+    const apiEndpoint = String(env_config.getApiEndpoint());
+
+    return {
+        props: {
+            apiEndpoint
+        }
+    }
+}
+
+export default function Home(props) {
     const [searchValue, setSearchValue] = useState({value:"",isCompleted:false});
 
     return (
@@ -26,7 +37,7 @@ export default function Home() {
                         </div>
                         <div style={{ flex: 1, marginLeft: '5px' }}>
                             {/**Tablamakeorder recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}                 
-                            <Tabla searchValue={searchValue}/>
+                            <Tabla apiEndpoint={props.apiEndpoint} searchValue={searchValue}/>
                         </div>
                     </div>
                 </Layout> 
