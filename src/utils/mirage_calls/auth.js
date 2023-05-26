@@ -21,6 +21,16 @@ export function seedMirageAuth(server) {
     user_picture : "https://picsum.photos/200",
     user_role : 'doctor'
   })
+  server.create("user", {
+    user_full_name: "John doe3",
+    user_given_name: "John3",
+    user_email: "jondoe3@example.com",
+    user_city: "Narnia",
+    user_address: "Coolstown st. nº 3",
+    user_password: "john3",
+    user_picture : "https://picsum.photos/200",
+    user_role : 'patient'
+  })
 }
 
 export function defineMirageAuthRoutes(server) {
