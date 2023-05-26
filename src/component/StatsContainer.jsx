@@ -3,7 +3,7 @@ import {Card} from "flowbite-react";
 import { PieChart, LineChart, Pie, Legend, Tooltip, BarChart, ResponsiveContainer, Line, Area, Bar, XAxis, YAxis, CartesianGrid, } from 'recharts';
 
 const StatsContainer = ({data}) => {
-  console.log(data.accounts_stat.accounts_stat_query[0])
+ 
   return(
       <div className={statsStyles.mainContainer}>
       <div className={statsStyles.gridItem}>
