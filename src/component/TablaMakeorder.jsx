@@ -2,20 +2,10 @@ import React, { useContext, useState, useEffect } from "react";
 import TableFooter from "./TableFooter.jsx";
 import { ShopContext } from "../context/shopContext.jsx";
 import { Product } from "../component/products.jsx";
-import * as env_config from "../utils/env_config.js";
 import useCookie from '../hooks/useCookie';
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest.js";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
 
-export async function getServerSideProps() {
-    const apiEndpoint = String(env_config.getApiEndpoint());
-
-    return {
-        props: {
-            apiEndpoint
-        }
-    }
-}
 
 const calculateRange = (meds, rowsPerPage) => {
     const range = [];
@@ -27,7 +17,7 @@ const calculateRange = (meds, rowsPerPage) => {
     return range;
 };
 
-const TablaMakeOrder = ({ props, searchValue }) => {
+const TablaMakeOrder = ({ apiEndpoint, searchValue }) => {
     const [userTokenCookie, ] = useCookie('user_token')
     const [medName, setMedName] = useState();
     const [price, setPrice] = useState();
@@ -51,8 +41,7 @@ const TablaMakeOrder = ({ props, searchValue }) => {
 
     const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
         stringRequest,
-        "http://localhost:3000/api/list_available_medicines"
-        //props.apiEndpoint+"/api/list_patient_orders
+        apiEndpoint+"/api/list_available_medicines"
     )
 
     useEffect(() => {
