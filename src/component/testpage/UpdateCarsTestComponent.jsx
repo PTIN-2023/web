@@ -3,7 +3,7 @@ import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest";
 import useSumbitAndFetch from "../../hooks/useSumbitAndFetch";
 import TestPageTabLayout from "./TestPageTabLayout";
 
-export default function UpdateTestComponent({apiEndpoint}) {
+export default function UpdateCarsTestComponent({apiEndpoint}) {
   // Request
   const stringRequest = usePrepareBodyRequest({
     "session_token" : 'internal'
@@ -20,10 +20,6 @@ export default function UpdateTestComponent({apiEndpoint}) {
     stringRequest,
     apiEndpoint+"/api/list_available_cars"
   )
-  const [sumbitAndFetchOrderDrones, stringResponseOrderDrones] = useSumbitAndFetch(
-    stringRequest,
-    apiEndpoint+"/api/update_order_drones"
-  )
 
   // Define the HTML/React code
   return(<>
@@ -35,7 +31,7 @@ export default function UpdateTestComponent({apiEndpoint}) {
     >
     </TestPageTabLayout>
   <TestPageTabLayout 
-      title="List avaliable cars to send API test" 
+      title="List available cars to send API test" 
       onSubmit={sumbitAndFetchOrderListOrdersCars}
       stringRequest={stringRequest}
       stringResponse={stringResponseOrderListOrdersCars}
@@ -46,13 +42,6 @@ export default function UpdateTestComponent({apiEndpoint}) {
       onSubmit={sumbitAndFetchOrderCars}
       stringRequest={stringRequest}
       stringResponse={stringResponseOrderCars}
-  >
-  </TestPageTabLayout>
-  <TestPageTabLayout 
-      title="Update order drones API test" 
-      onSubmit={sumbitAndFetchOrderDrones}
-      stringRequest={stringRequest}
-      stringResponse={stringResponseOrderDrones}
   >
   </TestPageTabLayout>
   </>

@@ -54,6 +54,42 @@ export function seedMirageDrones(server) {
       altitude: 0,
     },
   });
+  
+  server.create("drone", {
+    id_dron: 3,
+    id_route: null,
+    battery: 80,
+    status: 4,
+    autonomy: 25,
+    capacity: 3,
+    last_maintenance_date: "2023-05-08",
+    id_pack: null,
+    id_beehive: 2,
+  });
+
+  server.create("drone", {
+    id_dron: 4,
+    id_route: null,
+    battery: 80,
+    status: 4,
+    autonomy: 25,
+    capacity: 3,
+    last_maintenance_date: "2023-05-08",
+    id_pack: null,
+    id_beehive: 2,
+  });
+
+  server.create("drone", {
+    id_dron: 5,
+    id_route: null,
+    battery: 80,
+    status: 4,
+    autonomy: 25,
+    capacity: 7,
+    last_maintenance_date: "2023-05-08",
+    id_pack: null,
+    id_beehive: 2,
+  });
 }
 
 export function defineMirageDroneRoutes(server) {
