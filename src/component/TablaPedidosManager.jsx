@@ -41,12 +41,12 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
                 </h5>
                 <div className="grid grid-cols-3 leading-relaxed text-gray-500 dark:text-gray-400">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" 
-                    className={currentItem.state != "awaiting_confirmation" ? myordersStyles.detallesFeedbackConfirm : myordersStyles.detallesFeedback}
+                    className={(currentItem.state != "awaiting_confirmation" || currentItem.state != "ordered") ? myordersStyles.detallesFeedbackConfirm : myordersStyles.detallesFeedback}
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   
-                  {currentItem.state == "canceled" ? 
+                  {(currentItem.state == "canceled" || currentItem.state == "denied") ? 
                   <>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" 
                       className={myordersStyles.detallesFeedbackCancelled}
@@ -75,12 +75,12 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
                 </div>
                 <div className="grid grid-cols-3  text-base leading-relaxed text-gray-900 dark:text-gray-400">
                   <p className={myordersStyles.detallesFeedbackText}>
-                    {currentItem.state != "awaiting_confirmation" ? <>Pedido confirmado</> : <>Esperando confirmación</> }  
+                    {(currentItem.state != "awaiting_confirmation" || currentItem.state != "ordered") ? <>Pedido confirmado</> : <>Esperando confirmación</> }  
                   </p>
-                  {currentItem.state == "canceled" ?
+                  {(currentItem.state == "canceled" || currentItem.state == "denied") ?
                     <>
                       <p className={myordersStyles.detallesFeedbackCanceledText}>
-                      <Tooltip placement="bottom" content="Tu pedido se canceló manualmente o por problemas lógisticos, contacta con tu médico más abajo.">
+                      <Tooltip placement="bottom" content="El pedido se canceló por falta de stock o manualmente por el médico.">
                         Qué significa esto?   
                       </Tooltip>
                       </p>                   
@@ -286,10 +286,10 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                     {(order.state == "car_sent" || order.state == "drone_sent" ) &&
                       <span className={myordersStyles.deliveryStateEnviado}>{getText("sent", localeCookie)}</span>
                     }
-                    {order.state == "awaiting_confirmation" &&
+                    {(order.state == "awaiting_confirmation" ||order.state == "ordered") &&
                       <span className={myordersStyles.deliveryStateEspConfirm}>{getText(order.state, localeCookie)}</span>
                     }
-                    {order.state == "canceled" &&
+                    {(order.state == "canceled" || order.state == "denied") &&
                       <span className={myordersStyles.deliveryStateCancelado}>{getText(order.state, localeCookie)}</span>
                     }
                   </Table.Cell>

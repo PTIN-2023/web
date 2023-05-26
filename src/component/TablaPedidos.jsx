@@ -336,7 +336,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                     {order.date}
                   </Table.Cell>
                   <Table.Cell>
-                    {order.state == "canceled" && <ModalContactar currentTarget={currentTarget} currentItem={order.id} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>}
+                    {(order.state == "canceled" || order.state == "denied") && <ModalContactar currentTarget={currentTarget} currentItem={order.id} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>}
                   </Table.Cell>
                   <Table.Cell>
                     {(order.state == "delivered" || order.state == "delivered_waiting" ) &&
@@ -345,10 +345,10 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                     {(order.state == "car_sent" || order.state == "drone_sent" ) &&
                       <span className={myordersStyles.deliveryStateEnviado}>{getText("sent", localeCookie)}</span>
                     }
-                    {order.state == "awaiting_confirmation" &&
+                    {(order.state == "awaiting_confirmation" || order.state == "ordered") &&
                       <span className={myordersStyles.deliveryStateEspConfirm}>{getText(order.state, localeCookie)}</span>
                     }
-                    {order.state == "canceled" &&
+                    {(order.state == "canceled" || order.state == "denied") &&
                       <span className={myordersStyles.deliveryStateCancelado}>{getText(order.state, localeCookie)}</span>
                     }
                   </Table.Cell>
