@@ -7,9 +7,11 @@ import { seedMirageMapLocations, defineMirageMapLocationsRoutes } from "./mirage
 import { seedMirageMisc, defineMirageMiscRoutes } from "./mirage_calls/misc"
 import { seedMirageMakeOrders, defineMakeOrdersRoutes } from "./mirage_calls/make_orders"
 import { seedMirageMyOrders, defineMirageMyOrdersRoutes } from "./mirage_calls/my_orders"
+import { seedMirageStats, defineMirageStatsRoutes } from "./mirage_calls/stats"
 import { seedMirageDoctorsNotifications, defineMirageDoctorsNotificationsRoutes } from "./mirage_calls/doctors_notifications"
 import { seedMirageUserInf, defineMirageProfileRoutes } from "./mirage_calls/profile"
 import { seedMirageRoutes, defineMirageRoutesRoutes } from "./mirage_calls/routes"
+import { seedMirageUpdate, defineMirageUpdateRoutes } from "./mirage_calls/update"
 
 export function makeServer() {
   return createServer({
@@ -20,6 +22,7 @@ export function makeServer() {
       drones: Model,
       medicines: Model,
       prescriptions : Model,
+      stats: Model,
       orders : Model,
       beehives : Model,
       notifications : Model,
@@ -39,10 +42,12 @@ export function makeServer() {
           seedMirageMapLocations(server)
           seedMirageMisc(server)
           seedMirageMakeOrders(server)
+          seedMirageStats(server)
           seedMirageMyOrders(server)
           seedMirageDoctorsNotifications(server)
           seedMirageUserInf(server)
           seedMirageRoutes(server)
+          seedMirageUpdate(server)
         }
       }
     },
@@ -56,10 +61,12 @@ export function makeServer() {
       defineMirageMapLocationsRoutes(this)
       defineMirageMiscRoutes(this)
       defineMakeOrdersRoutes(this)
+      defineMirageStatsRoutes(this)
       defineMirageMyOrdersRoutes(this)
       defineMirageDoctorsNotificationsRoutes(this)
       defineMirageProfileRoutes(this)
       defineMirageRoutesRoutes(this)
+      defineMirageUpdateRoutes(this)
 
       this.passthrough("https://api.mapbox.com/**")
       this.passthrough("https://events.mapbox.com/**")

@@ -16,7 +16,7 @@ export function defineMirageMapLocationsRoutes(server) {
   server.post("/api/beehives_global", (schema, request) => {
     console.log("Received beehives_global req with:" + request.requestBody)
 
-    return {"response": "ok", "beehives": schema.beehives.all().models}
+    return {"result": "ok", "beehives": schema.beehives.all().models}
   })
 
   // Endpoint which returns the "local" beehives
@@ -26,18 +26,19 @@ export function defineMirageMapLocationsRoutes(server) {
     const beehive = schema.beehives.findBy({id_beehive: 1})
 
     return {
-      "response": "ok", 
+      "result": "ok", 
       "latitude": beehive.latitude,
       "longitude" : beehive.longitude
     }
   })
 
-  // Endpoint which returns the information of our store
-  server.post("/api/store_coordinates", (schema, request) => {
-    console.log("Received store_info req with:" + request.requestBody)
+  // Endpoint which returns the position of the general storage position
+  server.post("/api/general_storage_pos", (schema, request) => {
+    console.log("Received strorage req with:" + request.requestBody)
     return {
-      "st_longitude": 1.7474957,
-      "st_latitude": 41.2278786
+      "result" : 'ok',
+      "latitude": 41.2278786,
+      "longitude": 1.7474957
     }
   })
 }

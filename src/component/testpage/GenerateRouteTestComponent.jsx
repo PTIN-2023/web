@@ -7,18 +7,15 @@ import TestPageTabLayout from "./TestPageTabLayout";
 import LabeledTextInputComponent from "./LabeledTextInput";
 
 export default function GenerateRouteTestComponent({apiEndpoint}) {
-  // Cookies
-  const [userTokenCookie, ] = useCookie('user_token')
-
   // Form values
-  const [actLatitude, setActLatitude] = useState('');
-  const [actLongitude, setActLongitude] = useState('');
-  const [endLatitude, setEndLatitude] = useState('');
-  const [endLongitude, setEndLongitude] = useState('');
+  const [actLatitude, setActLatitude] = useState('41.2209492');
+  const [actLongitude, setActLongitude] = useState('1.7298172');
+  const [endLatitude, setEndLatitude] = useState('41.2280427');
+  const [endLongitude, setEndLongitude] = useState('1.7350207');
   
   // Request
   const stringRequest = usePrepareBodyRequest({
-    "session_token" : userTokenCookie,
+    "session_token" : 'internal',
     "location_act" : {
         "latitude" : actLatitude,
         "longitude" : actLongitude,
@@ -40,7 +37,6 @@ export default function GenerateRouteTestComponent({apiEndpoint}) {
       onSubmit={sumbitAndFetch}
       stringRequest={stringRequest}
       stringResponse={stringResponse}
-      cookiesToShow={{'user_token' : userTokenCookie}}
   >
     <LabeledTextInputComponent
       id="actLatitude"
@@ -48,6 +44,7 @@ export default function GenerateRouteTestComponent({apiEndpoint}) {
       input_type="text"
       required={true}
       on_change={(e) => setActLatitude(e.target.value)}
+      value = {actLatitude}
     />
     <LabeledTextInputComponent
       id="actLongitude"
@@ -55,6 +52,7 @@ export default function GenerateRouteTestComponent({apiEndpoint}) {
       input_type="text"
       required={true}
       on_change={(e) => setActLongitude(e.target.value)}
+      value = {actLongitude}
     />
     <LabeledTextInputComponent
       id="endLatitude"
@@ -62,6 +60,7 @@ export default function GenerateRouteTestComponent({apiEndpoint}) {
       input_type="text"
       required={true}
       on_change={(e) => setEndLatitude(e.target.value)}
+      value = {endLatitude}
     />
     <LabeledTextInputComponent
       id="endLongitude"
@@ -69,6 +68,7 @@ export default function GenerateRouteTestComponent({apiEndpoint}) {
       input_type="text"
       required={true}
       on_change={(e) => setEndLongitude(e.target.value)}
+      value = {endLongitude}
     />
   </TestPageTabLayout>
   )

@@ -13,7 +13,6 @@ export default function GetRouteTestComponent({apiEndpoint}) {
 
   // Form values
   const [idRoute, setIdRoute] = useState('0');
-  const [coordinates, setCoordinates] = useState([[0,0], [0,1], [0,2]]);
   
   // Request
   const stringRequest = usePrepareBodyRequest({

@@ -27,6 +27,8 @@ import NumPagesDoctorPendingConfirmations from "../component/testpage/NumPagesDo
 import NumPagesDoctorApprovedConfirmations from "../component/testpage/NumPagesDoctorApprovedConfirmations";
 import StoreRouteTestComponent from "../component/testpage/StoreRouteTestComponent";
 import GetRouteTestComponent from "../component/testpage/GetRouteTestComponent";
+import UpdateTestComponent from "../component/testpage/UpdateTestComponent";
+import GeneralStorePosTestComponent from "../component/testpage/GeneralStorePosTestComponent";
 
 // Temporal testing page to make sure the env variables + api requests work as 
 // intented
@@ -127,6 +129,9 @@ export default function Home(props) {
           <Tabs.Item title="Beehives info API test">
             <BeehivesInfoTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
+          <Tabs.Item title="General Store Pos API test">
+            <GeneralStorePosTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
           <Tabs.Item title="Num pages doctor pending confirmations API test">
             <NumPagesDoctorPendingConfirmations apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
@@ -150,6 +155,9 @@ export default function Home(props) {
           </Tabs.Item>
           <Tabs.Item title="Get route API test">
             <GetRouteTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Update API test">
+            <UpdateTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
         </Tabs.Group>
         </main>

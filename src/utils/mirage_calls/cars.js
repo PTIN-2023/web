@@ -6,7 +6,7 @@ export function seedMirageCars(server) {
     id_route: 0,
     license_plate: "ABC123",
     battery: 75,
-    status: 1,
+    status: 6,
     autonomy: 120,
     capacity: 3,
     last_maintenance_date: "2023-04-15",
@@ -34,7 +34,7 @@ export function seedMirageCars(server) {
     id_route: 1,
     license_plate: "DEF456",
     battery: 90,
-    status: 2,
+    status: 6,
     autonomy: 180,
     capacity: 5,
     last_maintenance_date: "2023-04-25",
@@ -58,6 +58,28 @@ export function seedMirageCars(server) {
       latitude: 41.2583,
       longitude: 1.7651
     }
+  })
+  server.create("car", {
+    id_car: 3,
+    id_route: null,
+    license_plate: "ABC124",
+    battery: 75,
+    status: 4,
+    autonomy: 120,
+    capacity: 7,
+    last_maintenance_date: "2023-04-15",
+    packages: [],
+  })
+  server.create("car", {
+    id_car: 4,
+    id_route: null,
+    license_plate: "ABC125",
+    battery: 75,
+    status: 4,
+    autonomy: 120,
+    capacity: 10,
+    last_maintenance_date: "2023-04-15",
+    packages: [],
   })
 }
 
@@ -111,8 +133,8 @@ function makeAllCarsApproachDestiny(schema) {
       car.id,
       {
         location_act : {
-          latitude: new_latitude,
-          longitude: new_longitude
+          latitude: JSON.parse(new_latitude.toFixed(7)),
+          longitude: JSON.parse(new_longitude.toFixed(7))
         }
       }
     )

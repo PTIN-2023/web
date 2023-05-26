@@ -49,8 +49,11 @@
         "state" : "Estado",
         "delivered" : "Entregado",
         "sent" : "Enviado",
+        "ordered" : "Esperando confirmación",
+        "order_confirmed" : "Pedido confirmado",
         "awaiting_confirmation" : "Esperando confirmación",
         "canceled" : "Cancelado",
+        "denied" : "Cancelado",
         "contact" : "Contactar",
         "cancelled_notice" : "Su pedido ha sido cancelado.",
         "cancelled_cause" : "Esto se puede deber principalmente a falta de stock o por decisión profesional de su medico. Puede ponerse en contacto con el/ella a través del correo o número de télefono.",
@@ -59,7 +62,24 @@
         "cancelation_confirmation" : "Segur@ que quieres cancelar el pedido",
         "cancelation_confirmation_yes" : "Si, cancelar",
         "cancelation_confirmation_no" : "No, cerrar",
-        "order_details" : "Detalles"
+        "order_details" : "Detalles",
+        "modal_order_details_header" : "Elementos del pedido",
+        "modal_tooltip_cancelled" : "Qué significa esto?",
+        "modal_tooltip_cancelled_text" : "Tu pedido se canceló manualmente o por problemas lógisticos, contacta con tu médico más abajo.",
+        "modal_tooltip_cancelled_text_manager" : "El pedido se canceló por falta de stock o manualmente por el médico.",
+        "modal_order_tracker": "Seguimiento del envío",
+        "stats_accountTypes_header" : "Tipos de cuentas",
+        "stats_accountTypes_patient" : "Pacientes",
+        "stats_accountTypes_doctor" : "Médicos",
+        "stats_accountTypes_manager" : "Gestores",
+        "stats_yearOrders_header" : "Pedidos este año",
+        "stats_topSeller_header" : "Ciudades que más compran",
+        "stats_topSellerMeds_header" : "Medicamentos más vendidos",
+        "stats_sellsComparation_header" : "Comparación ventas 2022 - 2023",
+        "order_details" : "Detalles",
+        "button_open" : "Abrir",
+        "button_edit" : "Editar",
+        "button_confirm" : "Confirmar"
     },
     "en": {
         "language": "Language",
@@ -118,7 +138,10 @@
         "cancel_order": "Cancel order",
         "cancelation_confirmation": "Are you sure you want to cancel the order",
         "cancelation_confirmation_yes": "Yes, cancel",
-        "cancelation_confirmation_no": "No, close"
+        "cancelation_confirmation_no": "No, close",
+        "button_open" : "Open",
+        "button_edit" : "Edit",
+        "button_confirm" : "Confirm"
     },
     "ca": {
         "language": "Idioma",
@@ -177,6 +200,9 @@
         "cancel_order": "Cancel·lar comanda",
         "cancelation_confirmation": "Segur@ que vols cancel·lar la comanda",
         "cancelation_confirmation_yes": "Sí, cancel·lar",
-        "cancelation_confirmation_no": "No, tancar"
+        "cancelation_confirmation_no": "No, tancar",
+        "button_open" : "Obrir",
+        "button_edit" : "Editar",
+        "button_confirm" : "Confirmar"
     }
 }

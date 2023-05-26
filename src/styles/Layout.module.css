@@ -47,7 +47,7 @@
 
 }
 .mainContainer {
-    @apply flex-1 overflow-auto p-3 bg-gray-300;
+    @apply flex-1 overflow-auto p-3 bg-blue-50;
 }
 
 /*Estilo del apartado del avatar y rol*/
