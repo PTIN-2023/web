@@ -37,7 +37,7 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
             <div className="space-y-6">
               <div>
                 <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-                  Seguimiento del envío
+                 {getText("modal_order_tracker",localeCookie)}
                 </h5>
                 <div className="grid grid-cols-3 leading-relaxed text-gray-500 dark:text-gray-400">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" 
@@ -75,25 +75,25 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
                 </div>
                 <div className="grid grid-cols-3  text-base leading-relaxed text-gray-900 dark:text-gray-400">
                   <p className={myordersStyles.detallesFeedbackText}>
-                    {(currentItem.state != "awaiting_confirmation" || currentItem.state != "ordered") ? <>Pedido confirmado</> : <>Esperando confirmación</> }  
+                    {(currentItem.state != "awaiting_confirmation" || currentItem.state != "ordered") ? <>{getText("order_confirmed",localeCookie)}</> : <>{getText("ordered",localeCookie)}</> }  
                   </p>
                   {(currentItem.state == "canceled" || currentItem.state == "denied") ?
                     <>
                       <p className={myordersStyles.detallesFeedbackCanceledText}>
-                      <Tooltip placement="bottom" content="El pedido se canceló por falta de stock o manualmente por el médico.">
-                        Qué significa esto?   
+                      <Tooltip placement="bottom" content={getText("modal_tooltip_cancelled_text",localeCookie)}>
+                       {getText("modal_tooltip_cancelled",localeCookie)}  
                       </Tooltip>
                       </p>                   
                     </>
                     :
                     <>
                       <p className={myordersStyles.detallesFeedbackText}>
-                        {currentItem.state == "car_sent" || currentItem.state == "drone_sent" || currentItem.state == "delivered" ? <>Enviado</> : <><span className="text-center">. . .</span></> }   
+                        {currentItem.state == "car_sent" || currentItem.state == "drone_sent" || currentItem.state == "delivered" ? <>{getText("sent",localeCookie)}</> : <><span className="text-center">. . .</span></> }   
                       </p>                   
                     </>
                   }
                   <p className={myordersStyles.detallesFeedbackText}>
-                    { currentItem.state == "delivered" ? <>Entregado</> : <><span className="text-center">. . .</span></>}
+                    { currentItem.state == "delivered" ? <>{getText("delivered", localeCookie)}</> : <><span className="text-center">. . .</span></>}
                   </p>
                   
                 </div>
@@ -102,7 +102,7 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
               <Card>
                 <div className="mb-4 flex items-center justify-between">
                   <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-                    Elementos del pedido - {currentItem.id}
+                    {getText("modal_order_details_header",localeCookie)} - {currentItem.id}
                   </h5>
                 </div>
                 <div className="flow-root h-[200px] overflow-auto">

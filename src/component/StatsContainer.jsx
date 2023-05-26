@@ -1,17 +1,19 @@
 import statsStyles from "../styles/stats.module.css"
 import {Card} from "flowbite-react";
 import { PieChart, LineChart, Pie, Legend, Tooltip, BarChart, ResponsiveContainer, Line, Area, Bar, XAxis, YAxis, CartesianGrid, } from 'recharts';
+import useCookie from "../hooks/useCookie.js";
+import { getText } from "../utils/getTextCurrentLocale.js";
 
 const StatsContainer = ({data}) => {
- 
+  const [localeCookie, ] = useCookie('local');
   return(
       <div className={statsStyles.mainContainer}>
       <div className={statsStyles.gridItem}>
         <Card>
-          <p className={statsStyles.gridHeader}>Tipos de cuentas</p>
-          <p className={statsStyles.gridHead}>Pacientes: {data.accounts_stat.accounts_stat_query[0].value}</p>
-          <p className={statsStyles.gridHead}>Médicos: {data.accounts_stat.accounts_stat_query[1].value}</p>
-          <p className={statsStyles.gridHead}>Gestores: {data.accounts_stat.accounts_stat_query[2].value}</p>
+          <p className={statsStyles.gridHeader}>{getText("stats_accountTypes_header",localeCookie)}: </p>
+          <p className={statsStyles.gridHead}>{getText("stats_accountTypes_patient",localeCookie)} : {data.accounts_stat.accounts_stat_query[0].value}</p>
+          <p className={statsStyles.gridHead}>{getText("stats_accountTypes_doctor", localeCookie)}: {data.accounts_stat.accounts_stat_query[1].value}</p>
+          <p className={statsStyles.gridHead}>{getText("stats_accountTypes_manager",localeCookie)}: {data.accounts_stat.accounts_stat_query[2].value}</p>
           <ResponsiveContainer width={200} height={200}>
             <PieChart width={200} height={200} >
               <Pie dataKey="value" data={data.accounts_stat.accounts_stat_query} cx={100} cy={100} innerRadius={40} outerRadius={80} fill="#3F83F8" />
@@ -22,7 +24,7 @@ const StatsContainer = ({data}) => {
       </div>
       <div className={statsStyles.gridItemExtend}>
         <Card className={statsStyles.cardInside}>
-          <p className={statsStyles.gridHeader}>Pedidos este año</p>
+          <p className={statsStyles.gridHeader}>{getText("stats_yearOrders_header",localeCookie)}</p>
           <ResponsiveContainer width={500} height={300}>
             <BarChart
               width={500}
@@ -48,7 +50,7 @@ const StatsContainer = ({data}) => {
       </div>
       <div className={statsStyles.gridItem}>
         <Card className={statsStyles.cardInside}>
-          <p className={statsStyles.gridHeader}>Ciudades que más compran</p>
+          <p className={statsStyles.gridHeader}>{getText("stats_topSeller_header",localeCookie)}</p>
           <p className={statsStyles.gridHead}>{data.topSeller_cities.topSeller_cities_query[0].name}: {data.topSeller_cities.topSeller_cities_query[0].value}</p>
           <p className={statsStyles.gridHead}>{data.topSeller_cities.topSeller_cities_query[1].name}: {data.topSeller_cities.topSeller_cities_query[1].value}</p>
           <p className={statsStyles.gridHead}>{data.topSeller_cities.topSeller_cities_query[2].name}: {data.topSeller_cities.topSeller_cities_query[2].value}</p>
@@ -62,7 +64,7 @@ const StatsContainer = ({data}) => {
       </div>
       <div className={statsStyles.gridItemExtend}>
         <Card className={statsStyles.cardInside}>
-          <p className={statsStyles.gridHeader}>Medicamentos más vendidos</p>
+          <p className={statsStyles.gridHeader}>{getText("stats_topSellerMeds_header", localeCookie)}</p>
           <ResponsiveContainer width={500} height={300}>
             <BarChart
               width={500}
@@ -87,7 +89,7 @@ const StatsContainer = ({data}) => {
       </div>
       <div className={statsStyles.gridItemExtend}>
         <Card className={statsStyles.cardInside}>
-          <p className={statsStyles.gridHeader}>Comparación ventas 2022 - 2023</p>
+          <p className={statsStyles.gridHeader}>{getText("stats_sellsComparation_header",localeCookie)}</p>
           <ResponsiveContainer width={500} height={300}>
             <LineChart
               width={500}

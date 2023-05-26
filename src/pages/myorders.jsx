@@ -65,9 +65,9 @@ export default function Home(props) {
   return (
     <>
       <Head>
-        <title>TransMedWebPTIN</title>
+        <title>TransMed</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="media/logo/favicon.ico" />
       </Head>
       <main>
         {/**le pasamos a Layout el valor del componente de la página que está renderizando (Layout se encarga de detectar en que pagina está) */}
