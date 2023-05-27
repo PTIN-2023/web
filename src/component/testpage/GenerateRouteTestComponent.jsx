@@ -7,6 +7,9 @@ import TestPageTabLayout from "./TestPageTabLayout";
 import LabeledTextInputComponent from "./LabeledTextInput";
 
 export default function GenerateRouteTestComponent({apiEndpoint}) {
+  // Cookies
+  const [userTokenCookie, ] = useCookie('user_token', 'undefined')
+
   // Form values
   const [actLatitude, setActLatitude] = useState('41.2209492');
   const [actLongitude, setActLongitude] = useState('1.7298172');
@@ -15,7 +18,7 @@ export default function GenerateRouteTestComponent({apiEndpoint}) {
   
   // Request
   const stringRequest = usePrepareBodyRequest({
-    "session_token" : 'internal',
+    "session_token" : userTokenCookie,
     "location_act" : {
         "latitude" : actLatitude,
         "longitude" : actLongitude,

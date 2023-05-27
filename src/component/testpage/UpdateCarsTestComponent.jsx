@@ -4,9 +4,12 @@ import useSumbitAndFetch from "../../hooks/useSumbitAndFetch";
 import TestPageTabLayout from "./TestPageTabLayout";
 
 export default function UpdateCarsTestComponent({apiEndpoint}) {
+  // Cookies
+  const [userTokenCookie, ] = useCookie('user_token', 'undefined')
+
   // Request
   const stringRequest = usePrepareBodyRequest({
-    "session_token" : 'internal'
+    "session_token" : userTokenCookie
   })
   const [sumbitAndFetchOrderCars, stringResponseOrderCars] = useSumbitAndFetch(
     stringRequest,
