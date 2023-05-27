@@ -9,11 +9,11 @@ export const Product = ({medicine}) => {
         <div className="bg-white overflow-hidden shadow-lg rounded-lg divide-y divide-gray-200 mb-4">
             <div className="px-4 py-5 sm:px-6">
                 <div className="w-full h-48 overflow-hidden flex">
-                    <img src={medicine.medicine_image_url} alt={`${medicine.medicineName} image`} className="object-cover" />
+                    <img src={medicine.medicine_image_url} alt={`${medicine.medicine_name} image`} className="object-cover" />
                 </div>
             </div>
             <div className="px-4 py-5 sm:p-6">
-                <h2 className="text-lg leading-6 font-medium text-gray-900">{medicine.medicineName}</h2>
+                <h2 className="text-lg leading-6 font-medium text-gray-900">{medicine.medicine_name}</h2>
                 <p className="mt-1 text-sm text-gray-500">{medicine.description}</p>
                 <div className="my-2 text-sm text-gray-700">
                     <p><strong>Price:</strong> {medicine.pvp}€</p>

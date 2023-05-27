@@ -6,22 +6,10 @@ import { HiShoppingCart } from 'react-icons/hi'
 import { ShopContext } from '../context/shopContext'
 import { CartItem }from "./cartItem"
 import cartStyle from "../styles/cart.module.css"
-
-const meds = [
-    { id:1, name: "Ibuprofeno", pvp: "4,68", forma: "solido", via: "oral", page: 1 },
-    { id:2, name: "Omeoprazol", pvp: "4,68", forma: "solido", via: "oral", page: 1 },
-    { id:3, name: "Amoxicilina", pvp: "4,68", forma: "solido", via: "oral", page: 1 },
-    { id:4, name: "Metformina", pvp: "4,68", forma: "solido", via: "oral", page: 1 },
-    { id:5, name: "Lorazepam", pvp: "4,68", forma: "solido", via: "oral", page: 1 },
-    { id:6, name: "Aspirina", pvp: "4,68", forma: "solido", via: "oral", page: 1 },
-    { id:7, name: "Cetirizina", pvp: "4,68", forma: "solido", via: "oral", page: 1 },
-    { id:8, name: "Metroprolol", pvp: "4,68", forma: "solido", via: "oral", page: 1 },
-    { id:9, name: "Simvastatina", pvp: "4,68", forma: "solido", via: "oral", page: 1 },
-    /*{ id:10, name: "Nolotil", pvp: "4,68", forma: "solido", via: "oral", page: 1 }*/
-]
+import useCookie from '../hooks/useCookie'
 
 const shoppingCartButton = () => {
-
+    const [userTokenCookie, ] = useCookie('user_token')
     const { cartItems } = useContext(ShopContext);
 
     const [open, setOpen] = useState(false)
@@ -30,95 +18,31 @@ const shoppingCartButton = () => {
         setOpen(!open);
     }
 
-    const handleCheckoutClick = () => {
-        alert("Su compra se ha transmitido");
+    const handleCheckoutClick = async () => {
+        const medicine_identifiers = Object.entries(cartItems).flatMap(([key, value]) =>
+            Array(Number(value.amount)).fill(Number(key))
+        );
 
-        const medicamentos = [
-            {
-                "medName": "Ibuprofeno",
-                "act_exc": "Ibuprofeno/Sorbitol (E-420)",
-                "pvp": "30 comprimidos 4,68$",
-                "dosis": "1 comprimido (600 mg) cada 6 a 8 horas",
-                "detalles": "Pedido con receta"
-            },
-            {
-                "medName": "Ibuprofeno",
-                "act_exc": "Ibuprofeno/Sorbitol (E-420)",
-                "pvp": "30 comprimidos 4,68$",
-                "dosis": "1 comprimido (600 mg) cada 6 a 8 horas",
-                "detalles": "Pedido sin receta"
-            },
-            {
-                "medName": "Ibuprofeno",
-                "act_exc": "Ibuprofeno/Sorbitol (E-420)",
-                "pvp": "30 comprimidos 4,68$",
-                "dosis": "1 comprimido (600 mg) cada 6 a 8 horas",
-                "detalles": "Pedido sin receta"
-            },
-            {
-                "medName": "Ibuprofeno",
-                "act_exc": "Ibuprofeno/Sorbitol (E-420)",
-                "pvp": "30 comprimidos 4,68$",
-                "dosis": "1 comprimido (600 mg) cada 6 a 8 horas",
-                "detalles": "Pedido sin receta"
-            }
-        ];
-
-        fetch('/api/makeorder', {
+        const result = await fetch('/api/make_order', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ medicamentos })
+            body: JSON.stringify({ 
+                session_token : userTokenCookie,
+                medicine_identifiers : medicine_identifiers
+            })
         })
-            .then(res => res.json())
-            .then(data => console.log(data))
-            .catch(err => console.error(err));
+        .then(res => res.json())
 
-        const orderData = [
-            {
-                "name": "Ibuprofeno aa",
-                "purchasing_date": "May 12, 2023",
-                "state": "sent"
-            },
-            {
-                "name": "Ibuprofeno ab",
-                "purchasing_date": "May 12, 2023",
-                "state": "sent"
-            },
-            {
-                "name": "Ibuprofeno ac",
-                "purchasing_date": "May 12, 2023",
-                "state": "sent"
-            },
-            {
-                "name": "Ibuprofeno ad",
-                "purchasing_date": "May 12, 2023",
-                "state": "sent"
-            }];
+        if(result && result.result == 'ok')
+            alert("Su compra se ha transmitido");
+        else
+            alert("Error en procesar su compra");
 
-        fetch('/api/makeorder_to_myorders', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(orderData),
-        })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch((error) => {
-                console.error('Error:', error);
-            });
 
         manageOnClick();
     }
-
-    const handleButtonClick = () => {
-        fetch('/api/orders')
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error('Error:', error));
-    };
 
     return (
         <>
@@ -173,9 +97,9 @@ const shoppingCartButton = () => {
 
                                                 <div className={cartStyle.cart}>
                                                     <div className={cartStyle.cartItem}>
-                                                        {meds.map((product) => {
-                                                            if (cartItems[product.id] !== 0) {
-                                                                return <CartItem data={product} />;
+                                                        {Object.entries(cartItems).map((entry) => {
+                                                            if (entry[1].amount != 0) {
+                                                                return <CartItem item={entry[1].medicine} />;
                                                             } 
                                                         })}
                                                     </div>

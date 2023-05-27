@@ -151,7 +151,6 @@ export function defineMakeOrdersRoutes(server) {
       // Generate list
       const medicine_list = requestPayload.medicine_identifiers.map((id) => {
         const med = schema.medicines.findBy({medicine_identifier : id})
-        console.log(med.attrs)
         return med.attrs
       })
 
