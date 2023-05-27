@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
 import useTable from "../hooks/useTable.js";
 import TableFooter from "./TableFooter.jsx";
-import {Table, Checkbox, Button, Modal, Tooltip, Dropdown} from 'flowbite-react'
-import myordersStyles from "../styles/Myorders.module.css"
+import {Table, Button, Modal, Dropdown} from 'flowbite-react'
+import inventoryStyles from "../styles/Inventory.module.css"
 import {HiOutlineArrowRight, HiTrash, HiOutlineExclamationCircle} from "react-icons/hi"
 
 //TODO: modular estas funciones de modal
@@ -80,7 +80,7 @@ function ModalCancelarinventario({currentTarget, currentItem, modalCancelarinven
 
     return(
     <>    
-        <Dropdown.Item onClick={onClickCancelarinventarioHandler} className={myordersStyles.cancelarinventarioDropdown} icon={HiTrash}>Cancelar inventario</Dropdown.Item>      
+        <Dropdown.Item onClick={onClickCancelarinventarioHandler} className={inventoryStyles.cancelarinventarioDropdown} icon={HiTrash}>Cancelar inventario</Dropdown.Item>      
         <Modal
             show={(currentTarget.current == currentItem && modalCancelarinventarioState) ? true : false}
             size="md"
@@ -116,7 +116,7 @@ function ModalCancelarinventario({currentTarget, currentItem, modalCancelarinven
 }
 
 
-const Tablainventarios = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
+const Tablainventarios = ({ data, rowsPerPage }) => {
   //componente que renderiza la tabla con los inventarios
   //recibe data -> json de inventarios
   //rowsPerPage -> cuantas filas va a renderizar
@@ -140,16 +140,24 @@ const Tablainventarios = ({ data, rowsPerPage, searchValue, setSearchValue }) =>
   }
 
   //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
-  if(searchValue.value.length > 0 && searchValue.isCompleted){
-    data = data.filter((inventario) => inventario.nombre.toLowerCase().includes(searchValue.value));  
-  }  
   var { slice, range } = useTable(data, page, rowsPerPage);
+
+  const getCellColor = (cantidad) => {
+    if (cantidad < 5) {
+      return "red";
+    } 
+    if (cantidad < 50000) {
+      return "yellow";
+    } 
+    
+    return "green";
+    
+  };
   
   return (
     <>
         <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
         <Table hoverable={true}>
-          {console.log(searchValue)}
           <Table.Head>
             <Table.HeadCell className="!p-4">
             </Table.HeadCell>
@@ -169,23 +177,28 @@ const Tablainventarios = ({ data, rowsPerPage, searchValue, setSearchValue }) =>
           <Table.Body className="divide-y">
           {slice.map((inventario) =>
             <>
-                <Table.Row className={myordersStyles.tableRow}>
-                  <Table.Cell className={myordersStyles.firstTableCell}> 
-                    <Dropdown className={myordersStyles.chevronDown} label="" inline={true}>
+                <Table.Row className={inventoryStyles.tableRow}>
+                  <Table.Cell className={inventoryStyles.firstTableCell}> 
+                    <Dropdown className={inventoryStyles.chevronDown} label="" inline={true}>
                         <ModalCancelarinventario currentTarget={currentTarget} currentItem={inventario.nombre} modalCancelarinventarioState={modalCancelarinventarioState} setModalCancelarinventarioState={changeModalCancelarinventarioState}/>
                     </Dropdown>
                   </Table.Cell>
-                  <Table.Cell className={myordersStyles.tableCell}>
+                  <Table.Cell className={inventoryStyles.tableCell}>
                     {inventario.nombre}
                   </Table.Cell>
-                  <Table.Cell> {/*TODO: Implementar colores a cantidad almacén para que se vea con color cuando haya pocas unidades + Boton pedir cuando no haya unidades*/ }
-                    {inventario.cantidad_almacen}
+                  <Table.Cell className={inventoryStyles.tableCell }>
+                    {getCellColor(inventario.cantidad_almacen) == 'red' && 
+                      <span className={inventoryStyles.cantidadSoldOut}>{inventario.cantidad_almacen}</span> }
+                    {getCellColor(inventario.cantidad_almacen) == 'yellow' && 
+                    <span className={inventoryStyles.cantidadWarning}>{inventario.cantidad_almacen}</span> }
+                    {getCellColor(inventario.cantidad_almacen) == 'green' && 
+                      <span className={inventoryStyles.cantidadAcceptable}>{inventario.cantidad_almacen}</span> }
                   </Table.Cell>
                   <Table.Cell>
                     {inventario.cantidad_vendida}                                                   
                   </Table.Cell>
                   <Table.Cell> {/*TODO: Implementar la ciudad desde el json*/}
-                    A 
+                    {inventario.ciudad} 
                   </Table.Cell>
                 </Table.Row>
             </>

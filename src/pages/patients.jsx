@@ -7,7 +7,6 @@ import * as env_config from "../utils/env_config"
 import useCookie from '../hooks/useCookie';
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest.js";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetchObject.js";
-import { stringify } from 'postcss';
 
 export async function getServerSideProps() {
   const apiEndpoint = String(env_config.getApiEndpoint());
