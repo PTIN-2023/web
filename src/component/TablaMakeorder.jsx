@@ -2,10 +2,20 @@ import React, { useContext, useState, useEffect } from "react";
 import TableFooter from "./TableFooter.jsx";
 import { ShopContext } from "../context/shopContext.jsx";
 import { Product } from "../component/products.jsx";
+import * as env_config from "../utils/env_config.js";
 import useCookie from '../hooks/useCookie';
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest.js";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
 
+export async function getServerSideProps() {
+    const apiEndpoint = String(env_config.getApiEndpoint());
+
+    return {
+        props: {
+            apiEndpoint,
+        }
+    }
+}
 
 const calculateRange = (meds, rowsPerPage) => {
     const range = [];
@@ -17,61 +27,63 @@ const calculateRange = (meds, rowsPerPage) => {
     return range;
 };
 
-const TablaMakeOrder = ({ apiEndpoint, searchValue }) => {
-    const [userTokenCookie, ] = useCookie('user_token')
-    const [medName, setMedName] = useState();
-    const [price, setPrice] = useState();
-    const [ordersPerPage, setOrdersPerPage] = useState('10');
-    const [page, setPage] = useState('1');  
+const TablaMakeOrder = ( props, searchValue ) => {
+    // Cookies
+    const [userTokenCookie, ] = useCookie('user_token')    
 
+    // Form values
+    const [ordersPerPage, setOrdersPerPage] = useState(10);
+    const [medsPerPage, setMedsPerPage] = useState('');
+    const [page, setPage] = useState('');
+    const [medName, setMedName] = useState('');
+    const [pvpMin, setPvpMin] = useState('');
+    const [pvpMax, setPvpMax] = useState('');
+    const [prescriptionNeeded, setPrescriptionNeeded] = useState([true, false]);
+    const [medForm, setMedForm] = useState(['pill', 'cream', 'powder', 'liquid']);
+    const [typeOfAdminst, setTypeOfAdminst] = useState(['oral', 'topical', 'inhalation', 'ophthalmic']);
+
+    // Request
     const stringRequest = usePrepareBodyRequest({
         "session_token" : userTokenCookie,
-        "medicine_identifier": '0',
-        "medicine_image_url": 'https://picsum.photos/200',
-        "medicine_name": medName,
-        "excipient": 'Sorbitol (E-420)',
-        "pvp": price,
-        "contents": '30 comprimidos',
-        "prescription_needed": false,
-        "form": 'pill',
-        "type_of_adminstration": 'oral',
-        "orders_per_page" : ordersPerPage,
-        "page" : page
+        "filter": {
+            "meds_per_page": medsPerPage,
+            "page": page,
+            "med_name": medName,
+            "pvp_min": pvpMin,
+            "pvp_max": pvpMax,
+            "prescription_needed": prescriptionNeeded,
+            "form": medForm,
+            "type_of_administration": typeOfAdminst
+        }
     })
-
+    console.log(stringRequest);
     const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
         stringRequest,
-        apiEndpoint+"/api/list_available_medicines"
+        "http://localhost:3000/api/list_available_medicines"
+        //props.apiEndpoint+"/api/list_patient_orders
     )
 
     useEffect(() => {
-        if(stringResponse != 'none') {
-          console.log("response not none")
-        }
-    }, [stringResponse])
-    
-    sumbitAndFetch();
+        sumbitAndFetch();
+    }, [page])
 
-    const meds = stringResponse.orders ? stringResponse.orders.map(med => {
-        const { medicine_identifier, medicine_image_url, medicine_name, pvp } = med;
+    const meds = stringResponse.meds ? stringResponse.meds.map(med => {
+        const { medsPerPage, page, medName, pvpMin, pvpMax, prescriptionNeeded, medForm, typeOfAdminst } = med;
         return {
-          medicineIdentifier: medicine_identifier,
-          medicineImageUrl: medicine_image_url,
-          medicineName: medicine_name,
-          price: pvp,
-          ordersPerPage : ordersPerPage,
-          page : page,
-          excipient: 'Sorbitol (E-420)',
-          contents: '30 comprimidos',
-          prescriptionNeeded: false,
-          form: 'pill',
-          typeOfAdminstration: 'oral'
+            meds_per_page : medsPerPage,
+            page : page,
+            med_name : medName,
+            pvp_min : pvpMin,
+            pvp_max : pvpMax,
+            prescription_needed : prescriptionNeeded,
+            form : medForm,
+            type_of_administration : typeOfAdminst
         };
     }) : [];
 
     const range = calculateRange(meds, ordersPerPage);
 
-    console.log(meds.medicine)
+    console.log(meds)
 
     //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
     //if (searchValue.value.length > 0 && searchValue.isCompleted) {
