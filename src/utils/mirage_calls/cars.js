@@ -6,7 +6,7 @@ export function seedMirageCars(server) {
     id_route: 0,
     license_plate: "ABC123",
     battery: 75,
-    status: 6,
+    status: 3,
     autonomy: 120,
     capacity: 3,
     last_maintenance_date: "2023-04-15",
@@ -34,7 +34,7 @@ export function seedMirageCars(server) {
     id_route: 1,
     license_plate: "DEF456",
     battery: 90,
-    status: 6,
+    status: 3,
     autonomy: 180,
     capacity: 5,
     last_maintenance_date: "2023-04-25",
@@ -122,6 +122,9 @@ function makeAllCarsApproachDestiny(schema) {
   const distanceToMove = 20 // in metres
 
   schema.cars.all().models.map(car => {
+    if(!car.location_act || !car.location_end)
+      return
+
     const [new_latitude, new_longitude] = getNextLatitudeAndLongitude(
       car.location_act.latitude, car.location_act.longitude,
       car.location_end.latitude, car.location_end.longitude,

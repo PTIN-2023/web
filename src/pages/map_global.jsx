@@ -42,7 +42,11 @@ export default function Home(props) {
       });
   
       const data = await response.json();
-      setinfoRouteCar(data);
+      // filter cars that are in movement (status==3)
+      const fitered_cars = data.cars.filter((car) => car.status == 3)
+      setinfoRouteCar({
+        cars : fitered_cars
+      });
      } catch (error) {
       console.error('API request failed:', error);
       setinfoRouteCar("-1");
