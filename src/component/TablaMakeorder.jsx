@@ -12,7 +12,6 @@ const TablaMakeOrder = ( {apiEndpoint, searchValue} ) => {
     const [userTokenCookie, ] = useCookie('user_token')    
 
     // Form values
-    const [ordersPerPage, setOrdersPerPage] = useState(10);
     const [medsPerPage, setMedsPerPage] = useState(10);
     const [page, setPage] = useState(1);
     const [medName, setMedName] = useState('');
@@ -46,8 +45,6 @@ const TablaMakeOrder = ( {apiEndpoint, searchValue} ) => {
         sumbitAndFetch();
     }, [page])
 
-    const { addToCart } = useContext(ShopContext);
-
     return (
         <div className="mx-auto flex flex-col justify-start">
             <div className="bg-white">
@@ -55,7 +52,7 @@ const TablaMakeOrder = ( {apiEndpoint, searchValue} ) => {
                     <h2 className="text-2xl font-bold tracking-tight text-blue-800 sm:text-3xl md:text-4xl lg:text-5xl drop-shadow-xl font-serif">Medicamentos</h2>
                     <div className="mt-6 grid grid-cols-1 gap-x-6 sm:grid-cols-2 lg:grid-cols-5 xl:gap-x-8">
                         {response && response.result == 'ok' && response.medicines.map((medicine) => (
-                            <Product key={medicine.medicine_identifier} data={medicine} />
+                            <Product key={medicine.medicine_identifier} medicine={medicine} />
                         ))}
                     </div>
                 </div>
@@ -64,7 +61,6 @@ const TablaMakeOrder = ( {apiEndpoint, searchValue} ) => {
                 <TableFooter range={[1]} slice={0} setPage={setPage} page={page} />
             </div>
         </div>
-
     );
 }
 
