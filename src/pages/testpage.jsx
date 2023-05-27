@@ -37,6 +37,7 @@ import UpdateDronesTestComponent from "../component/testpage/UpdateDronesTestCom
 export async function getServerSideProps() {
   const isLocal           = env_config.isLocal();
   const apiEndpoint       = String(          env_config.getApiEndpoint());
+  const apiInternalEndpoint = String(          env_config.getApiInternalEndpoint());
   const locationName      = String(isLocal ? env_config.getLocationName()      : "N/A");
   const locationLatitude  = String(isLocal ? env_config.getLocationLatitude()  : "N/A");
   const locationLongitude = String(isLocal ? env_config.getLocationLongitude() : "N/A");
@@ -47,6 +48,7 @@ export async function getServerSideProps() {
     props: { 
       isLocal,
       apiEndpoint,
+      apiInternalEndpoint,
       locationName,
       locationLatitude,
       locationLongitude,
@@ -59,6 +61,7 @@ export async function getServerSideProps() {
 function EnviromentVarsComponent({props}) {
   return(<>
     <p>apiEndpoint = {props.apiEndpoint}</p>
+    <p>apiInternalEndpoint = {props.apiInternalEndpoint}</p>
     <p>isLocal = {String(props.isLocal)}</p>
     <p>locationName = {props.locationName}</p>
     <p>locationLatitude = {props.locationLatitude}</p>

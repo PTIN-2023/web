@@ -6,6 +6,10 @@ export function getApiEndpoint() {
     return (process.env.API_URL)
 }
 
+export function getApiInternalEndpoint() {
+    return (process.env.API_URL_INTERNAL)
+}
+
 export function isLocal() {
     return (process.env.IS_LOCAL == 1)
 }
