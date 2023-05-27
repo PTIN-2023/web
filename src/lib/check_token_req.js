@@ -9,7 +9,9 @@ export default async function check_token_req(api_endpoint, token, expected_type
             },
             body: JSON.stringify({token : token})
         }).then(data => data.json())
-
+        
+        console.log("response in checking token")
+        console.log(response_check_token)
         return response_check_token && response_check_token.valid == 'yes' && response_check_token.type == expected_type
     } catch (error) {
         console.log("Error in checking token")

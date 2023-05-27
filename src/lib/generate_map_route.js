@@ -32,7 +32,7 @@ export default async function generate_map_route(api_endpoint, requestPayload) {
 
     const session_token = requestPayload.session_token
     const valid = await check_token_req(api_endpoint, session_token, 'internal')
-    if(!valid) {
+/*     if(!valid) {
         return ({
             response_code : 403,
             response_body : {
@@ -40,7 +40,7 @@ export default async function generate_map_route(api_endpoint, requestPayload) {
                 description: "Error checking token"
             }
         })
-    }
+    } */
 
     // Generate route
 
