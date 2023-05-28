@@ -33,13 +33,16 @@ export default function Home(props) {
 
   const [infoRouteCar, setinfoRouteCar] = React.useState([]); // usar estado para almacenar infoRouteCar
   async function getCarRoute(props) {
+    const tokenRequest = JSON.stringify({
+      "session_token": userTokenCookie
+    });
     try {
       const response = await fetch(props.apiEndpoint + "/api/cars_full_info", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({})
+        body: tokenRequest
       });
   
       const data = await response.json();
@@ -56,13 +59,16 @@ export default function Home(props) {
 
   const [storeCoord, setStoreCoord] = React.useState({}); // usar estado para almacenar storeCoord
   async function getStoreCoordinates(props) {
+    const tokenRequest = JSON.stringify({
+      "session_token": userTokenCookie
+    });
     try {
       const response = await fetch(props.apiEndpoint + "/api/general_storage_pos", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({  })
+        body: tokenRequest
       });
       
       const data = await response.json();
