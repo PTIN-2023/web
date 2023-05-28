@@ -3,6 +3,7 @@ import Layout from "../component/Layout"
 import * as env_config from "../utils/env_config"
 import Map, {Source, Layer, Popup} from "react-map-gl"
 import mapboxgl from 'mapbox-gl';
+import useCookie from "../hooks/useCookie";
 import React, { useState, useEffect } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -73,11 +74,12 @@ export default function Home(props) {
   }
 
   const [route, setRoute] = React.useState([]); // usar estado para almacenar route
+  const [userTokenCookie, ] = useCookie('user_token')
   async function getRoute(props, iRC){
     if(iRC.cars != undefined){
       await Promise.all(iRC.cars.map(async (car) => {
         const stringRequest = JSON.stringify({
-          "session_token": 'jondoe2@example.com',
+          "session_token": userTokenCookie,
           "id_route": car.id_route.toString()
         });
       
