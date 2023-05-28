@@ -15,7 +15,7 @@ export async function getServerSideProps() {
   
     return {
       props: { 
-        apiEndpoint,
+        apiEndpoint
       }
     }
 }
@@ -44,7 +44,7 @@ function NotificationsPending (props) {
 
     const [sumbitAndFetch, stringResponse] = useSumbitAndFetchObject(
         stringRequest,
-        "http://localhost:3000/api/list_doctor_pending_confirmations"
+        props.apiEndpoint+"/api/list_doctor_pending_confirmations"
     )
 
     
@@ -116,6 +116,3 @@ function NotificationsPending (props) {
 }
 
 export default NotificationsPending;
-
-/*
-        */
