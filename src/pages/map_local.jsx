@@ -47,7 +47,7 @@ export default function Home(props) {
   
       const data = await response.json()
       // filter drones that are in movement (status==3)
-      const fitered_drones = data.drones.filter((drone) => drone.status == 3)
+      const fitered_drones = data.drones.filter((drone) => drone.location_act != undefined && drone.location_act != null)
       setinfoRouteDrone({
         drones : fitered_drones
       });

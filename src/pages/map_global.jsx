@@ -47,7 +47,7 @@ export default function Home(props) {
   
       const data = await response.json();
       // filter cars that are in movement (status==3)
-      const fitered_cars = data.cars.filter((car) => car.status == 3)
+      const fitered_cars = data.cars.filter((car) => car.location_act != undefined && car.location_act != null)
       setinfoRouteCar({
         cars : fitered_cars
       });
