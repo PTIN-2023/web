@@ -9,17 +9,17 @@ import useSumbitAndFetchObject from "../hooks/useSumbitAndFetchObject.js";
 
 const TablaMakeOrder = ( {apiEndpoint, searchValue} ) => {
     // Cookies
-    const [userTokenCookie, ] = useCookie('user_token')    
+    const [userTokenCookie, ] = useCookie('user_token')
 
     // Form values
     const [medsPerPage, setMedsPerPage] = useState(10);
     const [page, setPage] = useState(1);
-    const [medName, setMedName] = useState('');
-    const [pvpMin, setPvpMin] = useState('');
-    const [pvpMax, setPvpMax] = useState('');
+    const [medName, setMedName] = useState('Paracetamol');
+    const [pvpMin, setPvpMin] = useState('0');
+    const [pvpMax, setPvpMax] = useState('10000');
     const [prescriptionNeeded, setPrescriptionNeeded] = useState([true, false]);
-    const [medForm, setMedForm] = useState(['pill', 'cream', 'powder', 'liquid']);
-    const [typeOfAdminst, setTypeOfAdminst] = useState(['oral', 'topical', 'inhalation', 'ophthalmic']);
+    const [medForm, setMedForm] = useState(['pill', 'cream', 'powder', 'liquid', 'Tablets']);
+    const [typeOfAdminst, setTypeOfAdminst] = useState(['Oral', 'topical', 'inhalation', 'ophthalmic']);
 
     // Request
     const stringRequest = usePrepareBodyRequest({
@@ -42,8 +42,9 @@ const TablaMakeOrder = ( {apiEndpoint, searchValue} ) => {
     )
 
     useEffect(() => {
-        sumbitAndFetch();
-    }, [page])
+        if(userTokenCookie != null)
+            sumbitAndFetch();
+    }, [page, userTokenCookie])
 
     return (
         <div className="mx-auto flex flex-col justify-start">

@@ -3,7 +3,7 @@ import hasExpectedFields from '../hasExpectedFields'
 export function seedMirageMakeOrders(server) {
   // Create medicines
   server.create("medicine", {
-    medicine_identifier: '0',
+    medicine_identifier: '0fghdfh',
     medicine_image_url: 'https://picsum.photos/200',
     medicine_name: 'Ibuprofeno',
     excipient: 'Sorbitol (E-420)',
@@ -14,7 +14,7 @@ export function seedMirageMakeOrders(server) {
     type_of_adminstration: 'oral'
   })
   server.create("medicine", {
-    medicine_identifier: '1',
+    medicine_identifier: '1fgdhgfd',
     medicine_image_url: 'https://picsum.photos/200',
     medicine_name: 'medicine1',
     excipient: 'excipient1',
@@ -25,7 +25,7 @@ export function seedMirageMakeOrders(server) {
     type_of_adminstration: 'topical'
   })
   server.create("medicine", {
-    medicine_identifier: '2',
+    medicine_identifier: '2fdghj',
     medicine_image_url: 'https://picsum.photos/200',
     medicine_name: 'medicine2',
     excipient: 'excipient2',
@@ -36,7 +36,7 @@ export function seedMirageMakeOrders(server) {
     type_of_adminstration: 'inhalation'
   })
   server.create("medicine", {
-    medicine_identifier: '3',
+    medicine_identifier: '3hgffgdh',
     medicine_image_url: 'https://picsum.photos/200',
     medicine_name: 'medicine3',
     excipient: 'excipient3',

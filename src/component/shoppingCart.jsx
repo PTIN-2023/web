@@ -20,7 +20,7 @@ const shoppingCartButton = () => {
 
     const handleCheckoutClick = async () => {
         const medicine_identifiers = Object.entries(cartItems).flatMap(([key, value]) =>
-            Array(Number(value.amount)).fill(Number(key))
+            Array(Number(value.amount)).fill(key)
         );
 
         const result = await fetch('/api/make_order', {
