@@ -29,10 +29,8 @@ export async function getServerSideProps() {
 }
 
 export default function Home(props) {
-  mapboxgl.accessToken = 'pk.eyJ1IjoiYWVrc3AiLCJhIjoiY2xmd2dtbDNhMGU4bjNjbWkwa2VqbzhhciJ9.LYgWVHhGLoY9T-ix_qC73g'; // GIT IGNORE !! 
-
-  const [infoRouteDrone, setinfoRouteDrone] = React.useState([]); // usar estado para almacenar infoRouteDrone
   
+  const [infoRouteDrone, setinfoRouteDrone] = React.useState([]); // usar estado para almacenar infoRouteDrone
   async function getDroneRoute(props) {
     try {
       const response = await fetch(props.apiEndpoint + "/api/drones_full_info", {
@@ -43,15 +41,13 @@ export default function Home(props) {
         body: JSON.stringify({})
       });
   
-      const data = await response.json();
-      console.log("getDroneRoute " + JSON.stringify(data))
+      const data = await response.json()
       // filter drones that are in movement (status==3)
       const fitered_drones = data.drones.filter((drone) => drone.status == 3)
       setinfoRouteDrone({
         drones : fitered_drones
       });
      } catch (error) {
-      console.log("error");
       console.error('API request failed:', error);
       setinfoRouteDrone("-1");
     }
@@ -72,13 +68,11 @@ export default function Home(props) {
       //console.log("getStoreCoordinates " + JSON.stringify(data))
       setStoreCoord(data);
     } catch (error) {
-      console.log("error");
       console.error('API request failed:', error);
       setStoreCoord("-1");
     }
   }
 
-  // Obtener la ruta desde la API Directions de Mapbox
   const [route, setRoute] = React.useState([]); // usar estado para almacenar route
   async function getRoute(props, iRD){
     if(iRD.drones != undefined){
@@ -144,8 +138,6 @@ export default function Home(props) {
     if(iRD == null || iRD.drones == null) return;
     iRD = [iRD]
     setPointsGeojson([])
-    console.log("iRD")
-    console.log(iRD)
     const pointsFeatures = iRD[0].drones.map((drones) => ({
           type: 'Feature',
           geometry: {
@@ -312,8 +304,6 @@ export default function Home(props) {
             <Layer {...store_layer}/>
           </Source>
 
-          {console.log("click")}
-          {console.log(clickPopup)}
           {clickPopup && (
           <Popup longitude={clickPopup.location_act.longitude} latitude={clickPopup.location_act.latitude} anchor="bottom" 
           onClose={() => setClickPopup(false)}>
