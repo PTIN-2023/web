@@ -3,6 +3,7 @@ import Layout from "../component/Layout"
 import * as env_config from "../utils/env_config"
 import Map, {Source, Layer, Popup} from "react-map-gl"
 import mapboxgl from 'mapbox-gl';
+import useCookie from "../hooks/useCookie";
 import React, { useState, useEffect } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -29,29 +30,28 @@ export async function getServerSideProps() {
 }
 
 export default function Home(props) {
-  mapboxgl.accessToken = 'pk.eyJ1IjoiYWVrc3AiLCJhIjoiY2xmd2dtbDNhMGU4bjNjbWkwa2VqbzhhciJ9.LYgWVHhGLoY9T-ix_qC73g'; // GIT IGNORE !! 
-
-  const [infoRouteDrone, setinfoRouteDrone] = React.useState([]); // usar estado para almacenar infoRouteDrone
   
+  const [infoRouteDrone, setinfoRouteDrone] = React.useState([]); // usar estado para almacenar infoRouteDrone
   async function getDroneRoute(props) {
+    const tokenRequest = JSON.stringify({
+      "session_token": userTokenCookie
+    });
     try {
       const response = await fetch(props.apiEndpoint + "/api/drones_full_info", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({})
+        body: tokenRequest
       });
   
-      const data = await response.json();
-      console.log("getDroneRoute " + JSON.stringify(data))
+      const data = await response.json()
       // filter drones that are in movement (status==3)
       const fitered_drones = data.drones.filter((drone) => drone.status == 3)
       setinfoRouteDrone({
         drones : fitered_drones
       });
      } catch (error) {
-      console.log("error");
       console.error('API request failed:', error);
       setinfoRouteDrone("-1");
     }
@@ -59,48 +59,52 @@ export default function Home(props) {
 
   const [storeCoord, setStoreCoord] = React.useState([]); // usar estado para almacenar storeCoord
   async function getStoreCoordinates(props) {
+    const tokenRequest = JSON.stringify({
+      "session_token": userTokenCookie
+    });
     try {
       const response = await fetch(props.apiEndpoint + "/api/beehives_global", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({})
+        body: tokenRequest
       });
       
       const data = await response.json();
       //console.log("getStoreCoordinates " + JSON.stringify(data))
       setStoreCoord(data);
     } catch (error) {
-      console.log("error");
       console.error('API request failed:', error);
       setStoreCoord("-1");
     }
   }
 
-  // Obtener la ruta desde la API Directions de Mapbox
   const [route, setRoute] = React.useState([]); // usar estado para almacenar route
-  async function fetchData(iRD) {
-    if(iRD.drones != undefined){ //if undefined we have no data
-      for(let i = 0; i < iRD.drones.length;++i){
-        const response = await fetch(
-          `https://api.mapbox.com/directions/v5/mapbox/driving/${iRD.drones[i].location_act.longitude},${iRD.drones[i].location_act.latitude};${iRD.drones[i].location_end.longitude},${iRD.drones[i].location_end.latitude}?geometries=geojson&alternatives=true&access_token=${mapboxgl.accessToken}`
-        );
+  const [userTokenCookie, ] = useCookie('user_token')
+  async function getRoute(props, iRD){
+    if(iRD.drones != undefined){
+      await Promise.all(iRD.drones.map(async (dron) => {
+        const stringRequest = JSON.stringify({
+          "session_token": userTokenCookie,
+          "id_route": dron.id_route.toString()
+        });
+      
+        const response = await fetch(props.apiEndpoint + "/api/get_route", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: stringRequest
+        });
+      
         const data = await response.json();
-        // Agrega la línea para el recorrido
-        setRoute(route => [...route, data.routes[0].geometry]);
-      }
-    }
+        const coords = { "coordinates": data.coordinates, "type": 'LineString' };
+      
+        setRoute(route => [...route, coords]);
+      }));
+    } 
   }
-
-  useEffect(() => {
-    fetchData(infoRouteDrone);
-  }, [infoRouteDrone]);
-
-  useEffect(() => {
-    getDroneRoute(props);
-    getStoreCoordinates(props);
-  }, []);
 
   const route_layer = {
     id: 'route2',
@@ -116,12 +120,12 @@ export default function Home(props) {
   }
 
   const [routeGeojson, setRouteGeojson] = useState([])
-
   function DoRouteGeojson(route) {
     if (route[0] === undefined) return;
     
     const routeFeatures = route.map((coordinates) => ({
       type: 'Feature',
+      properties: {},
       geometry:
         coordinates
     }));
@@ -132,20 +136,16 @@ export default function Home(props) {
     };
   
     setRouteGeojson([routeCollection]);
+    //Si se hace un IF para no añadir la ruta una vez ya se encuentra en "route", se podría quitar esto (sería más limpio)
+    setRoute([]);
   }
-
-  useEffect(() => {
-    DoRouteGeojson(route);
-  }, [route]);
 
   const [pointsGeojson, setPointsGeojson] = useState([])
 
   function DoPointsGeojson(iRD){
-    if(iRD == null) return;
-    if(iRD.drones == null) return;
+    if(iRD == null || iRD.drones == null) return;
     iRD = [iRD]
-    console.log("iRD")
-    console.log(iRD)
+    setPointsGeojson([])
     const pointsFeatures = iRD[0].drones.map((drones) => ({
           type: 'Feature',
           geometry: {
@@ -182,10 +182,6 @@ export default function Home(props) {
    
   }
 
-  useEffect(() => {
-    DoPointsGeojson(infoRouteDrone);    
-  }, [infoRouteDrone]);
-
   const points_layer = {
     id: 'puntos-de-interes',
     type: 'symbol',
@@ -204,6 +200,30 @@ export default function Home(props) {
       'text-anchor': 'top'
     }
   }
+
+  useEffect(() => {
+    getStoreCoordinates(props);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getDroneRoute(props);
+    }, 5000);
+  
+    // Limpieza del intervalo cuando el componente se desmonta
+    return () => {
+      clearInterval(interval);
+    };
+  });
+
+  useEffect(() => {
+    DoPointsGeojson(infoRouteDrone);  
+    getRoute(props, infoRouteDrone); 
+  }, [infoRouteDrone]);
+
+  useEffect(() => {
+    DoRouteGeojson(route);
+  }, [route]);
 
   const [storeGeojson, setStoreGeojson] = useState([])
 
@@ -292,8 +312,6 @@ export default function Home(props) {
             <Layer {...store_layer}/>
           </Source>
 
-          {console.log("click")}
-          {console.log(clickPopup)}
           {clickPopup && (
           <Popup longitude={clickPopup.location_act.longitude} latitude={clickPopup.location_act.latitude} anchor="bottom" 
           onClose={() => setClickPopup(false)}>

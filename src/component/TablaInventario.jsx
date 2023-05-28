@@ -1,64 +1,10 @@
 import React, { useState, useRef } from "react";
 import useTable from "../hooks/useTable.js";
 import TableFooter from "./TableFooter.jsx";
-import {Table, Button, Modal, Dropdown} from 'flowbite-react'
+import { Table, Button, Modal, Dropdown } from 'flowbite-react'
 import inventoryStyles from "../styles/Inventory.module.css"
-import {HiOutlineArrowRight, HiTrash, HiOutlineExclamationCircle} from "react-icons/hi"
+import { HiTrash, HiOutlineExclamationCircle } from "react-icons/hi"
 
-//TODO: modular estas funciones de modal
-function ModalContactar({currentTarget, currentItem, modalContactarState, setModalContactarState}){
-//recibe: 
-//currentTarget: identifica la fila a la que hicimos click dentro de la tabla
-//currentItem: identifica la fila en cuestión para que no se ejecuten todos los modals a la vez (TODO: intentar optimizar)
-//modalContactarState y setModalContactarState: muestran o esconden el modal
-    const onCloseContactarHandler = () =>{
-        setModalContactarState(false);
-    }
-    const onClickContactarHandler = () => {
-        //asignamos el currentItem al Target
-        //NOTA: si no estuviese esto se renderizaria un modal por cada fila
-        currentTarget.current = currentItem;
-        setModalContactarState(true);
-    }
-
-    return(
-    <>    
-      <Button onClick={onClickContactarHandler}>
-        Contactar
-        <HiOutlineArrowRight className="ml-2 h-5 w-5" />
-      </Button>
-      <Modal
-        /**si el currentTarget corresponde a la currentItem seleccionada y se hizo click en mostrar, mostrar modal */
-        show={(currentTarget.current == currentItem && modalContactarState) ? true : false}
-      >
-        <Modal.Header>
-         Contactar
-        </Modal.Header>
-        <Modal.Body>
-          <div className="space-y-6">
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-            Su inventario ha sido cancelado.
-            </p>
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-            Esto se puede deber principalmente a falta de stock o por decisión profesional de su medico.
-            Puede ponerse en contacto con el/ella a través del correo o número de télefono.
-            </p>
-            <p className="text-base font-bold leading-relaxed text-gray-500 dark:text-gray-400">
-            {/*TODO: en el proximo sprint, relacionar paciente con sus datos de doctor!*/}
-            +34 123456789 <br />
-            medico.superbueno@hospital.com
-            </p>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={onCloseContactarHandler}>
-            Cerrar
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
-    )
-}
 
 function ModalCancelarinventario({currentTarget, currentItem, modalCancelarinventarioState, setModalCancelarinventarioState}){
     //funciona igual que el modal anterior pero con el botón de cancelar inventario
@@ -117,13 +63,11 @@ function ModalCancelarinventario({currentTarget, currentItem, modalCancelarinven
 
 
 const Tablainventarios = ({ data, rowsPerPage }) => {
-  //componente que renderiza la tabla con los inventarios
   //recibe data -> json de inventarios
   //rowsPerPage -> cuantas filas va a renderizar
-  //searchValue -> el filtro en caso de que se active el componente MyOrdersSearch
   const [page, setPage] = useState(1);
-  //estos dos hooks de abajo sirven para mostrar o bien ocultar los modals
-  const [modalContactarState, setModalContactarState] = useState(false);
+
+  //useStates para los modales
   const [modalCancelarinventarioState, setModalCancelarinventarioState] = useState(false);
   //currentTarget es un hook useRef para que no se actualice en cada render y así aseguramos que los modals no se multipliquen
   const currentTarget = useRef("");
@@ -131,11 +75,6 @@ const Tablainventarios = ({ data, rowsPerPage }) => {
   //changeModalCancelarinventarioState y changeModalContactarState son funciones que cambian el useState ya que los setters no se pueden pasar bien hacia los componentes
   function changeModalCancelarinventarioState(e){
     setModalCancelarinventarioState(e);
-
-  }
-
-  function changeModalContactarState(e){
-    setModalContactarState(e);
 
   }
 
@@ -197,7 +136,7 @@ const Tablainventarios = ({ data, rowsPerPage }) => {
                   <Table.Cell>
                     {inventario.cantidad_vendida}                                                   
                   </Table.Cell>
-                  <Table.Cell> {/*TODO: Implementar la ciudad desde el json*/}
+                  <Table.Cell>
                     {inventario.ciudad} 
                   </Table.Cell>
                 </Table.Row>
