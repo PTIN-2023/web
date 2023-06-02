@@ -30,8 +30,8 @@ export async function getServerSideProps() {
 }
 
 export default function Home(props) {
-
-  const [infoRouteCar, setinfoRouteCar] = React.useState([]); // usar estado para almacenar infoRouteCar
+  // Get and store all car information
+  const [infoRouteCar, setinfoRouteCar] = React.useState([]);
   async function getCarRoute(props) {
     const tokenRequest = JSON.stringify({
       "session_token": userTokenCookie
@@ -56,8 +56,8 @@ export default function Home(props) {
       setinfoRouteCar("-1");
     }
   }
-
-  const [storeCoord, setStoreCoord] = React.useState({}); // usar estado para almacenar storeCoord
+  // Get and store the Store coordinates
+  const [storeCoord, setStoreCoord] = React.useState({});
   async function getStoreCoordinates(props) {
     const tokenRequest = JSON.stringify({
       "session_token": userTokenCookie
@@ -78,8 +78,8 @@ export default function Home(props) {
       setStoreCoord("-1");
     }
   }
-
-  const [route, setRoute] = React.useState([]); // usar estado para almacenar route
+  // Get and store all car routes
+  const [route, setRoute] = React.useState([]);
   const [userTokenCookie, ] = useCookie('user_token')
   async function getRoute(props, iRC){
     if(iRC.cars != undefined){
@@ -104,7 +104,7 @@ export default function Home(props) {
       }));
     } 
   }
-
+  // Make route layer
   const route_layer = {
     id: 'route',
     type: 'line',
@@ -117,7 +117,7 @@ export default function Home(props) {
       'line-width': 8
     }
   }
-  
+  // Make and store route geojson
   const [routeGeojson, setRouteGeojson] = useState([])
   function DoRouteGeojson(route) {
     if (route[0] === undefined) return;
@@ -138,9 +138,8 @@ export default function Home(props) {
     //Si se hace un IF para no añadir la ruta una vez ya se encuentra en "route", se podría quitar esto (sería más limpio)
     setRoute([]);
   }
-  
+  // Make and store points geojson
   const [pointsGeojson, setPointsGeojson] = useState([])
-
   function DoPointsGeojson(iRC){
     if(iRC == null || iRC.cars == null) return;
     iRC = [iRC]
@@ -176,10 +175,10 @@ export default function Home(props) {
       features: combinedFeatures
       
     };
-   
+
     setPointsGeojson(pointsGeojson => [...pointsGeojson, pointsCollection])
   }
-
+  // Make points layer
   const points_layer = {
     id: 'puntos-de-interes',
     type: 'symbol',
@@ -217,6 +216,7 @@ export default function Home(props) {
     DoRouteGeojson(route);
   }, [route]);
 
+  // Make and store Store geojson
   const [storeGeojson, setStoreGeojson] = useState({})
   useEffect(() => {
     setStoreGeojson({
@@ -236,7 +236,7 @@ export default function Home(props) {
       ]
     });
     }, [storeCoord]);
-
+  // Make store layer
   const store_layer = {
     id: 'warehouse',
     type: 'symbol',
@@ -249,17 +249,36 @@ export default function Home(props) {
     }
   }
 
+  function calculateDistance(x1, y1, x2, y2) {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    return distance;
+  }
+
   const [clickPopup, setClickPopup] = useState(null);
   const handleClick = (event) => {
-    if(infoRouteCar == null) return;
-    if(infoRouteCar.cars == null) return;
+    if(infoRouteCar == null || infoRouteCar.cars == null) return;
+    if(clickPopup){
+      setClickPopup(false)
+      return
+    }
+    const dist = 0.5
+    let closestCar = null
+
     infoRouteCar.cars.forEach((cars) => {
-      if(event.lngLat.lat.toFixed(4) == cars.location_act.latitude.toFixed(4)){
-        if(event.lngLat.lng.toFixed(4) == cars.location_act.longitude.toFixed(4)){
-          setClickPopup(cars);
+      const CarDist = calculateDistance(cars.location_act.latitude, cars.location_act.longitude, event.lngLat.lat, event.lngLat.lng) * 1000
+      if(CarDist < dist){
+        if(closestCar == null) closestCar = cars;
+        else{
+          const newCarDist = calculateDistance(cars.location_act.latitude, cars.location_act.longitude, event.lngLat.lat, event.lngLat.lng) * 1000
+          if(newCarDist < CarDist){
+            closestCar = cars;
+          }
         }
       }
     })
+    setClickPopup(closestCar)
   };
 
   return (

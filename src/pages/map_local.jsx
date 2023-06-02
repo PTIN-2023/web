@@ -30,8 +30,8 @@ export async function getServerSideProps() {
 }
 
 export default function Home(props) {
-  
-  const [infoRouteDrone, setinfoRouteDrone] = React.useState([]); // usar estado para almacenar infoRouteDrone
+  // Get and store all drone information
+  const [infoRouteDrone, setinfoRouteDrone] = React.useState([]);
   async function getDroneRoute(props) {
     const tokenRequest = JSON.stringify({
       "session_token": userTokenCookie
@@ -56,8 +56,8 @@ export default function Home(props) {
       setinfoRouteDrone("-1");
     }
   }
-
-  const [storeCoord, setStoreCoord] = React.useState([]); // usar estado para almacenar storeCoord
+  // Get and store the beehives coordinates
+  const [storeCoord, setStoreCoord] = React.useState([]);
   async function getStoreCoordinates(props) {
     const tokenRequest = JSON.stringify({
       "session_token": userTokenCookie
@@ -72,15 +72,14 @@ export default function Home(props) {
       });
       
       const data = await response.json();
-      //console.log("getStoreCoordinates " + JSON.stringify(data))
       setStoreCoord(data);
     } catch (error) {
       console.error('API request failed:', error);
       setStoreCoord("-1");
     }
   }
-
-  const [route, setRoute] = React.useState([]); // usar estado para almacenar route
+  // Get and store all drone routes
+  const [route, setRoute] = React.useState([]);
   const [userTokenCookie, ] = useCookie('user_token')
   async function getRoute(props, iRD){
     if(iRD.drones != undefined){
@@ -105,7 +104,7 @@ export default function Home(props) {
       }));
     } 
   }
-
+  // Make route layer
   const route_layer = {
     id: 'route2',
     type: 'line',
@@ -118,7 +117,7 @@ export default function Home(props) {
       'line-width': 8
     }
   }
-
+  // Make and store route geojson
   const [routeGeojson, setRouteGeojson] = useState([])
   function DoRouteGeojson(route) {
     if (route[0] === undefined) return;
@@ -139,9 +138,8 @@ export default function Home(props) {
     //Si se hace un IF para no añadir la ruta una vez ya se encuentra en "route", se podría quitar esto (sería más limpio)
     setRoute([]);
   }
-
+  // Make and store points geojson
   const [pointsGeojson, setPointsGeojson] = useState([])
-
   function DoPointsGeojson(iRD){
     if(iRD == null || iRD.drones == null) return;
     iRD = [iRD]
@@ -181,7 +179,7 @@ export default function Home(props) {
     setPointsGeojson(pointsGeojson => [...pointsGeojson, pointsCollection])
    
   }
-
+  // Make points layer
   const points_layer = {
     id: 'puntos-de-interes',
     type: 'symbol',
@@ -225,11 +223,10 @@ export default function Home(props) {
     DoRouteGeojson(route);
   }, [route]);
 
+  // Make and store Beehives geojson
   const [storeGeojson, setStoreGeojson] = useState([])
-
   function DoStoreGeojson(sC){
-    if(sC == null) return;
-    if(sC.beehives == null) return;
+    if(sC == null || sC.beehives == null) return;
     sC = [sC]
 
     const storeFeatures = sC[0].beehives.map((beehives) => ({
@@ -256,7 +253,7 @@ export default function Home(props) {
   useEffect(() => {
     DoStoreGeojson(storeCoord);
   }, [storeCoord])
-
+  // Make store layer
   const store_layer = {
     id: 'colmena',
     type: 'symbol',
@@ -269,18 +266,42 @@ export default function Home(props) {
     }
   }
 
+  function calculateDistance(x1, y1, x2, y2) {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    return distance;
+  }
+
   const [clickPopup, setClickPopup] = useState(null);
   const handleClick = (event) => {
-    if(infoRouteDrone == null) return;
-    if(infoRouteDrone.drones == null) return;
+    if(infoRouteDrone == null || infoRouteDrone.drones == null) return;
+    if(clickPopup){
+      setClickPopup(false)
+      return
+    }
+    const dist = 0.5
+    let closestDrone = null
+    
     infoRouteDrone.drones.forEach((drones) => {
-      if(event.lngLat.lat.toFixed(4) == drones.location_act.latitude.toFixed(4)){
-        if(event.lngLat.lng.toFixed(4) == drones.location_act.longitude.toFixed(4)){
-          setClickPopup(drones);
+      const DroneDist = calculateDistance(drones.location_act.latitude, drones.location_act.longitude, event.lngLat.lat, event.lngLat.lng) * 1000
+      if(DroneDist < dist){
+        if(closestDrone == null) closestDrone = drones;
+        else{
+          const newDroneDist = calculateDistance(drones.location_act.latitude, drones.location_act.longitude, event.lngLat.lat, event.lngLat.lng) * 1000
+          if(newDroneDist < DroneDist){
+            closestDrone = drones;
+          }
         }
       }
     })
+    setClickPopup(closestDrone)
   };
+
+  const cornerBottomLeft = new mapboxgl.LngLat(1.674186, 41.204074);
+  const cornerTopRight = new mapboxgl.LngLat(1.758437, 41.248797);
+
+  const bounds = [cornerBottomLeft, cornerTopRight]
 
   return (
     <>
@@ -301,6 +322,7 @@ export default function Home(props) {
             style={{width: "100%", height: "100%" }}
             mapStyle="mapbox://styles/aeksp/clg9out5b000i01l0p2yiq26g"
             onClick={handleClick}
+            maxBounds={bounds}
           >
           <Source id="my-route" type="geojson" data={routeGeojson[0]}>
             <Layer {...route_layer}/>
