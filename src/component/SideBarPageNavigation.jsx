@@ -43,7 +43,7 @@ const sidebarItemGroups = [
     items: [
       { name: "profile", icon: HiUser },
       { name: "patients", icon: HiUserGroup },
-      { name: "notifications", icon: HiBell }
+      { name: "prescriptions", icon: HiBell }
     ]
   },
   {

@@ -4,10 +4,10 @@ module.exports = {
   output: 'standalone',
   async redirects() {
     //Rutas no permitidas para cada rol, en el caso de los usuarios que no esten logeados se redirige al login, para los demas ser redirige a /403.
-    const patientRoutes = ['/patients', '/notifications', '/map', '/inventory', '/order', '/stats'];
+    const patientRoutes = ['/patients', '/notifications', '/map', '/inventory', '/order', '/stats', '/prescriptions'];
     const doctorRoutes = ['/myorders', '/makeorder', '/map', '/inventory', '/order', '/stats'];
-    const managerRoutes = ['/myorders', '/makeorder', '/patients', '/notifications'];
-    const unloggedRoutes = ['/myorders', '/makeorder', '/map', '/inventory', '/order', '/stats', '/patients', '/notifications', '/profile'];
+    const managerRoutes = ['/myorders', '/makeorder', '/patients', '/notifications', '/prescriptions'];
+    const unloggedRoutes = ['/myorders', '/makeorder', '/map', '/inventory', '/order', '/stats', '/patients', '/notifications', '/profile', '/prescriptions'];
     const redirectPatient = patientRoutes.map((patientRoutes) => ({
       source: patientRoutes,
       has: [
