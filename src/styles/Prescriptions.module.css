@@ -1,0 +1,50 @@
+ .recipe-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-right: 20px;
+  }
+
+  .input-container {
+    display: flex;
+    align-items: center;
+    margin-top: 8px; /* Agrega espacio entre cada grupo de label e input */
+  }
+  
+  .input-container label {
+    margin-right: 8px; /* Agrega espacio entre el label y el input */
+  }
+  
+  .textarea-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  
+  .label {
+    font-weight: bold;
+  }
+  
+  .input,
+  .textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .cont_main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2cm;
+    /*margin-top: 75px;*/
+    overflow: auto;
+    background-color: white;
+    border-radius: 20px;
+  }
+  
