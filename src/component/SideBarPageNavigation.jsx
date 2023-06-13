@@ -3,6 +3,7 @@ import { HiChartPie, HiGlobeAlt, HiHome, HiTable, HiUser, HiInboxIn, HiBell, HiU
 import useCookie from "../hooks/useCookie";
 import { Sidebar } from "flowbite-react";
 import { getText } from "../utils/getTextCurrentLocale";
+import { RiPagesFill } from 'react-icons/ri'
 
 //TODO: ver si getServerSideProps() se puede poner en un sólo archivo y no repetir
 export async function getServerSideProps() {
@@ -43,7 +44,7 @@ const sidebarItemGroups = [
     items: [
       { name: "profile", icon: HiUser },
       { name: "patients", icon: HiUserGroup },
-      { name: "notifications", icon: HiBell }
+      { name: "prescriptions", icon: RiPagesFill }
     ]
   },
   {
