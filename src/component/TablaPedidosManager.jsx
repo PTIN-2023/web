@@ -236,7 +236,8 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
   }else data = data.orders;
   
   var { slice, range } = useTable(data, page, rowsPerPage);
-  
+  console.log("slice len: "+slice.length)
+  console.log("data len: "+data.length)
   return (
     <>
 
