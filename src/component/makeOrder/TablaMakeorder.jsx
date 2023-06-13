@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
-import TableFooter from "./TableFooter.jsx";
-import { ShopContext } from "../context/shopContext.jsx";
-import { Product } from "../component/products.jsx";
-import * as env_config from "../utils/env_config.js";
-import useCookie from '../hooks/useCookie';
-import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest.js";
-import useSumbitAndFetchObject from "../hooks/useSumbitAndFetchObject.js";
+import TableFooter from "../TableFooter.jsx";
+import { ShopContext } from "../../context/shopContext.jsx";
+import { Product } from "../products.jsx";
+import * as env_config from "../../utils/env_config.js";
+import useCookie from '../../hooks/useCookie.js';
+import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest.js";
+import useSumbitAndFetchObject from "../../hooks/useSumbitAndFetchObject.js";
 
 const TablaMakeOrder = ( {apiEndpoint, searchValue} ) => {
     // Cookies
