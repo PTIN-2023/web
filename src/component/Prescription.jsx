@@ -3,6 +3,9 @@ import { Button } from 'flowbite-react';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib'
 import download from 'downloadjs';
 import styles from '../styles/Prescriptions.module.css';
+import { HiUserGroup } from "react-icons/hi";
+import { CiPill } from "react-icons/ci";
+
 
 
 
@@ -76,16 +79,25 @@ export default function MakePrescriptions() {
                     <div className={styles['input-container']}>
                         <label htmlFor="patientName" className={styles.label}>Nombre Paciente:</label>
                         <input type="text" required id="patientName" name="patientName" className={styles.inputNombre} onChange={handleNombreInput}/>
+                        <Button gradientMonochrome="cyan">
+                            <HiUserGroup className="mr-2 h-5 w-5" />
+                            Lista Pacientes
+                        </Button>
                     </div>
                 
                     <div className={styles['input-container']}>
                         <label htmlFor="medicationName" className={styles.label}>Nombre Medicamento:</label>
                         <input type="text" required id="medicationName" name="medicationName" className={styles.inputMedicamento} onChange={handleMedicamentoInput}/>
+                        <Button gradientMonochrome="lime">
+                            <CiPill className="mr-2 h-5 w-5" />
+                            Lista Medicamentos
+                        </Button>
                     </div>
                 
                     <div className={styles['input-container']}>
                         <label htmlFor="treatmentDuration" className={styles.label}>Duración tratamiento:</label>
                         <input type="text" required id="treatmentDuration" name="treatmentDuration" className={styles.inputTratamiento} onChange={handleTratamientoInput}/>
+                        
                     </div>
                 </div>
 
