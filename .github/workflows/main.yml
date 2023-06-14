@@ -29,3 +29,15 @@ jobs:
           file: ./docker/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/trans-med-web-ptin:latest
+  update:
+    name: Update
+    runs-on: ubuntu-latest
+    steps:
+    - name: execute update of the docker instance on the server
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: ${{ secrets.SSH_COMMAND }}
