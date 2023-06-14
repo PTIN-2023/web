@@ -13,12 +13,16 @@
 
   .button-container {
     margin-top: 100px; /* Ajusta el margen superior según sea necesario */
-    margin-left: 950px;
+    margin-left: 50%;
     margin-bottom: 60px;
   }
   
   .button {
     padding: 8px 16px; /* Ajusta el padding según sea necesario */
+  }
+
+  .buttonTime {
+    margin-right: 5px;
   }
 
   .input-group {
@@ -52,22 +56,27 @@
   .inputNombre {
     padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     width: 600px;
+    margin-left: 5%;
+    margin-right: 20px;
   }
 
   .inputMedicamento {
     padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     width: 400px;
+    margin-left: 2.75%;
+    margin-right: 20px;
   }
 
   .inputTratamiento {
     padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     width: 300px;
+    margin-left: 3.25%;
   }
 
   .textarea {
@@ -79,9 +88,6 @@
   }
 
   .cont_main {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     background-color: white;
     border-radius: 20px;
   }

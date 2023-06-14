@@ -56,7 +56,7 @@ export default function Home(props) {
 
   useEffect(() => {
     if(stringResponse != 'none') {
-      console.log("response not none")
+      console.log("new response not none: "+stringResponse)
     }
   }, [stringResponse])
 
