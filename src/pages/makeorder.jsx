@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Layout from "../component/Layout"
-import Tabla from "../component/TablaMakeorder"
+import Tabla from "../component/makeOrder/TablaMakeorder"
 import makeorderStyles from "../styles/Makeorder.module.css"
 import { useState, useEffect } from "react";
 import FilterTable from "../component/FilterTable"

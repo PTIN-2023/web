@@ -38,14 +38,15 @@ const TablaMakeOrder = ( {apiEndpoint, searchValue} ) => {
     
     const [sumbitAndFetch, response] = useSumbitAndFetchObject(
         stringRequest,
-        apiEndpoint+"/api/list_available_medicines"
+        apiEndpoint+"/api/list_available_medicines",
+        (res) => console.log(res)
     )
 
     useEffect(() => {
         if(userTokenCookie != null)
             sumbitAndFetch();
     }, [page, userTokenCookie])
-
+    console.log(response)
     return (
         <div className="mx-auto flex flex-col justify-start">
             <div className="bg-white">
