@@ -30,6 +30,7 @@ import GetRouteTestComponent from "../component/testpage/GetRouteTestComponent";
 import GeneralStorePosTestComponent from "../component/testpage/GeneralStorePosTestComponent";
 import UpdateCarsTestComponent from "../component/testpage/UpdateCarsTestComponent";
 import UpdateDronesTestComponent from "../component/testpage/UpdateDronesTestComponent";
+import CreatePaymentTestComponent from "../component/testpage/CreatePaymentTestComponent";
 
 // Temporal testing page to make sure the env variables + api requests work as 
 // intented
@@ -111,6 +112,9 @@ export default function Home(props) {
           </Tabs.Item>
           <Tabs.Item title="Make order API test">
             <MakeOrderTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Create payment API test">
+            <CreatePaymentTestComponent apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
           <Tabs.Item title="Get prescription meds API test">
             <GetPrecriptionMedsTestComponent apiEndpoint={props.apiEndpoint}/>

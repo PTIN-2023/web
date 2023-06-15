@@ -321,7 +321,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-          {slice.map((order) =>
+          {data && slice.map((order) =>
             <>
                 <Table.Row className={myordersStyles.tableRow}>
                   <Table.Cell className={myordersStyles.firstTableCell}> 

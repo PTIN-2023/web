@@ -207,7 +207,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
   //rowsPerPage -> cuantas filas va a renderizar
   //searchValue -> el filtro en caso de que se active el componente MyOrdersSearch
 
-  console.log(data.orders)
+  console.log("data array: "+data.orders)
   const [localeCookie, ] = useCookie('locale')
 
   const [page, setPage] = useState(1);
@@ -235,8 +235,11 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
   }else data = data.orders;
   
-  var { slice, range } = useTable(data, page, rowsPerPage);
-  
+  if(data != undefined) var { slice, range } = useTable(data, page, rowsPerPage);
+
+  console.log("slice len: "+slice.length)
+  console.log("data len: "+data.length)
+
   return (
     <>
 
@@ -262,7 +265,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-          {slice.map((order) =>
+          { data && slice.map((order) =>
             <>
                 <Table.Row className={myordersStyles.tableRow}>
                   <Table.Cell className={myordersStyles.firstTableCell}> 

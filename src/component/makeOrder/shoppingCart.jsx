@@ -7,10 +7,12 @@ import { ShopContext } from '../../context/shopContext'
 import { CartItem }from "./cartItem"
 import cartStyle from "../../styles/cart.module.css"
 import useCookie from '../../hooks/useCookie'
+import { useRouter } from 'next/router'
 
 const shoppingCartButton = () => {
     const [userTokenCookie, ] = useCookie('user_token')
     const { cartItems } = useContext(ShopContext);
+    const router = useRouter()
 
     const [open, setOpen] = useState(false)
 
@@ -23,7 +25,8 @@ const shoppingCartButton = () => {
             Array(Number(value.amount)).fill(key)
         );
 
-        const result = await fetch('/api/make_order', {
+        // Make the order
+        const makeOrderResult = await fetch('/api/make_order', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -35,13 +38,34 @@ const shoppingCartButton = () => {
         })
         .then(res => res.json())
 
-        if(result && result.result == 'ok')
-            alert("Su compra se ha transmitido");
-        else
+        if(!makeOrderResult || makeOrderResult.result != 'ok') {
             alert("Error en procesar su compra");
+            setOpen(false)
+            return;
+        }
 
+        // Generate paypal url
+        const createPaymentResult = await fetch('/api/create_payment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                session_token : userTokenCookie,
+                order_identifier : makeOrderResult.order_identifier ? makeOrderResult.order_identifier : 123,
+                amount : 3 // TODO: calculate this
+            })
+        })
+        .then(res => res.json())
 
-        manageOnClick();
+        if(!createPaymentResult || createPaymentResult.result != 'ok') {
+            alert("Error en procesar su compra");
+            setOpen(false)
+            return;
+        }
+
+        // Redirect to url
+        router.push(createPaymentResult.url)
     }
 
     return (

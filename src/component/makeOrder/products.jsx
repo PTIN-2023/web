@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ShopContext } from "../context/shopContext";
-import productsStyles from "../styles/product.module.css";
+import { ShopContext } from "../../context/shopContext";
+import productsStyles from "../../styles/product.module.css"
 
 export const Product = ({medicine}) => {
     const { cartItems, addToCart } = useContext(ShopContext);

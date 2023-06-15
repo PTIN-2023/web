@@ -167,7 +167,32 @@ export function defineMakeOrdersRoutes(server) {
 
       // Return
       return {
-        result: 'ok'
+        result: 'ok',
+        order_identifier : order.order_identifier
+      }
+    })
+
+    server.post("/api/create_payment", (schema, request) => {
+      const requestPayload = JSON.parse(request.requestBody)
+      console.log("Received make order req with:" + request.requestBody)
+
+      // Check payload
+      const expectedFields = [
+        "session_token",
+        "order_identifier",
+        "amount"
+      ]
+      const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
+      if (!expectedFieldsOk) {
+        return {result : 'error_fields'}
+      }
+
+      // TODO: move paypal create order logic here
+
+      // Return
+      return {
+        result: 'ok',
+        url : 'http://example.com'
       }
     })
 
