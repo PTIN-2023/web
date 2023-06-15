@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import TableFooter from "../TableFooter.jsx";
 import { ShopContext } from "../../context/shopContext.jsx";
-import { Product } from "../products.jsx";
+import { Product } from "../makeOrder/products.jsx"
 import * as env_config from "../../utils/env_config.js";
 import useCookie from '../../hooks/useCookie.js';
 import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest.js";
