@@ -5,7 +5,7 @@ import { Button } from 'flowbite-react'
 import { HiShoppingCart } from 'react-icons/hi'
 import { ShopContext } from '../../context/shopContext'
 import { CartItem }from "./cartItem"
-import cartStyle from "../styles/cart.module.css"
+import cartStyle from "../../styles/cart.module.css"
 import useCookie from '../../hooks/useCookie'
 
 const shoppingCartButton = () => {

@@ -57,18 +57,4 @@ module.exports = {
     }));
     return redirectPatient.concat(redirectDoctor, redirectManager, redirectUnlogged);
   },
-  async headers() {
-    return [
-      {
-        // Aplica estas cabeceras a todas las rutas de tu aplicación.
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'Content-Security-Policy',
-            value: "script-src 'self' 'unsafe-eval'; object-src 'self'",
-          },
-        ],
-      },
-    ]
-  },
 };
