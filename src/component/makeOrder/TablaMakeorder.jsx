@@ -37,8 +37,8 @@ const TablaMakeOrder = ( {apiEndpoint, searchValue} ) => {
     })
     
     const [sumbitAndFetch, response] = useSumbitAndFetchObject(
-        stringRequest,
         apiEndpoint+"/api/list_available_medicines",
+        stringRequest,
         (res) => console.log(res)
     )
 
