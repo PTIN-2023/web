@@ -5,6 +5,8 @@ const app = express();
 const paypal = require('@paypal/checkout-server-sdk');
 require('dotenv').config();
 
+app.use(express.json());
+
 // Habilitar todas las solicitudes CORS
 app.use(cors());
 
@@ -33,10 +35,14 @@ app.post('/api_paypal', async (req, res) => {
       {
         amount: {
           currency_code: 'USD',
-          value: '10.00' // Aquí puedes poner el monto que desees
+          value: '10.00' // poner el monto
         }
       }
-    ]
+    ],
+    application_context: {
+      return_url: 'http://localhost:3000/checkout', // Aquí puedes poner la URL de retorno que desees
+      cancel_url: 'http://localhost:3000/checkout' // Aquí puedes poner la URL de cancelación que desees
+    }
   });
 
   try {
@@ -49,6 +55,30 @@ app.post('/api_paypal', async (req, res) => {
       res.json({ approveUrl });
     } else {
       res.json({ error: 'Error al crear la orden de PayPal' });
+    }
+  } catch (err) {
+    res.json({ error: err.message });
+  }
+});
+
+app.post('/api_paypal/capture', async (req, res) => {
+  // Obtén el ID de la orden de la solicitud
+  const orderID = req.body.orderID;
+
+  // Crea una nueva solicitud de captura
+  let request = new paypal.orders.OrdersCaptureRequest(orderID);
+
+  try {
+    // Ejecuta la solicitud
+    let response = await client.execute(request);
+
+    // Si la solicitud es exitosa, devuelve una respuesta
+    if (response.statusCode === 201) {
+      // Almacena el token en una cookie
+      res.cookie('token', orderID);
+      res.json({ success: true });
+    } else {
+      res.json({ error: 'Error al capturar la orden de PayPal' });
     }
   } catch (err) {
     res.json({ error: err.message });
