@@ -12,13 +12,26 @@
   }
 
   .button-container {
+    display: flex;
+    flex-direction: row;
     margin-top: 100px; /* Ajusta el margen superior según sea necesario */
-    margin-left: 50%;
     margin-bottom: 60px;
+    margin-left: 50%;
   }
   
-  .button {
+  .buttonDownload {
     padding: 8px 16px; /* Ajusta el padding según sea necesario */
+    width: 200px;
+  }
+
+  .buttonSend {
+    padding: 8px 16px; /* Ajusta el padding según sea necesario */
+    width: 200px;
+  }
+
+  .buttonGenerate {
+    padding: 8px 16px; /* Ajusta el padding según sea necesario */
+    margin-right: 100px;
   }
 
   .buttonTime {
@@ -92,3 +105,61 @@
     border-radius: 20px;
   }
   
+  .sendButton {
+    background-color: #4caf50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+  
+  .sending {
+    animation: sendAnimation 5s linear;
+  }
+  
+  @keyframes sendAnimation {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .downloadButton {
+    background-color: #3498db;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .downloadIcon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .downloadButton:hover .downloadIcon {
+    transform: translateY(0);
+  }

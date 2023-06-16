@@ -49,7 +49,7 @@ export function seedMirageMyOrders(server) {
           type_of_adminstration: 'oral'
         }]
       
-      server.create("order", {
+      server.create("data", {
         order_identifier : (i + 21 * 100),
             medicine_list : meds,
             date : '2023-01-01',
@@ -58,7 +58,7 @@ export function seedMirageMyOrders(server) {
     })
 
     states.forEach(state => {
-        server.create("order", {
+        server.create("data", {
             order_identifier : (state.num + 23 * 100),
             medicine_list : [
                 {

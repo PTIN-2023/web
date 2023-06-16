@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Layout from "../component/Layout"
-import { Button } from 'flowbite-react'
-import MakePrescriptions from "../component/Prescription"
+import MakePrescriptions from "../component/Prescriptions/Prescription"
 
 export default function Home() {
   return (
