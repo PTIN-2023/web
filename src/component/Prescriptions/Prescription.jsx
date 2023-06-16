@@ -4,7 +4,6 @@ import { PDFDocument, StandardFonts, rgb } from 'pdf-lib'
 import download from 'downloadjs';
 import styles from '../../styles/Prescriptions.module.css';
 import { HiUserGroup, HiPaperAirplane, HiDownload } from "react-icons/hi";
-import { CiPill } from "react-icons/ci";
 
 
 function ListPatients () {
@@ -21,7 +20,6 @@ function ListMedicines () {
 
     return (
         <Button gradientMonochrome="lime">
-            <CiPill className="mr-2 h-5 w-5" />
             Lista Medicamentos
         </Button>
     )
