@@ -10,7 +10,7 @@ import SideBarPagesNavigation from "../component/SideBarPageNavigation"
 import getTextCurrentLocale from "../utils/getTextCurrentLocale";
 import { googleLogout } from '@react-oauth/google';
 import Image from 'next/image';
-import ShoppingCart from "./makeOrder/shoppingCart";
+import ShoppingCart from "./makeorder/shoppingCart";
 
 // Main Component
 

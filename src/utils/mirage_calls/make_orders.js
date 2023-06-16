@@ -49,8 +49,8 @@ export function seedMirageMakeOrders(server) {
 
   // Create prescriptions
   server.create("prescription", {
-    prescription_identifier : '32',
-    medicine_list : [
+    prescription_identifier: '32',
+    medicine_list: [
       {
         medicine_identifier: '1',
         medicine_image_url: 'https://picsum.photos/200',
@@ -78,123 +78,199 @@ export function seedMirageMakeOrders(server) {
 }
 
 export function defineMakeOrdersRoutes(server) {
-    server.post("/api/num_pages_available_medicines", (schema, request) => {
-      console.log("Received list available medicines req with:" + request.requestBody)
-      const requestPayload = JSON.parse(request.requestBody)
-      const filter = requestPayload.filter
+  server.post("/api/num_pages_available_medicines", (schema, request) => {
+    console.log("Received list available medicines req with:" + request.requestBody)
+    const requestPayload = JSON.parse(request.requestBody)
+    const filter = requestPayload.filter
 
-      const medicinesNum = schema.medicines.all().models.length
-      
-      return {
-          result: 'ok',
-          number_of_pages : medicinesNum/filter.meds_per_page
-      }
+    const medicinesNum = schema.medicines.all().models.length
+
+    return {
+      result: 'ok',
+      number_of_pages: medicinesNum / filter.meds_per_page
+    }
+  })
+
+  server.post("/api/list_available_medicines", (schema, request) => {
+    console.log("Received list available medicines req with:" + request.requestBody)
+    const requestPayload = JSON.parse(request.requestBody)
+    const filter = requestPayload.filter
+
+    const start = filter.meds_per_page * (filter.page - 1)
+    const end = start + filter.meds_per_page
+    const medicines = schema.medicines.all().models.slice(start, end)
+
+    return {
+      result: 'ok',
+      medicines
+    }
+  })
+
+  server.post("/api/has_prescription", (schema, request) => {
+    const requestPayload = JSON.parse(request.requestBody)
+    console.log("Received has prescription req with:" + request.requestBody)
+
+    // Check payload
+    const expectedFields = [
+      "session_token",
+      "medicine_identifier"
+    ]
+    const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
+    if (!expectedFieldsOk) {
+      return { result: 'error_fields' }
+    }
+
+    // Check if medicine exists
+    const medicine = schema.medicines.findBy({ medicine_identifier: requestPayload.medicine_identifier })
+    if (!medicine) {
+      return { result: 'error_med' }
+    }
+
+    // Return
+    return {
+      result: 'ok',
+      prescription_needed: medicine.prescription_needed,
+      prescription_given: (medicine.medicine_identifier === '2')
+    }
+  })
+
+  server.post("/api/make_order", (schema, request) => {
+    const requestPayload = JSON.parse(request.requestBody)
+    console.log("Received make order req with:" + request.requestBody)
+
+    // Check payload
+    const expectedFields = [
+      "session_token",
+      "medicine_identifiers"
+    ]
+    const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
+    if (!expectedFieldsOk) {
+      return { result: 'error_fields' }
+    }
+
+    // Generate list
+    const medicine_list = requestPayload.medicine_identifiers.map((id) => {
+      const med = schema.medicines.findBy({ medicine_identifier: id })
+      return med.attrs
     })
 
-    server.post("/api/list_available_medicines", (schema, request) => {
-      console.log("Received list available medicines req with:" + request.requestBody)
-      const requestPayload = JSON.parse(request.requestBody)
-      const filter = requestPayload.filter
+    // Create order
+    const order = {
+      order_identifier: Math.random(),
+      medicine_list: medicine_list,
+      date: new Date().toISOString().split('T')[0],
+      state: 'ordered'
+    }
 
-      const start = filter.meds_per_page*(filter.page-1)
-      const end = start+filter.meds_per_page
-      const medicines = schema.medicines.all().models.slice(start, end)
+    // Add to db
+    schema.orders.create(order)
 
-      return {
-          result: 'ok',
-          medicines
-      }
-    })
+    // Return
+    return {
+      result: 'ok',
+      order_identifier: order.order_identifier
+    }
+  })
 
-    server.post("/api/has_prescription", (schema, request) => {
-      const requestPayload = JSON.parse(request.requestBody)
-      console.log("Received has prescription req with:" + request.requestBody)
+  server.post("/api/create_payment", (schema, request) => {
+    const requestPayload = JSON.parse(request.requestBody)
+    console.log("Received make order req with:" + request.requestBody)
 
-      // Check payload
-      const expectedFields = [
-        "session_token",
-        "medicine_identifier"
-      ]
-      const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
-      if (!expectedFieldsOk) {
-        return {result : 'error_fields'}
-      }
+    // Check payload
+    const expectedFields = [
+      "session_token",
+      "order_identifier",
+      "amount"
+    ]
+    const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
+    if (!expectedFieldsOk) {
+      return { result: 'error_fields' }
+    }
 
-      // Check if medicine exists
-      const medicine = schema.medicines.findBy({ medicine_identifier : requestPayload.medicine_identifier })
-      if (!medicine) {
-        return {result : 'error_med'}
-      }
-
-      // Return
-      return {
-        result: 'ok',
-        prescription_needed : medicine.prescription_needed,
-        prescription_given : (medicine.medicine_identifier === '2')
-      }
-    })
-
-    server.post("/api/make_order", (schema, request) => {
+    server.post("/api/create_payment", async (schema, request) => {
       const requestPayload = JSON.parse(request.requestBody)
       console.log("Received make order req with:" + request.requestBody)
 
       // Check payload
       const expectedFields = [
         "session_token",
-        "medicine_identifiers"
-      ]
+        "order_identifier",
+        "amount"
+      ];
       const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
       if (!expectedFieldsOk) {
-        return {result : 'error_fields'}
+        return { result: 'error_fields' }
       }
 
-      // Generate list
-      const medicine_list = requestPayload.medicine_identifiers.map((id) => {
-        const med = schema.medicines.findBy({medicine_identifier : id})
-        return med.attrs
-      })
+      // Crea una nueva orden de PayPal
+      let paypalRequest = new paypal.orders.OrdersCreateRequest();
+      paypalRequest.prefer('return=representation');
+      paypalRequest.requestBody({
+        intent: 'CAPTURE',
+        purchase_units: [
+          {
+            amount: {
+              currency_code: 'USD',
+              value: requestPayload.amount // usar el monto de la solicitud
+            }
+          }
+        ],
+        application_context: {
+          return_url: 'http://localhost:3000/checkout', // Aquí puedes poner la URL de retorno que desees
+          cancel_url: 'http://localhost:3000/checkout' // Aquí puedes poner la URL de cancelación que desees
+        }
+      });
 
-      // Create order
-      const order = {
-        order_identifier : Math.random(),
-        medicine_list : medicine_list,
-        date : new Date().toISOString().split('T')[0],
-        state : 'ordered'
+      try {
+        // Envía la solicitud a PayPal
+        let response = await client.execute(paypalRequest);
+
+        // Si la solicitud es exitosa, devuelve la URL de aprobación
+        if (response.statusCode === 201) {
+          let approveUrl = response.result.links.find(link => link.rel === 'approve').href;
+          return {
+            result: 'ok',
+            url: approveUrl
+          };
+        } else {
+          return { error: 'Error al crear la orden de PayPal' };
+        }
+      } catch (err) {
+        return { error: err.message };
       }
+    });
 
-      // Add to db
-      schema.orders.create(order)
+    // Return
+    return {
+      result: 'ok',
+      url: 'http://example.com'
+    }
+  })
 
-      // Return
-      return {
-        result: 'ok'
-      }
-    })
+  server.post("/api/get_prescription_meds", (schema, request) => {
+    const requestPayload = JSON.parse(request.requestBody)
+    console.log("Received get prescription meds prescription req with:" + request.requestBody)
 
-    server.post("/api/get_prescription_meds", (schema, request) => {
-      const requestPayload = JSON.parse(request.requestBody)
-      console.log("Received get prescription meds prescription req with:" + request.requestBody)
+    // Check payload
+    const expectedFields = [
+      "session_token",
+      "prescription_identifier"
+    ]
+    const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
+    if (!expectedFieldsOk) {
+      return { result: 'error_fields' }
+    }
 
-      // Check payload
-      const expectedFields = [
-        "session_token",
-        "prescription_identifier"
-      ]
-      const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
-      if (!expectedFieldsOk) {
-        return {result : 'error_fields'}
-      }
+    // Try to get the prescription
+    const prescription = schema.prescriptions.findBy({ prescription_identifier: requestPayload.prescription_identifier })
+    if (!prescription) {
+      return { result: 'error_prescription' }
+    }
 
-      // Try to get the prescription
-      const prescription = schema.prescriptions.findBy({ prescription_identifier : requestPayload.prescription_identifier })
-      if (!prescription) {
-        return {result : 'error_prescription'}
-      }
-
-      // Return
-      return {
-        result: 'ok',
-        medicine_list : prescription.medicine_list
-      }
-    })
+    // Return
+    return {
+      result: 'ok',
+      medicine_list: prescription.medicine_list
+    }
+  })
 }
