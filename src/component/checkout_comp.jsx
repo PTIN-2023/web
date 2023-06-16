@@ -1,4 +1,4 @@
-import React, { useState,  useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 function App() {
@@ -29,6 +29,13 @@ const CheckoutForm = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('creditCard');
+    const [paymentSuccess, setPaymentSuccess] = useState(false); // Nuevo estado para rastrear el éxito del pago
+
+    useEffect(() => {
+        setTimeout(() => {
+            window.location.href = "/makeorder";
+        }, 10000);
+    }, [paymentSuccess]);
 
     // En tu componente CheckoutForm...
     useEffect(() => {
@@ -50,6 +57,7 @@ const CheckoutForm = () => {
                     if (data.success) {
                         // El pago fue exitoso
                         console.log('Pago exitoso!');
+                        setPaymentSuccess(true);
                     } else {
                         // Hubo un error al capturar el pago
                         console.error('Error al capturar el pago:', data.error);
@@ -118,6 +126,15 @@ const CheckoutForm = () => {
             }
         }
     };
+
+    if (paymentSuccess) {
+        return (
+            <div className="max-w-lg mx-auto mt-10 bg-white p-10 rounded-xl shadow-md">
+                <h2 className="text-2xl font-semibold mb-5">Checkout</h2>
+                <p>Su compra se ha realizado correctamente, gracias por confiar en nosotros.</p>
+            </div>
+        );
+    }
 
     return (
         <form onSubmit={handleSubmit} className="max-w-lg mx-auto mt-10 bg-white p-10 rounded-xl shadow-md">
