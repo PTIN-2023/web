@@ -294,7 +294,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
   }else data = data.data;
   
-  var { slice, range } = useTable(data, page, rowsPerPage);
+  var { slice, range } = useTable(data.data, page, rowsPerPage);
   
   return (
     <>
