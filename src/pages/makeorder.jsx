@@ -30,22 +30,31 @@ export default function Home(props) {
     // Form values
     const [medsPerPage, setMedsPerPage] = useState(10);
     const [page, setPage] = useState(1);
-    const [medName, setMedName] = useState('Paracetamol');
-    const [pvpMin, setPvpMin] = useState('0');
-    const [pvpMax, setPvpMax] = useState('10000');
-    const [prescriptionNeeded, setPrescriptionNeeded] = useState([true, false]);
-    const [medForm, setMedForm] = useState(['pill', 'cream', 'powder', 'liquid', 'Tablets']);
-    const [typeOfAdminst, setTypeOfAdminst] = useState(['Oral', 'topical', 'inhalation', 'ophthalmic']);
+    const [medId, setMedId] = useState()
+    const [medImgURL, setMedImgURL] = useState()
+    const [medName, setMedName] = useState();
+    const [pvpMin, setPvpMin] = useState();
+    const [pvpMax, setPvpMax] = useState();
+    const [content, setContent] = useState()
+    const [excipient, setExcipient] = useState()
+    const [prescriptionNeeded, setPrescriptionNeeded] = useState();
+    const [medForm, setMedForm] = useState();
+    const [typeOfAdminst, setTypeOfAdminst] = useState();
 
     // Request
     const stringRequest = usePrepareBodyRequest({
         "session_token" : userTokenCookie,
         "filter": {
-            "meds_per_page": medsPerPage,
-            "page": page,
-            "med_name": medName,
-            "pvp_min": pvpMin,
-            "pvp_max": pvpMax,
+            "medicine_identifier": medId,
+            "medicine_image_url": medImgURL,
+            //"meds_per_page": medsPerPage,
+            //"page": page,
+            "medicine_name": medName,
+            "excipient": excipient,
+            "pvp": pvpMax,
+            //"pvp_min": pvpMin,
+            //"pvp_max": pvpMax,
+            "contents": content,
             "prescription_needed": prescriptionNeeded,
             "form": medForm,
             "type_of_administration": typeOfAdminst
