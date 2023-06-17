@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import rangePriceStyles from "../styles/price.module.css"
+import rangePriceStyles from "../../styles/price.module.css"
 import { Sidebar } from "flowbite-react";
 
 const FilterTable = () => {

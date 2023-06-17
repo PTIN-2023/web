@@ -3,7 +3,7 @@ import Layout from "../component/Layout"
 import Tabla from "../component/makeOrder/TablaMakeorder"
 import makeorderStyles from "../styles/Makeorder.module.css"
 import { useState, useEffect } from "react";
-import FilterTable from "../component/FilterTable"
+import FilterTable from "../component/makeOrder/FilterTable"
 import { ShopContextProvider } from '../context/shopContext'
 import * as env_config from "../utils/env_config.js";
 import useCookie from "../hooks/useCookie"
