@@ -12,7 +12,7 @@ export default async function check_token_req(api_endpoint, token, expected_type
         
         console.log("response in checking token")
         console.log(response_check_token)
-        return response_check_token && response_check_token.valid == 'yes' && response_check_token.type == expected_type
+        return response_check_token && response_check_token.valid == 'ok' && response_check_token.type == expected_type
     } catch (error) {
         console.log("Error in checking token")
         console.log(error)
