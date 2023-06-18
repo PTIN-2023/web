@@ -1,8 +1,8 @@
 export function seedMirageMapLocations(server) {
   server.create("beehive", {
     id_beehive: 1,
-    latitude: 41.2278786,
-    longitude: 1.7474957,
+    latitude: 41.227250,
+    longitude: 1.714917,
   });
   server.create("beehive", {
     id_beehive: 2,

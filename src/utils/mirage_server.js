@@ -23,7 +23,7 @@ export function makeServer() {
       medicines: Model,
       prescriptions : Model,
       stats: Model,
-      data : Model,
+      orders : Model,
       beehives : Model,
       notifications : Model,
       routes : Model
