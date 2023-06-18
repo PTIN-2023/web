@@ -12,7 +12,6 @@ import useSumbitAndFetchObject from "../hooks/useSumbitAndFetchObject.js";
 
 export async function getServerSideProps() {
     const apiEndpoint = String(env_config.getApiEndpoint());
-    console.log(apiEndpoint)
     return {
         props: {
             apiEndpoint
@@ -24,8 +23,7 @@ export default function Home(props) {
     const [searchValue, setSearchValue] = useState({value:"",isCompleted:false});
 
     // Cookies
-    //const [userTokenCookie, ] = useCookie('user_token')
-    const [userTokenCookie, ] = useCookie(null)
+    const [userTokenCookie, ] = useCookie('user_token')
 
     // Form values
     const [medsPerPage, setMedsPerPage] = useState(10);
@@ -60,11 +58,10 @@ export default function Home(props) {
             "type_of_administration": typeOfAdminst
         }
     })
-    console.log(apiEndpoint) 
-    console.log(props) 
+    
     const [sumbitAndFetch, response] = useSumbitAndFetchObject(
-        props.apiEndpoint+"/api/list_available_medicines",
         stringRequest,
+        props.apiEndpoint+"/api/list_available_medicines",
         (res) => console.log(res)
     )
 
@@ -90,7 +87,7 @@ export default function Home(props) {
                         </div>
                         <div style={{ flex: 1, marginLeft: '5px' }}>
                             {/**Tablamakeorder recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}                 
-                            <Tabla medicine={response}/>
+                            <Tabla medicineResponse={response} page={page} setPage={setPage}/>
                         </div>
                     </div>
                 </Layout> 
