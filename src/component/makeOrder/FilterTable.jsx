@@ -2,18 +2,16 @@ import React, { useState } from "react";
 import rangePriceStyles from "../../styles/price.module.css"
 import { Sidebar } from "flowbite-react";
 
-const FilterTable = () => {
+const FilterTable = ({medName, pvpMin, pvpMax, prescriptionNeeded, medForm, typeOfAdminst, setMedName, setPvpMin, setPvpMax, setPrescriptionNeeded, setMedForm, setTypeOfAdminst}) => {
     
-    // default price
+    // Defered change of pvp value
     const [price, setPrice] = useState(50);
     
     const changePrice = (event) => {
         setPrice(event.target.value);
     };
-
-    // función que sirve para enviar un mensaje a la API i que nos pase aquellos medicamentos cuyo precio és (<= price) al levantar el mouse del priceRange
-    const submitPriceChange = (event) => {
-        console.log("mouseUp")
+    const submitPriceChange = (_) => {
+        setPvpMax(price)
     }
 
     return(
@@ -32,13 +30,13 @@ const FilterTable = () => {
                             <label style={{ fontWeight: 'bold' }}>RECETA</label>
                             <Sidebar.Item style={{ marginBottom: '-15px', marginTop: '-10px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
+                                    <input type="checkbox" className="" checked/>&nbsp;&nbsp;&nbsp;
                                     <label >Con receta</label>
                                 </div>
                             </Sidebar.Item>
                             <Sidebar.Item>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
+                                    <input type="checkbox" className="" checked/>&nbsp;&nbsp;&nbsp;
                                     <label >Sin receta</label>
                                 </div>
                             </Sidebar.Item>
@@ -47,19 +45,19 @@ const FilterTable = () => {
                             <label style={{ fontWeight: 'bold' }}>FORMA</label>
                             <Sidebar.Item style={{ marginBottom: '-15px', marginTop: '-10px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
+                                    <input type="checkbox" className="" checked/>&nbsp;&nbsp;&nbsp;
                                     <label>Pastillas / Cremas</label>
                                 </div>
                             </Sidebar.Item>
                             <Sidebar.Item style={{ marginBottom: '-15px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
+                                    <input type="checkbox" className="" checked/>&nbsp;&nbsp;&nbsp;
                                     <label >Polvos</label>
                                 </div>
                             </Sidebar.Item>
                             <Sidebar.Item>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
+                                    <input type="checkbox" className="" checked/>&nbsp;&nbsp;&nbsp;
                                     <label >Líquido</label>
                                 </div>
                             </Sidebar.Item>
@@ -68,25 +66,25 @@ const FilterTable = () => {
                             <label style={{ fontWeight: 'bold' }}>VÍA</label>
                             <Sidebar.Item style={{ marginBottom: '-15px', marginTop: '-10px'}}>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
+                                    <input type="checkbox" className="" checked/>&nbsp;&nbsp;&nbsp;
                                     <label >Oral</label>
                                 </div>
                             </Sidebar.Item>
                             <Sidebar.Item style={{ marginBottom: '-15px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
+                                    <input type="checkbox" className="" checked/>&nbsp;&nbsp;&nbsp;
                                     <label >Tópico</label>
                                 </div>
                             </Sidebar.Item>
                             <Sidebar.Item style={{ marginBottom: '-15px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
+                                    <input type="checkbox" className="" checked/>&nbsp;&nbsp;&nbsp;
                                     <label >Inhalatoria</label>
                                 </div>
                             </Sidebar.Item>
                             <Sidebar.Item>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className=""/>&nbsp;&nbsp;&nbsp;
+                                    <input type="checkbox" className="" checked/>&nbsp;&nbsp;&nbsp;
                                     <label >Oftalmológica</label>
                                 </div>
                             </Sidebar.Item>

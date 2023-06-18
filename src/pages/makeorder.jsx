@@ -26,36 +26,27 @@ export default function Home(props) {
     const [userTokenCookie, ] = useCookie('user_token')
 
     // Form values
-    const [medsPerPage, setMedsPerPage] = useState(10);
-    const [page, setPage] = useState(1);
-    const [medId, setMedId] = useState()
-    const [medImgURL, setMedImgURL] = useState()
     const [medName, setMedName] = useState();
-    const [pvpMin, setPvpMin] = useState();
-    const [pvpMax, setPvpMax] = useState();
-    const [content, setContent] = useState()
-    const [excipient, setExcipient] = useState()
-    const [prescriptionNeeded, setPrescriptionNeeded] = useState()
-    const [medForm, setMedForm] = useState(["pill","cream","powder","liquid"])
-    const [typeOfAdminst, setTypeOfAdminst] = useState(["oral","topical","inhalation","ophthalmic"])
+    const [pvpMin, setPvpMin] = useState(0);
+    const [pvpMax, setPvpMax] = useState(50);
+    const [prescriptionNeeded, setPrescriptionNeeded] = useState(null)
+    const [medForm, setMedForm] = useState(["Tablets","Capsules","Gel","Cream","Powder","Liquid"])
+    const [typeOfAdminst, setTypeOfAdminst] = useState(["Oral","Topical","Inhalation","Ophthalmic"])
+    const [page, setPage] = useState(1);
+    const [medsPerPage, setMedsPerPage] = useState(10);
 
     // Request
     const stringRequest = usePrepareBodyRequest({
         "session_token" : userTokenCookie,
         "filter": {
-            "medicine_identifier": medId,
-            "medicine_image_url": medImgURL,
-            "meds_per_page": medsPerPage,
-            "page": page,
             "med_name": medName,
-            "excipient": excipient,
-            "pvp": pvpMax,
-            //"pvp_min": pvpMin,
-            //"pvp_max": pvpMax,
-            "contents": content,
-            "prescription_needed": prescriptionNeeded, // es un bool, no lista
+            "pvp_min": pvpMin,
+            "pvp_max": pvpMax,
+            "prescription_needed": prescriptionNeeded,
             "form": medForm,
-            "type_of_administration": typeOfAdminst
+            "type_of_administration": typeOfAdminst,
+            "page": page,
+            "meds_per_page": medsPerPage,
         }
     })
     
@@ -83,7 +74,21 @@ export default function Home(props) {
                 <Layout navBarValue={setSearchValue}>
                     <div className='flex space-between flex-start' style={{ backgroundColor: '#87CEFA' }}>
                         <div>
-                            <FilterTable />
+                            <FilterTable 
+                                medName={medName}
+                                pvpMin={pvpMin}
+                                pvpMax={pvpMax}
+                                prescriptionNeeded={prescriptionNeeded}
+                                medForm={medForm}
+                                typeOfAdminst={typeOfAdminst}
+
+                                setMedName={setMedName}
+                                setPvpMin={setPvpMin}
+                                setPvpMax={setPvpMax}
+                                setPrescriptionNeeded={setPrescriptionNeeded}
+                                setMedForm={setMedForm}
+                                setTypeOfAdminst={setTypeOfAdminst}
+                            />
                         </div>
                         <div style={{ flex: 1, marginLeft: '5px' }}>
                             {/**Tablamakeorder recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}                 
