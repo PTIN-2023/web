@@ -36,8 +36,8 @@ export default function Home(props) {
     const [content, setContent] = useState()
     const [excipient, setExcipient] = useState()
     const [prescriptionNeeded, setPrescriptionNeeded] = useState()
-    const [medForm, setMedForm] = useState([])
-    const [typeOfAdminst, setTypeOfAdminst] = useState([]);
+    const [medForm, setMedForm] = useState(["pill","cream","powder","liquid"])
+    const [typeOfAdminst, setTypeOfAdminst] = useState(["oral","topical","inhalation","ophthalmic"])
 
     // Request
     const stringRequest = usePrepareBodyRequest({
