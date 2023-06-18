@@ -60,7 +60,8 @@ export default function Home(props) {
             "type_of_administration": typeOfAdminst
         }
     })
-        
+    console.log(apiEndpoint) 
+    console.log(props) 
     const [sumbitAndFetch, response] = useSumbitAndFetchObject(
         props.apiEndpoint+"/api/list_available_medicines",
         stringRequest,
