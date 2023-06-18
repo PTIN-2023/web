@@ -68,7 +68,7 @@ export default function Home(props) {
     useEffect(() => {
         if(userTokenCookie != null)
             sumbitAndFetch();
-    }, [page, userTokenCookie])
+    }, [page, stringRequest])
 
     return (
         <>
