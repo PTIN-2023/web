@@ -1,5 +1,5 @@
 import layoutStyles from "../styles/Layout.module.css";
-import { HiChartPie, HiGlobeAlt, HiHome, HiTable, HiUser, HiInboxIn, HiBell, HiUserGroup, HiTruck, HiArchive, HiMap } from 'react-icons/hi';
+import { HiChartPie, HiGlobeAlt, HiHome, HiTable, HiUser, HiInboxIn, HiUserAdd, HiUserGroup, HiTruck, HiArchive, HiMap } from 'react-icons/hi';
 import useCookie from "../hooks/useCookie";
 import { Sidebar } from "flowbite-react";
 import { getText } from "../utils/getTextCurrentLocale";
@@ -36,7 +36,8 @@ const sidebarItemGroups = [
       { name: "map", icon: HiMap, global: "map_global", icon_global: HiGlobeAlt, local: "map_local", icon_local: HiHome },
       { name: "inventory", icon: HiArchive },
       { name: "orders", icon: HiTruck },
-      { name: "stats", icon: HiChartPie }
+      { name: "stats", icon: HiChartPie },
+      { name: "createuser", icon: HiUserAdd}
     ]
   },
   {

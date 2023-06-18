@@ -1,4 +1,5 @@
 import {Button} from 'flowbite-react'
+import getTextCurrentLocale from '../../utils/getTextCurrentLocale'
 
 export default function TestPageTabLayout({ children, title, onSubmit, stringRequest, stringResponse, cookiesToShow }) { 
   return (<>
@@ -7,7 +8,7 @@ export default function TestPageTabLayout({ children, title, onSubmit, stringReq
       {children}
       {onSubmit && <>
         <Button type="submit">
-        Submit
+        {getTextCurrentLocale('sumbit_button')}
         </Button>
       </>
       }

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import useLogin from '../../hooks/useLogin';
-import ErrorModal from '../ErrorModal';
+import ModalOkButton from '../common/ModalOkButton';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import useCookie from "../../hooks/useCookie";
 import {useRouter} from 'next/router'
@@ -123,14 +123,12 @@ export default function AuthSignInCardContent({setPage}) {
 
 
   return (<>
-    {showErrorModal && (
-        <ErrorModal
-            message={message}
-            onClose={() => {
-                setShowErrorModal(false);
-            }}
-        />
-    )}
+    <ModalOkButton
+      show={showErrorModal}
+      setShow={(v) => setShowErrorModal(v)}
+      contentText={message}
+      buttonText="ok"
+    />
     <div className="pt-16">
       <h1 className="text-3xl font-bold mb-6 text-center">Iniciar sesión</h1>
     </div>

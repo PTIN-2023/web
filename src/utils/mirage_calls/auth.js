@@ -92,6 +92,63 @@ export function defineMirageAuthRoutes(server) {
     }
   })
 
+  // Username+password register endpoint by a manager
+  server.post("/api/manager_create_account", (schema, request) => {
+    const requestPayload = JSON.parse(request.requestBody)
+
+    // Check payload
+    const expectedFields = [
+      "user_full_name", 
+      "user_given_name", 
+      "user_email", 
+      "user_phone",
+      "user_city", 
+      "user_address", 
+      "user_password",
+      "user_role"
+    ]
+    const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
+
+    if (!expectedFieldsOk) {
+      return ({
+        result : "error",
+        description: "Wrong fields"
+      })
+    }
+
+    // Check validity
+    if (schema.users.findBy({ user_email : requestPayload.user_email })) {
+      return ({
+        result : "error",
+        description: "Email already exists"
+      })
+    }
+    
+    if (schema.users.findBy({ user_given_name : requestPayload.user_given_name })) {
+      return ({
+        result : "error",
+        description: "Given name already exists"
+      })
+    }
+
+    // Add user
+    schema.db.users.insert({
+      user_full_name: requestPayload.user_full_name,
+      user_given_name: requestPayload.user_given_name,
+      user_email: requestPayload.user_email,
+      user_city: requestPayload.user_city,
+      user_address: requestPayload.user_address,
+      user_password: requestPayload.user_password,
+      user_picture : '',
+      user_role : requestPayload.user_role
+    })
+
+    // Return
+    return {
+      result : 'ok',
+    }
+  })
+
   // Username+password login endpoint
   server.post("/api/login", (schema, request) => {
     const requestPayload = JSON.parse(request.requestBody)
@@ -198,7 +255,7 @@ export function defineMirageAuthRoutes(server) {
 
     if (requestPayload.token == 'internal') {
       return ({
-        valid : "yes",
+        valid : "ok",
         type : 'internal'
       })
     }
@@ -206,7 +263,7 @@ export function defineMirageAuthRoutes(server) {
     const user_entry = schema.users.findBy({ user_email : requestPayload.token })
     if (user_entry) {
       return ({
-        valid : "yes",
+        valid : "ok",
         type: user_entry.user_role
       })
     } else {

@@ -1,0 +1,11 @@
+.mainContainer{
+    @apply grid gap-4 bg-white p-5 rounded-md;
+}
+
+.input{
+    @apply mb-4 justify-center
+}
+
+.button {
+    @apply flex justify-center
+}

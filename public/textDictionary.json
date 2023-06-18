@@ -22,6 +22,8 @@
         "user_role" : "Rol de usuario",
         "user_token" : "Token del usuario",
         "user_password" : "Contraseña",
+        "user_confirm_password" : "Confirmar contraseña",
+        "user_password_req_message" : "al menos 8 carácteres conteniendo una minúscula, una mayúscula, un dígito y un carácter especial (@$!%*?&)",
         "remember_me" : "Recordarme",
         "google_login" : "Continuar con Google",
         "forgotten_password" : "¿Olvidaste tu contraseña?",
@@ -80,7 +82,8 @@
         "order_details" : "Detalles",
         "button_open" : "Abrir",
         "button_edit" : "Editar",
-        "button_confirm" : "Confirmar"
+        "button_confirm" : "Confirmar",
+        "createuser" : "Crear usuario"
     },
     "en": {
         "language": "Language",
@@ -105,6 +108,8 @@
         "user_role": "User role",
         "user_token": "User token",
         "user_password": "Password",
+        "user_confirm_password" : "Confirm password",
+        "user_password_req_message" : "at least 8 characters containing a lowercase, an uppercase, a number and a special character",
         "remember_me": "Remember me",
         "google_login": "Continue with Google",
         "forgotten_password": "Forgot password?",
@@ -143,7 +148,8 @@
         "cancelation_confirmation_no": "No, close",
         "button_open" : "Open",
         "button_edit" : "Edit",
-        "button_confirm" : "Confirm"
+        "button_confirm" : "Confirm",
+        "createuser" : "Create user"
     },
     "ca": {
         "language": "Idioma",
@@ -168,6 +174,8 @@
         "user_role": "Rol d'usuari",
         "user_token": "Token de l'usuari",
         "user_password": "Contrasenya",
+        "user_confirm_password" : "Confirmar Contrasenya",
+        "user_password_req_message" : "al menys 8 caràcteres amb una minúscula, una mayúscula, un dígit i un caràcter especial (@$!%*?&)",
         "remember_me": "Recordar-me",
         "google_login": "Continuar amb Google",
         "forgotten_password": "Has oblidat la teva contrasenya?",
@@ -206,6 +214,7 @@
         "cancelation_confirmation_no": "No, tancar",
         "button_open" : "Obrir",
         "button_edit" : "Editar",
-        "button_confirm" : "Confirmar"
+        "button_confirm" : "Confirmar",
+        "createuser" : "Crear ususari"
     }
 }
