@@ -12,7 +12,7 @@ import useSumbitAndFetchObject from "../hooks/useSumbitAndFetchObject.js";
 
 export async function getServerSideProps() {
     const apiEndpoint = String(env_config.getApiEndpoint());
-
+    console.log(apiEndpoint)
     return {
         props: {
             apiEndpoint
@@ -37,9 +37,9 @@ export default function Home(props) {
     const [pvpMax, setPvpMax] = useState();
     const [content, setContent] = useState()
     const [excipient, setExcipient] = useState()
-    const [prescriptionNeeded, setPrescriptionNeeded] = useState();
-    const [medForm, setMedForm] = useState();
-    const [typeOfAdminst, setTypeOfAdminst] = useState();
+    const [prescriptionNeeded, setPrescriptionNeeded] = useState()
+    const [medForm, setMedForm] = useState([])
+    const [typeOfAdminst, setTypeOfAdminst] = useState([]);
 
     // Request
     const stringRequest = usePrepareBodyRequest({
@@ -47,15 +47,15 @@ export default function Home(props) {
         "filter": {
             "medicine_identifier": medId,
             "medicine_image_url": medImgURL,
-            //"meds_per_page": medsPerPage,
-            //"page": page,
-            "medicine_name": medName,
+            "meds_per_page": medsPerPage,
+            "page": page,
+            "med_name": medName,
             "excipient": excipient,
             "pvp": pvpMax,
             //"pvp_min": pvpMin,
             //"pvp_max": pvpMax,
             "contents": content,
-            "prescription_needed": prescriptionNeeded,
+            "prescription_needed": prescriptionNeeded, // es un bool, no lista
             "form": medForm,
             "type_of_administration": typeOfAdminst
         }
