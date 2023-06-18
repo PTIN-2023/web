@@ -290,11 +290,11 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
   //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
   if(searchValue.value.length > 0 && searchValue.isCompleted){
-    data = data.data.filter((pedido) => pedido.id.toLowerCase().includes(searchValue.value));  
+    data = data.orders.filter((pedido) => pedido.id.toLowerCase().includes(searchValue.value));  
 
-  }else data = data.data;
+  }else data = data.orders;
   
-  var { slice, range } = useTable(data.data, page, rowsPerPage);
+  var { slice, range } = useTable(data, page, rowsPerPage);
   
   return (
     <>
