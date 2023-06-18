@@ -5,7 +5,7 @@ import getTextCurrentLocale from "../../utils/getTextCurrentLocale";
 import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest";
 import useSumbitAndFetch from "../../hooks/useSumbitAndFetch";
 import TestPageTabLayout from "./TestPageTabLayout";
-import LabeledTextInputComponent from "./LabeledTextInput";
+import LabeledTextInputComponent from "../common/LabeledTextInput";
 
 export default function LoginUserTestComponent({apiEndpoint}) {
   // Cookies

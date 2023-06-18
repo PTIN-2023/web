@@ -4,7 +4,7 @@ import React from "react";
 import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest";
 import useSumbitAndFetch from "../../hooks/useSumbitAndFetch";
 import TestPageTabLayout from "./TestPageTabLayout";
-import LabeledTextInputComponent from "./LabeledTextInput";
+import LabeledTextInputComponent from "../common/LabeledTextInput";
 
 export default function ListPatientOrders({apiEndpoint}) {
   // Cookies

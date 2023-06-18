@@ -4,8 +4,8 @@ import React from "react";
 import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest";
 import useSumbitAndFetch from "../../hooks/useSumbitAndFetch";
 import TestPageTabLayout from "./TestPageTabLayout";
-import LabeledTextInputComponent from "./LabeledTextInput";
-import LabeledSelect from "./LabeledSelect";
+import LabeledTextInputComponent from "../common/LabeledTextInput";
+import LabeledSelect from "../common/LabeledSelect";
 
 export default function CancelConfirmOrderTestComponent({apiEndpoint}) {
   // Cookies

@@ -9,8 +9,8 @@ import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest.js";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetchObject.js";
 import {Button, TextInput} from 'flowbite-react'
 import createUserStyles from '../styles/CreateUser.module.css'
-import LabeledSelect from '../component/testpage/LabeledSelect';
-import LabeledTextInputComponent from '../component/testpage/LabeledTextInput';
+import LabeledSelect from '../component/common/LabeledSelect';
+import LabeledTextInputComponent from '../component/common/LabeledTextInput';
 import ErrorModal from '../component/common/ModalOkButton';
 import ModalOkButton from '../component/common/ModalOkButton';
 
