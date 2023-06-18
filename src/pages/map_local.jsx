@@ -8,13 +8,17 @@ import React, { useState, useEffect } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 export async function getServerSideProps() {
-  const isLocal           = env_config.isLocal();
-  const apiEndpoint       = String(          env_config.getApiEndpoint());
-  const locationName      = String(isLocal ? env_config.getLocationName()      : "N/A");
-  const locationLatitude  = String(isLocal ? env_config.getLocationLatitude()  : "N/A");
-  const locationLongitude = String(isLocal ? env_config.getLocationLongitude() : "N/A");
-  const mapBoxToken       = String(          env_config.getTokenMapBox());
-  const googleToken       = String(          env_config.getTokenGoogleSignIn());
+  const isLocal              = env_config.isLocal();
+  const apiEndpoint          = String(          env_config.getApiEndpoint());
+  const locationName         = String(isLocal ? env_config.getLocationName()         : "N/A");
+  const locationLatitude     = String(isLocal ? env_config.getLocationLatitude()     : "N/A");
+  const locationLongitude    = String(isLocal ? env_config.getLocationLongitude()    : "N/A");
+  const locationLatitudeMin  = String(isLocal ? env_config.getLocationLatitudeMin()  : "N/A");
+  const locationLongitudeMin = String(isLocal ? env_config.getLocationLongitudeMin() : "N/A");
+  const locationLatitudeMax  = String(isLocal ? env_config.getLocationLatitudeMax()  : "N/A");
+  const locationLongitudeMax = String(isLocal ? env_config.getLocationLongitudeMax() : "N/A");
+  const mapBoxToken          = String(          env_config.getTokenMapBox());
+  const googleToken          = String(          env_config.getTokenGoogleSignIn());
 
   return {
     props: { 
@@ -23,6 +27,10 @@ export async function getServerSideProps() {
       locationName,
       locationLatitude,
       locationLongitude,
+      locationLatitudeMin,
+      locationLongitudeMin,
+      locationLatitudeMax,
+      locationLongitudeMax,
       mapBoxToken,
       googleToken
     }
@@ -298,8 +306,8 @@ export default function Home(props) {
     setClickPopup(closestDrone)
   };
 
-  const cornerBottomLeft = new mapboxgl.LngLat(1.674186, 41.204074);
-  const cornerTopRight = new mapboxgl.LngLat(1.758437, 41.248797);
+  const cornerBottomLeft = new mapboxgl.LngLat(props.locationLongitudeMin, props.locationLatitudeMin);
+  const cornerTopRight = new mapboxgl.LngLat(props.locationLongitudeMax, props.locationLatitudeMax);
 
   const bounds = [cornerBottomLeft, cornerTopRight]
 
