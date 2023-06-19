@@ -4,7 +4,7 @@ import { PDFDocument, StandardFonts, rgb } from 'pdf-lib'
 import download from 'downloadjs';
 import styles from '../../styles/Prescriptions.module.css';
 import { HiUserGroup, HiPaperAirplane, HiDownload } from "react-icons/hi";
-
+import logo from '../../../public/media/logo/Blanco.png'
 
 function ListPatients () {
 
@@ -54,6 +54,7 @@ export default function MakePrescriptions() {
         const nombreMedicamento = inputMedicamentoRef.current;
         const Tratamiento = inputTratamientoRef.current;
 
+        
 
         const pdfDoc = await PDFDocument.create()
         const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman)
@@ -61,28 +62,42 @@ export default function MakePrescriptions() {
         const page = pdfDoc.addPage()
         const { width, height } = page.getSize()
         const fontSize = 30
-        page.drawText(nombrePaciente, {
-            x: 50,
-            y: height/2 + height/4,
-            size: fontSize,
-            font: timesRomanFont,
-            color: rgb(0, 0.53, 0.71),
-        })
-        page.drawText(nombreMedicamento, {
-            x: 50,
-            y: height/2,
-            size: fontSize,
-            font: timesRomanFont,
-            color: rgb(0, 0.53, 0.71),
-        })
-        page.drawText(Tratamiento, {
-            x: 50,
-            y: height/4,
-            size: fontSize,
-            font: timesRomanFont,
-            color: rgb(0, 0.53, 0.71),
-        })
-    
+
+        /*
+        const logoUrl = process.env.PUBLIC_URL + '/media/logo/Blanco.png';
+        const logoImageBytes = await fetch(logoUrl).then(res => res.arrayBuffer());
+        const logoImage = await pdfDoc.embedPng(logoImageBytes)
+
+        const form = pdfDoc.getForm()
+        const button = form.createButton('logo.button')
+        button.addToPage('logo', page, { x: 50, y: 900, size: 15 })
+
+        const logoImageField = form.getButton('logo.button')
+        logoImageField.setImage(logoImage)
+        */
+
+        page.drawText('TransMed', { x: 50, y: 800, size: 40, color:  rgb(0.176, 0.165, 0.439)})
+
+        page.drawText('Nombre Paciente: ____________________________________________', { x: 50, y: 700, size: 15 })
+
+        page.drawText('Fecha:', { x: 50, y: 600, size: 15 })
+
+        page.drawText('Nombre Medicamento: _________________________________________', { x: 50, y: 500, size: 15 })
+
+        page.drawText('Tratamiento: __________________________________________', { x: 50, y: 400, size: 15 })
+
+        page.drawText('Notas:', { x: 50, y: 300, size: 15 })
+
+
+        const currentDate = new Date();
+        //'Nombre paciente: ' es x = 175
+        page.drawText(nombrePaciente, { x: 175, y: 700, size: 15 })
+        page.drawText(currentDate.toLocaleString(), { x: 100, y: 600, size: 15 })
+        page.drawText(nombreMedicamento, { x: 205, y: 500, size: 15 })
+        page.drawText(Tratamiento, { x: 138, y: 400, size: 15 })
+
+
+        //Guardar documento
         const pdfBytes = await pdfDoc.save()
         setPdfDoc(pdfBytes);
         
