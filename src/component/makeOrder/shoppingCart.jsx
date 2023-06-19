@@ -15,9 +15,26 @@ const shoppingCartButton = () => {
     const router = useRouter()
 
     const [open, setOpen] = useState(false)
+    const [QRcode, setQRcode] = useState(false)
+
+    const handleQRcode = () => {
+        setQRcode(!QRcode)
+    }
 
     const manageOnClick = () => {
         setOpen(!open);
+    }
+
+    const handleSubmit = async (e) => {
+        // Prevent from refresh page
+        e.preventDefault()
+        
+        // get form data
+        const form = e.target
+        const QRcode = new FormData(form)
+
+        const formJson = Object.fromEntries(QRcode.entries());
+        console.log(formJson);
     }
 
     const handleCheckoutClick = async () => {
@@ -121,25 +138,51 @@ const shoppingCartButton = () => {
 
                                                 <div className={cartStyle.cart}>
                                                     <div className={cartStyle.cartItem}>
+                                                        {console.log(Object.entries(cartItems).length)}
                                                         {Object.entries(cartItems).map((entry) => {
                                                             if (entry[1].amount != 0) {
                                                                 return <CartItem item={entry[1].medicine} />;
-                                                            } 
+                                                            }
                                                         })}
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
+                                            <div className="fixed bottom-0 w-full border-t border-gray-200 px-4 py-6 sm:px-6 mb-5">
                                                 <div className="flex justify-between text-base font-medium text-gray-900">
                                                 </div>
                                                 <p className="mt-0.5 text-sm text-gray-500"></p>
-                                                <div className="mt-0">
-                                                    <Button onClick={handleCheckoutClick} >
-                                                        Pedir
-                                                    </Button>
-                                                </div>
-                                                <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
+
+                                                {!QRcode
+                                                    ?   <div className="mt-0 flex justify-center">
+                                                            <Button disabled={Object.entries(cartItems).length === 0} onClick={handleCheckoutClick} >
+                                                                Pedir
+                                                            </Button>
+                                                            <p style={{ marginLeft: 40, marginRight: 40, marginTop: 10}}> o </p>
+                                                            <Button onClick={handleQRcode}>
+                                                                Insertar código
+                                                            </Button>
+                                                        </div>
+                                                    :   <div className="ml-3 flex h-7 items-center p-11">
+                                                            <form method='get' onSubmit={handleSubmit}>
+                                                                <label style={{ padding: 5 }}>
+                                                                    Inserta tu còdigo: <input name='QRcode' style={{ padding: 12, margin: 5 ,border: '1px solid' }} />
+                                                                </label>
+                                                                <Button className='ml-1' type='submit'>Añadir</Button>
+                                                            </form>
+                                                            <button
+                                                                type="button"
+                                                                className="-m-5 text-gray-400 hover:text-gray-500 mb-14"
+                                                                onClick={handleQRcode}
+                                                            >
+                                                                <span className="sr-only">Close panel</span>
+                                                                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                                                            </button>
+                                                            
+                                                        </div>
+                                                        
+                                                }
+                                                {!QRcode && <div className="mt-5 flex justify-center text-center text-sm text-gray-500">
                                                     <p>
                                                         o
                                                         <span aria-hidden="true"> </span>
@@ -153,6 +196,7 @@ const shoppingCartButton = () => {
                                                         </button>
                                                     </p>
                                                 </div>
+                                                }
                                             </div>
                                         </div>
                                     </Dialog.Panel>

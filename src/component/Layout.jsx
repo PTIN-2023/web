@@ -73,7 +73,7 @@ export default function Layout({ children, navBarValue}) {
           {/**aqui hay que añadir el componente que corresponde a cada página si asi se requiere */}
           
           { currentPage == "/makeorder" &&
-            <div style={{ marginLeft: '700px' }}>
+            <div style={{ marginLeft: '780px' }}>
               <ShoppingCart />
             </div>
           }
