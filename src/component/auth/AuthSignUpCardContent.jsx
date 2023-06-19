@@ -1,6 +1,14 @@
 import InputField from '../InputsFieldsSignup.jsx';
 import useSignup from '../../hooks/useSignup';
 
+const passwordValidator = 
+  "(?=.*[a-z])"        + // has one lowercase
+  "(?=.*[A-Z])"        + // has one uppercase
+  "(?=.*\\d)"          + // has a digit
+  "(?=.*[@$!%*?&])"    + // has a special character
+  "[A-Za-z\\d@$!%*?&]" + // valid password characters
+  "{8,}"                 // at least 8 chars
+
 export default function AuthSignUpCardContent({setPage}) {
   const { formData, handleChange, handleSubmit } = useSignup();
   
@@ -15,7 +23,7 @@ export default function AuthSignUpCardContent({setPage}) {
       <InputField id="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="+34 Número de teléfono" required pattern="^\+34\d{9}$" />
       <InputField id="city" type="text" value={formData.city} onChange={handleChange} placeholder="Ciudad" required pattern="^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+(?:[-\s][a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+)*$" />
       <InputField id="address" type="text" value={formData.address} onChange={handleChange} placeholder="Dirección de domicilio" required pattern="^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\s,.-]+$" />
-      <InputField id="password" type="password" value={formData.password} onChange={handleChange} placeholder="Contraseña" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" />
+      <InputField id="password" type="password" value={formData.password} onChange={handleChange} placeholder="Contraseña" required pattern={passwordValidator} />
       <div className="mb-4 flex justify-center">
         <div className="w-2/4">
           <p className="text-sm text-gray-500">
