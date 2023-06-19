@@ -12,9 +12,18 @@ import { googleLogout } from '@react-oauth/google';
 import Image from 'next/image';
 import ShoppingCart from "../component/makeOrder/shoppingCart";
 
+export async function getServerSideProps() {
+  const apiEndpoint = String(env_config.getApiEndpoint());
+  return {
+      props: {
+          apiEndpoint
+      }
+  }
+}
+
 // Main Component
 
-export default function Layout({ children, navBarValue}) {
+export default function Layout({props, children, navBarValue}) {
   //recibe props: children y navBarValue
   //navBarValue es el setter del useState del componente que irá en la navbar para poder actualizarlo y mandarlo de vuelta al hijo padre
 
@@ -71,10 +80,10 @@ export default function Layout({ children, navBarValue}) {
           {/**estoy en Mis pedidos? carga la barra de busqueda */}
           {(currentPage == "/myorders" || currentPage == "/makeorder" || currentPage == "/orders") && <MyOrdersSearch setSearchValue={navBarValue}/>}
           {/**aqui hay que añadir el componente que corresponde a cada página si asi se requiere */}
-          
+
           { currentPage == "/makeorder" &&
             <div style={{ marginLeft: '780px' }}>
-              <ShoppingCart />
+              <ShoppingCart props={props}/>
             </div>
           }
         </div>

@@ -9,8 +9,10 @@ import cartStyle from "../../styles/cart.module.css"
 import useCookie from '../../hooks/useCookie'
 import { useRouter } from 'next/router'
 
-const shoppingCartButton = () => {
+const shoppingCartButton = (props) => {
     const [userTokenCookie, ] = useCookie('user_token')
+    // Form values
+
     const { cartItems } = useContext(ShopContext);
     const router = useRouter()
 
@@ -20,7 +22,7 @@ const shoppingCartButton = () => {
     const handleQRcode = () => {
         setQRcode(!QRcode)
     }
-
+    {console.log(props)}
     const manageOnClick = () => {
         setOpen(!open);
     }
@@ -35,6 +37,7 @@ const shoppingCartButton = () => {
 
         const formJson = Object.fromEntries(QRcode.entries());
         console.log(formJson);
+        setQRcode(!QRcode)
     }
 
     const handleCheckoutClick = async () => {
@@ -138,12 +141,16 @@ const shoppingCartButton = () => {
 
                                                 <div className={cartStyle.cart}>
                                                     <div className={cartStyle.cartItem}>
-                                                        {console.log(Object.entries(cartItems).length)}
-                                                        {Object.entries(cartItems).map((entry) => {
-                                                            if (entry[1].amount != 0) {
-                                                                return <CartItem item={entry[1].medicine} />;
-                                                            }
-                                                        })}
+                                                        {Object.entries(cartItems).length > 0
+                                                            ? Object.entries(cartItems).map((entry) => {
+                                                                if (entry[1].amount != 0) {
+                                                                    return <CartItem item={entry[1].medicine} />;
+                                                                }
+                                                                })
+                                                            :   <label className="font-medium text-indigo-600 hover:text-indigo-500">
+                                                                    Todavia no tienes productos en el carrito. Sigue comprando!
+                                                                </label>
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>
