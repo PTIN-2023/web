@@ -37,7 +37,7 @@ export default function Home({apiEndpoint}) {
   const [userAddress, setUserAddress] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [userConfirmPassword, setUserConfirmPassword] = useState('');
-  const [userRole, setUserRole] = useState('');
+  const [userRole, setUserRole] = useState('patient');
 
   // Modal state
   const [showInfoModal, setShowInfoModal] = useState(false);
