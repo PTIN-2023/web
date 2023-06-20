@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { Button } from 'flowbite-react'
+import { Button, Dropdown } from 'flowbite-react'
 import { HiShoppingCart } from 'react-icons/hi'
 import { ShopContext } from '../../context/shopContext'
 import { CartItem }from "./cartItem"
@@ -16,13 +16,19 @@ const shoppingCartButton = (props) => {
     const { cartItems } = useContext(ShopContext);
     const router = useRouter()
 
-    const [open, setOpen] = useState(false)
-    const [QRcode, setQRcode] = useState(false)
+    const [open, setOpen] = useState(false) //para abrir el carrito deslizante
+    const [QRcode, setQRcode] = useState(false) //para saber si le hemos dado a introducir código
+    const [codeIn, setCodeIn] = useState(false); //para saber si hemos introducido el código
+    const [drop, setDrop] = useState(false) //dropdown
+
+    const toggleDropdown = () => {
+        setDrop(!drop);
+    };
 
     const handleQRcode = () => {
         setQRcode(!QRcode)
     }
-    {console.log(props)}
+
     const manageOnClick = () => {
         setOpen(!open);
     }
@@ -38,6 +44,7 @@ const shoppingCartButton = (props) => {
         const formJson = Object.fromEntries(QRcode.entries());
         console.log(formJson);
         setQRcode(!QRcode)
+        setCodeIn(true)
     }
 
     const handleCheckoutClick = async () => {
@@ -91,7 +98,7 @@ const shoppingCartButton = (props) => {
     return (
         <>
             {/**Botón del carrito de compra, cuando hacemos click en el se abre el carrito deslizante  */}
-            <Button onClick={manageOnClick}>
+            <Button className="bg-blue-600" onClick={manageOnClick}>
                 <HiShoppingCart className="mr-2 h-5 w-5" />
                 Carrito
             </Button>
@@ -127,6 +134,50 @@ const shoppingCartButton = (props) => {
                                             <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                                                 <div className="flex items-start justify-between">
                                                     <Dialog.Title className="text-lg font-medium text-gray-900">Carrito de Compra</Dialog.Title>
+                                                    {/** DropDown Pedir */}
+                                                    <div>
+                                                        <div>
+                                                        <button
+                                                            id="dropdownDefaultButton"
+                                                            data-dropdown-toggle="dropdown"
+                                                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                                            type="button"
+                                                            onClick={toggleDropdown}
+                                                        >
+                                                            Gestionar{' '}
+                                                            <svg
+                                                            className="w-4 h-4 ml-2"
+                                                            aria-hidden="true"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            viewBox="0 0 24 24"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            >
+                                                            <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                                                            </svg>
+                                                        </button>
+                                                        {drop && (
+                                                            <div id="dropdown" className="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                                                            <ul className="py-2 text-xl text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                                                                <li>
+                                                                    <button onClick={handleCheckoutClick} disabled={Object.entries(cartItems).length === 0} className='w-full h-full text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800'>
+                                                                        Pedir
+                                                                        <span className="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
+                                                                            {Object.entries(cartItems).length}
+                                                                        </span>
+                                                                    </button>
+                                                                </li>
+                                                                <li>
+                                                                    <button disabled={codeIn} className='w-full h-full text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800' onClick={handleQRcode}>
+                                                                        Insertar código
+                                                                    </button>
+                                                                </li>
+                                                            </ul>
+                                                            </div>
+                                                        )}
+                                                        </div>
+                                                    </div>
+
                                                     <div className="ml-3 flex h-7 items-center">
                                                         <button
                                                             type="button"
@@ -138,44 +189,33 @@ const shoppingCartButton = (props) => {
                                                         </button>
                                                     </div>
                                                 </div>
-
+                                                
+                                                {Object.entries(cartItems).length <= 0 && 
+                                                    <Dialog.Panel className="font-medium text-indigo-600 hover:text-indigo-500 opacity-75 mt-10">
+                                                        Todavia no tienes productos en el carrito. Sigue comprando!
+                                                    </Dialog.Panel>
+                                                }
+                                                
                                                 <div className={cartStyle.cart}>
                                                     <div className={cartStyle.cartItem}>
                                                         {Object.entries(cartItems).length > 0
-                                                            ? Object.entries(cartItems).map((entry) => {
+                                                            && Object.entries(cartItems).map((entry) => {
                                                                 if (entry[1].amount != 0) {
                                                                     return <CartItem item={entry[1].medicine} />;
                                                                 }
-                                                                })
-                                                            :   <label className="font-medium text-indigo-600 hover:text-indigo-500">
-                                                                    Todavia no tienes productos en el carrito. Sigue comprando!
-                                                                </label>
+                                                            })
                                                         }
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div className="fixed bottom-0 w-full border-t border-gray-200 px-4 py-6 sm:px-6 mb-5">
-                                                <div className="flex justify-between text-base font-medium text-gray-900">
-                                                </div>
-                                                <p className="mt-0.5 text-sm text-gray-500"></p>
-
-                                                {!QRcode
-                                                    ?   <div className="mt-0 flex justify-center">
-                                                            <Button disabled={Object.entries(cartItems).length === 0} onClick={handleCheckoutClick} >
-                                                                Pedir
-                                                            </Button>
-                                                            <p style={{ marginLeft: 40, marginRight: 40, marginTop: 10}}> o </p>
-                                                            <Button onClick={handleQRcode}>
-                                                                Insertar código
-                                                            </Button>
-                                                        </div>
-                                                    :   <div className="ml-3 flex h-7 items-center p-11">
+                                            <div>
+                                            {QRcode && 
+                                                    <div className=" mt-full flex h-full w-full items-center p-11 bg-white">
                                                             <form method='get' onSubmit={handleSubmit}>
                                                                 <label style={{ padding: 5 }}>
                                                                     Inserta tu còdigo: <input name='QRcode' style={{ padding: 12, margin: 5 ,border: '1px solid' }} />
                                                                 </label>
-                                                                <Button className='ml-1' type='submit'>Añadir</Button>
+                                                                <Button className='ml-1' type='submit'>Pedir medicamentos</Button>
                                                             </form>
                                                             <button
                                                                 type="button"
@@ -186,23 +226,7 @@ const shoppingCartButton = (props) => {
                                                                 <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                                                             </button>
                                                             
-                                                        </div>
-                                                        
-                                                }
-                                                {!QRcode && <div className="mt-5 flex justify-center text-center text-sm text-gray-500">
-                                                    <p>
-                                                        o
-                                                        <span aria-hidden="true"> </span>
-                                                        <button
-                                                            type="button"
-                                                            className="font-medium text-indigo-600 hover:text-indigo-500"
-                                                            onClick={() => setOpen(false)}
-                                                        >
-                                                            Seguir Comprando
-                                                            <span aria-hidden="true"> &rarr;</span>
-                                                        </button>
-                                                    </p>
-                                                </div>
+                                                    </div>
                                                 }
                                             </div>
                                         </div>

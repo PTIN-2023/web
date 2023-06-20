@@ -175,7 +175,7 @@ export default function Home(props) {
       features: combinedFeatures
       
     };
-
+    
     setPointsGeojson(pointsGeojson => [...pointsGeojson, pointsCollection])
   }
   // Make points layer
@@ -301,12 +301,12 @@ export default function Home(props) {
             mapStyle="mapbox://styles/aeksp/clg9out5b000i01l0p2yiq26g"
             onClick={handleClick}
           >
-          <Source id="my-route" type="geojson" data={routeGeojson[0]}>
+          {routeGeojson[0] && <Source id="my-route" type="geojson" data={routeGeojson[0]}>
             <Layer {...route_layer}/>
-          </Source>
-          <Source id="my-points" type="geojson" data={pointsGeojson[0]}>
+          </Source>}
+          {pointsGeojson[0] && <Source id="my-points" type="geojson" data={pointsGeojson[0]}>
             <Layer {...points_layer}/>
-          </Source>
+          </Source>}
           <Source id="my-store" type="geojson" data={storeGeojson}>
             <Layer {...store_layer}/>
           </Source>
