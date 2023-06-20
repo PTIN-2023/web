@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { Button } from 'flowbite-react'
+import { Button, Dropdown } from 'flowbite-react'
 import { HiShoppingCart } from 'react-icons/hi'
 import { ShopContext } from '../../context/shopContext'
 import { CartItem }from "./cartItem"
@@ -18,6 +18,7 @@ const shoppingCartButton = (props) => {
 
     const [open, setOpen] = useState(false)
     const [QRcode, setQRcode] = useState(false)
+    const [codeIn, setCodeIn] = useState(false);
 
     const handleQRcode = () => {
         setQRcode(!QRcode)
@@ -38,6 +39,7 @@ const shoppingCartButton = (props) => {
         const formJson = Object.fromEntries(QRcode.entries());
         console.log(formJson);
         setQRcode(!QRcode)
+        setCodeIn(true)
     }
 
     const handleCheckoutClick = async () => {
@@ -91,7 +93,7 @@ const shoppingCartButton = (props) => {
     return (
         <>
             {/**Botón del carrito de compra, cuando hacemos click en el se abre el carrito deslizante  */}
-            <Button onClick={manageOnClick}>
+            <Button className="bg-blue-600" onClick={manageOnClick}>
                 <HiShoppingCart className="mr-2 h-5 w-5" />
                 Carrito
             </Button>
@@ -127,6 +129,20 @@ const shoppingCartButton = (props) => {
                                             <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                                                 <div className="flex items-start justify-between">
                                                     <Dialog.Title className="text-lg font-medium text-gray-900">Carrito de Compra</Dialog.Title>
+                                                    {/** DropDown Pedir */}
+                                                    <Dropdown label="Administrar">
+                                                        <Dropdown.Item>
+                                                            <Button disabled={Object.entries(cartItems).length === 0} onClick={handleCheckoutClick} >
+                                                                Pedir
+                                                            </Button>
+                                                        </Dropdown.Item>
+                                                        <Dropdown.Item>
+                                                            <Button disabled={codeIn} onClick={handleQRcode}>
+                                                                Insertar código
+                                                            </Button>
+                                                        </Dropdown.Item>
+                                                    </Dropdown>
+
                                                     <div className="ml-3 flex h-7 items-center">
                                                         <button
                                                             type="button"
@@ -138,39 +154,32 @@ const shoppingCartButton = (props) => {
                                                         </button>
                                                     </div>
                                                 </div>
-
+                                                
+                                                {Object.entries(cartItems).length <= 0 && 
+                                                    <Dialog.Panel className="font-medium text-indigo-600 hover:text-indigo-500 opacity-75 mt-10">
+                                                        Todavia no tienes productos en el carrito. Sigue comprando!
+                                                    </Dialog.Panel>
+                                                }
+                                                
                                                 <div className={cartStyle.cart}>
                                                     <div className={cartStyle.cartItem}>
                                                         {Object.entries(cartItems).length > 0
-                                                            ? Object.entries(cartItems).map((entry) => {
+                                                            && Object.entries(cartItems).map((entry) => {
                                                                 if (entry[1].amount != 0) {
                                                                     return <CartItem item={entry[1].medicine} />;
                                                                 }
-                                                                })
-                                                            :   <label className="font-medium text-indigo-600 hover:text-indigo-500">
-                                                                    Todavia no tienes productos en el carrito. Sigue comprando!
-                                                                </label>
+                                                            })
                                                         }
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div className="fixed bottom-0 w-full border-t border-gray-200 px-4 py-6 sm:px-6 mb-5">
+                                            <div className="fixed bottom-0 w-full border-t border-gray-200 px-4 py-6 sm:px-6 mb-5 bg-white">
                                                 <div className="flex justify-between text-base font-medium text-gray-900">
                                                 </div>
                                                 <p className="mt-0.5 text-sm text-gray-500"></p>
 
-                                                {!QRcode
-                                                    ?   <div className="mt-0 flex justify-center">
-                                                            <Button disabled={Object.entries(cartItems).length === 0} onClick={handleCheckoutClick} >
-                                                                Pedir
-                                                            </Button>
-                                                            <p style={{ marginLeft: 40, marginRight: 40, marginTop: 10}}> o </p>
-                                                            <Button onClick={handleQRcode}>
-                                                                Insertar código
-                                                            </Button>
-                                                        </div>
-                                                    :   <div className="ml-3 flex h-7 items-center p-11">
+                                                {!QRcode && <div className="ml-3 flex h-7 items-center p-11">
                                                             <form method='get' onSubmit={handleSubmit}>
                                                                 <label style={{ padding: 5 }}>
                                                                     Inserta tu còdigo: <input name='QRcode' style={{ padding: 12, margin: 5 ,border: '1px solid' }} />
@@ -188,21 +197,6 @@ const shoppingCartButton = (props) => {
                                                             
                                                         </div>
                                                         
-                                                }
-                                                {!QRcode && <div className="mt-5 flex justify-center text-center text-sm text-gray-500">
-                                                    <p>
-                                                        o
-                                                        <span aria-hidden="true"> </span>
-                                                        <button
-                                                            type="button"
-                                                            className="font-medium text-indigo-600 hover:text-indigo-500"
-                                                            onClick={() => setOpen(false)}
-                                                        >
-                                                            Seguir Comprando
-                                                            <span aria-hidden="true"> &rarr;</span>
-                                                        </button>
-                                                    </p>
-                                                </div>
                                                 }
                                             </div>
                                         </div>
