@@ -12,6 +12,7 @@ import { seedMirageDoctorsNotifications, defineMirageDoctorsNotificationsRoutes 
 import { seedMirageUserInf, defineMirageProfileRoutes } from "./mirage_calls/profile"
 import { seedMirageRoutes, defineMirageRoutesRoutes } from "./mirage_calls/routes"
 import { seedMirageUpdate, defineMirageUpdateRoutes } from "./mirage_calls/update"
+import { defineMirageDoctorsPrescriptionsRoutes, seedMirageDoctorsPrescriptions } from "./mirage_calls/doctors_prescriptions"
 
 export function makeServer() {
   return createServer({
@@ -48,6 +49,7 @@ export function makeServer() {
           seedMirageUserInf(server)
           seedMirageRoutes(server)
           seedMirageUpdate(server)
+          seedMirageDoctorsPrescriptions(server)
         }
       }
     },
@@ -67,6 +69,7 @@ export function makeServer() {
       defineMirageProfileRoutes(this)
       defineMirageRoutesRoutes(this)
       defineMirageUpdateRoutes(this)
+      defineMirageDoctorsPrescriptionsRoutes(this)
 
       this.passthrough("https://api.mapbox.com/**")
       this.passthrough("https://events.mapbox.com/**")

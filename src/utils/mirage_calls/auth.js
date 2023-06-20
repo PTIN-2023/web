@@ -2,7 +2,7 @@ import hasExpectedFields from '../hasExpectedFields'
 
 export function seedMirageAuth(server) {
   server.create("user", {
-    user_full_name: "John doe",
+    user_full_name: "John Doe",
     user_given_name: "John",
     user_email: "jondoe@example.com",
     user_city: "Narnia",

@@ -73,7 +73,11 @@ export function seedMirageMakeOrders(server) {
         form: 'pill',
         type_of_adminstration: 'oral'
       }
-    ]
+    ],
+    duration : "3 weeks",
+    notes: "",
+    uses : 2,
+    user_full_name:"John Doe"
   })
 }
 

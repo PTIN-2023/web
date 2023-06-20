@@ -31,6 +31,8 @@ import GeneralStorePosTestComponent from "../component/testpage/GeneralStorePosT
 import UpdateCarsTestComponent from "../component/testpage/UpdateCarsTestComponent";
 import UpdateDronesTestComponent from "../component/testpage/UpdateDronesTestComponent";
 import CreatePaymentTestComponent from "../component/testpage/CreatePaymentTestComponent";
+import DoctorCreatePrescriptionTestComponent from "../component/testpage/DoctorCreatePrescriptionTestComponent";
+import DoctorGetPatientPrescriptionHistory from "../component/testpage/DoctorGetPatientPrescriptionHistory";
 
 // Temporal testing page to make sure the env variables + api requests work as 
 // intented
@@ -169,6 +171,12 @@ export default function Home(props) {
           </Tabs.Item>
           <Tabs.Item title="Update drones API test">
             <UpdateDronesTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Create prescriptions API test">
+            <DoctorCreatePrescriptionTestComponent apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="List prescriptions API test">
+            <DoctorGetPatientPrescriptionHistory apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
         </Tabs.Group>
         </main>
