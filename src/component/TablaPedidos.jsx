@@ -17,7 +17,7 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
     const onClickDetallesHandler = () => {
         //asignamos el currentItem al Target
         //NOTA: si no estuviese esto se renderizaria un modal por cada fila
-        currentTarget.current = currentItem.id;
+        currentTarget.current = currentItem.order_identifier;
         setModalDetallesState(true);
     }
 
@@ -26,7 +26,7 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
     <HiOutlineInformationCircle onClick={onClickDetallesHandler} className={myordersStyles.informationIcon}></HiOutlineInformationCircle>
     <Modal
         /**si el currentTarget corresponde a la currentItem seleccionada y se hizo click en mostrar, mostrar modal */
-        show={(currentTarget.current == currentItem.id && modalDetallesState) ? true : false}
+        show={(currentTarget.current == currentItem.order_identifier && modalDetallesState) ? true : false}
         onClose={onCloseDetallesHandler}
         size="3xl"
       >
@@ -102,7 +102,7 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
               <Card>
                 <div className="mb-4 flex items-center justify-between">
                   <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-                    {getText("modal_order_details_header",localeCookie)} - {currentItem.id}
+                    {getText("modal_order_details_header",localeCookie)} - {currentItem.order_identifier}
                   </h5>
                 </div>
                 <div className="flow-root h-[200px] overflow-auto">
@@ -112,7 +112,7 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
                       <div className="flex items-center space-x-4">
                         <div className="min-w-0 flex-1">
                           <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
-                            {item.medicine_name}
+                            {item.med_name}
                           </p>
                         </div>
                       </div>
@@ -290,7 +290,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
   //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
   if(searchValue.value.length > 0 && searchValue.isCompleted){
-    data = data.orders.filter((pedido) => pedido.id.toLowerCase().includes(searchValue.value));  
+    data = data.orders.filter((pedido) => pedido.order_identifier.toLowerCase().includes(searchValue.value));  
 
   }else data = data.orders;
   
@@ -326,17 +326,17 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                 <Table.Row className={myordersStyles.tableRow}>
                   <Table.Cell className={myordersStyles.firstTableCell}> 
                     <Dropdown className={myordersStyles.chevronDown} label="" inline={true}>
-                        <ModalCancelarPedido currentTarget={currentTarget} currentItem={order.id} modalCancelarPedidoState={modalCancelarPedidoState} setModalCancelarPedidoState={changeModalCancelarPedidoState}/>
+                        <ModalCancelarPedido currentTarget={currentTarget} currentItem={order.order_identifier} modalCancelarPedidoState={modalCancelarPedidoState} setModalCancelarPedidoState={changeModalCancelarPedidoState}/>
                     </Dropdown>
                   </Table.Cell>
                   <Table.Cell className={myordersStyles.tableCell}>
-                    {order.id}
+                    {order.order_identifier}
                   </Table.Cell>
                   <Table.Cell>
                     {order.date}
                   </Table.Cell>
                   <Table.Cell>
-                    {(order.state == "canceled" || order.state == "denied") && <ModalContactar currentTarget={currentTarget} currentItem={order.id} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>}
+                    {(order.state == "canceled" || order.state == "denied") && <ModalContactar currentTarget={currentTarget} currentItem={order.order_identifier} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>}
                   </Table.Cell>
                   <Table.Cell>
                     {(order.state == "delivered" || order.state == "delivered_waiting" ) &&
