@@ -17,6 +17,7 @@ import { BsCapsulePill } from "react-icons/bs";
 //Components
 import Tablapacientes from "../TablaPacientes";
 import TablaMedicinas from './TablaMedicinas';
+import TablaHistorial from './TablaHistorial';
 
 //Hooks
 import useCookie from '../../hooks/useCookie';
@@ -25,7 +26,7 @@ import useSumbitAndFetchObject from '../../hooks/useSumbitAndFetchObject.js';
 
 
 
-/*
+
 export async function getServerSideProps() {
   const apiEndpoint = String(env_config.getApiEndpoint());
 
@@ -35,8 +36,8 @@ export async function getServerSideProps() {
     }
   }
 }
-*/
-export default function MakePrescriptions({ searchValue, setSearchValue }) {
+
+export default function MakePrescriptions(props, { searchValue, setSearchValue }) {
 
     const inputNombreRef = useRef("");
     const inputMedicamentoRef = useRef("");
@@ -162,7 +163,7 @@ export default function MakePrescriptions({ searchValue, setSearchValue }) {
 
     const [sumbitAndFetch, stringResponse] = useSumbitAndFetchObject(
         stringRequest,
-        "http://localhost:3000/api/list_doctor_patients"
+        props.apiEndpoint+ "/api/list_doctor_patients"
     )
 
     useEffect(() => {
@@ -203,7 +204,7 @@ export default function MakePrescriptions({ searchValue, setSearchValue }) {
         
         const [sumbitAndFetch_med, response_med] = useSumbitAndFetchObject(
             stringRequest_med,
-            "http://localhost:3000/api/list_available_medicines",
+            props.apiEndpoint+"/api/list_available_medicines",
             (res) => console.log(res)
         )
 
@@ -305,7 +306,7 @@ export default function MakePrescriptions({ searchValue, setSearchValue }) {
                         title="Historial"
                         icon={HiClock}
                     >
-                        
+                        <TablaHistorial/>
                     </Tabs.Item>
                 </Tabs.Group>
             </div>
