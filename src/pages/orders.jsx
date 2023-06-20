@@ -46,7 +46,7 @@ export default function Home(props) {
 
   const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
     stringRequest,
-    props.apiEndpoint+"/api/list_patient_orders"
+    props.apiEndpoint+"/api/list_all_orders"
   )
 
   useEffect(() => {
