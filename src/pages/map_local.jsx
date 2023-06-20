@@ -14,9 +14,9 @@ export async function getServerSideProps() {
   const locationLatitude     = String(env_config.getLocationLatitude());
   const locationLongitude    = String(env_config.getLocationLongitude());
   const locationLatitudeMin  = String(env_config.getLocationLatitudeMin());
-  const locationLongitudeMin = String(env_config.getLocationLongitudeMin);
+  const locationLongitudeMin = String(env_config.getLocationLongitudeMin());
   const locationLatitudeMax  = String(env_config.getLocationLatitudeMax());
-  const locationLongitudeMax = String(env_config.getLocationLongitudeMax);
+  const locationLongitudeMax = String(env_config.getLocationLongitudeMax());
   const mapBoxToken          = String(env_config.getTokenMapBox());
   const googleToken          = String(env_config.getTokenGoogleSignIn());
 
