@@ -242,7 +242,7 @@ export default async function update_order_cars(api_endpoint, requestPayload) {
             session_token : session_token,
             assignations : assignations
         })
-    }).then(data => data.json())
+    }).then(data => {data.status==200 ? data.json() : null})
 
     if(!send_order_response || send_order_response.result != 'ok') {
         return ({
