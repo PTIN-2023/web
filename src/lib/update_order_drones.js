@@ -45,7 +45,7 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
         body: JSON.stringify({
             session_token : session_token
         })
-    }).then(data => data.json())
+    }).then(data => {data.status==200 ? data.json() : {}})
 
     if(!list_drones_response || list_drones_response.result != 'ok') {
         return ({
@@ -68,7 +68,7 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
         body: JSON.stringify({
             session_token : session_token
         })
-    }).then(data => data.json())
+    }).then(data => {data.status==200 ? data.json() : {}})
 
     if(!list_orders_to_send_drones_response || list_orders_to_send_drones_response.result != 'ok') {
         return ({
@@ -91,7 +91,7 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
         body: JSON.stringify({
             session_token : session_token
         })
-    }).then(data => data.json())
+    }).then(data => {data.status==200 ? data.json() : {}})
 
     if(!storage_position_response || storage_position_response.result != 'ok') {
         return ({
@@ -183,7 +183,7 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
             session_token : session_token,
             assignations : assignations
         })
-    }).then(data => data.json())
+    }).then(data => {data.status==200 ? data.json() : {}})
 
     if(!send_order_response || send_order_response.result != 'ok') {
         return ({
