@@ -1,5 +1,5 @@
 import layoutStyles from "../styles/Layout.module.css";
-import { HiChartPie, HiGlobeAlt, HiHome, HiTable, HiUser, HiInboxIn, HiUserAdd, HiUserGroup, HiTruck, HiArchive, HiMap } from 'react-icons/hi';
+import { HiChartPie, HiGlobeAlt, HiHome, HiTable, HiUser, HiInboxIn, HiUserAdd, HiUserGroup, HiTruck, HiArchive, HiMap, HiDocumentText } from 'react-icons/hi';
 import useCookie from "../hooks/useCookie";
 import { Sidebar } from "flowbite-react";
 import { getText } from "../utils/getTextCurrentLocale";
