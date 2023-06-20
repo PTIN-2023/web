@@ -92,11 +92,10 @@
   position: absolute;
   border-radius: 20px;
   top: 1%;
-  left: 105%;
+  left: 1200px;
   transform: translateX(-50%);
   display: flex;
   justify-content: space-between;
-  width: 100%;
 }
 
 /*/////////*/

@@ -1,37 +1,40 @@
-import React, { useState, useRef } from 'react';
+//External libraries imports
+import React, { useState, useRef, useEffect } from 'react';
 import { Button, Modal, Tabs } from 'flowbite-react';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib'
 import download from 'downloadjs';
+
+//Config
+import * as env_config from "../../utils/env_config"
+
+//Styles
 import styles from '../../styles/Prescriptions.module.css';
-import { HiUserGroup, HiPaperAirplane, HiDownload, HiOutlineBell, HiClock } from "react-icons/hi";
-import { BsCapsulePill } from "react-icons/bs";
 
-import Tablapacientess from "../TablaPacientes";
+//Icons
+import { HiUserGroup, HiPaperAirplane, HiDownload } from "react-icons/hi";
+import { BsCapsulePill, BsLayoutTextSidebar } from "react-icons/bs";
 
-function ListPatients () {
+//Components
+import Tablapacientes from "../TablaPacientes";
 
-    return (
-        <Button gradientMonochrome="cyan">
-            <HiUserGroup className="mr-2 h-5 w-5" />
-            Lista Pacientes
-        </Button>
-    )
+//Hooks
+import useCookie from '../../hooks/useCookie';
+import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest.js";
+import useSumbitAndFetchObject from '../../hooks/useSumbitAndFetchObject.js';
+
+
+
+export async function getServerSideProps() {
+  const apiEndpoint = String(env_config.getApiEndpoint());
+
+  return {
+    props: { 
+      apiEndpoint,
+    }
+  }
 }
 
-function ListMedicines () {
-
-    return (
-        <Button gradientMonochrome="lime">
-            Lista Medicamentos
-        </Button>
-    )
-}
-
-function PrescriptionModal () {
-    
-}
-
-export default function MakePrescriptions() {
+export default function MakePrescriptions(props) {
 
     const inputNombreRef = useRef("");
     const inputMedicamentoRef = useRef("");
@@ -42,6 +45,7 @@ export default function MakePrescriptions() {
     const [pdfDoc, setPdfDoc] = useState(null);
     const [isSending, setIsSending] = useState(false);
 
+    
     const handleButtonClick = () => {
       setIsSending(true);
       // Simulación de envío de datos
@@ -129,6 +133,31 @@ export default function MakePrescriptions() {
         setModalGenerateState(false);
     }
 
+    // Llamada a Api para la lista de pacientes
+    const [userTokenCookie, ] = useCookie('user_token')
+    const [ordersPerPage, setOrdersPerPage] = useState('10');
+    const [page, setPage] = useState('1');  
+
+
+    const stringRequest = usePrepareBodyRequest({
+        "session_token" : userTokenCookie,
+        "orders_per_page" : ordersPerPage,
+        "page" : page
+    })
+
+    const [sumbitAndFetch, stringResponse] = useSumbitAndFetchObject(
+        stringRequest,
+        props.apiEndpoint+"/api/list_doctor_patients"
+    )
+
+    useEffect(() => {
+    if(stringResponse != 'none') {
+        console.log("response not none")
+    }
+    }, [stringResponse])
+
+    //sumbitAndFetch();
+
   return (
     <div className={styles.cont_main}>
         <div className={styles['recipe-form']}>
@@ -140,14 +169,12 @@ export default function MakePrescriptions() {
 
                     <div className={styles['input-container']}>
                         <input type="text" required id="patientName" name="patientName" className={styles.inputNombre} onChange={handleNombreInput}/>
-                        <ListPatients/>
                     </div>
 
                     <label htmlFor="medicationName" className={styles.label}>Nombre Medicamento:</label>
                 
                     <div className={styles['input-container']}>
                         <input type="text" required id="medicationName" name="medicationName" className={styles.inputMedicamento} onChange={handleMedicamentoInput}/>
-                        <ListMedicines/>
                     </div>
 
                     <label htmlFor="treatmentDuration" className={styles.label}>Duración tratamiento:</label>
@@ -200,7 +227,8 @@ export default function MakePrescriptions() {
                     </Modal.Body>
                 </Modal>
             </form>
-            <div className={styles['tabla']}>
+        </div>
+        <div className={styles['tabla']}>
                 <Tabs.Group
                     aria-label="pills"
                     style="underline"
@@ -210,6 +238,7 @@ export default function MakePrescriptions() {
                         title="Pacientes"
                         icon={HiUserGroup}
                     >
+                        {/*<Tablapacientes data={stringResponse} rowsPerPage={10}/>*/}
                     </Tabs.Item>
                     <Tabs.Item
                         title="Medicamentos"
@@ -218,9 +247,6 @@ export default function MakePrescriptions() {
                     </Tabs.Item>
                 </Tabs.Group>
             </div>
-            
-        </div>
-        
         
     </div>
     
