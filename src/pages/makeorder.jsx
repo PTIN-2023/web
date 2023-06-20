@@ -19,6 +19,18 @@ export async function getServerSideProps() {
     }
 }
 
+// esta funcion filtra los medicamentos que no tienen prescripción
+function deletePrescription (meds) {
+    const arrayMeds = []
+    for (let i in meds) {
+        if(meds[i].prescription_needed === false) {
+            console.log("false")
+            arrayMeds.push(meds[i])
+        }
+    }
+    return arrayMeds
+}
+
 export default function Home(props) {
     const [searchValue, setSearchValue] = useState({value:"",isCompleted:false});
 
@@ -61,6 +73,8 @@ export default function Home(props) {
             sumbitAndFetch();
     }, [page, stringRequest])
 
+    const medsArray = deletePrescription(response.medicines)
+
     return (
         <>
             <ShopContextProvider>
@@ -90,9 +104,10 @@ export default function Home(props) {
                                 setTypeOfAdminst={setTypeOfAdminst}
                             />
                         </div>
+                        
                         <div style={{ flex: 1, marginLeft: '5px' }}>
                             {/**Tablamakeorder recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}                 
-                            <Tabla medicineResponse={response} page={page} setPage={setPage}/>
+                            <Tabla medicineResponse={medsArray} page={page} setPage={setPage}/>
                         </div>
                     </div>
                 </Layout> 
