@@ -108,15 +108,15 @@ export default function UserProfile(userTokenCookie) {
   //  Handlers para los accesos rapidos
   const handlerOnClick_L = (e) => {
     //  Redirecciona a MYORDERS
-    window.location.href = 'http://localhost:3000/myorders';
+    window.location.href = '/myorders';
   }
   const handlerOnClick_C = (e) => {
     //  Redirecciona a INVENTORY
-    window.location.href = 'http://localhost:3000/inventory';
+    window.location.href = '/inventory';
   }
   const handlerOnClick_R = (e) => {
     //  Redirecciona a MAP_LOCAL
-    window.location.href = 'http://localhost:3000/map_local';
+    window.location.href = '/map_local';
   }
 
 
