@@ -11,11 +11,12 @@ import * as env_config from "../../utils/env_config"
 import styles from '../../styles/Prescriptions.module.css';
 
 //Icons
-import { HiUserGroup, HiPaperAirplane, HiDownload } from "react-icons/hi";
-import { BsCapsulePill, BsLayoutTextSidebar } from "react-icons/bs";
+import { HiUserGroup, HiPaperAirplane, HiDownload, HiClock } from "react-icons/hi";
+import { BsCapsulePill } from "react-icons/bs";
 
 //Components
 import Tablapacientes from "../TablaPacientes";
+import TablaMedicinas from './TablaMedicinas';
 
 //Hooks
 import useCookie from '../../hooks/useCookie';
@@ -24,6 +25,7 @@ import useSumbitAndFetchObject from '../../hooks/useSumbitAndFetchObject.js';
 
 
 
+/*
 export async function getServerSideProps() {
   const apiEndpoint = String(env_config.getApiEndpoint());
 
@@ -33,17 +35,20 @@ export async function getServerSideProps() {
     }
   }
 }
-
-export default function MakePrescriptions(props) {
+*/
+export default function MakePrescriptions({ searchValue, setSearchValue }) {
 
     const inputNombreRef = useRef("");
     const inputMedicamentoRef = useRef("");
     const inputTratamientoRef = useRef("");
+    const [inputValue, setInputValue] = useState('');
 
     const [modalGenerateState, setModalGenerateState] = useState(false);
     
     const [pdfDoc, setPdfDoc] = useState(null);
     const [isSending, setIsSending] = useState(false);
+
+    
 
     
     const handleButtonClick = () => {
@@ -57,7 +62,7 @@ export default function MakePrescriptions(props) {
     const createPdf = async () => {
         
         const nombrePaciente = inputNombreRef.current;
-        const nombreMedicamento = inputMedicamentoRef.current;
+        const nombreMedicamento = inputMedicamentoRef.current + inputValue;
         const Tratamiento = inputTratamientoRef.current;
 
         
@@ -122,7 +127,7 @@ export default function MakePrescriptions(props) {
     };
 
     const handleMedicamentoInput = (event) => {
-        inputMedicamentoRef.current= event.target.value;
+        inputMedicamentoRef.current = event.target.value;
     };
 
     const handleTratamientoInput = (event) => {
@@ -133,21 +138,26 @@ export default function MakePrescriptions(props) {
         setModalGenerateState(false);
     }
 
+    const handleInputChange = (value) => {
+        if (inputValue == '') setInputValue(inputValue + value);
+        else setInputValue(inputValue + ', ' + value);
+    };
+
     // Llamada a Api para la lista de pacientes
     const [userTokenCookie, ] = useCookie('user_token')
     const [ordersPerPage, setOrdersPerPage] = useState('10');
-    const [page, setPage] = useState('1');  
+    const [patientPage, setPatientPage] = useState('1');  
 
 
     const stringRequest = usePrepareBodyRequest({
         "session_token" : userTokenCookie,
         "orders_per_page" : ordersPerPage,
-        "page" : page
+        "page" : patientPage
     })
 
     const [sumbitAndFetch, stringResponse] = useSumbitAndFetchObject(
         stringRequest,
-        props.apiEndpoint+"/api/list_doctor_patients"
+        "http://localhost:3000/api/list_doctor_patients"
     )
 
     useEffect(() => {
@@ -157,6 +167,45 @@ export default function MakePrescriptions(props) {
     }, [stringResponse])
 
     //sumbitAndFetch();
+
+
+    // Llamada a Api para la lista de medicamentos 
+
+        // Form values
+        const [medName, setMedName] = useState();
+        const [pvpMin, setPvpMin] = useState(0);
+        const [pvpMax, setPvpMax] = useState(50);
+        const [prescriptionNeeded, setPrescriptionNeeded] = useState(null)
+        const [medForm, setMedForm] = useState(["Tablets","Capsules","Gel","Cream","Powder","Liquid"])
+        const [typeOfAdminst, setTypeOfAdminst] = useState(["Oral","Topical","Inhalation","Ophthalmic"])
+        const [medPage, setMedPage] = useState(1);
+        const [medsPerPage, setMedsPerPage] = useState(10);
+
+        // Request
+        const stringRequest_med = usePrepareBodyRequest({
+            "session_token" : userTokenCookie,
+            "filter": {
+                "med_name": medName,
+                "pvp_min": pvpMin,
+                "pvp_max": pvpMax,
+                "prescription_needed": prescriptionNeeded,
+                "form": medForm,
+                "type_of_administration": typeOfAdminst,
+                "page": medPage,
+                "meds_per_page": medsPerPage,
+            }
+        })
+        
+        const [sumbitAndFetch_med, response_med] = useSumbitAndFetchObject(
+            stringRequest_med,
+            "http://localhost:3000/api/list_available_medicines",
+            (res) => console.log(res)
+        )
+
+        useEffect(() => {
+            if(userTokenCookie != null)
+                sumbitAndFetch_med();
+        }, [medPage, stringRequest])
 
   return (
     <div className={styles.cont_main}>
@@ -174,7 +223,7 @@ export default function MakePrescriptions(props) {
                     <label htmlFor="medicationName" className={styles.label}>Nombre Medicamento:</label>
                 
                     <div className={styles['input-container']}>
-                        <input type="text" required id="medicationName" name="medicationName" className={styles.inputMedicamento} onChange={handleMedicamentoInput}/>
+                        <input type="text" id="medicationName" name="medicationName" className={styles.inputMedicamento} onChange={handleMedicamentoInput}/>
                     </div>
 
                     <label htmlFor="treatmentDuration" className={styles.label}>Duración tratamiento:</label>
@@ -244,6 +293,14 @@ export default function MakePrescriptions(props) {
                         title="Medicamentos"
                         icon={BsCapsulePill}
                     >
+                        {response_med != 'none' && <TablaMedicinas data={response_med} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue} onClick={handleInputChange} />}
+                    </Tabs.Item>
+                    <Tabs.Item
+                        active={true}
+                        title="Historial"
+                        icon={HiClock}
+                    >
+                        
                     </Tabs.Item>
                 </Tabs.Group>
             </div>
