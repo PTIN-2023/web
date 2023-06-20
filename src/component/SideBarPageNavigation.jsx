@@ -53,7 +53,8 @@ const sidebarItemGroups = [
     items: [
       { name: "profile", icon: HiUser },
       { name: "myorders", icon: HiTable },
-      { name: "makeorder", icon: HiInboxIn }
+      { name: "makeorder", icon: HiInboxIn },
+      { name: "prescription", icon: HiDocumentText }
     ]
   }
 ];
@@ -106,7 +107,18 @@ const SideBarPagesNavigation = ({ currentPage }, props) => {
               </Sidebar.Collapse>                        
             );
           }
-
+        if (item.name === "prescription" && group.role === "patient") {
+            return (
+              <Sidebar.Item
+                key={"prescripciones_paciente"}
+                className={sidebarItemClassName(currentPage, '/' + "prescripciones_paciente")}
+                href={'/' + "prescripciones_paciente"}
+                icon={item.icon}
+              >
+                { getText(item.name, localeCookie) }
+              </Sidebar.Item>
+            );
+          }
           return (
             <Sidebar.Item
               key={item.name}
