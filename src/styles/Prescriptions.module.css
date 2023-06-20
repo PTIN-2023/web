@@ -1,165 +1,178 @@
- .recipe-form {
-    display: flex;
-    flex-direction: column;
-    margin-top: 25px;
-    margin-left: 30px;
-  }
+/*////////*/
+/* Titulo */
+/*////////*/
 
-  .titulo {
-    color: #2D2A70;
-    font-size: 5rem;
-    font-weight: bold;
-  }
+.titulo {
+  color: #2D2A70;
+  font-size: 5rem;
+  font-weight: bold;
+}
 
-  .button-container {
-    display: flex;
-    flex-direction: row;
-    margin-top: 100px; /* Ajusta el margen superior según sea necesario */
-    margin-bottom: 60px;
-    margin-left: 50%;
-  }
-  
-  .buttonDownload {
-    padding: 8px 16px; /* Ajusta el padding según sea necesario */
-    width: 200px;
-  }
+/*///////////////*/
+/* Label e Inputs*/
+/*///////////////*/
 
-  .buttonSend {
-    padding: 8px 16px; /* Ajusta el padding según sea necesario */
-    width: 200px;
-  }
+.label {
+  font-weight: bold;
+  margin-right: 20px;
+}
 
-  .buttonGenerate {
-    padding: 8px 16px; /* Ajusta el padding según sea necesario */
-    margin-right: 100px;
-  }
+.inputNombre {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 600px;
+}
 
-  .buttonTime {
-    margin-right: 5px;
-  }
+.inputMedicamento {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 400px;
+}
 
-  .input-group {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    margin-right: 20px;
-    margin-top: 30px;
-  }
+.inputTratamiento {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 300px;
+}
 
-  .input-container {
-    display: flex;
-    align-items: center;
-    margin-top: 30px; /* Agrega espacio entre cada grupo de label e input */
-    margin-left: 50px;
-  }
-  
-  .textarea-group {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    margin-left: 50px;
-    margin-top: 50px;
-  }
-  
-  .label {
-    font-weight: bold;
-    margin-right: 20px;
-  }
-  
-  .inputNombre {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    width: 600px;
-    margin-left: 5%;
-    margin-right: 20px;
-  }
+.textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 900px;
+  height: 200px;
+}
 
-  .inputMedicamento {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    width: 400px;
-    margin-left: 2.75%;
-    margin-right: 20px;
-  }
+/*//////////////////////*/
+/*     Contenedores     */
+/* En orden de aparición*/
+/*//////////////////////*/
 
-  .inputTratamiento {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    width: 300px;
-    margin-left: 3.25%;
-  }
+.cont_main {
+  position: relative;
+  background-color: white;
+  border-radius: 20px;
+}
 
-  .textarea {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 900px;
-    height: 200px;
-  }
+.recipe-form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-top: 25px;
+  margin-left: 30px;
+}
 
-  .cont_main {
-    background-color: white;
-    border-radius: 20px;
-  }
-  
-  .sendButton {
-    background-color: #4caf50;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-  }
-  
-  .sending {
-    animation: sendAnimation 5s linear;
-  }
-  
-  @keyframes sendAnimation {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.1);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
+.input-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-top: 30px;
+  margin-left: 5%;
+}
 
-  .downloadButton {
-    background-color: #3498db;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
+.input-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px; 
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 100px;
+  margin-bottom: 60px;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.tabla {
+  position: absolute;
+  border-radius: 20px;
+  top: 1%;
+  left: 105%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/*/////////*/
+/* Botones */
+/*/////////*/
+
+.buttonDownload,
+.buttonSend {
+  padding: 8px 16px; /* Ajusta el padding según sea necesario */
+  width: 200px;
+}
+
+.buttonGenerate {
+  padding: 8px 16px; /* Ajusta el padding según sea necesario */
+  margin-right: 100px;
+}
+
+.sendButton {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.downloadButton {
+  background-color: #3498db;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.downloadIcon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+/*/////////////*/
+/* Animaciones */ 
+/*/////////////*/
+
+.sending {
+  animation: sendAnimation 5s linear;
+}
+
+@keyframes sendAnimation {
+  0% {
+    transform: scale(1);
   }
-  
-  .downloadIcon {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    transform: translateY(100%);
-    transition: transform 0.3s ease-in-out;
+  50% {
+    transform: scale(1.1);
   }
-  
-  .downloadButton:hover .downloadIcon {
-    transform: translateY(0);
+  100% {
+    transform: scale(1);
   }
+}
+
+.downloadButton:hover .downloadIcon {
+  transform: translateY(0);
+}
