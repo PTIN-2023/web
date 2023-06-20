@@ -71,7 +71,7 @@ export default function Home(props) {
       "session_token": userTokenCookie
     });
     try {
-      const response = await fetch(props.apiEndpoint + "/api/beehives_global", {
+      const response = await fetch(props.apiEndpoint + "/api/beehives_local", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
