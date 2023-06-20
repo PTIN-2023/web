@@ -112,7 +112,7 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
                       <div className="flex items-center space-x-4">
                         <div className="min-w-0 flex-1">
                           <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
-                            {item.medicine_name}
+                            {item.med_name}
                           </p>
                         </div>
                       </div>
