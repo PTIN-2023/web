@@ -249,7 +249,7 @@ export default async function update_order_cars(api_endpoint, requestPayload) {
             response_code : 500,
             response_body : {
                 result : "error",
-                description: "Error sending order: " + send_order_response.description
+                description: "Error sending order"
             }
         })
     }
