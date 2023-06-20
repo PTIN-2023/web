@@ -56,7 +56,11 @@ export default function MakePrescriptions({ searchValue, setSearchValue }) {
       // Simulación de envío de datos
       setTimeout(() => {
         setIsSending(false);
-      }, 1500); // Tiempo de simulación de envío (0.5 segundos)
+      }, 1500); // Tiempo de simulación de envío (1.5 segundos)
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     };
 
     const createPdf = async () => {
@@ -112,13 +116,14 @@ export default function MakePrescriptions({ searchValue, setSearchValue }) {
 
     function handleSubmitSend() {
 
-        console.log("send");
+        
         
     }
 
     function handleSubmitDownload() {
 
         download(pdfDoc, "receta.pdf", "pdf");
+        window.location.reload();
         
     }
 

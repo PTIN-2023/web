@@ -27,10 +27,16 @@ const Añadir = ({ onClick }) => {
         transform: 'rotate(0)',
     };
 
-
+    const buttonStyles = {
+        backgroundColor: showCheck ? 'green' : ''
+    };
+    
     return (
       
-        <Button onClick={handleButtonClick}>
+        <Button 
+            onClick={handleButtonClick}
+            style={buttonStyles}
+        >
             <div style={iconContainerStyles}>
                 {!showCheck && <HiPlusCircle />}
             </div>
