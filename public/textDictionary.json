@@ -17,6 +17,7 @@
         "user_given_name" : "Nombre de usuario",
         "user_email" : "Correo electrónico",
         "user_phone" : "Teléfono",
+        "user_age": "Edad",
         "user_city" : "Ciudad",
         "user_address" : "Dirección",
         "user_role" : "Rol de usuario",
@@ -83,7 +84,8 @@
         "button_open" : "Abrir",
         "button_edit" : "Editar",
         "button_confirm" : "Confirmar",
-        "createuser" : "Crear usuario"
+        "createuser" : "Crear usuario",
+        "prescription": "Prescripciones"
     },
     "en": {
         "language": "Language",
@@ -103,6 +105,7 @@
         "user_given_name": "Username",
         "user_email": "Email",
         "user_phone": "Phone",
+        "user_age": "Age",
         "user_city": "City",
         "user_address": "Address",
         "user_role": "User role",
@@ -149,7 +152,8 @@
         "button_open" : "Open",
         "button_edit" : "Edit",
         "button_confirm" : "Confirm",
-        "createuser" : "Create user"
+        "createuser" : "Create user",
+        "prescription": "Prescriptions"
     },
     "ca": {
         "language": "Idioma",
@@ -169,6 +173,7 @@
         "user_given_name": "Nom d'usuari",
         "user_email": "Correu electrònic",
         "user_phone": "Telèfon",
+        "user_age": "Edat",
         "user_city": "Ciutat",
         "user_address": "Adreça",
         "user_role": "Rol d'usuari",
@@ -215,6 +220,7 @@
         "button_open" : "Obrir",
         "button_edit" : "Editar",
         "button_confirm" : "Confirmar",
-        "createuser" : "Crear ususari"
+        "createuser" : "Crear ususari",
+        "prescription": "Prescripcions"
     }
 }
