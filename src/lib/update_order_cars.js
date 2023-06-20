@@ -147,6 +147,9 @@ export default async function update_order_cars(api_endpoint, requestPayload) {
 
         order_destines.forEach((orders, destination_id, _) => {
             const first_order = orders[0]
+            if(!first_order)
+                return
+                
             const medicine_count = first_order.medicine_list.length
             if (medicine_count > max_medicine_count) {
                 max_medicine_count = medicine_count
