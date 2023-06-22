@@ -15,52 +15,31 @@ export function isLocal() {
 }
 
 export function getLocationName() {
-    if (isLocal())
-        return (process.env.LOCATION_NAME)
-    else
-        console.error("Tried getting location name, but the enviroment is not local.")
+    return (process.env.LOCATION_NAME)
 }
 
 export function getLocationLatitudeMin() {
-    if (isLocal())
-        return (process.env.LOCATION_LATITUDE_MIN)
-    else
-        console.error("Tried getting location latitude, but the enviroment is not local.")
+    return (process.env.LOCATION_LATITUDE_MIN)
 }
 
 export function getLocationLatitudeMax() {
-    if (isLocal())
-        return (process.env.LOCATION_LATITUDE_MAX)
-    else
-        console.error("Tried getting location latitude, but the enviroment is not local.")
+    return (process.env.LOCATION_LATITUDE_MAX)
 }
 
 export function getLocationLatitude() {
-    if (isLocal())
-        return (process.env.LOCATION_LATITUDE)
-    else
-        console.error("Tried getting location latitude, but the enviroment is not local.")
+    return (process.env.LOCATION_LATITUDE)
 }
 
 export function getLocationLongitudeMin() {
-    if (isLocal())
-        return (process.env.LOCATION_LONGITUDE_MIN)
-    else
-        console.error("Tried getting location longitude, but the enviroment is not local.")
+    return (process.env.LOCATION_LONGITUDE_MIN)
 }
 
 export function getLocationLongitudeMax() {
-    if (isLocal())
-        return (process.env.LOCATION_LONGITUDE_MAX)
-    else
-        console.error("Tried getting location longitude, but the enviroment is not local.")
+    return (process.env.LOCATION_LONGITUDE_MAX)
 }
 
 export function getLocationLongitude() {
-    if (isLocal())
-        return (process.env.LOCATION_LONGITUDE)
-    else
-        console.error("Tried getting location longitude, but the enviroment is not local.")
+    return (process.env.LOCATION_LONGITUDE)
 }
 
 export function getTokenMapBox() {

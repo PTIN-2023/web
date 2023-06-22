@@ -9,16 +9,16 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 export async function getServerSideProps() {
   const isLocal              = env_config.isLocal();
-  const apiEndpoint          = String(          env_config.getApiEndpoint());
-  const locationName         = String(isLocal ? env_config.getLocationName()         : "N/A");
-  const locationLatitude     = String(isLocal ? env_config.getLocationLatitude()     : "N/A");
-  const locationLongitude    = String(isLocal ? env_config.getLocationLongitude()    : "N/A");
-  const locationLatitudeMin  = String(isLocal ? env_config.getLocationLatitudeMin()  : "N/A");
-  const locationLongitudeMin = String(isLocal ? env_config.getLocationLongitudeMin() : "N/A");
-  const locationLatitudeMax  = String(isLocal ? env_config.getLocationLatitudeMax()  : "N/A");
-  const locationLongitudeMax = String(isLocal ? env_config.getLocationLongitudeMax() : "N/A");
-  const mapBoxToken          = String(          env_config.getTokenMapBox());
-  const googleToken          = String(          env_config.getTokenGoogleSignIn());
+  const apiEndpoint          = String(env_config.getApiEndpoint());
+  const locationName         = String(env_config.getLocationName());
+  const locationLatitude     = String(env_config.getLocationLatitude());
+  const locationLongitude    = String(env_config.getLocationLongitude());
+  const locationLatitudeMin  = String(env_config.getLocationLatitudeMin());
+  const locationLongitudeMin = String(env_config.getLocationLongitudeMin());
+  const locationLatitudeMax  = String(env_config.getLocationLatitudeMax());
+  const locationLongitudeMax = String(env_config.getLocationLongitudeMax());
+  const mapBoxToken          = String(env_config.getTokenMapBox());
+  const googleToken          = String(env_config.getTokenGoogleSignIn());
 
   return {
     props: { 
@@ -71,7 +71,7 @@ export default function Home(props) {
       "session_token": userTokenCookie
     });
     try {
-      const response = await fetch(props.apiEndpoint + "/api/beehives_global", {
+      const response = await fetch(props.apiEndpoint + "/api/beehives_local", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
