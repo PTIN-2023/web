@@ -66,6 +66,7 @@
         "cancelation_confirmation" : "Segur@ que quieres cancelar el pedido",
         "cancelation_confirmation_yes" : "Si, cancelar",
         "cancelation_confirmation_no" : "No, cerrar",
+        "order_details" : "Detalles",
         "modal_order_details_header" : "Elementos del pedido",
         "modal_tooltip_cancelled" : "Qué significa esto?",
         "modal_tooltip_cancelled_text" : "Tu pedido se canceló manualmente o por problemas lógisticos, contacta con tu médico más abajo.",
