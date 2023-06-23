@@ -47,3 +47,39 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT_CLOUD }}
           script: ${{ secrets.SSH_COMMAND_RELOAD_WEB_CLOUD }}
+      -
+        name: Pull cloud instance(s)
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT_EDGE }}
+          script: ${{ secrets.SSH_COMMAND_UPDATE_WEB_EDGE }}
+      -
+        name: Pull cloud instance(s)
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT_EDGE }}
+          script: ${{ secrets.SSH_COMMAND_RELOAD_WEB_EDGE0 }}
+      -
+        name: Pull cloud instance(s)
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT_EDGE }}
+          script: ${{ secrets.SSH_COMMAND_RELOAD_WEB_EDGE1 }}
+      -
+        name: Pull cloud instance(s)
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT_EDGE }}
+          script: ${{ secrets.SSH_COMMAND_RELOAD_WEB_EDGE2 }}
