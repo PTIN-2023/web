@@ -207,7 +207,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
   //rowsPerPage -> cuantas filas va a renderizar
   //searchValue -> el filtro en caso de que se active el componente MyOrdersSearch
 
-  console.log("data array: "+data.orders)
+  console.log("data array: "+data)
   const [localeCookie, ] = useCookie('locale')
 
   const [page, setPage] = useState(1);
@@ -229,16 +229,19 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
   }
 
-  //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
-  if(searchValue.value.length > 0 && searchValue.isCompleted){
-    data = data.orders.filter((pedido) => pedido.order_identifier.toLowerCase().includes(searchValue.value));  
 
-  }else data = data.orders;
   
-  if(data != undefined) var { slice, range } = useTable(data, page, rowsPerPage);
+  if(data != "Aquest pacient no t\u00e9 cap ordre" || data != "No tienes token para poder comprobar esto, espabila"){
+    //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
+    if(searchValue.value.length > 0 && searchValue.isCompleted){
+      data = data.orders.filter((pedido) => pedido.order_identifier.toLowerCase().includes(searchValue.value));  
 
-  console.log("slice len: "+slice.length)
-  console.log("data len: "+data.length)
+    }else data = data.orders;
+    
+    var { slice, range } = useTable(data, page, rowsPerPage);
+  }else{
+    data = 0;
+  }
 
   return (
     <>
