@@ -44,7 +44,7 @@ export default function Home(props) {
     "page" : page
   })
 
-  const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
+  var [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
     stringRequest,
     props.apiEndpoint+"/api/list_all_orders"
   )
@@ -53,6 +53,7 @@ export default function Home(props) {
     if(stringResponse != 'none') {
       console.log("NEW response not none:"+stringResponse)
     }
+    stringResponse = JSON.parse(stringResponse)
   }, [stringResponse])
 
   sumbitAndFetch();
@@ -69,7 +70,7 @@ export default function Home(props) {
         <Layout navBarValue={setSearchValue}>
         <div className={myordersStyles.mainContainer}>
           {/**TablaPedidos recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
-          {stringResponse != 'none' && <TablaPedidosManager data={JSON.parse(stringResponse)} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>}
+          {(stringResponse.result != "Aquest pacient no t\u00e9 cap ordre" || stringResponse.result != "No tienes token para poder comprobar esto, espabila") && <TablaPedidosManager data={stringResponse} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>}
           
         </div>
         </Layout> 

@@ -229,19 +229,14 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
   }
 
+  //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
+  if(searchValue.value.length > 0 && searchValue.isCompleted){
+    data = data.orders.filter((pedido) => pedido.order_identifier.toLowerCase().includes(searchValue.value));  
 
+  }else data = data.orders;
   
-  if(data.result != "Aquest pacient no t\u00e9 cap ordre" || data.result != "No tienes token para poder comprobar esto, espabila"){
-    //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
-    if(searchValue.value.length > 0 && searchValue.isCompleted){
-      data = data.orders.filter((pedido) => pedido.order_identifier.toLowerCase().includes(searchValue.value));  
-
-    }else data = data.orders;
-    
-    var { slice, range } = useTable(data, page, rowsPerPage);
-  }else{
-    data = 0;
-  }
+  var { slice, range } = useTable(data, page, rowsPerPage);
+  
 
   return (
     <>
