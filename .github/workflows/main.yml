@@ -48,7 +48,7 @@ jobs:
           port: ${{ secrets.SSH_PORT_CLOUD }}
           script: ${{ secrets.SSH_COMMAND_RELOAD_WEB_CLOUD }}
       -
-        name: Pull cloud instance(s)
+        name: Pull edge instance(s)
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -57,7 +57,7 @@ jobs:
           port: ${{ secrets.SSH_PORT_EDGE }}
           script: ${{ secrets.SSH_COMMAND_UPDATE_WEB_EDGE }}
       -
-        name: Pull cloud instance(s)
+        name: Reload edge 0 instance
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -66,7 +66,7 @@ jobs:
           port: ${{ secrets.SSH_PORT_EDGE }}
           script: ${{ secrets.SSH_COMMAND_RELOAD_WEB_EDGE0 }}
       -
-        name: Pull cloud instance(s)
+        name: Reload edge 1 instance
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -75,7 +75,7 @@ jobs:
           port: ${{ secrets.SSH_PORT_EDGE }}
           script: ${{ secrets.SSH_COMMAND_RELOAD_WEB_EDGE1 }}
       -
-        name: Pull cloud instance(s)
+        name: Reload edge 2 instance
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.SSH_HOST }}
