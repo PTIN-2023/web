@@ -52,7 +52,7 @@ export default function Home(props) {
   useEffect(() => {
     if(stringResponse != 'none') {
       console.log("NEW response not none:"+stringResponse)
-    }else if(stringResponse == "Aquest pacient no t\u00e9 cap ordre")
+    }
   }, [stringResponse])
 
   sumbitAndFetch();
