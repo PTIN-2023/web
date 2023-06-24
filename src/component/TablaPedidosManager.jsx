@@ -209,7 +209,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
   console.log("data array: "+data.result)
   const [localeCookie, ] = useCookie('locale')
-
+  const [displayData, setDisplayData] = useState('')
   const [page, setPage] = useState(1);
   //estos dos hooks de abajo sirven para mostrar o bien ocultar los modals
 
@@ -231,11 +231,11 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
   //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
   if(searchValue.value.length > 0 && searchValue.isCompleted){
-    data = data.orders.filter((pedido) => pedido.order_identifier.toLowerCase().includes(searchValue.value));  
+    setDisplayData(data.orders.filter((pedido) => pedido.order_identifier.toLowerCase().includes(searchValue.value)));
 
-  }else data = data.orders;
+  }else setDisplayData(data.orders)
   
-  var { slice, range } = useTable(data, page, rowsPerPage);
+  var { slice, range } = useTable(displayData, page, rowsPerPage);
   
 
   return (
@@ -263,7 +263,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-          { data && slice.map((order) =>
+          { data.result == "ok" && slice.map((order) =>
             <>
                 <Table.Row className={myordersStyles.tableRow}>
                   <Table.Cell className={myordersStyles.firstTableCell}> 

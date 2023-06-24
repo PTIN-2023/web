@@ -56,7 +56,6 @@ export default function Home(props) {
   }, [stringResponse])
 
   sumbitAndFetch();
-  stringResponse = JSON.parse(stringResponse)
 
   return (
     <>
@@ -70,7 +69,7 @@ export default function Home(props) {
         <Layout navBarValue={setSearchValue}>
         <div className={myordersStyles.mainContainer}>
           {/**TablaPedidos recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
-          {(stringResponse != "none" || stringResponse.result == "ok" ) && <TablaPedidosManager data={stringResponse} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>}
+          {(stringResponse != "none") && <TablaPedidosManager data={JSON.parse(stringResponse)} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>}
           
         </div>
         </Layout> 
