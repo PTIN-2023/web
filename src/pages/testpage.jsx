@@ -10,6 +10,9 @@ import GoogleOAuthTestComponent from "../component/testpage/GoogleOAuthTestCompo
 import ListMedicinesTestComponent from "../component/testpage/ListMedicinesTestComponent"
 import HasPrescriptionTestComponent from "../component/testpage/HasPrescriptionTestComponent";
 import ListPatientOrders from "../component/testpage/ListPatientOrders";
+import ManagerListDoctors from "../component/testpage/ManagerListDoctors";
+import ManagerAssignDoctors from "../component/testpage/ManagerAssignDoctors"
+import ListAssignedDoctors from "../component/testpage/ListAssignedDoctors";
 import GetPrecriptionMedsTestComponent from "../component/testpage/GetPrescriptionMedsTestComponent";
 import CancelConfirmOrderTestComponent from "../component/testpage/CancelConfirmOrderTestComponent";
 import CarInfoTestComponent from "../component/testpage/CarInfoTestComponent";
@@ -177,6 +180,15 @@ export default function Home(props) {
           </Tabs.Item>
           <Tabs.Item title="List prescriptions API test">
             <DoctorGetPatientPrescriptionHistory apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Manager List Doctors API test">
+            <ManagerListDoctors apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="List Assigned Doctors API test">
+            <ListAssignedDoctors apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Manager Assign Doctors API test">
+            <ManagerAssignDoctors apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
         </Tabs.Group>
         </main>
