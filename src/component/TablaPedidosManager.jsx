@@ -212,7 +212,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
   const [page, setPage] = useState(1);
   //estos dos hooks de abajo sirven para mostrar o bien ocultar los modals
-
+  let slice, range
   const [modalCancelarPedidoState, setModalCancelarPedidoState] = useState(false);
   const [modalDetallesState, setModalDetallesState] = useState(false);
   //currentTarget es un hook useRef para que no se actualice en cada render y así aseguramos que los modals no se multipliquen
@@ -236,7 +236,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
     }
     
-    var { slice, range } = useTable(data.orders, page, rowsPerPage);
+    ({ slice, range } = useTable(data.orders, page, rowsPerPage));
   }
 
   return (
