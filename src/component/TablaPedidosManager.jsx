@@ -211,6 +211,8 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
   console.log("data array: "+data.result)
   const [localeCookie, ] = useCookie('locale')
 
+
+  const [modalDetallesState, setModalDetallesState] = useState(false);
   const [page, setPage] = useState(1);
   //estos dos hooks de abajo sirven para mostrar o bien ocultar los modals
   let slice, range

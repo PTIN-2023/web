@@ -18,7 +18,10 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
   console.log(data.result)
   const [localeCookie, ] = useCookie('locale')
-
+  const [modalContactarState, setModalContactarState] = useState(false);
+  const [modalCancelarPedidoState, setModalCancelarPedidoState] = useState(false);
+  const [modalDetallesState, setModalDetallesState] = useState(false);
+  
   const [page, setPage] = useState(1);
 
   let slice, range
