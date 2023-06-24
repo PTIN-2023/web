@@ -21,7 +21,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
   const [modalContactarState, setModalContactarState] = useState(false);
   const [modalCancelarPedidoState, setModalCancelarPedidoState] = useState(false);
   const [modalDetallesState, setModalDetallesState] = useState(false);
-  
+
   const [page, setPage] = useState(1);
 
   let slice, range
@@ -32,12 +32,11 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
     }
     
-    ({ slice, range } = useTable(data.orders, page, rowsPerPage));
   }
   
   return (
     <>
-        {data.result == "success" && <TablaCompPaciente slice={slice} range= {range} setPage={setPage} page={page}/>}
+        {data.result == "success" && <TablaCompPaciente data={data} slice={slice} rowsPerPage={rowsPerPage} range= {range} setPage={setPage} page={page}/>}
     </>
   );
 };

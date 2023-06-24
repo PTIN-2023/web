@@ -257,11 +257,12 @@ function ModalCancelarPedido({currentTarget, currentItem, modalCancelarPedidoSta
 }
 
 
-const TablaCompPaciente = ({ slice, range, setPage, page }) => {
+const TablaCompPaciente = ({ data, rowsPerPage, slice, range, setPage, page }) => {
   //componente que renderiza la tabla con los pedidos
   //recibe data -> json de pedidos
   //rowsPerPage -> cuantas filas va a renderizar
   //searchValue -> el filtro en caso de que se active el componente MyOrdersSearch
+  ({ slice, range } = useTable(data.orders, page, rowsPerPage));
 
   const [localeCookie, ] = useCookie('locale')
 
