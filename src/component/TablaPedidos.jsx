@@ -262,7 +262,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
   //rowsPerPage -> cuantas filas va a renderizar
   //searchValue -> el filtro en caso de que se active el componente MyOrdersSearch
 
-  console.log(data.data)
+  console.log(data.result)
   const [localeCookie, ] = useCookie('locale')
 
   const [page, setPage] = useState(1);

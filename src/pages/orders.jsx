@@ -69,7 +69,7 @@ export default function Home(props) {
         <Layout navBarValue={setSearchValue}>
         <div className={myordersStyles.mainContainer}>
           {/**TablaPedidos recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
-          {(stringResponse != "none") && ("Aquest pacient no t\u00e9 cap ordre" in stringResponse.result || "No tienes token para poder comprobar esto, espabila" in stringResponse.result) && <TablaPedidosManager data={JSON.parse(stringResponse)} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>}
+          {(stringResponse != "none") && (stringResponse.result == "Aquest pacient no te cap ordre" || stringResponse.result == "No tienes token para poder comprobar esto, espabila") && <TablaPedidosManager data={JSON.parse(stringResponse)} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>}
           
         </div>
         </Layout> 
