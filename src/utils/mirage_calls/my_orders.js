@@ -189,7 +189,7 @@ export function defineMirageMyOrdersRoutes(server) {
 
       // Return
       return {
-        result: 'ok',
+        result: 'success',
         orders : orders
       }
     })
