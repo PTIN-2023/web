@@ -231,6 +231,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
   //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
   if(data.result == "ok"){
+    console.log("not ok")
     if(searchValue.value.length > 0 && searchValue.isCompleted){
       data.orders = data.orders.filter((pedido) => pedido.order_identifier.toLowerCase().includes(searchValue.value));  
 
@@ -264,7 +265,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-          { data.result == "ok" && slice.map((order) =>
+          { data.result == "ok" ? (slice.map((order) =>
             <>
                 <Table.Row className={myordersStyles.tableRow}>
                   <Table.Cell className={myordersStyles.firstTableCell}> 
@@ -300,7 +301,15 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
                   </Table.Cell>
                 </Table.Row>
             </>
-          )}
+          ))
+          : 
+          (
+            <Table.Row>
+              Error al cargar los pedidos
+            </Table.Row>
+
+          )
+          }
 
           </Table.Body>
         </Table> 
