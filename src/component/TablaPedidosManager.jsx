@@ -6,6 +6,7 @@ import myordersStyles from "../styles/Myorders.module.css"
 import {HiOutlineArrowRight, HiOutlineRocketLauncher, HiTrash, HiOutlineExclamationCircle,HiOutlineInformationCircle} from "react-icons/hi"
 import useCookie from "../hooks/useCookie.js";
 import { getText } from "../utils/getTextCurrentLocale.js";
+import TablaCompManager from "../component/TablaCompManager.jsx"
 
 // //TODO: modular estas funciones de modal
 function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModalDetallesState}){
@@ -227,34 +228,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
 
   return (
     <>
-
-        <Table hoverable={true}>
-          {console.log(searchValue)}
-          <Table.Head>
-            <Table.HeadCell className="!p-4">
-            </Table.HeadCell>
-            <Table.HeadCell>
-              {getText('ID', localeCookie)}
-            </Table.HeadCell>
-            <Table.HeadCell>
-              {getText('purchased_date', localeCookie)}
-            </Table.HeadCell>
-            <Table.HeadCell>
-
-            </Table.HeadCell>
-            <Table.HeadCell>
-              {getText('state', localeCookie)}
-            </Table.HeadCell>
-            <Table.HeadCell>
-              {getText('details', localeCookie)}
-            </Table.HeadCell>
-          </Table.Head>
-          <Table.Body className="divide-y">
-          { data.result == "ok" && <TablaCompManager slice={slice} range={range}/>}
-
-          </Table.Body>
-        </Table> 
-        <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
+     {data.result == "ok" && <TablaCompManager slice={slice} range= {range} setPage={setPage} page={page}/>}
     </>
   );
 };

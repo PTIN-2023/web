@@ -287,14 +287,14 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
     setModalDetallesState(e);
 
   }
-
+  let slice, range
   //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
   if(searchValue.value.length > 0 && searchValue.isCompleted){
-    data = data.orders.filter((pedido) => pedido.order_identifier.toLowerCase().includes(searchValue.value));  
+    data.orders = data.orders.filter((pedido) => pedido.order_identifier.toLowerCase().includes(searchValue.value));  
 
-  }else data = data.orders;
+  }
   
-  var { slice, range } = useTable(data, page, rowsPerPage);
+  ({ slice, range } = useTable(data.orders, page, rowsPerPage));
   
   return (
     <>

@@ -145,13 +145,12 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
 }
 
 
-const TablaCompManager = ({ slice, range }) => {
+const TablaCompManager = ({ slice, range, setPage, page }) => {
   //componente que renderiza la tabla con los pedidos
   //recibe data -> json de pedidos
   //rowsPerPage -> cuantas filas va a renderizar
   //searchValue -> el filtro en caso de que se active el componente MyOrdersSearch
 
-  console.log("data array: "+data.result)
   const [localeCookie, ] = useCookie('locale')
 
 
@@ -165,7 +164,29 @@ const TablaCompManager = ({ slice, range }) => {
   }
 
   return (
-      <>
+
+    <>
+        <Table hoverable={true}>
+          <Table.Head>
+            <Table.HeadCell className="!p-4">
+            </Table.HeadCell>
+            <Table.HeadCell>
+              {getText('ID', localeCookie)}
+            </Table.HeadCell>
+            <Table.HeadCell>
+              {getText('purchased_date', localeCookie)}
+            </Table.HeadCell>
+            <Table.HeadCell>
+
+            </Table.HeadCell>
+            <Table.HeadCell>
+              {getText('state', localeCookie)}
+            </Table.HeadCell>
+            <Table.HeadCell>
+              {getText('details', localeCookie)}
+            </Table.HeadCell>
+          </Table.Head>
+          <Table.Body className="divide-y">
           {slice.map((order) =>
             <>
             <Table.Row className={myordersStyles.tableRow}>
@@ -203,6 +224,9 @@ const TablaCompManager = ({ slice, range }) => {
             </Table.Row>
           </>
           )}
+          </Table.Body>
+        </Table> 
+        <TableFooter range={range} slice={slice} setPage={setPage} page={page} />   
     </>
   );
 };
