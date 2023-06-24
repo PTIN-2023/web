@@ -143,65 +143,9 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
 
 
 }
-//TODO: se deberia quitar? de momento está desactivado
-function ModalCancelarPedido({currentTarget, currentItem, modalCancelarPedidoState, setModalCancelarPedidoState}){
-    //funciona igual que el modal anterior pero con el botón de cancelar pedido
-    //TODO: hacer que borre el pedido
-    console.log(currentTarget.current);
-    const [localeCookie, ] = useCookie('locale')
-    const onCloseCancelarPedidoHandler = () =>{
-        setModalCancelarPedidoState(false);
-    }
-    const onClickCancelarPedidoHandler = () => {
-        
-        currentTarget.current = currentItem;
-        setModalCancelarPedidoState(true);  
-
-    }
-    const onClickCancelarPedidoHandler_CANCELAR = () => {
-        setModalCancelarPedidoState(true);
-    }
 
 
-    return(
-    <>    
-        <Dropdown.Item onClick={onClickCancelarPedidoHandler} className={myordersStyles.cancelarPedidoDropdown} icon={HiTrash}>{getText('cancel_order', localeCookie)}</Dropdown.Item>      
-        <Modal
-            show={(currentTarget.current == currentItem && modalCancelarPedidoState) ? true : false}
-            size="md"
-            popup={true}
-            onClose={onCloseCancelarPedidoHandler}
-        >
-            <Modal.Header />
-            <Modal.Body>
-            <div className="text-center">
-                <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                {getText('cancelation_confirmation', localeCookie)} <span className="font-bold leading-relaxed text-gray-500 dark:text-gray-400">{currentItem}</span>?
-                </h3>
-                <div className="flex justify-center gap-4">
-                <Button
-                    color="failure"
-                    onClick={onClickCancelarPedidoHandler_CANCELAR}
-                >
-                  {getText('cancelation_confirmation_yes', localeCookie)}
-                </Button>
-                <Button
-                    color="gray"
-                    onClick={onCloseCancelarPedidoHandler}
-                >
-                  {getText('cancelation_confirmation_no', localeCookie)}
-                </Button>
-                </div>
-            </div>
-            </Modal.Body>
-        </Modal>
-    </>
-    )
-}
-
-
-const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
+const TablaCompManager = ({ slice, range }) => {
   //componente que renderiza la tabla con los pedidos
   //recibe data -> json de pedidos
   //rowsPerPage -> cuantas filas va a renderizar
@@ -210,53 +154,57 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
   console.log("data array: "+data.result)
   const [localeCookie, ] = useCookie('locale')
 
-  const [page, setPage] = useState(1);
-  //estos dos hooks de abajo sirven para mostrar o bien ocultar los modals
-  let slice, range
 
-  //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
-  if(data.result == "ok"){
-    console.log("not ok")
-    if(searchValue.value.length > 0 && searchValue.isCompleted){
-      data.orders = data.orders.filter((pedido) => pedido.order_identifier.toLowerCase().includes(searchValue.value));  
+  const [modalDetallesState, setModalDetallesState] = useState(false);
+  //currentTarget es un hook useRef para que no se actualice en cada render y así aseguramos que los modals no se multipliquen
+  const currentTarget = useRef("");
 
-    }
-    
-    ({ slice, range } = useTable(data.orders, page, rowsPerPage));
+  function changeModalDetallesState(e){
+    setModalDetallesState(e);
+
   }
 
   return (
-    <>
-
-        <Table hoverable={true}>
-          {console.log(searchValue)}
-          <Table.Head>
-            <Table.HeadCell className="!p-4">
-            </Table.HeadCell>
-            <Table.HeadCell>
-              {getText('ID', localeCookie)}
-            </Table.HeadCell>
-            <Table.HeadCell>
-              {getText('purchased_date', localeCookie)}
-            </Table.HeadCell>
-            <Table.HeadCell>
-
-            </Table.HeadCell>
-            <Table.HeadCell>
-              {getText('state', localeCookie)}
-            </Table.HeadCell>
-            <Table.HeadCell>
-              {getText('details', localeCookie)}
-            </Table.HeadCell>
-          </Table.Head>
-          <Table.Body className="divide-y">
-          { data.result == "ok" && <TablaCompManager slice={slice} range={range}/>}
-
-          </Table.Body>
-        </Table> 
-        <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
+      <>
+          {slice.map((order) =>
+            <>
+            <Table.Row className={myordersStyles.tableRow}>
+              <Table.Cell className={myordersStyles.firstTableCell}> 
+                {/* <Dropdown className={myordersStyles.chevronDown} label="" inline={true}>
+                    <ModalCancelarPedido currentTarget={currentTarget} currentItem={order.id} modalCancelarPedidoState={modalCancelarPedidoState} setModalCancelarPedidoState={changeModalCancelarPedidoState}/>
+                </Dropdown> */}
+              </Table.Cell>
+              <Table.Cell className={myordersStyles.tableCell}>
+                {order.order_identifier}
+              </Table.Cell>
+              <Table.Cell>
+                {order.date}
+              </Table.Cell>
+              <Table.Cell>
+                
+              </Table.Cell>
+              <Table.Cell>
+                {(order.state == "delivered" || order.state == "delivered_waiting" ) &&
+                  <span className={myordersStyles.deliveryStateEntregado}>{getText("delivered", localeCookie)}</span>
+                }
+                {(order.state == "car_sent" || order.state == "drone_sent" ) &&
+                  <span className={myordersStyles.deliveryStateEnviado}>{getText("sent", localeCookie)}</span>
+                }
+                {(order.state == "awaiting_confirmation" ||order.state == "ordered") &&
+                  <span className={myordersStyles.deliveryStateEspConfirm}>{getText(order.state, localeCookie)}</span>
+                }
+                {(order.state == "canceled" || order.state == "denied") &&
+                  <span className={myordersStyles.deliveryStateCancelado}>{getText(order.state, localeCookie)}</span>
+                }
+              </Table.Cell>
+              <Table.Cell className={`${myordersStyles.firstTableCell} ${myordersStyles.detailsRow}`}>
+                <ModalDetalles currentTarget={currentTarget} currentItem={order} modalDetallesState={modalDetallesState} setModalDetallesState={changeModalDetallesState}/>
+              </Table.Cell>
+            </Table.Row>
+          </>
+          )}
     </>
   );
 };
 
-export default TablaPedidos;
+export default TablaCompManager;
