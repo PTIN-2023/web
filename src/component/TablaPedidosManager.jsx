@@ -224,13 +224,11 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
       data.orders = data.orders.filter((pedido) => pedido.order_identifier.toLowerCase().includes(searchValue.value));  
 
     }
-    
-    ({ slice, range } = useTable(data.orders, page, rowsPerPage));
   }
 
   return (
     <>
-     {data.result == "ok" && <TablaCompManager slice={slice} range= {range} setPage={setPage} page={page}/>}
+     {data.result == "ok" && <TablaCompManager slice={slice} data={data} rowsPerPage={rowsPerPage} range= {range} setPage={setPage} page={page}/>}
     </>
   );
 };

@@ -143,11 +143,12 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
 }
 
 
-const TablaCompManager = ({ slice, range, setPage, page }) => {
+const TablaCompManager = ({ data, rowsPerPage, slice, range, setPage, page }) => {
   //componente que renderiza la tabla con los pedidos
   //recibe data -> json de pedidos
   //rowsPerPage -> cuantas filas va a renderizar
   //searchValue -> el filtro en caso de que se active el componente MyOrdersSearch
+  ({ slice, range } = useTable(data.orders, page, rowsPerPage));
 
   const [localeCookie, ] = useCookie('locale')
 
