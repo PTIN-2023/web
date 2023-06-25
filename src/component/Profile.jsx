@@ -68,17 +68,20 @@ export default function UserProfile({ data, avatarImg, user_token }) {
 
   const getUserData = async (_data, _avatarImg) => {
     try {
-      if (_data.response.result === "ok") {
+      //if (_data.response.result === "ok") {
         getName(_data.response.user_full_name);
-        getAge(_data.response.age);
+        //getAge(_data.response.age);
+        getAge('none');
         getPseudoname(_data.response.user_given_name);
         getEmail(_data.response.user_email);
-        getPasswd(_data.response.passwd);
+        //getPasswd(_data.response.passwd);
+        getPasswd('none');
         getPhone(_data.response.user_phone);
         getCity(_data.response.user_city);
         getAddres(_data.response.user_address);
-        getUserImg(_avatarImg);
-      }
+        //getUserImg(_avatarImg);
+        getUserImg("https://img.pccomponentes.com/pcblog/1678057200000/mi-cuenta.jpg");
+      //}
     } catch (error) {
       getName('none');
       getAge('0');
