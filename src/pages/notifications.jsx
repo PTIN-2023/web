@@ -1,8 +1,11 @@
 import Head from 'next/head'
 import Layout from "../component/Layout"
 import NotificationsList from "../component/notifications/Notifications"
+import genCommonProps from '../utils/gen_common_props';
 
-
+export async function getServerSideProps() {
+  return await genCommonProps()
+}
 
 export default function Home(props) {
   return (
@@ -13,7 +16,7 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Layout>
+        <Layout props={props}>
           <NotificationsList />
         </Layout>
       </main>

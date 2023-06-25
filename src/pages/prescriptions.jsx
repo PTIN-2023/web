@@ -2,8 +2,13 @@ import Head from 'next/head'
 import Layout from "../component/Layout"
 import MakePrescriptions from "../component/Prescriptions/Prescription"
 import {useState} from 'react'
+import genCommonProps from '../utils/gen_common_props';
 
-export default function Home() {
+export async function getServerSideProps() {
+  return await genCommonProps()
+}
+
+export default function Home(props) {
 
   const [searchValue, setSearchValue] = useState({value:"",isCompleted:false});
 
@@ -15,7 +20,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Layout navBarValue={setSearchValue}>
+        <Layout navBarValue={setSearchValue} props={props}>
             <MakePrescriptions searchValue={searchValue} setSearchValue={setSearchValue}/>
         </Layout>
       </main>

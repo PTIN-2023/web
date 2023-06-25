@@ -32,6 +32,7 @@ export default function LoginUserTestComponent({apiEndpoint}) {
         setUserRoleCookie(res.user_role)
         setUserTokenCookie(res.user_token)
         setUserPictureCookie(res.user_picture)
+        window.location.reload(false);
       }
     }
   )

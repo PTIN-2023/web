@@ -35,8 +35,8 @@
         "english" : "Inglés",
         "profile" : "Perfil",
         "map" : "Mapa",
-        "map_global" : "Global",
-        "map_local" : "Local",
+        "global" : "Global",
+        "local" : "Local",
         "inventory" : "Inventario",
         "orders" : "Pedidos",
         "assigns":  "Asignar pacientes",
@@ -85,7 +85,7 @@
         "button_edit" : "Editar",
         "button_confirm" : "Confirmar",
         "createuser" : "Crear usuario",
-        "prescription": "Prescripciones"
+        "prescripciones_paciente": "Prescripciones"
     },
     "en": {
         "language": "Language",
@@ -123,8 +123,8 @@
         "english": "English",
         "profile": "Profile",
         "map": "Map",
-        "map_global": "Global",
-        "map_local": "Local",
+        "global": "Global",
+        "local": "Local",
         "inventory": "Inventory",
         "orders": "Orders",
         "assigns": "Patient asignations",
@@ -154,7 +154,7 @@
         "button_edit" : "Edit",
         "button_confirm" : "Confirm",
         "createuser" : "Create user",
-        "prescription": "Prescriptions"
+        "prescripciones_paciente": "My Prescriptions"
     },
     "ca": {
         "language": "Idioma",
@@ -192,8 +192,8 @@
         "english": "Anglès",
         "profile": "Perfil",
         "map": "Mapa",
-        "map_global": "Global",
-        "map_local": "Local",
+        "global": "Global",
+        "local": "Local",
         "inventory": "Inventari",
         "orders": "Comandes",
         "assigns" : "Assignació pacients",
@@ -223,6 +223,6 @@
         "button_edit" : "Editar",
         "button_confirm" : "Confirmar",
         "createuser" : "Crear ususari",
-        "prescription": "Prescripcions"
+        "prescripciones_paciente": "Prescripcions"
     }
 }

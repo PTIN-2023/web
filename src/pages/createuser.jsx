@@ -13,18 +13,13 @@ import LabeledSelect from '../component/common/LabeledSelect';
 import LabeledTextInputComponent from '../component/common/LabeledTextInput';
 import ErrorModal from '../component/common/ModalOkButton';
 import ModalOkButton from '../component/common/ModalOkButton';
+import genCommonProps from '../utils/gen_common_props';
 
 export async function getServerSideProps() {
-  const apiEndpoint = String(env_config.getApiEndpoint());
-
-  return {
-    props: { 
-      apiEndpoint,
-    }
-  }
+  return await genCommonProps()
 }
 
-export default function Home({apiEndpoint}) {
+export default function Home(props) {
   // Cookies
   const [userTokenCookie, ] = useCookie('user_token')
 
@@ -70,7 +65,7 @@ export default function Home({apiEndpoint}) {
 
   const [sumbitAndFetch,] = useSumbitAndFetch(
     stringRequest,
-    apiEndpoint+"/api/manager_create_account",
+    props.apiEndpoint+"/api/manager_create_account",
     (res) => {
       if (res.result === "ok") {
         setInfoModalText("Account created")
@@ -88,7 +83,7 @@ export default function Home({apiEndpoint}) {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.ico" />
   </Head>
-  <main><Layout>
+  <main><Layout props={props}>
     <ModalOkButton
       show={showInfoModal}
       setShow={(v) => setShowInfoModal(v)}
