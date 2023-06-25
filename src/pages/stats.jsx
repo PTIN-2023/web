@@ -6,27 +6,10 @@ import * as env_config from "../utils/env_config"
 import useCookie from "../hooks/useCookie";
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
+import genCommonProps from '../utils/gen_common_props';
 
 export async function getServerSideProps() {
-  const isLocal           = env_config.isLocal();
-  const apiEndpoint       = String(          env_config.getApiEndpoint());
-  const locationName      = String(isLocal ? env_config.getLocationName()      : "N/A");
-  const locationLatitude  = String(isLocal ? env_config.getLocationLatitude()  : "N/A");
-  const locationLongitude = String(isLocal ? env_config.getLocationLongitude() : "N/A");
-  const mapBoxToken       = String(          env_config.getTokenMapBox());
-  const googleToken       = String(          env_config.getTokenGoogleSignIn());
-
-  return {
-    props: { 
-      isLocal,
-      apiEndpoint,
-      locationName,
-      locationLatitude,
-      locationLongitude,
-      mapBoxToken,
-      googleToken
-    }
-  }
+  return await genCommonProps()
 }
 
 export default function Home(props) {
@@ -57,7 +40,7 @@ export default function Home(props) {
         <link rel="icon" href="media/logo/favicon.ico" />
       </Head>
       <main>
-        <Layout>
+        <Layout props={props}>
           {stringResponse != 'none' && <StatsContainer data={JSON.parse(stringResponse)} />}
         </Layout>
       </main>

@@ -7,15 +7,10 @@ import * as env_config from "../utils/env_config"
 import useCookie from '../hooks/useCookie';
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest.js";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetchObject.js";
+import genCommonProps from '../utils/gen_common_props';
 
 export async function getServerSideProps() {
-  const apiEndpoint = String(env_config.getApiEndpoint());
-
-  return {
-    props: { 
-      apiEndpoint,
-    }
-  }
+  return await genCommonProps()
 }
 
 export default function Home(props) {
@@ -55,7 +50,7 @@ export default function Home(props) {
       </Head>
       <main>
         {/**le pasamos a Layout el valor del componente de la página que está renderizando (Layout se encarga de detectar en que pagina está) */}
-        <Layout>
+        <Layout props={props}>
         <div className={myordersStyles.mainContainer}>
           {/**Tablapacientes recibe cuantas filas va a renderizar, los datos */}
           {stringResponse != 'none' && <Tablapacientes data={JSON.parse(stringResponse)} rowsPerPage={10}/>}

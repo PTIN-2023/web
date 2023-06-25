@@ -9,15 +9,12 @@ import * as env_config from "../utils/env_config.js";
 import useCookie from "../hooks/useCookie"
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest.js";
 import useSumbitAndFetchObject from "../hooks/useSumbitAndFetchObject.js";
+import genCommonProps from '../utils/gen_common_props';
 
 export async function getServerSideProps() {
-    const apiEndpoint = String(env_config.getApiEndpoint());
-    return {
-        props: {
-            apiEndpoint
-        }
-    }
+  return await genCommonProps()
 }
+
 
 // esta funcion filtra los medicamentos que no tienen prescripción
 function deletePrescription (meds) {
@@ -85,7 +82,7 @@ export default function Home(props) {
             </Head>
             <main>
                 {/**le pasamos a Layout el valor del componente de la página que está renderizando (Layout se encarga de detectar en que pagina está) */}
-                <Layout navBarValue={setSearchValue}>
+                <Layout navBarValue={setSearchValue} props={props}>
                     <div className='flex space-between flex-start' style={{ backgroundColor: '#87CEFA' }}>
                         <div>
                             <FilterTable 

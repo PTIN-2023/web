@@ -319,7 +319,7 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Layout>
+        <Layout props={props}>
         {/* {props.isLocal &&  */}<Map 
             initialViewState={{
               longitude: props.locationLongitude,

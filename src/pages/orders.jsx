@@ -7,27 +7,10 @@ import * as env_config from "../utils/env_config"
 import useCookie from "../hooks/useCookie";
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
+import genCommonProps from '../utils/gen_common_props';
 
 export async function getServerSideProps() {
-  const isLocal           = env_config.isLocal();
-  const apiEndpoint       = String(          env_config.getApiEndpoint());
-  const locationName      = String(isLocal ? env_config.getLocationName()      : "N/A");
-  const locationLatitude  = String(isLocal ? env_config.getLocationLatitude()  : "N/A");
-  const locationLongitude = String(isLocal ? env_config.getLocationLongitude() : "N/A");
-  const mapBoxToken       = String(          env_config.getTokenMapBox());
-  const googleToken       = String(          env_config.getTokenGoogleSignIn());
-
-  return {
-    props: { 
-      isLocal,
-      apiEndpoint,
-      locationName,
-      locationLatitude,
-      locationLongitude,
-      mapBoxToken,
-      googleToken
-    }
-  }
+  return await genCommonProps()
 }
 
 export default function Home(props) {
@@ -66,7 +49,7 @@ export default function Home(props) {
       </Head>
       <main>
         {/**le pasamos a Layout el valor del componente de la página que está renderizando (Layout se encarga de detectar en que pagina está) */}
-        <Layout navBarValue={setSearchValue}>
+        <Layout navBarValue={setSearchValue} props={props}>
         <div className={myordersStyles.mainContainer}>
           {/**TablaPedidos recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
           {(stringResponse != "none") && <TablaPedidosManager data={JSON.parse(stringResponse)} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>}

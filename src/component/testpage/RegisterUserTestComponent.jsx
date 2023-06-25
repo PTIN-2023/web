@@ -43,6 +43,7 @@ export default function  RegisterUserTestComponent({apiEndpoint}) {
         setUserGivenNameCookie(userGivenName)
         setUserRoleCookie("patient")
         setUserTokenCookie(res.session_token)
+        window.location.reload(false);
       }
     } 
   )
