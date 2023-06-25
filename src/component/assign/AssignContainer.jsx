@@ -30,7 +30,6 @@ function ModalDeleteAssign({props, refreshAsignations, currentDoctor, currentTar
         if (res.result === "ok") {
           alert("Paciente eliminado correctamente!")
           refreshAsignations()
-          window.location.reload(false);
         }
       }
     ) 
@@ -48,13 +47,8 @@ function ModalDeleteAssign({props, refreshAsignations, currentDoctor, currentTar
     }
     const onClickDeleteAssignHandler_CANCELAR = async () => {
         setModalDeleteAssignState(false);
-        console.log("apicall")
         await deleteAssign()
-        console.log("response: "+stringResponse)
-        if(JSON.parse(stringResponse).result == "ok"){
-            alert("Paciente eliminado correctamente!")
-            
-        }        
+        console.log("response: "+stringResponse)      
     }
 
 
@@ -137,16 +131,9 @@ const AssignContainer = ({data, props}) => {
       )
 
     const newPatientAssignHandler = async () => {
-        console.log("apicall")
         await assignDoctor()
         console.log("response: "+stringResponse)
         setResponseNewAssign(stringResponse)
-        if(responseNewAssign != "none"){
-            if(responseNewAssign.result == "ok"){
-                alert("Paciente asignado correctamente!")
-                refreshAsignations()
-            }
-        }
     }
 
     function changeModalDeleteAssignState(e){
