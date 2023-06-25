@@ -6,6 +6,7 @@ import { seedMirageAuth, defineMirageAuthRoutes } from "./mirage_calls/auth"
 import { seedMirageMapLocations, defineMirageMapLocationsRoutes } from "./mirage_calls/map_locations"
 import { seedMirageMisc, defineMirageMiscRoutes } from "./mirage_calls/misc"
 import { seedMirageMakeOrders, defineMakeOrdersRoutes } from "./mirage_calls/make_orders"
+import { seedMiragePatientsList, defineMiragePatientsListRoutes } from "./mirage_calls/manager_assigns"
 import { seedMirageMyOrders, defineMirageMyOrdersRoutes } from "./mirage_calls/my_orders"
 import { seedMirageStats, defineMirageStatsRoutes } from "./mirage_calls/stats"
 import { seedMirageDoctorsNotifications, defineMirageDoctorsNotificationsRoutes } from "./mirage_calls/doctors_notifications"
@@ -27,7 +28,8 @@ export function makeServer() {
       orders : Model,
       beehives : Model,
       notifications : Model,
-      routes : Model
+      routes : Model,
+      patients : Model
     },
 
     seeds(server) {
@@ -50,6 +52,7 @@ export function makeServer() {
           seedMirageRoutes(server)
           seedMirageUpdate(server)
           seedMirageDoctorsPrescriptions(server)
+          seedMiragePatientsList(server)
         }
       }
     },
@@ -70,6 +73,7 @@ export function makeServer() {
       defineMirageRoutesRoutes(this)
       defineMirageUpdateRoutes(this)
       defineMirageDoctorsPrescriptionsRoutes(this)
+      defineMiragePatientsListRoutes(this)
 
       this.passthrough("https://api.mapbox.com/**")
       this.passthrough("https://events.mapbox.com/**")

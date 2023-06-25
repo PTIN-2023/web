@@ -34,12 +34,12 @@
 
 }
 .sideBarItem > *{
-    @apply fill-gray-500;
+    @apply fill-gray-500 cursor-pointer font-semibold;
 
 
 }
 .sideBarCurrentItem{
-    @apply bg-gray-100;
+    @apply bg-gray-100 font-bold;
 
 }
 .sideBarCurrentItem *{
