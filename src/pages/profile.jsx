@@ -13,6 +13,7 @@ export async function getServerSideProps() {
 export default function Home(props) {
 
   const [userPicture,] = useCookie('user_picture');
+  const [userTokenCookie,] = useCookie('user_token');
 
   const stringRequest = usePrepareBodyRequest({
     "session_token" : userTokenCookie
