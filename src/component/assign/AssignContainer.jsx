@@ -123,10 +123,16 @@ const AssignContainer = ({data, props}) => {
         console.log("apicall")
         await assignDoctor()
         console.log("response: "+stringResponse)
-        stringResponse = JSON.parse(stringResponse)
-        if(stringResponse.result == "ok"){
-            alert("Paciente asignado correctamente!")
-            await refreshAsignations()
+        if(stringResponse != "none"){
+            stringResponse = JSON.parse(stringResponse)
+            if(stringResponse.result == "ok"){
+                alert("Paciente asignado correctamente!")
+                await refreshAsignations()
+                if(stringResponseAsignations != "none"){
+                    stringResponseAsignations = JSON.parse(stringResponseAsignations)
+                    
+                }
+            }
         }
     }
 
@@ -139,10 +145,7 @@ const AssignContainer = ({data, props}) => {
         await refreshAsignations()
         if(stringResponseAsignations != "none"){
             stringResponseAsignations = JSON.parse(stringResponseAsignations)
-        }
-        stringResponse = JSON.parse(stringResponse)
-        if(stringResponse.result == "ok"){
-            alert("Paciente agregado correctamente!")
+            
         }
     }
 
@@ -190,7 +193,7 @@ const AssignContainer = ({data, props}) => {
                                 </Table.HeadCell>
                             </Table.Head>
                             <Table.Body className="divide-y">
-                            {stringResponseAsignations != "none" && stringResponseAsignations.patients.map((patient) =>
+                            {stringResponseAsignations != "none" ? (stringResponseAsignations.patients.map((patient) =>
                                 <>
                                     <Table.Row className={myordersStyles.tableRow}>
                                         <Table.Cell className={myordersStyles.tableCell}>
@@ -210,8 +213,10 @@ const AssignContainer = ({data, props}) => {
                                             {/* <ModalDetalles currentTarget={currentTarget} currentItem={order} modalDetallesState={modalDetallesState} setModalDetallesState={changeModalDetallesState}/> */}
                                         </Table.Cell>
                                     </Table.Row>
-                                </>
-                            )}
+                                </>))
+                                :
+                                <></>   
+                            }
 
                             </Table.Body>
                         </Table>                
