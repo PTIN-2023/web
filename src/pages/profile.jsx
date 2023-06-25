@@ -1,14 +1,33 @@
 import Head from 'next/head'
 import Layout from "../component/Layout"
-import Profile from "../component/Profile"
 import UserProfile from '../component/Profile'
-import genCommonProps from '../utils/gen_common_props';
-
-export async function getServerSideProps() {
-  return await genCommonProps()
-}
+import { useEffect } from 'react';
+import useCookie from "../hooks/useCookie";
+import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
+import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
 
 export default function Home(props) {
+
+  const [userTokenCookie, ] = useCookie('user_token');
+  const [userPicture,] = useCookie('user_picture');
+
+  const stringRequest = usePrepareBodyRequest({
+    "session_token" : userTokenCookie
+  })
+
+  const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
+    stringRequest,
+    props.apiEndpoint+"/api/get_user_info"
+  )
+
+  useEffect(() => {
+    if(stringResponse != 'none') {
+      console.log("new response not none: "+stringResponse)
+    }
+  }, [stringResponse])
+
+  sumbitAndFetch();
+
   return (
     <>
       <Head>
@@ -17,8 +36,8 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Layout props={props}>
-          <UserProfile/>
+        <Layout>
+          {(stringResponse != "none") && <UserProfile data={JSON.parse(stringResponse)} profileImg={userPicture} />}
         </Layout>
       </main>
     </>

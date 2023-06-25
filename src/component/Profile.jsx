@@ -7,11 +7,12 @@ import getTextCurrentLocale from '../utils/getTextCurrentLocale';
 
 // Ver estilos en /styles/ProfileStyles.jsx
 
-export default function UserProfile(userTokenCookie) {
+export default function UserProfile({data, avatarImg}) {
 
   console.log("user: " + userTokenCookie)
 
   //  Datos del usuario
+  const [userImg, getUserImg] = useState("");
   const [userName, getName] = useState("");
   const [userAge, getAge] = useState("");
   const [userPseudoname, getPseudoname] = useState("");
@@ -20,10 +21,10 @@ export default function UserProfile(userTokenCookie) {
   const [userPhone, getPhone] = useState("");
   const [userCity, getCity] = useState("");
   const [userAddres, getAddres] = useState("");
+  
 
   const userTestToken = 'John doe';
-  //const userTestToken = '1q2w3e4r5t'
-  //const email = 'John doe'
+
   // Metodo para gestionar los cambios de datos que haga el cliente
   /*
       - Se hace una llamada con el email del usuario para poder identificarlo dentro 
@@ -65,43 +66,35 @@ export default function UserProfile(userTokenCookie) {
         en su sitio correspondiente, en caso de que se produzca un error, se rellenaran con "none"
   */
 
-  const getUserData = async (e) => {
-    try {
-      const response = await fetch('/api/user_info?user_test_token=' + userTestToken, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await response.json();
-      if (data.result === "ok") {
-        getName(data.user.name);
-        getAge(data.user.age);
-        getPseudoname(data.user.pseudoname);
-        getEmail(data.user.email);
-        getPasswd(data.user.passwd);
-        getPhone(data.user.phone);
-        getCity(data.user.city);
-        getAddres(data.user.addres);
-      } else {
-        getName('none');
-        getAge('0');
-        getPseudoname('none');
-        getEmail('none');
-        getPasswd('none');
-        getPhone('none');
-        getCity('none');
-        getAddres('none');
+  const getUserData = async (_data, _avatarImg) => {
+    try{
+      if (_data.response.result === "ok") {
+        getName(_data.response.user_full_name);
+        getAge(_data.response.age);
+        getPseudoname(_data.response.user_given_name);
+        getEmail(_data.response.user_email);
+        getPasswd(_data.response.passwd);
+        getPhone(_data.response.user_phone);
+        getCity(_data.response.user_city);
+        getAddres(_data.response.user_address);
+        getUserImg(_avatarImg);
       }
-    }
-    catch (error) {
-      console.error(error);
+    } catch (error){
+      getName('none');
+      getAge('0');
+      getPseudoname('none');
+      getEmail('none');
+      getPasswd('none');
+      getPhone('none');
+      getCity('none');
+      getAddres('none');
+      getUserImg("https://img.pccomponentes.com/pcblog/1678057200000/mi-cuenta.jpg");
     }
   }
 
   // Metodo para controlar que se llame a la funcion solo cuando se carge la pagina o cuando se la llame
   useEffect(() => {
-    getUserData();
+    getUserData(data, avatarImg);
   }, []);
 
 
@@ -244,7 +237,7 @@ export default function UserProfile(userTokenCookie) {
 
     <div className={styles.cont_main}>
       <div className={styles.cont_imagZone}>
-        <img src="https://img.pccomponentes.com/pcblog/1678057200000/mi-cuenta.jpg" alt="Profile Picture" className={styles.style_profilePic} />
+        <img src={userImg} alt="Profile Picture" className={styles.style_profilePic} />
         <div className={styles.cont_subImagZone}>
           <h1 className={styles.text_title}>{userName}</h1>
           <h2 className={styles.text_subtitle}>{getTextCurrentLocale('user_age')}: {userAge}</h2>
