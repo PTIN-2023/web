@@ -16,7 +16,7 @@ export default function Home(props) {
   const [userTokenCookie,] = useCookie('user_token');
 
   const stringRequest = usePrepareBodyRequest({
-    "session_token" : userTokenCookie
+    "token" : userTokenCookie
   })
 
   const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
