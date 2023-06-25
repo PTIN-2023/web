@@ -6,7 +6,8 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
     // Check payload
 
     const expectedFields = [
-        "session_token"
+        "session_token",
+        "id_beehive"
     ]
     const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
     if (!expectedFieldsOk) {
@@ -19,10 +20,12 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
         })
     }
 
+    const session_token = requestPayload.session_token
+    const id_beehive = requestPayload.id_beehive
+
     // Check token
     console.log("[update_order_drones] checking token")
 
-    const session_token = requestPayload.session_token
     const valid = await check_token_req(api_endpoint, session_token, 'internal')
     if(!valid) {
         return ({
@@ -43,7 +46,8 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            session_token : session_token
+            session_token : session_token,
+            id_beehive : id_beehive
         })
     }).then(data => data.status==200||data.status==201 ? data.json() : {})
 
@@ -66,7 +70,8 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            session_token : session_token
+            session_token : session_token,
+            id_beehive : id_beehive
         })
     }).then(data => data.status==200||data.status==201 ? data.json() : {})
 
@@ -103,6 +108,23 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
         })
     }
 
+    const filtered_beehives = storage_position_response.beehives.filter(bh => bh.id_beehive == id_beehive)
+
+    if(filtered_beehives.length != 1) {
+        return ({
+            response_code : 500,
+            response_body : {
+                result : "error",
+                description: "Passed beehive pos does not have defined local coordinates"
+            }
+        })
+    }
+
+    const location_act = {
+        latitude : filtered_beehives[0].latitude,
+        longitude : filtered_beehives[0].longitude
+    }
+
     // Sort drones and orders
     console.log("[update_order_drones] sorting orders and drones")
     let orders = list_orders_to_send_drones_response.orders.sort((a, b) => {
@@ -135,10 +157,6 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
     // Generate route and assignations for matched drones
     console.log("[update_order_drones] generating routes and assignations")
     let assignations = []
-    const location_act = {
-        latitude : storage_position_response.latitude,
-        longitude : storage_position_response.longitude
-    }
     
     for (const match of matches) {
         const location_end = {
@@ -172,7 +190,7 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
         })
     }
 
-    // Send car order
+    // Send drone order
     console.log("[update_order_drones] sending order")
     const send_order_response = await fetch(api_endpoint+'/api/send_order_drones', {
         method: 'POST',
@@ -181,7 +199,8 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
         },
         body: JSON.stringify({
             session_token : session_token,
-            assignations : assignations
+            assignations : assignations,
+            id_beehive: id_beehive
         })
     }).then(data => data.status==200||data.status==201 ? data.json() : {})
 

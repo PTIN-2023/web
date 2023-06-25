@@ -27,8 +27,13 @@ export function defineMirageMapLocationsRoutes(server) {
 
     return {
       "result": "ok", 
-      "latitude": beehive.latitude,
-      "longitude" : beehive.longitude
+      "beehives" : [
+        {
+          "id_beehive" : 1,
+          "latitude": beehive.latitude,
+          "longitude" : beehive.longitude
+        }
+      ]
     }
   })
 
