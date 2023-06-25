@@ -3,16 +3,15 @@ import { Button } from 'flowbite-react'
 import { useEffect } from 'react';
 import styles from "../styles/ProfileStyles.module.css";
 import getTextCurrentLocale from '../utils/getTextCurrentLocale';
-import useCookie from "../hooks/useCookie";
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
 
 
 // Ver estilos en /styles/ProfileStyles.jsx
 
-export default function UserProfile({ data, avatarImg }) {
+export default function UserProfile({ data, avatarImg, user_token }) {
 
-  console.log("user: " + userTokenCookie)
+  //console.log("user: " + userTokenCookie)
 
   //  Datos del usuario
   const [userImg, getUserImg] = useState("");
@@ -24,7 +23,6 @@ export default function UserProfile({ data, avatarImg }) {
   const [userPhone, getPhone] = useState("");
   const [userCity, getCity] = useState("");
   const [userAddres, getAddres] = useState("");
-  const [userTokenCookie,] = useCookie('user_token');
 
 
   const userTestToken = 'John doe';
@@ -36,20 +34,11 @@ export default function UserProfile({ data, avatarImg }) {
         con la nueva informacion del cliente despues de ser modificada.
         De esta manera la api recibira los datos que debera actualizar dentro de la basa de datos.
   */
-  getName(_data.response.user_full_name);
-  getAge(_data.response.age);
-  getPseudoname(_data.response.user_given_name);
-  getEmail(_data.response.user_email);
-  getPasswd(_data.response.user_passwd);
-  getPhone(_data.response.user_phone);
-  getCity(_data.response.user_city);
-  getAddres(_data.response.user_address);
-  getUserImg(_avatarImg);
-
-  const setNewUserData = async (e) => {
+  
+  const setNewUserData = async (_user_token) => {
 
     const stringRequest = usePrepareBodyRequest({
-      "session_token": userTokenCookie,
+      "session_token": _user_token,
       "user_given_name": userPseudoname,
       "user_email": userEmail,
       "user_passwd": userPasswd,
@@ -140,7 +129,7 @@ export default function UserProfile({ data, avatarImg }) {
 
   const handleConfirmPseudoClick = () => {
     setShowPseudoInput(false);
-    setNewUserData();
+    setNewUserData(user_token);
     getUserData();
   };
   /////////////////////////////////////////////////////////////////////
@@ -162,7 +151,7 @@ export default function UserProfile({ data, avatarImg }) {
 
   const handleConfirmEmailClick = () => {
     setShowEmailInput(false);
-    setNewUserData();
+    setNewUserData(user_token);
     getUserData();
   };
 
@@ -182,7 +171,7 @@ export default function UserProfile({ data, avatarImg }) {
 
   const handleConfirmPasswdClick = () => {
     setShowPasswdInput(false);
-    setNewUserData();
+    setNewUserData(user_token);
     getUserData();
   };
   /////////////////////////////////////////////////////////////////////
@@ -200,7 +189,7 @@ export default function UserProfile({ data, avatarImg }) {
 
   const handleConfirmPhoneClick = () => {
     setShowPhoneInput(false);
-    setNewUserData();
+    setNewUserData(user_token);
     getUserData();
   };
   /////////////////////////////////////////////////////////////////////
@@ -218,7 +207,7 @@ export default function UserProfile({ data, avatarImg }) {
 
   const handleConfirmCityClick = () => {
     setShowCityInput(false);
-    setNewUserData();
+    setNewUserData(user_token);
     getUserData();
   };
   /////////////////////////////////////////////////////////////////////
@@ -237,7 +226,7 @@ export default function UserProfile({ data, avatarImg }) {
 
   const handleConfirmAddresClick = () => {
     setShowAddresInput(false);
-    setNewUserData();
+    setNewUserData(user_token);
     getUserData();
   };
   /////////////////////////////////////////////////////////////////////

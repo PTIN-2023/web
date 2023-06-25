@@ -41,7 +41,7 @@ export default function Home(props) {
       </Head>
       <main>
         <Layout props={props}>
-          {(stringResponse != "none") && <UserProfile data={JSON.parse(stringResponse)} profileImg={userPicture} />}
+          {(stringResponse != "none") && <UserProfile data={JSON.parse(stringResponse)} profileImg={userPicture} client_token={userTokenCookie} />}
         </Layout>
       </main>
     </>
