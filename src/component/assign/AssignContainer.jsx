@@ -156,8 +156,8 @@ const AssignContainer = ({data, props}) => {
             <Card className="col-span-2">
                 <h1 className={assignStyles.gridHeader}>Doctores</h1>
                 <select onChange={(e) => setCurrentDoctorHandler(e.target.value)} id="doctors" size="5" class="bg-gray-50 border border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    {data.result == "ok" && data.patients.map((patient) =>
-                        <option value={patient.user_email}>{patient.user_email}</option>
+                    {data.result == "ok" && data.patients.map((doctor) =>
+                        <option value={doctor.user_email}>{doctor.user_email}</option>
                     )}
                 </select>
                 <span className="mt-9"></span>
