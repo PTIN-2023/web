@@ -3,16 +3,20 @@ import assignStyles from "../../styles/assign.module.css"
 import myordersStyles from "../../styles/Myorders.module.css"
 import {getText} from "../../utils/getTextCurrentLocale"
 import useCookie from "../../hooks/useCookie"
+import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest";
+import useSumbitAndFetch from "../../hooks/useSumbitAndFetch";
 import { Card, Table, Modal, Button } from "flowbite-react";
 import {HiOutlineExclamationCircle, HiTrash } from "react-icons/hi"
-
+import { useRouter } from "next/router";
 
 
 function ModalDeleteAssign({currentTarget, currentItem, modalDeleteAssignState, setModalDeleteAssignState}){
     //funciona igual que el modal anterior pero con el botón de cancelar pedido
     //TODO: hacer que borre el pedido
     console.log(currentTarget.current);
+    
     const [localeCookie, ] = useCookie('locale')
+
     const onCloseDeleteAssignHandler = () =>{
         setModalDeleteAssignState(false);
     }
@@ -65,7 +69,10 @@ function ModalDeleteAssign({currentTarget, currentItem, modalDeleteAssignState, 
 }
 
 const AssignContainer = ({data, props}) => {
+    const router = useRouter()
     const [localeCookie, ] = useCookie("locale")
+    const [userTokenCookie, ] = useCookie('user_token')
+    
     const [currentDoctor, setCurrentDoctor] = useState('')
     const [currentPatient, setCurrentPatient] = useState('')
 
@@ -74,16 +81,31 @@ const AssignContainer = ({data, props}) => {
     //currentTarget es un hook useRef para que no se actualice en cada render y así aseguramos que los modals no se multipliquen
     const currentTarget = useRef("");
 
+    //borrar asignacion -- llamada a la API delete_assignations_doctor
+    const stringRequest = usePrepareBodyRequest({
+        "session_token" : userTokenCookie,
+    }) 
+
+    var [deleteAssign, stringResponse] = useSumbitAndFetch(
+      stringRequest,
+      props.apiEndpoint+"/api/delete_assignations_doctor"
+    )
+
+    const newPatientAssignHandler = async () => {
+        console.log("apicall")
+        await deleteAssign()
+        console.log("response: "+stringResponse)
+        stringResponse = JSON.parse(stringResponse)
+        if(stringResponse.result == "ok"){
+            alert("Paciente agregado correctamente!")
+            router.reload()
+        }
+    }
+
     function changeModalDeleteAssignState(e){
         setModalDeleteAssignState(e);
-    
-      }
-    
-    const newPatientAssignHandler = () => {
-        console.log("apicall")
-
-        alert("Paciente agregado correctamente!")
     }
+
     
 
     return (
