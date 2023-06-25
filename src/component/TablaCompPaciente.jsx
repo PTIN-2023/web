@@ -6,7 +6,7 @@ import myordersStyles from "../styles/Myorders.module.css"
 import {HiOutlineArrowRight, HiOutlineRocketLauncher, HiTrash, HiOutlineExclamationCircle,HiOutlineInformationCircle} from "react-icons/hi"
 import useCookie from "../hooks/useCookie.js";
 import { getText } from "../utils/getTextCurrentLocale.js";
-import TablaCompManager from "../component/TablaCompManager.jsx"
+
 
 // //TODO: modular estas funciones de modal
 function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModalDetallesState}){
@@ -38,16 +38,16 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
             <div className="space-y-6">
               <div>
                 <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-                 {getText("modal_order_tracker",localeCookie)}
+                  {getText("modal_order_tracker",localeCookie)}
                 </h5>
                 <div className="grid grid-cols-3 leading-relaxed text-gray-500 dark:text-gray-400">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" 
-                    className={(currentItem.state != "awaiting_confirmation" || currentItem.state != "ordered") ? myordersStyles.detallesFeedbackConfirm : myordersStyles.detallesFeedback}
+                    className={currentItem.state != "awaiting_confirmation" ? myordersStyles.detallesFeedbackConfirm : myordersStyles.detallesFeedback}
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   
-                  {(currentItem.state == "canceled" || currentItem.state == "denied") ? 
+                  {currentItem.state == "canceled" ? 
                   <>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" 
                       className={myordersStyles.detallesFeedbackCancelled}
@@ -76,13 +76,13 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
                 </div>
                 <div className="grid grid-cols-3  text-base leading-relaxed text-gray-900 dark:text-gray-400">
                   <p className={myordersStyles.detallesFeedbackText}>
-                    {(currentItem.state != "awaiting_confirmation" || currentItem.state != "ordered") ? <>{getText("order_confirmed",localeCookie)}</> : <>{getText("ordered",localeCookie)}</> }  
+                    {currentItem.state != "awaiting_confirmation" ? <>{getText("order_confirmed",localeCookie)}</> : <>{getText("ordered",localeCookie)}</> }  
                   </p>
-                  {(currentItem.state == "canceled" || currentItem.state == "denied") ?
+                  {currentItem.state == "canceled" ?
                     <>
                       <p className={myordersStyles.detallesFeedbackCanceledText}>
                       <Tooltip placement="bottom" content={getText("modal_tooltip_cancelled_text",localeCookie)}>
-                       {getText("modal_tooltip_cancelled",localeCookie)}  
+                        {getText("modal_tooltip_cancelled",localeCookie)}
                       </Tooltip>
                       </p>                   
                     </>
@@ -124,12 +124,12 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
               </Card>
             </div>
 
-              {/* <p className="text-base font-bold leading-relaxed text-gray-500 dark:text-gray-400">
-
+              <p className="text-base font-bold leading-relaxed text-gray-500 dark:text-gray-400">
+              {/*TODO: en el proximo sprint, relacionar paciente con sus datos de doctor!*/}
               Contacto: <br />
               +34 123456789 <br />
               medico.superbueno@hospital.com
-              </p> */}
+              </p>
           </div>
         </Modal.Body>
         <Modal.Footer>
@@ -144,7 +144,62 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
 
 
 }
-//TODO: se deberia quitar? de momento está desactivado
+function ModalContactar({currentTarget, currentItem, modalContactarState, setModalContactarState}){
+//recibe: 
+//currentTarget: identifica la fila a la que hicimos click dentro de la tabla
+//currentItem: identifica la fila en cuestión para que no se ejecuten todos los modals a la vez (TODO: intentar optimizar)
+//modalContactarState y setModalContactarState: muestran o esconden el modal
+    const [localeCookie, ] = useCookie('locale')
+
+    const onCloseContactarHandler = () =>{
+        setModalContactarState(false);
+    }
+    const onClickContactarHandler = () => {
+        //asignamos el currentItem al Target
+        //NOTA: si no estuviese esto se renderizaria un modal por cada fila
+        currentTarget.current = currentItem;
+        setModalContactarState(true);
+    }
+
+    return(
+    <>    
+      <Button onClick={onClickContactarHandler} size="sm">
+        {getText('contact', localeCookie)}
+        <HiOutlineArrowRight className="ml-2 h-5 w-5" />
+      </Button>
+      <Modal
+        /**si el currentTarget corresponde a la currentItem seleccionada y se hizo click en mostrar, mostrar modal */
+        show={(currentTarget.current == currentItem && modalContactarState) ? true : false}
+        onClose={onCloseContactarHandler}
+      >
+        <Modal.Header>
+          {getText('contact', localeCookie)}
+        </Modal.Header>
+        <Modal.Body>
+          <div className="space-y-6">
+            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+              {getText('cancelled_notice', localeCookie)}
+            </p>
+            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+              {getText('cancelled_cause', localeCookie)}
+            </p>
+            <p className="text-base font-bold leading-relaxed text-gray-500 dark:text-gray-400">
+            {/*TODO: en el proximo sprint, relacionar paciente con sus datos de doctor!*/}
+            +34 123456789 <br />
+            medico.superbueno@hospital.com
+            </p>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={onCloseContactarHandler}>
+          {getText('close', localeCookie)}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+    )
+}
+
 function ModalCancelarPedido({currentTarget, currentItem, modalCancelarPedidoState, setModalCancelarPedidoState}){
     //funciona igual que el modal anterior pero con el botón de cancelar pedido
     //TODO: hacer que borre el pedido
@@ -202,35 +257,103 @@ function ModalCancelarPedido({currentTarget, currentItem, modalCancelarPedidoSta
 }
 
 
-const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
+const TablaCompPaciente = ({ data, rowsPerPage, slice, range, setPage, page }) => {
   //componente que renderiza la tabla con los pedidos
   //recibe data -> json de pedidos
   //rowsPerPage -> cuantas filas va a renderizar
   //searchValue -> el filtro en caso de que se active el componente MyOrdersSearch
+  ({ slice, range } = useTable(data.orders, page, rowsPerPage));
 
-  console.log("data array: "+data.result)
   const [localeCookie, ] = useCookie('locale')
 
-
-  const [modalDetallesState, setModalDetallesState] = useState(false);
-  const [page, setPage] = useState(1);
   //estos dos hooks de abajo sirven para mostrar o bien ocultar los modals
-  let slice, range
+  const [modalContactarState, setModalContactarState] = useState(false);
+  const [modalCancelarPedidoState, setModalCancelarPedidoState] = useState(false);
+  const [modalDetallesState, setModalDetallesState] = useState(false);
+  //currentTarget es un hook useRef para que no se actualice en cada render y así aseguramos que los modals no se multipliquen
+  const currentTarget = useRef("");
 
-  //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
-  if(data.result == "ok"){
-    console.log("not ok")
-    if(searchValue.value.length > 0 && searchValue.isCompleted){
-      data.orders = data.orders.filter((pedido) => pedido.order_identifier.toLowerCase().includes(searchValue.value));  
+  //changeModalCancelarPedidoState y changeModalContactarState son funciones que cambian el useState ya que los setters no se pueden pasar bien hacia los componentes
+  function changeModalCancelarPedidoState(e){
+    setModalCancelarPedidoState(e);
 
-    }
   }
 
+  function changeModalContactarState(e){
+    setModalContactarState(e);
+
+  }
+  function changeModalDetallesState(e){
+    setModalDetallesState(e);
+
+  }
+  
   return (
     <>
-     {data.result == "ok" && <TablaCompManager slice={slice} data={data} rowsPerPage={rowsPerPage} range= {range} setPage={setPage} page={page}/>}
+        <Table hoverable={true}>
+          <Table.Head>
+            <Table.HeadCell className="!p-4">
+            </Table.HeadCell>
+            <Table.HeadCell>
+              {getText('ID', localeCookie)}
+            </Table.HeadCell>
+            <Table.HeadCell>
+              {getText('purchased_date', localeCookie)}
+            </Table.HeadCell>
+            <Table.HeadCell>
+
+            </Table.HeadCell>
+            <Table.HeadCell>
+              {getText('state', localeCookie)}
+            </Table.HeadCell>
+            <Table.HeadCell>
+              {getText('details', localeCookie)}
+            </Table.HeadCell>
+          </Table.Head>
+          <Table.Body className="divide-y">
+          {slice.map((order) =>
+            <>
+                <Table.Row className={myordersStyles.tableRow}>
+                  <Table.Cell className={myordersStyles.firstTableCell}> 
+                    <Dropdown className={myordersStyles.chevronDown} label="" inline={true}>
+                        <ModalCancelarPedido currentTarget={currentTarget} currentItem={order.order_identifier} modalCancelarPedidoState={modalCancelarPedidoState} setModalCancelarPedidoState={changeModalCancelarPedidoState}/>
+                    </Dropdown>
+                  </Table.Cell>
+                  <Table.Cell className={myordersStyles.tableCell}>
+                    {order.order_identifier}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {order.date}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {(order.state == "canceled" || order.state == "denied") && <ModalContactar currentTarget={currentTarget} currentItem={order.order_identifier} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {(order.state == "delivered" || order.state == "delivered_waiting" ) &&
+                      <span className={myordersStyles.deliveryStateEntregado}>{getText("delivered", localeCookie)}</span>
+                    }
+                    {(order.state == "car_sent" || order.state == "drone_sent" ) &&
+                      <span className={myordersStyles.deliveryStateEnviado}>{getText("sent", localeCookie)}</span>
+                    }
+                    {(order.state == "awaiting_confirmation" || order.state == "ordered") &&
+                      <span className={myordersStyles.deliveryStateEspConfirm}>{getText(order.state, localeCookie)}</span>
+                    }
+                    {(order.state == "canceled" || order.state == "denied") &&
+                      <span className={myordersStyles.deliveryStateCancelado}>{getText(order.state, localeCookie)}</span>
+                    }
+                  </Table.Cell>
+                  <Table.Cell className={`${myordersStyles.firstTableCell} ${myordersStyles.detailsRow}`}>
+                    <ModalDetalles currentTarget={currentTarget} currentItem={order} modalDetallesState={modalDetallesState} setModalDetallesState={changeModalDetallesState}/>
+                  </Table.Cell>
+                </Table.Row>
+            </>
+          )}
+
+          </Table.Body>
+        </Table> 
+        <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
     </>
   );
 };
 
-export default TablaPedidos;
+export default TablaCompPaciente;

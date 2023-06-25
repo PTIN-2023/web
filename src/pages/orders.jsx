@@ -44,7 +44,7 @@ export default function Home(props) {
     "page" : page
   })
 
-  const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
+  var [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
     stringRequest,
     props.apiEndpoint+"/api/list_all_orders"
   )
@@ -69,7 +69,7 @@ export default function Home(props) {
         <Layout navBarValue={setSearchValue}>
         <div className={myordersStyles.mainContainer}>
           {/**TablaPedidos recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
-          {stringResponse != 'none' && <TablaPedidosManager data={JSON.parse(stringResponse)} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>}
+          {(stringResponse != "none") && <TablaPedidosManager data={JSON.parse(stringResponse)} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>}
           
         </div>
         </Layout> 
