@@ -102,21 +102,21 @@ const AssignContainer = ({data, props}) => {
     const [modalDeleteAssignState, setModalDeleteAssignState] = useState(false);
     //currentTarget es un hook useRef para que no se actualice en cada render y así aseguramos que los modals no se multipliquen
     const currentTarget = useRef("");
-    let stringRequest = usePrepareBodyRequest({
+    const stringRequest = usePrepareBodyRequest({
         "session_token" : userTokenCookie,
         "doctor_email"  : currentDoctor,
         "patient_email" : currentPatient
     }) 
-    let stringRequestAsigned = usePrepareBodyRequest({
+    const stringRequestAsigned = usePrepareBodyRequest({
         "session_token" : userTokenCookie,
         "doctor_email"  : currentDoctor,
     }) 
     //borrar asignacion -- llamada a la API delete_assignations_doctor
-    var [assignDoctor, stringResponse] = useSumbitAndFetch(
+    const [assignDoctor, stringResponse] = useSumbitAndFetch(
         stringRequest,
       props.apiEndpoint+"/api/manager_assign_doctors"
     )
-    var [refreshAsignations, stringResponseAsignations] = useSumbitAndFetch(
+    const [refreshAsignations, stringResponseAsignations] = useSumbitAndFetch(
         stringRequestAsigned,
         props.apiEndpoint+"/api/list_assigned_doctors"
       )
@@ -129,6 +129,7 @@ const AssignContainer = ({data, props}) => {
         if(responseNewAssign != "none"){
             if(responseNewAssign.result == "ok"){
                 alert("Paciente asignado correctamente!")
+                router.reload()
             }
         }
     }
@@ -137,18 +138,14 @@ const AssignContainer = ({data, props}) => {
         setModalDeleteAssignState(e);
     }
 
-    useEffect(() => {
+    useEffect(async () => {
         if(userTokenCookie != null){
-            const refreshData = async() => {
-                await refreshAsignations()
-                if(stringResponseAsignations != "none"){
-                    setResponseAssign(JSON.parse(stringResponseAsignations))
-                    
-                }
+            await refreshAsignations()
+            if(stringResponseAsignations != "none"){
+                setResponseAssign(JSON.parse(stringResponseAsignations))
             }
-            refreshData()
         }
-      }, [currentDoctor, responseNewAssign]);
+    }, [stringRequestAsigned]);
 
 
     return (
@@ -157,7 +154,7 @@ const AssignContainer = ({data, props}) => {
             <Card className="col-span-2">
                 <h1 className={assignStyles.gridHeader}>Doctores</h1>
                 <select onChange={(e) => setCurrentDoctor(e.target.value)} id="doctors" size="5" class="bg-gray-50 border border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    {data.result == "ok" && data.doctors.map((doctor) =>
+                    {data.result == "ok" && data.patients.map((doctor) =>
                         <option value={doctor.user_email}>{doctor.user_email}</option>
                     )}
                 </select>

@@ -1,7 +1,7 @@
 import hasExpectedFields from '../hasExpectedFields'
 
 export function seedMiragePatientsList(server) {
-  for(i = 0; i < 20; i++){
+  for(let i = 0; i < 20; i++){
     server.create("patient", {
         user_full_name: 'Pablo Alcaraz',
         user_email: 'doctor@doctor.com',
