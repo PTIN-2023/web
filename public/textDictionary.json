@@ -35,8 +35,8 @@
         "english" : "Inglés",
         "profile" : "Perfil",
         "map" : "Mapa",
-        "map_global" : "Global",
-        "map_local" : "Local",
+        "global" : "Global",
+        "local" : "Local",
         "inventory" : "Inventario",
         "orders" : "Pedidos",
         "stats" : "Estadísticas",
@@ -80,12 +80,11 @@
         "stats_topSeller_header" : "Ciudades que más compran",
         "stats_topSellerMeds_header" : "Medicamentos más vendidos",
         "stats_sellsComparation_header" : "Comparación ventas 2022 - 2023",
-        "order_details" : "Detalles",
         "button_open" : "Abrir",
         "button_edit" : "Editar",
         "button_confirm" : "Confirmar",
         "createuser" : "Crear usuario",
-        "prescription": "Prescripciones"
+        "prescripciones_paciente": "Prescripciones"
     },
     "en": {
         "language": "Language",
@@ -123,8 +122,8 @@
         "english": "English",
         "profile": "Profile",
         "map": "Map",
-        "map_global": "Global",
-        "map_local": "Local",
+        "global": "Global",
+        "local": "Local",
         "inventory": "Inventory",
         "orders": "Orders",
         "stats": "Statistics",
@@ -153,7 +152,7 @@
         "button_edit" : "Edit",
         "button_confirm" : "Confirm",
         "createuser" : "Create user",
-        "prescription": "Prescriptions"
+        "prescripciones_paciente": "My Prescriptions"
     },
     "ca": {
         "language": "Idioma",
@@ -191,8 +190,8 @@
         "english": "Anglès",
         "profile": "Perfil",
         "map": "Mapa",
-        "map_global": "Global",
-        "map_local": "Local",
+        "global": "Global",
+        "local": "Local",
         "inventory": "Inventari",
         "orders": "Comandes",
         "stats": "Estadístiques",
@@ -221,6 +220,6 @@
         "button_edit" : "Editar",
         "button_confirm" : "Confirmar",
         "createuser" : "Crear ususari",
-        "prescription": "Prescripcions"
+        "prescripciones_paciente": "Prescripcions"
     }
 }

@@ -9,29 +9,29 @@ const sidebarItemGroups = [
   {
     role: "manager",
     items: [
-      { name: "profile", icon: HiUser },
-      { name: "map", icon: HiMap, global: "map_global", icon_global: HiGlobeAlt, local: "map_local", icon_local: HiHome },
-      { name: "inventory", icon: HiArchive },
-      { name: "orders", icon: HiTruck },
-      { name: "stats", icon: HiChartPie },
-      { name: "createuser", icon: HiUserAdd}
+      { name: "profile", icon: HiUser, localize: false },
+      { name: "map", icon: HiMap, localize: true, icon_global: HiGlobeAlt, icon_local: HiHome },
+      { name: "inventory", icon: HiArchive, localize: false, localize: true, icon_global: HiGlobeAlt, icon_local: HiHome },
+      { name: "orders", icon: HiTruck, localize: false },
+      { name: "stats", icon: HiChartPie, localize: false },
+      { name: "createuser", icon: HiUserAdd, localize: false}
     ]
   },
   {
     role: "doctor",
     items: [
-      { name: "profile", icon: HiUser },
-      { name: "patients", icon: HiUserGroup },
-      { name: "prescriptions", icon: RiPagesFill }
+      { name: "profile", icon: HiUser, localize: false },
+      { name: "patients", icon: HiUserGroup, localize: false },
+      { name: "prescriptions", icon: RiPagesFill, localize: false }
     ]
   },
   {
     role: "patient",
     items: [
-      { name: "profile", icon: HiUser },
-      { name: "myorders", icon: HiTable },
-      { name: "makeorder", icon: HiInboxIn },
-      { name: "prescription", icon: HiDocumentText }
+      { name: "profile", icon: HiUser, localize: false },
+      { name: "myorders", icon: HiTable, localize: false },
+      { name: "makeorder", icon: HiInboxIn, localize: false },
+      { name: "prescripciones_paciente", icon: HiDocumentText, localize: false }
     ]
   }
 ];
@@ -51,7 +51,7 @@ const SideBarPagesNavigation = ({ currentPage, isLocal }) => {
       return (
       <Sidebar.ItemGroup key={group.role}>
         {group.items.map((item) => {
-          if (item.name === "map") {
+          if (item.localize) {
             return (  
               <Sidebar.Collapse
                 key={item.name}
@@ -60,52 +60,38 @@ const SideBarPagesNavigation = ({ currentPage, isLocal }) => {
                 className={sidebarItemClassName(currentPage, '/' + item.name)}
               >                
                 <Sidebar.Item 
-                  key={item.global}
-                  className={sidebarItemClassName(currentPage, '/' + item.global)}
-                  href={'/' + item.global}
+                  key={item.name + '_global'}
+                  className={sidebarItemClassName(currentPage, '/' + item.name + '_global')}
+                  href={'/' + item.name + '_global'}
                   icon={item.icon_global}                  
                 >  
-                { getText(item.global, localeCookie) }                
+                  { getText('global', localeCookie) }                
                 </Sidebar.Item>
                 {isLocal && 
-                  <>
-                    <Sidebar.Item 
-                      key={item.local}
-                      className={sidebarItemClassName(currentPage, '/' + item.local)}
-                      href={'/' + item.local}
+                  <Sidebar.Item 
+                      key={item.name + '_local'}
+                      className={sidebarItemClassName(currentPage, '/' + item.name + '_local')}
+                      href={'/' + item.name + '_local'}
                       icon={item.icon_local}                    
                     
                     >
-                    { getText(item.local, localeCookie) }
-                    </Sidebar.Item>                                   
-                  </>
+                    { getText('local', localeCookie) }
+                  </Sidebar.Item>    
                 }
-
               </Sidebar.Collapse>                        
             );
-          }
-        if (item.name === "prescription" && group.role === "patient") {
+          } else {
             return (
               <Sidebar.Item
-                key={"prescripciones_paciente"}
-                className={sidebarItemClassName(currentPage, '/' + "prescripciones_paciente")}
-                href={'/' + "prescripciones_paciente"}
+                key={item.name}
+                className={sidebarItemClassName(currentPage, '/' + item.name)}
+                href={'/' + item.name}
                 icon={item.icon}
               >
                 { getText(item.name, localeCookie) }
               </Sidebar.Item>
             );
           }
-          return (
-            <Sidebar.Item
-              key={item.name}
-              className={sidebarItemClassName(currentPage, '/' + item.name)}
-              href={'/' + item.name}
-              icon={item.icon}
-            >
-              { getText(item.name, localeCookie) }
-            </Sidebar.Item>
-          );
         })}        
       </Sidebar.ItemGroup>
       );
