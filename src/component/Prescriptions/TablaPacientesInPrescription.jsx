@@ -52,7 +52,7 @@ const TablaPacientes = ({ data, rowsPerPage, props }) => {
               </Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
-              {responsePatients != "none" && responsePatients.patients.map((patient) => 
+              {responsePatients != "none" ? (responsePatients.patients.map((patient) => 
               <>
                   <Table.Row className={myordersStyles.tableRow}>
                     <Table.Cell className={myordersStyles.tableCell}> 
@@ -65,8 +65,9 @@ const TablaPacientes = ({ data, rowsPerPage, props }) => {
                       {patient.user_email}
                     </Table.Cell>                  
                   </Table.Row>
-              </>
-            )}
+              </>))
+              : <></>  
+            }
 
             </Table.Body>
           </Table> 
