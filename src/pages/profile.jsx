@@ -5,7 +5,11 @@ import { useEffect } from 'react';
 import useCookie from "../hooks/useCookie";
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
+import genCommonProps from '../utils/gen_common_props';
 
+export async function getServerSideProps() {
+  return await genCommonProps()
+}
 export default function Home(props) {
 
   const [userPicture,] = useCookie('user_picture');
@@ -35,7 +39,7 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Layout>
+        <Layout props={props}>
           {(stringResponse != "none") && <UserProfile data={JSON.parse(stringResponse)} profileImg={userPicture} />}
         </Layout>
       </main>

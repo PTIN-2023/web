@@ -3,6 +3,9 @@ import * as env_config from '../utils/env_config'
 import AuthWebInfoCard from '../component/auth/AuthWebInfoCard';
 import AuthSignCard from '../component/auth/AuthSignCard';
 import genCommonProps from '../utils/gen_common_props';
+import useCookie from '../hooks/useCookie';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 export async function getServerSideProps() {
   return await genCommonProps()
@@ -10,6 +13,14 @@ export async function getServerSideProps() {
 
 
 export default function Home(props) {
+  // Cookies
+  const [userTokenCookie, ] = useCookie('user_token')
+
+  const { push } = useRouter();
+  useEffect(() => {
+    if(userTokenCookie && userTokenCookie != '')
+     push('/profile');
+  }, [userTokenCookie]);
 
   return (
     <>
