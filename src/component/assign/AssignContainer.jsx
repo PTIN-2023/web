@@ -138,14 +138,16 @@ const AssignContainer = ({data, props}) => {
     }
 
     useEffect(() => {
-        const refreshData = async() => {
-            await refreshAsignations()
-            if(stringResponseAsignations != "none"){
-                setResponseAssign(JSON.parse(stringResponseAsignations))
-                
+        if(userTokenCookie != null){
+            const refreshData = async() => {
+                await refreshAsignations()
+                if(stringResponseAsignations != "none"){
+                    setResponseAssign(JSON.parse(stringResponseAsignations))
+                    
+                }
             }
+            refreshData()
         }
-        refreshData()
       }, [currentDoctor, responseNewAssign]);
 
 
