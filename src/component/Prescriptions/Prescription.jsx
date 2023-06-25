@@ -15,7 +15,7 @@ import { HiUserGroup, HiPaperAirplane, HiDownload, HiClock } from "react-icons/h
 import { BsCapsulePill } from "react-icons/bs";
 
 //Components
-import Tablapacientes from "../TablaPacientes";
+import TablaPacientes from "./TablaPacientesInPrescription";
 import TablaMedicinas from './TablaMedicinas';
 import TablaHistorial from './TablaHistorial';
 
@@ -37,7 +37,7 @@ export async function getServerSideProps() {
   }
 }
 
-export default function MakePrescriptions(props, { searchValue, setSearchValue }) {
+export default function MakePrescriptions({props, searchValue, setSearchValue }) {
 
     const inputNombreRef = useRef("");
     const inputMedicamentoRef = useRef("");
@@ -293,7 +293,7 @@ export default function MakePrescriptions(props, { searchValue, setSearchValue }
                         title="Pacientes"
                         icon={HiUserGroup}
                     >
-                        {/*<Tablapacientes data={stringResponse} rowsPerPage={10}/>*/}
+                        <TablaPacientes props={props} data={stringResponse} rowsPerPage={10}/>
                     </Tabs.Item>
                     <Tabs.Item
                         title="Medicamentos"

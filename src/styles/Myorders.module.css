@@ -21,6 +21,9 @@ Component TablaPedidos
     @apply !p-4 text-white;
 
 }
+.selectable:hover {
+    @apply cursor-pointer font-bold;
+}
 .firstTableCell {
     @apply !p-4;
 

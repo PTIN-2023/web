@@ -21,7 +21,7 @@ export default function Home(props) {
       </Head>
       <main>
         <Layout navBarValue={setSearchValue} props={props}>
-            <MakePrescriptions searchValue={searchValue} setSearchValue={setSearchValue}/>
+            <MakePrescriptions props={props} searchValue={searchValue} setSearchValue={setSearchValue}/>
         </Layout>
       </main>
     </>
