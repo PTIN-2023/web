@@ -293,7 +293,7 @@ export default function MakePrescriptions({props, searchValue, setSearchValue })
                         title="Pacientes"
                         icon={HiUserGroup}
                     >
-                        <TablaPacientes props={props} data={stringResponse} rowsPerPage={10}/>
+                        {/* <TablaPacientes props={props} rowsPerPage={10}/> */}
                     </Tabs.Item>
                     <Tabs.Item
                         title="Medicamentos"

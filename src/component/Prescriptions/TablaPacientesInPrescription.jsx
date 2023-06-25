@@ -13,7 +13,6 @@ const TablaPacientes = ({ data, rowsPerPage, props }) => {
     //recibe data -> json de pedidos
 
     const [userTokenCookie, ] = useCookie('user_token')
-    const [currentPatient, setCurrentPatient] = useState('')
     const [responsePatients, setResponsePatients] = useState("none")
     //var { slice, range } = useTable(data.medicines, page, rowsPerPage);
     const stringRequest = usePrepareBodyRequest({
