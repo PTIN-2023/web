@@ -96,6 +96,7 @@ const AssignContainer = ({data, props}) => {
     const [currentDoctor, setCurrentDoctor] = useState('')
     const [currentPatient, setCurrentPatient] = useState('')
     const [responseAssign, setResponseAssign] = useState("none")
+    const [responseNewAssign, setResponseNewAssign] = useState("none")
 
     //estos dos hooks de abajo sirven para mostrar o bien ocultar los modals
     const [modalDeleteAssignState, setModalDeleteAssignState] = useState(false);
@@ -124,15 +125,10 @@ const AssignContainer = ({data, props}) => {
         console.log("apicall")
         await assignDoctor()
         console.log("response: "+stringResponse)
-        if(stringResponse != "none"){
-            stringResponse = JSON.parse(stringResponse)
-            if(stringResponse.result == "ok"){
+        setResponseNewAssign(stringResponse)
+        if(responseNewAssign != "none"){
+            if(responseNewAssign.result == "ok"){
                 alert("Paciente asignado correctamente!")
-                await refreshAsignations()
-                if(stringResponseAsignations != "none"){
-                    setResponseAssign(JSON.parse(stringResponseAsignations))
-                    
-                }
             }
         }
     }
@@ -141,21 +137,24 @@ const AssignContainer = ({data, props}) => {
         setModalDeleteAssignState(e);
     }
 
-    const setCurrentDoctorHandler = async (e) => {
-        setCurrentDoctor(e);
-        await refreshAsignations()
-        if(stringResponseAsignations != "none"){
-            setResponseAssign(JSON.parse(stringResponseAsignations))
-            
+    useEffect(() => {
+        const refreshData = async() => {
+            await refreshAsignations()
+            if(stringResponseAsignations != "none"){
+                setResponseAssign(JSON.parse(stringResponseAsignations))
+                
+            }
         }
-    }
+        refreshData()
+      }, [currentDoctor, responseNewAssign]);
+
 
     return (
         <>
         <div className="grid grid-cols-4 gap-4">
             <Card className="col-span-2">
                 <h1 className={assignStyles.gridHeader}>Doctores</h1>
-                <select onChange={(e) => setCurrentDoctorHandler(e.target.value)} id="doctors" size="5" class="bg-gray-50 border border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <select onChange={(e) => setCurrentDoctor(e.target.value)} id="doctors" size="5" class="bg-gray-50 border border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     {data.result == "ok" && data.doctors.map((doctor) =>
                         <option value={doctor.user_email}>{doctor.user_email}</option>
                     )}
