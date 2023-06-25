@@ -10,10 +10,22 @@ import {HiOutlineExclamationCircle, HiTrash } from "react-icons/hi"
 import { useRouter } from "next/router";
 
 
-function ModalDeleteAssign({currentTarget, currentItem, modalDeleteAssignState, setModalDeleteAssignState}){
+function ModalDeleteAssign({props, currentDoctor, currentTarget, currentItem, modalDeleteAssignState, setModalDeleteAssignState}){
     //funciona igual que el modal anterior pero con el botón de cancelar pedido
     //TODO: hacer que borre el pedido
-    console.log(currentTarget.current);
+    console.log(currentItem);
+    const [userTokenCookie, ] = useCookie('user_token')
+
+    let stringRequest = usePrepareBodyRequest({
+        "session_token" : userTokenCookie,
+        "doctor_email"  : currentDoctor,
+        "patient_email" : currentItem
+    }) 
+    //borrar asignacion -- llamada a la API delete_assignations_doctor
+    var [deleteAssign, stringResponse] = useSumbitAndFetch(
+      stringRequest,
+      props.apiEndpoint+"/api/delete_assignations_doctor"
+    ) 
     
     const [localeCookie, ] = useCookie('locale')
 
@@ -26,8 +38,16 @@ function ModalDeleteAssign({currentTarget, currentItem, modalDeleteAssignState, 
         console.log("click "+ modalDeleteAssignState)
 
     }
-    const onClickDeleteAssignHandler_CANCELAR = () => {
-        setModalDeleteAssignState(true);
+    const onClickDeleteAssignHandler_CANCELAR = async () => {
+        setModalDeleteAssignState(false);
+        console.log("apicall")
+        await deleteAssign()
+        console.log("response: "+stringResponse)
+        stringResponse = JSON.parse(stringResponse)
+        if(stringResponse.result == "ok"){
+            alert("Paciente eliminado correctamente!")
+            router.reload()
+        }        
     }
 
 
@@ -72,7 +92,7 @@ const AssignContainer = ({data, props}) => {
     const router = useRouter()
     const [localeCookie, ] = useCookie("locale")
     const [userTokenCookie, ] = useCookie('user_token')
-    
+
     const [currentDoctor, setCurrentDoctor] = useState('')
     const [currentPatient, setCurrentPatient] = useState('')
 
@@ -80,25 +100,33 @@ const AssignContainer = ({data, props}) => {
     const [modalDeleteAssignState, setModalDeleteAssignState] = useState(false);
     //currentTarget es un hook useRef para que no se actualice en cada render y así aseguramos que los modals no se multipliquen
     const currentTarget = useRef("");
-
-    //borrar asignacion -- llamada a la API delete_assignations_doctor
-    const stringRequest = usePrepareBodyRequest({
+    let stringRequest = usePrepareBodyRequest({
         "session_token" : userTokenCookie,
+        "doctor_email"  : currentDoctor,
+        "patient_email" : currentPatient
     }) 
-
-    var [deleteAssign, stringResponse] = useSumbitAndFetch(
-      stringRequest,
-      props.apiEndpoint+"/api/delete_assignations_doctor"
+    let stringRequestAsigned = usePrepareBodyRequest({
+        "session_token" : userTokenCookie,
+        "doctor_email"  : currentDoctor,
+    }) 
+    //borrar asignacion -- llamada a la API delete_assignations_doctor
+    var [assignDoctor, stringResponse] = useSumbitAndFetch(
+        stringRequest,
+      props.apiEndpoint+"/api/manager_assign_doctors"
     )
+    var [refreshAsignations, stringResponse] = useSumbitAndFetch(
+        stringRequestAsigned,
+        props.apiEndpoint+"/api/list_assigned_doctors"
+      )
 
     const newPatientAssignHandler = async () => {
         console.log("apicall")
-        await deleteAssign()
+        await assignDoctor()
         console.log("response: "+stringResponse)
         stringResponse = JSON.parse(stringResponse)
         if(stringResponse.result == "ok"){
-            alert("Paciente agregado correctamente!")
-            router.reload()
+            alert("Paciente asignado correctamente!")
+            await refreshAsignations()
         }
     }
 
@@ -106,14 +134,21 @@ const AssignContainer = ({data, props}) => {
         setModalDeleteAssignState(e);
     }
 
-    
+    const setCurrentDoctorHandler = async (e) => {
+        setCurrentDoctor(e);
+        await refreshAsignations()
+        stringResponse = JSON.parse(stringResponse)
+        if(stringResponse.result == "ok"){
+            alert("Paciente agregado correctamente!")
+        }
+    }
 
     return (
         <>
         <div className="grid grid-cols-4 gap-4">
             <Card className="col-span-2">
                 <h1 className={assignStyles.gridHeader}>Doctores</h1>
-                <select onChange={(e) => setCurrentDoctor(e.target.value)} id="doctors" size="5" class="bg-gray-50 border border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <select onChange={(e) => setCurrentDoctorHandler(e.target.value)} id="doctors" size="5" class="bg-gray-50 border border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     {data.result == "ok" && data.patients.map((patient) =>
                         <option value={patient.user_email}>{patient.user_email}</option>
                     )}
@@ -168,7 +203,7 @@ const AssignContainer = ({data, props}) => {
                                             {patient.user_city}
                                         </Table.Cell>
                                         <Table.Cell className={`${myordersStyles.firstTableCell} ${myordersStyles.detailsRow}`}>
-                                            <ModalDeleteAssign currentTarget={currentTarget} currentItem={patient.user_email} modalDeleteAssignState={modalDeleteAssignState} setModalDeleteAssignState={changeModalDeleteAssignState}/>
+                                            <ModalDeleteAssign props={props} currentDoctor={currentDoctor} currentTarget={currentTarget} currentItem={patient.user_email} modalDeleteAssignState={modalDeleteAssignState} setModalDeleteAssignState={changeModalDeleteAssignState}/>
                                             {/* <ModalDetalles currentTarget={currentTarget} currentItem={order} modalDetallesState={modalDetallesState} setModalDetallesState={changeModalDetallesState}/> */}
                                         </Table.Cell>
                                     </Table.Row>
