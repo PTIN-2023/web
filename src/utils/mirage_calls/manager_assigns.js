@@ -26,6 +26,12 @@ export function defineMiragePatientsListRoutes(server) {
             user_city: 'Barcelona'
           })
       }
+      total_patients.push({
+        user_full_name: 'Pablo Alcaraz',
+        user_email: 'doctoasdasdr@doctor.com',
+        user_phone: '666666666',
+        user_city: 'Barcelona'
+      })
       // Check payload
       const expectedFields = [
         "session_token",
