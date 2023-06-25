@@ -8,7 +8,11 @@
 
 }
 .gridItemExtend{
-    @apply col-span-2 mx-auto;
+    @apply col-span-2 items-center justify-center;
+
+}
+.gridItemExtend > *{
+    @apply items-center justify-center;
 
 }
 .gridHeader{
@@ -21,6 +25,12 @@
 }
 .cardInside {
     @apply pb-5;
+
+
+}
+
+.cardInsideCities {
+    @apply pb-12;
 
 
 }

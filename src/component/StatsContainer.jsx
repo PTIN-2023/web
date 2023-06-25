@@ -52,7 +52,7 @@ const StatsContainer = ({data}) => {
         </Card>
       </div>
       <div className={statsStyles.gridItem}>
-        <Card className={statsStyles.cardInside}>
+        <Card className={statsStyles.cardInsideCities}>
           <p className={statsStyles.gridHeader}>{getText("stats_topSeller_header",localeCookie)}</p>
           <p className={statsStyles.gridHead}>{data.topSeller_cities.topSeller_cities_query[0].name}: {data.topSeller_cities.topSeller_cities_query[0].value}</p>
           <p className={statsStyles.gridHead}>{data.topSeller_cities.topSeller_cities_query[1].name}: {data.topSeller_cities.topSeller_cities_query[1].value}</p>

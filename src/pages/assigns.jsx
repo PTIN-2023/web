@@ -61,7 +61,7 @@ export default function Home(props) {
       </Head>
       <main>
         {/**le pasamos a Layout el valor del componente de la página que está renderizando (Layout se encarga de detectar en que pagina está) */}
-        <Layout>
+        <Layout props={props}>
         <div className={myordersStyles.mainContainer}>
           {/**TablaPedidos recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
           {(stringResponse != "none") && <AssignContainer data={JSON.parse(stringResponse)} props={props}/>}
