@@ -115,7 +115,13 @@ const AssignContainer = ({data, props}) => {
     //borrar asignacion -- llamada a la API delete_assignations_doctor
     const [assignDoctor, stringResponse] = useSumbitAndFetch(
         stringRequest,
-      props.apiEndpoint+"/api/manager_assign_doctors"
+        props.apiEndpoint+"/api/manager_assign_doctors",
+        (res) => {
+            if (res.result === "ok") {
+              alert("Paciente asignado correctamente!")
+              window.location.reload(false);
+            }
+          }
     )
     const [refreshAsignations, stringResponseAsignations] = useSumbitAndFetch(
         stringRequestAsigned,
@@ -127,7 +133,6 @@ const AssignContainer = ({data, props}) => {
         await assignDoctor()
         console.log("response: "+stringResponse)
         setResponseNewAssign(stringResponse)
-        alert("Paciente asignado correctamente!")
         if(responseNewAssign != "none"){
             if(responseNewAssign.result == "ok"){
                 alert("Paciente asignado correctamente!")
