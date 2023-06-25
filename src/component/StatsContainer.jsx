@@ -6,7 +6,11 @@ import { getText } from "../utils/getTextCurrentLocale.js";
 
 const StatsContainer = ({data}) => {
   const [localeCookie, ] = useCookie('local');
-  return(
+
+  console.log(data)
+  console.log(data.accounts_stat)
+  if(data.result == "ok"){
+    return(
       <div className={statsStyles.mainContainer}>
       <div className={statsStyles.gridItem}>
         <Card>
@@ -43,13 +47,12 @@ const StatsContainer = ({data}) => {
               <Tooltip />
               <Legend />
               <Bar dataKey="maximo" fill="#3F83F8" />
-
             </BarChart>
           </ResponsiveContainer>
         </Card>
       </div>
       <div className={statsStyles.gridItem}>
-        <Card className={statsStyles.cardInside}>
+        <Card className={statsStyles.cardInsideCities}>
           <p className={statsStyles.gridHeader}>{getText("stats_topSeller_header",localeCookie)}</p>
           <p className={statsStyles.gridHead}>{data.topSeller_cities.topSeller_cities_query[0].name}: {data.topSeller_cities.topSeller_cities_query[0].value}</p>
           <p className={statsStyles.gridHead}>{data.topSeller_cities.topSeller_cities_query[1].name}: {data.topSeller_cities.topSeller_cities_query[1].value}</p>
@@ -114,9 +117,14 @@ const StatsContainer = ({data}) => {
         </Card>
       </div>
     </div>
-      
-  )
+   
+    )
+  }else{
+    return(
+      <></>
+    )
 
+  }
     
 }
 
