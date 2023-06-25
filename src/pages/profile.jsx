@@ -8,7 +8,6 @@ import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
 
 export default function Home(props) {
 
-  const [userTokenCookie, ] = useCookie('user_token');
   const [userPicture,] = useCookie('user_picture');
 
   const stringRequest = usePrepareBodyRequest({

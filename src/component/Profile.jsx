@@ -3,11 +3,14 @@ import { Button } from 'flowbite-react'
 import { useEffect } from 'react';
 import styles from "../styles/ProfileStyles.module.css";
 import getTextCurrentLocale from '../utils/getTextCurrentLocale';
+import useCookie from "../hooks/useCookie";
+import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
+import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
 
 
 // Ver estilos en /styles/ProfileStyles.jsx
 
-export default function UserProfile({data, avatarImg}) {
+export default function UserProfile({ data, avatarImg }) {
 
   console.log("user: " + userTokenCookie)
 
@@ -16,12 +19,13 @@ export default function UserProfile({data, avatarImg}) {
   const [userName, getName] = useState("");
   const [userAge, getAge] = useState("");
   const [userPseudoname, getPseudoname] = useState("");
-  const [userMail, getEmail] = useState("");
+  const [userEmail, getEmail] = useState("");
   const [userPasswd, getPasswd] = useState("");
   const [userPhone, getPhone] = useState("");
   const [userCity, getCity] = useState("");
   const [userAddres, getAddres] = useState("");
-  
+  const [userTokenCookie,] = useCookie('user_token');
+
 
   const userTestToken = 'John doe';
 
@@ -32,31 +36,38 @@ export default function UserProfile({data, avatarImg}) {
         con la nueva informacion del cliente despues de ser modificada.
         De esta manera la api recibira los datos que debera actualizar dentro de la basa de datos.
   */
+  getName(_data.response.user_full_name);
+  getAge(_data.response.age);
+  getPseudoname(_data.response.user_given_name);
+  getEmail(_data.response.user_email);
+  getPasswd(_data.response.user_passwd);
+  getPhone(_data.response.user_phone);
+  getCity(_data.response.user_city);
+  getAddres(_data.response.user_address);
+  getUserImg(_avatarImg);
+
   const setNewUserData = async (e) => {
-    try {
-      const response = await fetch('/api/user_modifyInfo?user_test_token=' + userTestToken, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          pseudoname: userPseudoname,
-          email: userMail,
-          passwd: userPasswd,
-          phone: userPhone,
-          city: userCity,
-          addres: userAddres
-        }),
-      });
 
-      if (!response.ok) {
-        throw new Error('Error al registrarse. Por favor, inténtalo de nuevo.');
-      }
+    const stringRequest = usePrepareBodyRequest({
+      "session_token": userTokenCookie,
+      "user_given_name": userPseudoname,
+      "user_email": userEmail,
+      "user_passwd": userPasswd,
+      "user_phone": userPhone,
+      "user_city": userPhone,
+      "user_address": userAddres
+    })
 
-      console.log('Registrado con éxito');
-    } catch (error) {
-      console.error(error);
+    const [stringResponse,] = useSumbitAndFetch(
+      stringRequest,
+      props.apiEndpoint + "/api/set_user_info"
+    )
+
+    if (!stringResponse.result != "ok") {
+      throw new Error('Error al guardar los cambios.');
     }
+
+    console.log('Registrado con éxito');
   }
 
   // Metodo para pedir la informacion con la que rellenar los campos del perfil.
@@ -67,7 +78,7 @@ export default function UserProfile({data, avatarImg}) {
   */
 
   const getUserData = async (_data, _avatarImg) => {
-    try{
+    try {
       if (_data.response.result === "ok") {
         getName(_data.response.user_full_name);
         getAge(_data.response.age);
@@ -79,7 +90,7 @@ export default function UserProfile({data, avatarImg}) {
         getAddres(_data.response.user_address);
         getUserImg(_avatarImg);
       }
-    } catch (error){
+    } catch (error) {
       getName('none');
       getAge('0');
       getPseudoname('none');
@@ -270,14 +281,14 @@ export default function UserProfile({data, avatarImg}) {
             {showEmailInput ? (
               <input
                 type="email"
-                value={userMail}
+                value={userEmail}
                 className={styles.input}
                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                 title="Por favor ingresa un correo electrónico válido"
                 onChange={handleEmailChange}
               />
             ) : (
-              <h2 className={styles.text_normalText}>{userMail}</h2>
+              <h2 className={styles.text_normalText}>{userEmail}</h2>
             )}
           </div>
           <div className={styles.cont_userZoneButton}>
