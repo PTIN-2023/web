@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 
 
 function ModalDeleteAssign({props, currentDoctor, currentTarget, currentItem, modalDeleteAssignState, setModalDeleteAssignState}){
+    const router = useRouter()
     //funciona igual que el modal anterior pero con el botón de cancelar pedido
     //TODO: hacer que borre el pedido
     console.log(currentItem);
@@ -43,6 +44,7 @@ function ModalDeleteAssign({props, currentDoctor, currentTarget, currentItem, mo
         console.log("apicall")
         await deleteAssign()
         console.log("response: "+stringResponse)
+        router.reload()
         if(JSON.parse(stringResponse).result == "ok"){
             alert("Paciente eliminado correctamente!")
             router.reload()
@@ -54,7 +56,7 @@ function ModalDeleteAssign({props, currentDoctor, currentTarget, currentItem, mo
     <>    
         <HiTrash onClick={onClickDeleteAssignHandler} className={myordersStyles.informationIcon}></HiTrash>
         <Modal
-            show={(currentTarget.current == currentItem.user_email && modalDeleteAssignState == true) ? true : false}
+            show={(currentTarget.current == currentItem && modalDeleteAssignState == true) ? true : false}
             size="md"
             popup={true}
             onClose={onCloseDeleteAssignHandler}
@@ -126,6 +128,7 @@ const AssignContainer = ({data, props}) => {
         console.log("response: "+stringResponse)
         setResponseNewAssign(stringResponse)
         if(responseNewAssign != "none"){
+            router.reload()
             if(responseNewAssign.result == "ok"){
                 alert("Paciente asignado correctamente!")
                 router.reload()
