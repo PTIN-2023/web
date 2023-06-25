@@ -10,7 +10,7 @@ import {HiOutlineExclamationCircle, HiTrash } from "react-icons/hi"
 import { useRouter } from "next/router";
 
 
-function ModalDeleteAssign({props, currentDoctor, currentTarget, currentItem, modalDeleteAssignState, setModalDeleteAssignState}){
+function ModalDeleteAssign({props, refreshAsignations, currentDoctor, currentTarget, currentItem, modalDeleteAssignState, setModalDeleteAssignState}){
     const router = useRouter()
     //funciona igual que el modal anterior pero con el botón de cancelar pedido
     //TODO: hacer que borre el pedido
@@ -126,7 +126,6 @@ const AssignContainer = ({data, props}) => {
             if (res.result === "ok") {
               alert("Paciente asignado correctamente!")
               refreshAsignations()
-              window.location.reload(false);
             }else{
                 alert("Este paciente ya está asignado al doctor!")
             }
@@ -228,7 +227,7 @@ const AssignContainer = ({data, props}) => {
                                             {patient.user_city}
                                         </Table.Cell>
                                         <Table.Cell className={`${myordersStyles.firstTableCell} ${myordersStyles.detailsRow}`}>
-                                            <ModalDeleteAssign props={props} currentDoctor={currentDoctor} currentTarget={currentTarget} currentItem={patient.user_email} modalDeleteAssignState={modalDeleteAssignState} setModalDeleteAssignState={changeModalDeleteAssignState}/>
+                                            <ModalDeleteAssign props={props} refreshAsignations={refreshAsignations} currentDoctor={currentDoctor} currentTarget={currentTarget} currentItem={patient.user_email} modalDeleteAssignState={modalDeleteAssignState} setModalDeleteAssignState={changeModalDeleteAssignState}/>
                                             {/* <ModalDetalles currentTarget={currentTarget} currentItem={order} modalDetallesState={modalDetallesState} setModalDetallesState={changeModalDetallesState}/> */}
                                         </Table.Cell>
                                     </Table.Row>
