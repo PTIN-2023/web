@@ -12,15 +12,6 @@ import { googleLogout } from '@react-oauth/google';
 import Image from 'next/image';
 import ShoppingCart from "../component/makeOrder/shoppingCart";
 
-export async function getServerSideProps() {
-  const apiEndpoint = String(env_config.getApiEndpoint());
-  return {
-      props: {
-          apiEndpoint
-      }
-  }
-}
-
 // Main Component
 
 export default function Layout({props, children, navBarValue}) {
@@ -101,7 +92,7 @@ export default function Layout({props, children, navBarValue}) {
               <SideBarProfileInfo isCollapsed={sidebarVisible}/>
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
-              <SideBarPagesNavigation currentPage={currentPage}/>
+              <SideBarPagesNavigation currentPage={currentPage} isLocal={props.isLocal}/>
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
               {/**TODO: hacer el cerrar sesión!! (onClick(handler??))*/}

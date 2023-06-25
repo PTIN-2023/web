@@ -1,13 +1,15 @@
 import Layout from "../component/Layout";
 import React from "react";
+import genCommonProps from '../utils/gen_common_props';
 
-export default function Home() {
+export async function getServerSideProps() {
+  return await genCommonProps()
+}
 
-
+export default function Home(props) {
     return (
-        <>
-
-        <Layout>
+    <>
+        <Layout props={props}>
             <p className="text-center text-gray-900 text-7xl dark:text-white">403</p>
             <br/>
             <p className="text-center text-gray-900 text-5xl dark:text-white">No tienes permiso para acceder a esta página</p>

@@ -6,28 +6,12 @@ import mapboxgl from 'mapbox-gl';
 import useCookie from "../hooks/useCookie";
 import React, { useState, useEffect } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import genCommonProps from '../utils/gen_common_props';
 
 export async function getServerSideProps() {
-  const isLocal           = env_config.isLocal();
-  const apiEndpoint       = String(env_config.getApiEndpoint());
-  const locationName      = String(env_config.getLocationName());
-  const locationLatitude  = String(env_config.getLocationLatitude() );
-  const locationLongitude = String(env_config.getLocationLongitude());
-  const mapBoxToken       = String(env_config.getTokenMapBox());
-  const googleToken       = String(env_config.getTokenGoogleSignIn());
-
-  return {
-    props: { 
-      isLocal,
-      apiEndpoint,
-      locationName,
-      locationLatitude,
-      locationLongitude,
-      mapBoxToken,
-      googleToken
-    }
-  }
+  return await genCommonProps()
 }
+
 
 export default function Home(props) {
   // Get and store all car information
@@ -289,7 +273,7 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Layout>
+        <Layout props={props}>
           <Map 
             initialViewState={{
               longitude: props.locationLongitude,

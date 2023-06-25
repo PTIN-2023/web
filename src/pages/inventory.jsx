@@ -7,16 +7,11 @@ import * as env_config from "../utils/env_config"
 import useCookie from '../hooks/useCookie';
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest.js";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetchObject.js";
+import genCommonProps from '../utils/gen_common_props';
 
 export async function getServerSideProps() {
-    const apiEndpoint = String(env_config.getApiEndpoint());
-  
-    return {
-      props: { 
-        apiEndpoint,
-      }
-    }
-  }
+  return await genCommonProps()
+}
 
 export default function Home(props) {
 
@@ -52,7 +47,7 @@ export default function Home(props) {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
-                <Layout>
+                <Layout props={props}>
                     <div>
                         {stringResponse != 'none' && <Tablainventarios data={JSON.parse(stringResponse)} rowsPerPage={rowsPerPage} />}
                     </div>

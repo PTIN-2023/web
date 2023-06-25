@@ -1,13 +1,15 @@
 import Layout from "../component/Layout";
 import React from "react";
+import genCommonProps from '../utils/gen_common_props';
 
-export default function Custom404() {
+export async function getServerSideProps() {
+  return await genCommonProps()
+}
 
-
+export default function Custom404(props) {
     return (
-        <>
-
-        <Layout>
+    <>
+        <Layout props={props}>
             <p className="text-center text-gray-900 text-7xl dark:text-white">404</p>
             <br/>
             <p className="text-center text-gray-900 text-5xl dark:text-white">Página no encontrada</p>
