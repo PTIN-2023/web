@@ -43,8 +43,7 @@ function ModalDeleteAssign({props, currentDoctor, currentTarget, currentItem, mo
         console.log("apicall")
         await deleteAssign()
         console.log("response: "+stringResponse)
-        stringResponse = JSON.parse(stringResponse)
-        if(stringResponse.result == "ok"){
+        if(JSON.parse(stringResponse).result == "ok"){
             alert("Paciente eliminado correctamente!")
             router.reload()
         }        
@@ -138,14 +137,17 @@ const AssignContainer = ({data, props}) => {
         setModalDeleteAssignState(e);
     }
 
-    useEffect(async () => {
+    useEffect(() => {
         if(userTokenCookie != null){
-            await refreshAsignations()
-            if(stringResponseAsignations != "none"){
-                setResponseAssign(JSON.parse(stringResponseAsignations))
-            }
+            refreshAsignations()
         }
     }, [stringRequestAsigned]);
+
+    useEffect(() => {
+        if(stringResponseAsignations != "none"){
+            setResponseAssign(JSON.parse(stringResponseAsignations))
+        }
+    }, [stringResponseAsignations])
 
 
     return (
