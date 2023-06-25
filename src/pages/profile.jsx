@@ -30,7 +30,11 @@ export default function Home(props) {
     }
   }, [stringResponse])
 
-  sumbitAndFetch();
+  useEffect(() => {
+    if(userTokenCookie != undefined) {
+      sumbitAndFetch();
+    }
+  }, [userTokenCookie])
 
   return (
     <>
