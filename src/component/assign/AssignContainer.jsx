@@ -25,7 +25,14 @@ function ModalDeleteAssign({props, currentDoctor, currentTarget, currentItem, mo
     //borrar asignacion -- llamada a la API delete_assignations_doctor
     var [deleteAssign, stringResponse] = useSumbitAndFetch(
       stringRequest,
-      props.apiEndpoint+"/api/delete_assignations_doctor"
+      props.apiEndpoint+"/api/delete_assignations_doctor",
+      (res) => {
+        if (res.result === "ok") {
+          alert("Paciente eliminado correctamente!")
+          refreshAsignations()
+          window.location.reload(false);
+        }
+      }
     ) 
     
     const [localeCookie, ] = useCookie('locale')
@@ -44,7 +51,6 @@ function ModalDeleteAssign({props, currentDoctor, currentTarget, currentItem, mo
         console.log("apicall")
         await deleteAssign()
         console.log("response: "+stringResponse)
-        alert("Paciente eliminado correctamente!")
         if(JSON.parse(stringResponse).result == "ok"){
             alert("Paciente eliminado correctamente!")
             
@@ -119,7 +125,10 @@ const AssignContainer = ({data, props}) => {
         (res) => {
             if (res.result === "ok") {
               alert("Paciente asignado correctamente!")
+              refreshAsignations()
               window.location.reload(false);
+            }else{
+                alert("Este paciente ya está asignado al doctor!")
             }
           }
     )
