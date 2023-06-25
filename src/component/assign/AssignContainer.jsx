@@ -114,7 +114,7 @@ const AssignContainer = ({data, props}) => {
         stringRequest,
       props.apiEndpoint+"/api/manager_assign_doctors"
     )
-    var [refreshAsignations, stringResponse] = useSumbitAndFetch(
+    var [refreshAsignations, stringResponseAsignations] = useSumbitAndFetch(
         stringRequestAsigned,
         props.apiEndpoint+"/api/list_assigned_doctors"
       )
@@ -137,6 +137,7 @@ const AssignContainer = ({data, props}) => {
     const setCurrentDoctorHandler = async (e) => {
         setCurrentDoctor(e);
         await refreshAsignations()
+        stringResponseAsignations = JSON.parse(stringResponseAsignations)
         stringResponse = JSON.parse(stringResponse)
         if(stringResponse.result == "ok"){
             alert("Paciente agregado correctamente!")
@@ -149,8 +150,8 @@ const AssignContainer = ({data, props}) => {
             <Card className="col-span-2">
                 <h1 className={assignStyles.gridHeader}>Doctores</h1>
                 <select onChange={(e) => setCurrentDoctorHandler(e.target.value)} id="doctors" size="5" class="bg-gray-50 border border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    {data.result == "ok" && data.patients.map((patient) =>
-                        <option value={patient.user_email}>{patient.user_email}</option>
+                    {data.result == "ok" && data.doctors.map((doctors) =>
+                        <option value={doctors.user_email}>{doctors.user_email}</option>
                     )}
                 </select>
                 <span className="mt-9"></span>
@@ -187,7 +188,7 @@ const AssignContainer = ({data, props}) => {
                                 </Table.HeadCell>
                             </Table.Head>
                             <Table.Body className="divide-y">
-                            {data.result == "ok" && data.patients.map((patient) =>
+                            {stringResponseAsignations && stringResponseAsignations.patients.map((patient) =>
                                 <>
                                     <Table.Row className={myordersStyles.tableRow}>
                                         <Table.Cell className={myordersStyles.tableCell}>
