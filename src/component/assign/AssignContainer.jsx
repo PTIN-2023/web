@@ -44,10 +44,10 @@ function ModalDeleteAssign({props, currentDoctor, currentTarget, currentItem, mo
         console.log("apicall")
         await deleteAssign()
         console.log("response: "+stringResponse)
-        router.push()
+        alert("Paciente eliminado correctamente!")
         if(JSON.parse(stringResponse).result == "ok"){
             alert("Paciente eliminado correctamente!")
-            router.push()
+            
         }        
     }
 
@@ -127,8 +127,8 @@ const AssignContainer = ({data, props}) => {
         await assignDoctor()
         console.log("response: "+stringResponse)
         setResponseNewAssign(stringResponse)
+        alert("Paciente asignado correctamente!")
         if(responseNewAssign != "none"){
-            router.push()
             if(responseNewAssign.result == "ok"){
                 alert("Paciente asignado correctamente!")
                 refreshAsignations()
