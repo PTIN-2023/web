@@ -195,7 +195,7 @@ const AssignContainer = ({data, props}) => {
                             </Table.Head>
                             <Table.Body className="divide-y">
                             {console.log("responseAssign: "+ JSON.stringify(responseAssign))}
-                            {responseAssign != "none" ? (stringResponseAsignations.patients.map((patient) =>
+                            {responseAssign != "none" ? (responseAssign.patients.map((patient) =>
                                 <>
                                     <Table.Row className={myordersStyles.tableRow}>
                                         <Table.Cell className={myordersStyles.tableCell}>
