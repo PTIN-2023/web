@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest";
 import useSumbitAndFetch from "../../hooks/useSumbitAndFetch";
 import TestPageTabLayout from "./TestPageTabLayout";
 import useCookie from "../../hooks/useCookie";
+import LabeledTextInputComponent from "../common/LabeledTextInput";
 
 export default function UpdateDronesTestComponent({apiEndpoint}) {
   // Cookies
   const [userTokenCookie, ] = useCookie('user_token', 'undefined')
 
+  // Form vals
+  const [id_beehive, setBeehiveId] = useState('0')
+
   // Request
   const stringRequest = usePrepareBodyRequest({
-    "session_token" : userTokenCookie
+    "session_token" : userTokenCookie,
+    "id_beehive" : id_beehive
   })
   const [sumbitAndFetchOrderDrones, stringResponseOrderDrones] = useSumbitAndFetch(
     stringRequest,
@@ -33,6 +38,13 @@ export default function UpdateDronesTestComponent({apiEndpoint}) {
       stringRequest={stringRequest}
       stringResponse={stringResponseOrderDrones}
   >
+    <LabeledTextInputComponent
+        id="id_beehive"
+        label_text="id_beehive"
+        input_type="text"
+        required={true}
+        on_change={(e) => setBeehiveId(e.target.value)}
+    />
   </TestPageTabLayout>
   <TestPageTabLayout 
       title="List available drone to send API test" 

@@ -131,7 +131,7 @@ const AssignContainer = ({data, props}) => {
             router.reload()
             if(responseNewAssign.result == "ok"){
                 alert("Paciente asignado correctamente!")
-                router.reload()
+                refreshAsignations()
             }
         }
     }
