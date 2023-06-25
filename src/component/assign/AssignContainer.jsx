@@ -34,7 +34,7 @@ function ModalDeleteAssign({props, currentDoctor, currentTarget, currentItem, mo
         setModalDeleteAssignState(false);
     }
     const onClickDeleteAssignHandler = () => {
-        currentTarget.current = currentItem.user_email;
+        currentTarget.current = currentItem;
         setModalDeleteAssignState(true);
         console.log("click "+ modalDeleteAssignState)
 
@@ -44,10 +44,10 @@ function ModalDeleteAssign({props, currentDoctor, currentTarget, currentItem, mo
         console.log("apicall")
         await deleteAssign()
         console.log("response: "+stringResponse)
-        router.reload()
+        router.push()
         if(JSON.parse(stringResponse).result == "ok"){
             alert("Paciente eliminado correctamente!")
-            router.reload()
+            router.push()
         }        
     }
 
@@ -128,7 +128,7 @@ const AssignContainer = ({data, props}) => {
         console.log("response: "+stringResponse)
         setResponseNewAssign(stringResponse)
         if(responseNewAssign != "none"){
-            router.reload()
+            router.push()
             if(responseNewAssign.result == "ok"){
                 alert("Paciente asignado correctamente!")
                 refreshAsignations()
