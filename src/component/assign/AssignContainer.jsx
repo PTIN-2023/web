@@ -137,7 +137,9 @@ const AssignContainer = ({data, props}) => {
     const setCurrentDoctorHandler = async (e) => {
         setCurrentDoctor(e);
         await refreshAsignations()
-        stringResponseAsignations = JSON.parse(stringResponseAsignations)
+        if(stringResponseAsignations != "none"){
+            stringResponseAsignations = JSON.parse(stringResponseAsignations)
+        }
         stringResponse = JSON.parse(stringResponse)
         if(stringResponse.result == "ok"){
             alert("Paciente agregado correctamente!")
