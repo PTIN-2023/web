@@ -80,7 +80,7 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
                   {(currentItem.state == "canceled" || currentItem.state == "denied") ?
                     <>
                       <p className={myordersStyles.detallesFeedbackCanceledText}>
-                      <Tooltip placement="bottom" content={getText("modal_tooltip_cancelled_text",localeCookie)}>
+                      <Tooltip placement="bottom" content={getText("modal_tooltip_cancelled_text_manager",localeCookie)}>
                        {getText("modal_tooltip_cancelled",localeCookie)}  
                       </Tooltip>
                       </p>                   
@@ -88,7 +88,11 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
                     :
                     <>
                       <p className={myordersStyles.detallesFeedbackText}>
-                        {currentItem.state == "car_sent" || currentItem.state == "drone_sent" || currentItem.state == "delivered" ? <>{getText("sent",localeCookie)}</> : <><span className="text-center">. . .</span></> }   
+                        {currentItem.state == "car_sent"   && <>{getText("car_sent",localeCookie)}</>}   
+                        {currentItem.state == "drone_sent" && <>{getText("drone_sent",localeCookie)}</>}   
+                        {currentItem.state == "delivered"  && <>{getText("sent",localeCookie)}</> }   
+                        {currentItem.state != "delivered" || currentItem.state != "drone_sent" || currentItem.state != "car_sent"  && <><span className="text-center">. . .</span></> }   
+                          
                       </p>                   
                     </>
                   }
@@ -207,8 +211,11 @@ const TablaCompManager = ({ data, rowsPerPage, slice, range, setPage, page }) =>
                 {(order.state == "delivered" || order.state == "delivered_waiting" ) &&
                   <span className={myordersStyles.deliveryStateEntregado}>{getText("delivered", localeCookie)}</span>
                 }
-                {(order.state == "car_sent" || order.state == "drone_sent" ) &&
-                  <span className={myordersStyles.deliveryStateEnviado}>{getText("sent", localeCookie)}</span>
+                {(order.state == "car_sent") &&
+                  <span className={myordersStyles.deliveryStateEnviado}>{getText("car_sent", localeCookie)}</span>
+                }
+                {(order.state == "drone_sent") &&
+                  <span className={myordersStyles.deliveryStateEnviado}>{getText("drone_sent", localeCookie)}</span>
                 }
                 {(order.state == "awaiting_confirmation" ||order.state == "ordered") &&
                   <span className={myordersStyles.deliveryStateEspConfirm}>{getText(order.state, localeCookie)}</span>
