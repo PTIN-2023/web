@@ -37,7 +37,7 @@ const TablaPacientes = ({ data, rowsPerPage, props }) => {
 
   return (
     <>
-        {currentPatient}
+
         <div className="overflow-auto h-96">
           <Table hoverable={true}>
             <Table.Head>
