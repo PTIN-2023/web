@@ -188,7 +188,7 @@ const AssignContainer = ({data, props}) => {
                                 </Table.HeadCell>
                             </Table.Head>
                             <Table.Body className="divide-y">
-                            {stringResponseAsignations && stringResponseAsignations.patients.map((patient) =>
+                            {stringResponseAsignations.result == "ok" && stringResponseAsignations.patients.map((patient) =>
                                 <>
                                     <Table.Row className={myordersStyles.tableRow}>
                                         <Table.Cell className={myordersStyles.tableCell}>
