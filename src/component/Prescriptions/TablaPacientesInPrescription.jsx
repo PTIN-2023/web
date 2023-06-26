@@ -25,7 +25,9 @@ const TablaPacientes = ({ data, rowsPerPage, props }) => {
     )
 
     useEffect(() => {
-      sumbitAndFetch()
+      if(userTokenCookie != null){
+        sumbitAndFetch()
+      }
     }, []);
 
     useEffect(() => {
