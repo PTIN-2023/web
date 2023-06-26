@@ -53,7 +53,7 @@ export default function Home(props) {
         <Layout props={props}>
         <div className={myordersStyles.mainContainer}>
           {/**Tablapacientes recibe cuantas filas va a renderizar, los datos */}
-          {stringResponse != 'none' && <Tablapacientes data={JSON.parse(stringResponse)} rowsPerPage={10}/>}
+          {stringResponse != 'none' && <Tablapacientes props={props} data={JSON.parse(stringResponse)} rowsPerPage={10}/>}
         </div>
         </Layout> 
       </main>

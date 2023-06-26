@@ -68,8 +68,6 @@ const Tablapacientess = ({ data, rowsPerPage }) => {
   const [page, setPage] = useState(1);
   const [localeCookie, ] = useCookie("locale")
   const [userTokenCookie, ] = useCookie('user_token')
-
-  const [currentDoctor, setCurrentDoctor] = useState('')
   const [responsePatients, setResponsePatients] = useState("none")
   //estos dos hooks de abajo sirven para mostrar o bien ocultar los modals
   const [modalContactarState, setModalContactarState] = useState(false);
@@ -78,7 +76,7 @@ const Tablapacientess = ({ data, rowsPerPage }) => {
 
   const stringRequest = usePrepareBodyRequest({
     "session_token" : userTokenCookie,
-    "doctor_email"  : currentDoctor,
+    "doctor_email"  : userTokenCookie,
   }) 
 
   const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
