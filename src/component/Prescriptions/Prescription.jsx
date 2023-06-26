@@ -1,11 +1,10 @@
 //External libraries imports
 import React, { useState, useRef, useEffect } from 'react';
-import { Button, Modal, Tabs } from 'flowbite-react';
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib'
+import { Button, Tabs } from 'flowbite-react';
 import download from 'downloadjs';
 
-//Config
-import * as env_config from "../../utils/env_config"
+//Utils
+import createPDF from '../../utils/createPDF';
 
 //Styles
 import styles from '../../styles/Prescriptions.module.css';
@@ -24,110 +23,24 @@ import useCookie from '../../hooks/useCookie';
 import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest.js";
 import useSumbitAndFetchObject from '../../hooks/useSumbitAndFetchObject.js';
 
-
-
-
-export async function getServerSideProps() {
-  const apiEndpoint = String(env_config.getApiEndpoint());
-
-  return {
-    props: { 
-      apiEndpoint,
-    }
-  }
-}
-
-export default function MakePrescriptions({props, searchValue, setSearchValue }) {
+export default function MakePrescriptions({ searchValue, setSearchValue, props }) {
 
     const inputNombreRef = useRef("");
     const inputMedicamentoRef = useRef("");
     const inputTratamientoRef = useRef("");
     const [inputValue, setInputValue] = useState('');
+    const [textareaValue, setTextareaValue] = useState('');
 
-    const [modalGenerateState, setModalGenerateState] = useState(false);
-    
-    const [pdfDoc, setPdfDoc] = useState(null);
-    const [isSending, setIsSending] = useState(false);
-
-    
-
-    
-    const handleButtonClick = () => {
-      setIsSending(true);
-      // Simulación de envío de datos
-      setTimeout(() => {
-        setIsSending(false);
-      }, 1500); // Tiempo de simulación de envío (1.5 segundos)
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-    };
-
-    const createPdf = async () => {
-        
-        const nombrePaciente = inputNombreRef.current;
-        const nombreMedicamento = inputMedicamentoRef.current + inputValue;
-        const Tratamiento = inputTratamientoRef.current;
-
-        
-
-        const pdfDoc = await PDFDocument.create()
-        const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman)
-    
-        const page = pdfDoc.addPage()
-        const { width, height } = page.getSize()
-        const fontSize = 30
-
-        page.drawText('TransMed', { x: 50, y: 800, size: 40, color:  rgb(0.176, 0.165, 0.439)})
-
-        page.drawText('Nombre Paciente: ____________________________________________', { x: 50, y: 700, size: 15 })
-
-        page.drawText('Fecha:', { x: 50, y: 600, size: 15 })
-
-        page.drawText('Nombre Medicamento: _________________________________________', { x: 50, y: 500, size: 15 })
-
-        page.drawText('Tratamiento: __________________________________________', { x: 50, y: 400, size: 15 })
-
-        page.drawText('Notas:', { x: 50, y: 300, size: 15 })
-
-
-        const currentDate = new Date();
-        //'Nombre paciente: ' es x = 175
-        page.drawText(nombrePaciente, { x: 175, y: 700, size: 15 })
-        page.drawText(currentDate.toLocaleString(), { x: 100, y: 600, size: 15 })
-        page.drawText(nombreMedicamento, { x: 205, y: 500, size: 15 })
-        page.drawText(Tratamiento, { x: 138, y: 400, size: 15 })
-
-
-        //Guardar documento
-        const pdfBytes = await pdfDoc.save()
-        setPdfDoc(pdfBytes);
-        
-        
-    }
 
     async function handleSubmitGenerate(event) {
         event.preventDefault();
-
-        await createPdf();
-
-        setModalGenerateState(true);
+        createPDF(inputNombreRef.current, inputMedicamentoRef.current + inputValue, inputTratamientoRef.current, textareaValue).then((pdfBytes) => {
+            download(pdfBytes, "Receta.pdf", "application/pdf");
+          });
     }
 
-    function handleSubmitSend() {
 
-        
-        
-    }
-
-    function handleSubmitDownload() {
-
-        download(pdfDoc, "receta.pdf", "pdf");
-        window.location.reload();
-        
-    }
-
+    //Input Handlers
     const handleNombreInput = (event) => {
         inputNombreRef.current= event.target.value;
     };
@@ -140,44 +53,15 @@ export default function MakePrescriptions({props, searchValue, setSearchValue })
         inputTratamientoRef.current= event.target.value;
     };
 
-    const onCloseGenerateHandler = () =>{
-        setModalGenerateState(false);
-    }
-
-    const handleInputChange = (value) => {
+    const handleNombreInputChange = (value) => {
         if (inputValue == '') setInputValue(inputValue + value);
         else setInputValue(inputValue + ', ' + value);
     };
-
-    // Llamada a Api para la lista de pacientes
-    const [userTokenCookie, ] = useCookie('user_token')
-    const [ordersPerPage, setOrdersPerPage] = useState('10');
-    const [patientPage, setPatientPage] = useState('1');  
-
-
-    const stringRequest = usePrepareBodyRequest({
-        "session_token" : userTokenCookie,
-        "orders_per_page" : ordersPerPage,
-        "page" : patientPage
-    })
-
-    const [sumbitAndFetch, stringResponse] = useSumbitAndFetchObject(
-        stringRequest,
-        props.apiEndpoint+ "/api/list_doctor_patients"
-    )
-
-    useEffect(() => {
-    if(stringResponse != 'none') {
-        console.log("response not none")
-    }
-    }, [stringResponse])
-
-    //sumbitAndFetch();
-
-
+    
     // Llamada a Api para la lista de medicamentos 
 
         // Form values
+        const [userTokenCookie, ] = useCookie('user_token')
         const [medName, setMedName] = useState();
         const [pvpMin, setPvpMin] = useState(0);
         const [pvpMax, setPvpMax] = useState(50);
@@ -204,14 +88,14 @@ export default function MakePrescriptions({props, searchValue, setSearchValue })
         
         const [sumbitAndFetch_med, response_med] = useSumbitAndFetchObject(
             stringRequest_med,
-            props.apiEndpoint+"/api/list_available_medicines",
+            "/api/list_available_medicines",
             (res) => console.log(res)
         )
 
         useEffect(() => {
             if(userTokenCookie != null)
                 sumbitAndFetch_med();
-        }, [medPage, stringRequest])
+        }, [medPage, stringRequest_med])
 
   return (
     <div className={styles.cont_main}>
@@ -219,68 +103,38 @@ export default function MakePrescriptions({props, searchValue, setSearchValue })
             <p className={styles['titulo']}>Nueva Receta</p>
             <form onSubmit={handleSubmitGenerate}>
                 <div className={styles['input-group']}>
-
+                    {/* Nombre Paciente */}
                     <label htmlFor="patientName" className={styles.label}>Nombre Paciente:</label>
-
                     <div className={styles['input-container']}>
                         <input type="text" required id="patientName" name="patientName" className={styles.inputNombre} onChange={handleNombreInput}/>
                     </div>
 
+                    {/* Nombre Medicmento */}
                     <label htmlFor="medicationName" className={styles.label}>Nombre Medicamento:</label>
-                
                     <div className={styles['input-container']}>
                         <input type="text" id="medicationName" name="medicationName" className={styles.inputMedicamento} onChange={handleMedicamentoInput}/>
                     </div>
 
+                    {/* Duracion Tratamiento */}
                     <label htmlFor="treatmentDuration" className={styles.label}>Duración tratamiento:</label>
-
                     <div className={styles['input-container']}>
                         <input type="text" required id="treatmentDuration" name="treatmentDuration" className={styles.inputTratamiento} onChange={handleTratamientoInput}/>
                     </div>
                 
-
+                    {/* Notas */}
                     <label htmlFor="notes" className={styles.label}>Notas:</label>
-
                     <div className={styles['textarea-group']}>
-                        
                         <div className={styles['input-container']}>
-                            <textarea id="notes" name="notes" className={styles.textarea} />
+                            <textarea id="notes" name="notes" className={styles.textarea} onChange={(event) => setTextareaValue(event.target.value)} maxLength={1000}/>                            
                         </div>
+                        <p>Caracteres restantes: {1000 - textareaValue.length}</p>
                     </div>
                 </div>
 
+                {/* Generar Receta */}
                 <div className={styles['button-container']}>
                     <Button type="submit" className={styles['buttonGenerate']}>Generar Receta</Button>
                 </div>
-                <Modal show={(modalGenerateState) ? true : false} size="lg" popup={true} onClose={onCloseGenerateHandler}>
-                    <Modal.Header>Que desea hacer?</Modal.Header>
-                    <Modal.Body>
-                        <div className="text-center">
-                            <br />
-                            <div className="flex justify-center gap-4">
-                                <form onSubmit={handleSubmitSend}>
-                                    <Button 
-                                        type="submit" 
-                                        className={`${styles.sendButton} ${isSending ? styles.sending : ''}`}
-                                        onClick={handleButtonClick}
-                                        disabled={isSending}
-                                    >
-                                        <HiPaperAirplane style={{ marginRight: '8px' }}/> {isSending ? 'Enviando...' : 'Enviar Receta'}
-                                    </Button>
-                                </form>
-                                <form onSubmit={handleSubmitDownload}>
-                                    <Button 
-                                        type="submit" 
-                                        className={styles.downloadButton}
-                                    >
-                                        <HiDownload style={{ marginRight: '8px' }}/> Descargar Receta
-                                        <span className={styles.downloadIcon}></span>
-                                    </Button>
-                                </form>
-                            </div>
-                        </div>
-                    </Modal.Body>
-                </Modal>
             </form>
         </div>
         <div className={styles['tabla']}>
@@ -299,7 +153,7 @@ export default function MakePrescriptions({props, searchValue, setSearchValue })
                         title="Medicamentos"
                         icon={BsCapsulePill}
                     >
-                        {response_med != 'none' && <TablaMedicinas data={response_med} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue} onClick={handleInputChange} />}
+                        {response_med != 'none' && <TablaMedicinas data={response_med} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue} onClick={handleNombreInputChange} />}
                     </Tabs.Item>
                     <Tabs.Item
                         active={true}

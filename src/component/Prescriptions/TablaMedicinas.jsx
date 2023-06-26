@@ -91,6 +91,7 @@ const TablaMedicinas = ({ data, rowsPerPage, searchValue, setSearchValue, onClic
 
           </Table.Body>
         </Table> 
+        <br/>
         <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
     </>
   );
