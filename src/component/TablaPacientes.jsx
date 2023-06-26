@@ -4,6 +4,8 @@ import TableFooter from "./TableFooter.jsx";
 import {Table, Button, Modal, Dropdown} from 'flowbite-react'
 import myordersStyles from "../styles/Myorders.module.css"
 import { HiOutlineArrowRight } from "react-icons/hi"
+import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
+import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
 
 
 //TODO: modular estas funciones de modal
@@ -64,17 +66,44 @@ const Tablapacientess = ({ data, rowsPerPage }) => {
   //recibe data -> json de pacientess
   //rowsPerPage -> cuantas filas va a renderizar
   const [page, setPage] = useState(1);
+  const [localeCookie, ] = useCookie("locale")
+  const [userTokenCookie, ] = useCookie('user_token')
+
+  const [currentDoctor, setCurrentDoctor] = useState('')
+  const [responsePatients, setResponsePatients] = useState("none")
   //estos dos hooks de abajo sirven para mostrar o bien ocultar los modals
   const [modalContactarState, setModalContactarState] = useState(false);
   //currentTarget es un hook useRef para que no se actualice en cada render y así aseguramos que los modals no se multipliquen
   const currentTarget = useRef("");
+
+  const stringRequest = usePrepareBodyRequest({
+    "session_token" : userTokenCookie,
+    "doctor_email"  : currentDoctor,
+  }) 
+
+  const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
+    stringRequest,
+    props.apiEndpoint+"/api/list_assigned_doctors"
+  )
+
+  useEffect(() => {
+    if(userTokenCookie != null){
+      sumbitAndFetch()
+    }
+  }, [stringRequest]);
+
+  useEffect(() => {
+    if(stringResponse != "none"){
+        setResponsePatients(JSON.parse(stringResponse))
+    }
+  }, [stringResponse])
 
   function changeModalContactarState(e){
     setModalContactarState(e);
 
   }
 
-  var { slice, range } = useTable(data, page, rowsPerPage);
+  var { slice, range } = useTable(responsePatients.patients, page, rowsPerPage);
   return (
     <>
         <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
@@ -86,44 +115,40 @@ const Tablapacientess = ({ data, rowsPerPage }) => {
               Nombre Paciente
             </Table.HeadCell>
             <Table.HeadCell>
-              Historial Médico
+              Correo
             </Table.HeadCell>
             <Table.HeadCell>
-              Medicamentos Recetados
+              Numero de telefono
             </Table.HeadCell>
             <Table.HeadCell>
-              Contacto
+              Ciudad
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-          {slice.map((pacientes) =>
+          {responsePatients != "none" ? (slice.map((patient) =>
             <>
                 <Table.Row className={myordersStyles.tableRow}>
-                  <Table.Cell className={myordersStyles.firstTableCell}> 
-                  </Table.Cell>
                   <Table.Cell className={myordersStyles.tableCell}>
-                    {pacientes.nombre}
+                      {patient.user_full_name}
+                  </Table.Cell>
+                  <Table.Cell>
+                      {patient.user_email}
+                  </Table.Cell>
+                  <Table.Cell>
+                      {patient.user_phone}
+                  </Table.Cell>
+                  <Table.Cell>
+                      {patient.user_city}
                   </Table.Cell>
                   <Table.Cell> 
-                    <Dropdown label="Alergias/Enfermedades" inline={true}>
-                        {pacientes.historial.map(med =>
-                            <Dropdown.Item>{med}</Dropdown.Item>
-                        )}
-                    </Dropdown>   
-                  </Table.Cell>
-                  <Table.Cell>    
-                    <Dropdown label="Lista Medicamentos" inline={true}>
-                        {pacientes.medicamentos.map(med =>
-                            <Dropdown.Item>{med}</Dropdown.Item>
-                        )}
-                    </Dropdown>                                              
-                  </Table.Cell>
-                  <Table.Cell> 
-                    <ModalContactar currentTarget={currentTarget} currentItem={pacientes.nombre} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>
+                    <ModalContactar currentTarget={currentTarget} currentItem={patient.user_full_name} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>
                   </Table.Cell>
                 </Table.Row>
             </>
-          )}
+          ))
+          :
+          <></> 
+          }
           </Table.Body>
         </Table> 
     </>
