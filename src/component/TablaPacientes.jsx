@@ -59,7 +59,7 @@ function ModalContactar({currentTarget, currentItem, modalContactarState, setMod
 }
 
 
-const Tablapacientess = ({ data, rowsPerPage }) => {
+const Tablapacientess = ({ props }) => {
 
 
   //componente que renderiza la tabla con los pacientess

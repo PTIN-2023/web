@@ -14,32 +14,6 @@ export async function getServerSideProps() {
 }
 
 export default function Home(props) {
-   //recibe props: pedidos
- //searchValue es un estado que guarda el texto de busqueda del componente MyOrdersSearch
- //se declara aqui arriba para pasarlo a los hijos, actualizar el State y pasarlo a TablaPedidos
- const [userTokenCookie, ] = useCookie('user_token')
- const [ordersPerPage, setOrdersPerPage] = useState('10');
- const [page, setPage] = useState('1');  
-
-
- const stringRequest = usePrepareBodyRequest({
-   "session_token" : userTokenCookie,
-   "orders_per_page" : ordersPerPage,
-   "page" : page
- })
-
- const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
-   stringRequest,
-   props.apiEndpoint+"/api/list_doctor_patients"
- )
-
- useEffect(() => {
-   if(stringResponse != 'none') {
-     console.log("response not none")
-   }
- }, [stringResponse])
-
- sumbitAndFetch();
 
   return (
     <>
@@ -53,7 +27,7 @@ export default function Home(props) {
         <Layout props={props}>
         <div className={myordersStyles.mainContainer}>
           {/**Tablapacientes recibe cuantas filas va a renderizar, los datos */}
-          {stringResponse != 'none' && <Tablapacientes props={props} data={JSON.parse(stringResponse)} rowsPerPage={10}/>}
+          {stringResponse != 'none' && <Tablapacientes props={props}/>}
         </div>
         </Layout> 
       </main>
