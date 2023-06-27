@@ -143,7 +143,7 @@ export default function Home(props) {
     </Head>
     <main>
       <Layout props={props}>
-      {droneResponse != 'none' && droneResponse.response == 'ok' &&
+      {droneResponse != 'none' && droneResponse.result == 'ok' &&
         <CustomTable 
           data={droneResponse.drones}
           setShowModal={setShowModal}
