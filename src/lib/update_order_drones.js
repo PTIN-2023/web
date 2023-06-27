@@ -148,7 +148,7 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
     let matches = []
     drones.some((drone) => {
         matches.push({
-            id_drone : drone.id_drone,
+            id_dron : drone.id_dron,
             order : orders.shift()
         })
         return orders.length == 0
@@ -181,7 +181,7 @@ export default async function update_order_drones(api_endpoint, requestPayload) 
         }
 
         assignations.push({
-            id_drone : match.id_drone,
+            id_dron : match.id_dron,
             route : {
                 id_route : generate_route_response.response_body.id_route,
                 coordinates : generate_route_response.response_body.coordinates,
