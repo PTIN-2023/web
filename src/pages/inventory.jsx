@@ -121,7 +121,7 @@ export default function Home(props) {
     // request values
     {
       "session_token" : userTokenCookie,
-      "entries_per_page" : rowsPerPage,
+      "meds_per_page" : rowsPerPage,
       "page" : page
     },
     // url
