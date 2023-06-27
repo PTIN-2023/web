@@ -2,7 +2,8 @@
     @apply container mx-auto space-y-3;
    
    }
-   
+
+
    /**
    Component TablaPedidos
    **/
@@ -29,6 +30,12 @@
        @apply whitespace-nowrap font-medium text-gray-900 dark:text-white;
    
    }
+
+    .tableCell > img {
+        height: 10vmin;
+        width: 10vmin;
+    }
+
    .detailsRow > *{
        @apply ml-5;
    

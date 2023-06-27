@@ -4,10 +4,10 @@ module.exports = {
   output: 'standalone',
   async redirects() {
     //Rutas no permitidas para cada rol, en el caso de los usuarios que no esten logeados se redirige al login, para los demas ser redirige a /403.
-    const patientRoutes = ['/patients', '/notifications','/assign',  '/map_global', '/map_local', '/inventory_global', '/inventory_local', '/orders', '/stats', '/prescriptions'];
-    const doctorRoutes = ['/myorders', '/makeorder','/assign',  '/map_global', '/map_local', '/inventory_global', '/inventory_local', '/orders', '/stats'];
+    const patientRoutes = ['/patients', '/notifications','/assign',  '/map_global', '/map_local', '/inventory', '/orders', '/stats', '/prescriptions'];
+    const doctorRoutes = ['/myorders', '/makeorder','/assign',  '/map_global', '/map_local', '/inventory', '/orders', '/stats'];
     const managerRoutes = ['/myorders', '/makeorder', '/patients', '/notifications', '/prescriptions'];
-    const unloggedRoutes = ['/myorders', '/makeorder', '/assign', '/map_global', '/map_local', '/inventory_global', '/inventory_local', '/orders', '/stats', '/patients', '/notifications', '/profile', '/prescriptions'];
+    const unloggedRoutes = ['/myorders', '/makeorder', '/assign', '/map_global', '/map_local', '/inventory', '/orders', '/stats', '/patients', '/notifications', '/profile', '/prescriptions'];
     const redirectPatient = patientRoutes.map((patientRoutes) => ({
       source: patientRoutes,
       has: [

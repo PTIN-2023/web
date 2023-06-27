@@ -11,7 +11,7 @@ const sidebarItemGroups = [
     items: [
       { name: "profile", icon: HiUser, localize: false },
       { name: "map", icon: HiMap, localize: true, icon_global: HiGlobeAlt, icon_local: HiHome },
-      { name: "inventory", icon: HiArchive, localize: false, localize: true, icon_global: HiGlobeAlt, icon_local: HiHome },
+      { name: "inventory", icon: HiArchive, localize: false, hide_in_local: true},
       { name: "orders", icon: HiTruck, localize: false },
       { name: "assigns", icon: HiDocumentDuplicate, localize: false },
       { name: "stats", icon: HiChartPie, localize: false },
@@ -81,7 +81,7 @@ const SideBarPagesNavigation = ({ currentPage, isLocal }) => {
                 }
               </Sidebar.Collapse>                        
             );
-          } else {
+          } else if (!isLocal || !item.hide_in_local) {
             return (
               <Sidebar.Item
                 key={item.name}
