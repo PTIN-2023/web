@@ -87,7 +87,8 @@
         "button_edit" : "Editar",
         "button_confirm" : "Confirmar",
         "createuser" : "Crear usuario",
-        "prescripciones_paciente": "Prescripciones"
+        "prescripciones_paciente": "Prescripciones",
+        "vehicles" : "Vehículos"
     },
     "en": {
         "language": "Language",
@@ -158,7 +159,8 @@
         "button_edit" : "Edit",
         "button_confirm" : "Confirm",
         "createuser" : "Create user",
-        "prescripciones_paciente": "My Prescriptions"
+        "prescripciones_paciente": "My Prescriptions",
+        "vehicles" : "Vehicles"
     },
     "ca": {
         "language": "Idioma",
@@ -229,6 +231,7 @@
         "button_edit" : "Editar",
         "button_confirm" : "Confirmar",
         "createuser" : "Crear ususari",
-        "prescripciones_paciente": "Prescripcions"
+        "prescripciones_paciente": "Prescripcions",
+        "vehicles" : "Vehicles"
     }
 }

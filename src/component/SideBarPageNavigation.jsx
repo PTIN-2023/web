@@ -1,5 +1,5 @@
 import layoutStyles from "../styles/Layout.module.css";
-import {HiChartPie, HiGlobeAlt, HiHome, HiTable, HiUser, HiInboxIn, HiUserAdd, HiUserGroup, HiTruck, HiArchive, HiMap, HiDocumentText, HiDocumentDuplicate } from 'react-icons/hi';
+import {HiChartPie, HiGlobeAlt, HiHome, HiTable, HiUser, HiInboxIn, HiUserAdd, HiUserGroup, HiCube, HiTruck, HiArchive, HiMap, HiDocumentText, HiDocumentDuplicate } from 'react-icons/hi';
 import useCookie from "../hooks/useCookie";
 import { Sidebar } from "flowbite-react";
 import { getText } from "../utils/getTextCurrentLocale";
@@ -12,7 +12,8 @@ const sidebarItemGroups = [
       { name: "profile", icon: HiUser, localize: false },
       { name: "map", icon: HiMap, localize: true, icon_global: HiGlobeAlt, icon_local: HiHome },
       { name: "inventory", icon: HiArchive, localize: false, hide_in_local: true},
-      { name: "orders", icon: HiTruck, localize: false },
+      { name: "orders", icon: HiCube, localize: false },
+      { name: "vehicles", icon: HiTruck, localize: true, icon_global: HiGlobeAlt, icon_local: HiHome },
       { name: "assigns", icon: HiDocumentDuplicate, localize: false },
       { name: "stats", icon: HiChartPie, localize: false },
       { name: "createuser", icon: HiUserAdd, localize: false}
