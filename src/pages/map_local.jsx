@@ -37,7 +37,7 @@ export async function getServerSideProps() {
   }
 }
 
-export default function Home(props) {
+export default function Home(props, newView) {
   // Get and store all drone information
   const [infoRouteDrone, setinfoRouteDrone] = React.useState([]);
   async function getDroneRoute(props) {
@@ -307,6 +307,19 @@ export default function Home(props) {
     setClickPopup(closestDrone)
   };
 
+  const [iVS, setIVS] = useState('')
+  //NOTA: quizá es usado en un futuro, si al final no se hace, se borra.
+  //Es para la ventana del gestor con paquetes asociados a coches/dron, que al darle click a ese paquete te lleve al mapa con la posición de ese coche/dron
+  useEffect(() => {
+    if(Object.keys(newView).length.toString() === 0){
+      setIVS({'locationLongitude': newView.locationLongitude, 
+              'locationLatitude':  newView.locationLatitude})
+    }else{
+      setIVS({'locationLongitude': props.locationLongitude, 
+              'locationLatitude':  props.locationLatitude})
+    }
+  }, [newView]);
+
   const cornerBottomLeft = new mapboxgl.LngLat(props.locationLongitudeMin, props.locationLatitudeMin);
   const cornerTopRight = new mapboxgl.LngLat(props.locationLongitudeMax, props.locationLatitudeMax);
 
@@ -321,10 +334,10 @@ export default function Home(props) {
       </Head>
       <main>
         <Layout props={props}>
-        {/* {props.isLocal &&  */}<Map 
+        {/* {props.isLocal &&  */}{iVS && <Map 
             initialViewState={{
-              longitude: props.locationLongitude,
-              latitude: props.locationLatitude,
+              longitude: iVS.locationLongitude,
+              latitude: iVS.locationLatitude,
               zoom: 15
             }}
             mapboxAccessToken={props.mapBoxToken}
@@ -349,7 +362,7 @@ export default function Home(props) {
           Batería: {clickPopup.battery}% <br/>
           Último mantenimiento: {clickPopup.last_maintenance_date}
           </Popup>)}
-          </Map>
+          </Map>}
         </Layout>
       </main>
     </>

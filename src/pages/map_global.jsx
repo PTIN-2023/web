@@ -12,8 +12,7 @@ export async function getServerSideProps() {
   return await genCommonProps()
 }
 
-
-export default function Home(props) {
+export default function Home(props, newView) {
   // Get and store all car information
   const [infoRouteCar, setinfoRouteCar] = React.useState([]);
   async function getCarRoute(props) {
@@ -266,6 +265,19 @@ export default function Home(props) {
     setClickPopup(closestCar)
   };
 
+  const [iVS, setIVS] = useState('')
+  //NOTA: quizá es usado en un futuro, si al final no se hace, se borra.
+  //Es para la ventana del gestor con paquetes asociados a coches/dron, que al darle click a ese paquete te lleve al mapa con la posición de ese coche/dron
+  useEffect(() => {
+    if(Object.keys(newView).length.toString() === 0){
+      setIVS({'locationLongitude': newView.locationLongitude, 
+              'locationLatitude':  newView.locationLatitude})
+    }else{
+      setIVS({'locationLongitude': props.locationLongitude, 
+              'locationLatitude':  props.locationLatitude})
+    }
+  }, [newView]);
+
   return (
     <>
       <Head>
@@ -275,10 +287,10 @@ export default function Home(props) {
       </Head>
       <main>
         <Layout props={props}>
-          <Map 
+          {iVS && <Map 
             initialViewState={{
-              longitude: props.locationLongitude,
-              latitude: props.locationLatitude,
+              longitude: iVS.locationLongitude,
+              latitude: iVS.locationLatitude,
               zoom: 15
             }}
             mapboxAccessToken={props.mapBoxToken}
@@ -309,7 +321,7 @@ export default function Home(props) {
           Batería: {clickPopup.battery}% <br/>
           Último mantenimiento: {clickPopup.last_maintenance_date}
           </Popup>)}
-          </Map>
+          </Map>}
         </Layout>
       </main>
     </>
