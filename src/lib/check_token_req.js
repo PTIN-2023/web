@@ -7,7 +7,7 @@ export default async function check_token_req(api_endpoint, token, expected_type
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({session_token : token})
+            body: JSON.stringify({'session_token' : token})
         }).then(data => data.json())
         
         console.log("response in checking token")
