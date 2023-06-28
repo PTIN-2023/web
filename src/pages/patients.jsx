@@ -26,8 +26,7 @@ export default function Home(props) {
         {/**le pasamos a Layout el valor del componente de la página que está renderizando (Layout se encarga de detectar en que pagina está) */}
         <Layout props={props}>
         <div className={myordersStyles.mainContainer}>
-          {/**Tablapacientes recibe cuantas filas va a renderizar, los datos */}
-          {stringResponse != 'none' && <Tablapacientes props={props}/>}
+          <Tablapacientes props={props}/>
         </div>
         </Layout> 
       </main>
