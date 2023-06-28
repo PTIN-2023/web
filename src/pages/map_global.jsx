@@ -247,7 +247,7 @@ export default function Home(props, newView) {
       setClickPopup(false)
       return
     }
-    const dist = 0.5
+    const dist = 0.15
     let closestCar = null
 
     infoRouteCar.cars.forEach((cars) => {
