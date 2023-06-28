@@ -312,10 +312,10 @@ export default function Home(props, newView) {
           <Popup longitude={clickPopup.location_act.longitude} latitude={clickPopup.location_act.latitude} anchor="bottom" 
           onClose={() => setClickPopup(false)}>
           Matricula: {clickPopup.license_plate} <br/>
-          Contiene:
+          Pedidos:
           <ul>
             {clickPopup.packages.map((pack, index) => (
-              <li key={index}>{pack.name}</li>
+              <li key={index}>{pack.order_identifier}</li>
             ))}
           </ul>
           Batería: {clickPopup.battery}% <br/>
