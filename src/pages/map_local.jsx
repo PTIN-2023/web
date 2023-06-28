@@ -289,7 +289,7 @@ export default function Home(props, newView) {
       setClickPopup(false)
       return
     }
-    const dist = 0.15
+    const dist = 0.05
     let closestDrone = null
     
     infoRouteDrone.drones.forEach((drones) => {
