@@ -23,7 +23,7 @@ import useCookie from '../../hooks/useCookie';
 import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest.js";
 import useSumbitAndFetchObject from '../../hooks/useSumbitAndFetchObject.js';
 
-export default function MakePrescriptions({ searchValue, setSearchValue, props }) {
+export default function MakePrescriptions({ props }) {
 
     const inputNombreRef = useRef("");
     const inputMedicamentoRef = useRef("");
@@ -181,7 +181,7 @@ export default function MakePrescriptions({ searchValue, setSearchValue, props }
                         title="Historial"
                         icon={HiClock}
                     >
-                        <TablaHistorial props={props} />
+                        {/*<TablaHistorial props={props} />*/}
                     </Tabs.Item>
                 </Tabs.Group>
             </div>

@@ -10,8 +10,6 @@ export async function getServerSideProps() {
 
 export default function Home(props) {
 
-  const [searchValue, setSearchValue] = useState({value:"",isCompleted:false});
-
   return (
     <>
       <Head>
@@ -21,7 +19,7 @@ export default function Home(props) {
       </Head>
       <main>
         <Layout navBarValue={setSearchValue} props={props}>
-            <MakePrescriptions props={props} searchValue={searchValue} setSearchValue={setSearchValue}/>
+            <MakePrescriptions props={props} />
         </Layout>
       </main>
     </>
