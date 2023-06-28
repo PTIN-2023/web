@@ -31,7 +31,7 @@ export default function MakePrescriptions({ props }) {
     const [inputValue, setInputValue] = useState('');
     const [textareaValue, setTextareaValue] = useState('');
 
-
+    /*
     const stringRequestRecipe = usePrepareBodyRequest({
         "session_token" : userTokenCookie,
         "user_full_name"  : inputNombreRef.current,
@@ -50,7 +50,7 @@ export default function MakePrescriptions({ props }) {
             }
           }
     )
-
+    */
     async function handleSubmitGenerate(event) {
         event.preventDefault();
 
