@@ -32,11 +32,34 @@ export default function MakePrescriptions({ searchValue, setSearchValue, props }
     const [textareaValue, setTextareaValue] = useState('');
 
 
+    const stringRequestRecipe = usePrepareBodyRequest({
+        "session_token" : userTokenCookie,
+        "user_full_name"  : inputNombreRef.current,
+        "medicine_list" : inputMedicamentoRef.current + inputValue,
+        "duration" : inputTratamientoRef.current,
+        "notes" : textareaValue,
+    }) 
+
+    const [createRecipe, stringResponse] = useSumbitAndFetch(
+        stringRequestRecipe,
+        props.apiEndpoint+"/api/doctor_create_prescription",
+        (res) => {
+            if (res.result === "ok") {
+            }else{
+                alert("Ha habido un error, por favor intentelo de nuevo. Si el problema persiste considere descargar la plantilla")
+            }
+          }
+    )
+
     async function handleSubmitGenerate(event) {
         event.preventDefault();
+
+        await createRecipe();
+
         createPDF(inputNombreRef.current, inputMedicamentoRef.current + inputValue, inputTratamientoRef.current, textareaValue).then((pdfBytes) => {
             download(pdfBytes, "Receta.pdf", "application/pdf");
-          });
+        });
+
     }
 
 
@@ -89,7 +112,6 @@ export default function MakePrescriptions({ searchValue, setSearchValue, props }
         const [sumbitAndFetch_med, response_med] = useSumbitAndFetchObject(
             stringRequest_med,
             "/api/list_available_medicines",
-            (res) => console.log(res)
         )
 
         useEffect(() => {
@@ -160,7 +182,7 @@ export default function MakePrescriptions({ searchValue, setSearchValue, props }
                         title="Historial"
                         icon={HiClock}
                     >
-                        <TablaHistorial/>
+                        <TablaHistorial props={props} />
                     </Tabs.Item>
                 </Tabs.Group>
             </div>

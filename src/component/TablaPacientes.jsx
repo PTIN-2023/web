@@ -102,6 +102,7 @@ const Tablapacientess = ({ props }) => {
   }
 
   var { slice, range } = useTable(responsePatients.patients, page, rowsPerPage);
+  
   return (
     <>
         <TableFooter range={range} slice={slice} setPage={setPage} page={page} />

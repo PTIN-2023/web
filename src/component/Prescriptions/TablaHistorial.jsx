@@ -1,48 +1,89 @@
-import React, { useState, useRef } from "react";
-import useTable from "../../hooks/useTable.js";
-import TableFooter from "../TableFooter.jsx";
-import {Table, Button } from 'flowbite-react'
+import React, { useState } from "react";
+import {Table } from 'flowbite-react'
 import myordersStyles from "../../styles/Myorders.module.css"
-import {HiPlusCircle, HiCheckCircle} from "react-icons/hi"
 import useCookie from "../../hooks/useCookie.js";
 
-const TablaMedicinas = ({ data, rowsPerPage }) => {
-    //componente que renderiza la tabla con los pedidos
-    //recibe data -> json de pedidos
-
-    const [page, setPage] = useState(1);
+const TablaMedicinas = ({ props }) => {
     
-    //var { slice, range } = useTable(data.medicines, page, rowsPerPage);
-    
+  const [patientName, setPatientName] = useState('');
+  const [userTokenCookie, ] = useCookie('user_token');
+  const [responseRecord, setResponseRecord] = useState('');
 
+  const stringRequestRecipe = usePrepareBodyRequest({
+    "session_token" : userTokenCookie,
+    "user_full_name"  : patientName,
+  }) 
+
+  const [sumbitAndFetch_record, response_record] = useSumbitAndFetchObject(
+    stringRequestRecipe,
+    props.apiEndpoint+"/api/get_patient_prescription_history",
+  )
+
+  useEffect(() => {
+      if(userTokenCookie != null && patientName != '' )
+        sumbitAndFetch_record();
+  }, [patientName, stringRequestRecipe])
+
+  useEffect(() => {
+    if(response_record != "none"){
+      setResponseRecord(JSON.parse(response_record))
+    }
+  }, [response_record])
+   
+  
   return (
     <>
-
+        <input type="text" id="patientName" name="patientName" className={styles.inputNombre} onChange={(event) => setPatientName(event.target.value)}/>
+        {patientName != '' ? (<h2>Recetas del paciente {patientName}: </h2>):<></>}
         <Table hoverable={true}>
           <Table.Head>
             <Table.HeadCell>
-              Nombre Paciente
+              Numero receta
             </Table.HeadCell>
             <Table.HeadCell>
-              Fecha
+              Lista de medicamentos
+            </Table.HeadCell>
+            <Table.HeadCell>
+              Tratamiento
+            </Table.HeadCell>
+            <Table.HeadCell>
+              Notas
+            </Table.HeadCell>
+            <Table.HeadCell>
+              Usos
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {/*
-          {slice.map((order) =>
+            
+          {responseRecord != "none" ? (responseRecord.prescriptions.map((prescriptions, index) =>
             <>
                 <Table.Row className={myordersStyles.tableRow}>
                   <Table.Cell className={myordersStyles.tableCell}> 
+                    {index + 1}
                   </Table.Cell>
                   <Table.Cell className={myordersStyles.tableCell}>
+                    {prescriptions.medicine_list.map((medicines) =>
+                      {medicines.identifier}
+                    )}
+                  </Table.Cell>
+                  <Table.Cell className={myordersStyles.tableCell}> 
+                    {prescriptions.duration}
+                  </Table.Cell>
+                  <Table.Cell className={myordersStyles.tableCell}> 
+                    {prescriptions.notes}
+                  </Table.Cell>
+                  <Table.Cell className={myordersStyles.tableCell}> 
+                    {prescriptions.uses}
                   </Table.Cell>
                 </Table.Row>
             </>
-          )}*/}
+          ))
+          :
+          <p>Intorduzca el nombre de un paciente</p> 
+          }
 
           </Table.Body>
         </Table> 
-        {/*<TableFooter range={range} slice={slice} setPage={setPage} page={page} />*/}
     </>
   );
 };
