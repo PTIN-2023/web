@@ -103,11 +103,11 @@ const Tablapacientess = ({ props }) => {
 
   }
 
-  //var { slice, range } = useTable(responsePatients.patients, page, 10);
+  var { slice, range } = useTable(responsePatients.patients, page, 10);
   
   return (
     <>
-        {/*<TableFooter range={range} slice={slice} setPage={setPage} page={page} />*/}
+        <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
         <Table hoverable={true}>
           <Table.Head>
             <Table.HeadCell className="!p-4">
