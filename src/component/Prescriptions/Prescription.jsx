@@ -54,7 +54,7 @@ export default function MakePrescriptions({ searchValue, setSearchValue, props }
     async function handleSubmitGenerate(event) {
         event.preventDefault();
 
-        await createRecipe();
+        //await createRecipe();
 
         createPDF(inputNombreRef.current, inputMedicamentoRef.current + inputValue, inputTratamientoRef.current, textareaValue).then((pdfBytes) => {
             download(pdfBytes, "Receta.pdf", "application/pdf");
@@ -181,7 +181,7 @@ export default function MakePrescriptions({ searchValue, setSearchValue, props }
                         title="Historial"
                         icon={HiClock}
                     >
-                        {/*<TablaHistorial props={props} />*/}
+                        <TablaHistorial props={props} />
                     </Tabs.Item>
                 </Tabs.Group>
             </div>
