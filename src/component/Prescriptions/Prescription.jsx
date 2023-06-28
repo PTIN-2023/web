@@ -178,11 +178,10 @@ export default function MakePrescriptions({ searchValue, setSearchValue, props }
                         {response_med != 'none' && <TablaMedicinas data={response_med} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue} onClick={handleNombreInputChange} />}
                     </Tabs.Item>
                     <Tabs.Item
-                        active={true}
                         title="Historial"
                         icon={HiClock}
                     >
-                        <TablaHistorial props={props} />
+                        {/*<TablaHistorial props={props} />*/}
                     </Tabs.Item>
                 </Tabs.Group>
             </div>
