@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Layout from "../component/Layout"
 import MakePrescriptions from "../component/Prescriptions/Prescription"
-import {useState} from 'react'
 import genCommonProps from '../utils/gen_common_props';
 
 export async function getServerSideProps() {
@@ -18,7 +17,7 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Layout navBarValue={setSearchValue} props={props}>
+        <Layout props={props}>
             <MakePrescriptions props={props} />
         </Layout>
       </main>

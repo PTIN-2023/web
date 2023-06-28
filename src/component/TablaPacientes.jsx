@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import useTable from "../hooks/useTable.js";
 import TableFooter from "./TableFooter.jsx";
 import {Table, Button, Modal, Dropdown} from 'flowbite-react'
@@ -6,6 +6,7 @@ import myordersStyles from "../styles/Myorders.module.css"
 import { HiOutlineArrowRight } from "react-icons/hi"
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
+import useCookie from "../hooks/useCookie.js";
 
 
 //TODO: modular estas funciones de modal
@@ -66,7 +67,7 @@ const Tablapacientess = ({ props }) => {
   //recibe data -> json de pacientess
   //rowsPerPage -> cuantas filas va a renderizar
   const [page, setPage] = useState(1);
-  const [localeCookie, ] = useCookie("locale")
+  //const [localeCookie, ] = useCookie("locale")
   const [userTokenCookie, ] = useCookie('user_token')
   const [responsePatients, setResponsePatients] = useState("none")
   const [currentDoctor, setCurrentDoctor] = useState('doctor@gmail.com')
@@ -102,7 +103,7 @@ const Tablapacientess = ({ props }) => {
 
   }
 
-  var { slice, range } = useTable(responsePatients.patients, page, rowsPerPage);
+  var { slice, range } = useTable(responsePatients.patients, page, 10);
   
   return (
     <>
