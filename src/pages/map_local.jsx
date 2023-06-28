@@ -94,7 +94,8 @@ export default function Home(props) {
       await Promise.all(iRD.drones.map(async (dron) => {
         const stringRequest = JSON.stringify({
           "session_token": userTokenCookie,
-          "id_route": dron.id_route.toString()
+          "id_route": dron.id_route.toString(),
+          "transport": "dron"
         });
       
         const response = await fetch(props.apiEndpoint + "/api/get_route", {

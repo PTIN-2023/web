@@ -70,7 +70,8 @@ export default function Home(props) {
       await Promise.all(iRC.cars.map(async (car) => {
         const stringRequest = JSON.stringify({
           "session_token": userTokenCookie,
-          "id_route": car.id_route.toString()
+          "id_route": car.id_route.toString(),
+          "transport": "car"
         });
       
         const response = await fetch(props.apiEndpoint + "/api/get_route", {
