@@ -22,6 +22,7 @@ import TablaHistorial from './TablaHistorial';
 import useCookie from '../../hooks/useCookie';
 import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest.js";
 import useSumbitAndFetchObject from '../../hooks/useSumbitAndFetchObject.js';
+import useSumbitAndFetch from '../../hooks/useSumbitAndFetch.js';
 
 export default function MakePrescriptions({ props }) {
 
@@ -30,12 +31,13 @@ export default function MakePrescriptions({ props }) {
     const inputTratamientoRef = useRef("");
     const [inputValue, setInputValue] = useState('');
     const [textareaValue, setTextareaValue] = useState('');
+    const [userTokenCookie, ] = useCookie('user_token')
 
-    /*
+    
     const stringRequestRecipe = usePrepareBodyRequest({
         "session_token" : userTokenCookie,
         "user_full_name"  : inputNombreRef.current,
-        "medicine_list" : inputMedicamentoRef.current + inputValue,
+        "medicine_list" : (inputMedicamentoRef.current).split(", "),
         "duration" : inputTratamientoRef.current,
         "notes" : textareaValue,
     }) 
@@ -46,22 +48,21 @@ export default function MakePrescriptions({ props }) {
         (res) => {
             if (res.result === "ok") {
             }else{
-                alert("Ha habido un error, por favor intentelo de nuevo. Si el problema persiste considere descargar la plantilla")
+                alert("Ha habido un error en el envio de la receta, por favor intentelo de nuevo.")
             }
-          }
+        }
     )
-    */
+    
     async function handleSubmitGenerate(event) {
         event.preventDefault();
 
-        //await createRecipe();
+        await createRecipe();
 
         createPDF(inputNombreRef.current, inputMedicamentoRef.current + inputValue, inputTratamientoRef.current, textareaValue).then((pdfBytes) => {
             download(pdfBytes, "Receta.pdf", "application/pdf");
         });
 
     }
-
 
     //Input Handlers
     const handleNombreInput = (event) => {
@@ -84,7 +85,6 @@ export default function MakePrescriptions({ props }) {
     // Llamada a Api para la lista de medicamentos 
 
         // Form values
-        const [userTokenCookie, ] = useCookie('user_token')
         const [medName, setMedName] = useState();
         const [pvpMin, setPvpMin] = useState(0);
         const [pvpMax, setPvpMax] = useState(50);
@@ -175,13 +175,13 @@ export default function MakePrescriptions({ props }) {
                         title="Medicamentos"
                         icon={BsCapsulePill}
                     >
-                        {response_med != 'none' && <TablaMedicinas data={response_med} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue} onClick={handleNombreInputChange} />}
+                        {response_med != 'none' && <TablaMedicinas data={response_med} rowsPerPage={10} onClick={handleNombreInputChange} />}
                     </Tabs.Item>
                     <Tabs.Item
                         title="Historial"
                         icon={HiClock}
                     >
-                        {/*<TablaHistorial props={props} />*/}
+                        <TablaHistorial props={props} />
                     </Tabs.Item>
                 </Tabs.Group>
             </div>

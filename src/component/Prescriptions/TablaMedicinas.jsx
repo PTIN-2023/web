@@ -4,7 +4,6 @@ import TableFooter from "../TableFooter.jsx";
 import {Table, Button } from 'flowbite-react'
 import myordersStyles from "../../styles/Myorders.module.css"
 import {HiPlusCircle, HiCheckCircle} from "react-icons/hi"
-import useCookie from "../../hooks/useCookie.js";
 
 const Añadir = ({ onClick }) => {
     const [rotate, setRotate] = useState(false);
@@ -48,23 +47,18 @@ const Añadir = ({ onClick }) => {
     );
 };
 
-const TablaMedicinas = ({ data, rowsPerPage, searchValue, setSearchValue, onClick }) => {
+const TablaMedicinas = ({ data, rowsPerPage, onClick }) => {
     //componente que renderiza la tabla con los pedidos
     //recibe data -> json de pedidos
 
     const [page, setPage] = useState(1);
-
-    //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
-    if(searchValue.value.length > 0 && searchValue.isCompleted){
-        data = data.medicines.filter((pedido) => pedido.id.toLowerCase().includes(searchValue.value));  
-
-    }else data = data.medicines;
+    data = data.medicines;
     
     var { slice, range } = useTable(data, page, rowsPerPage);
     
 
   return (
-    <>
+    <div>
 
         <Table hoverable={true}>
           <Table.Head>
@@ -93,7 +87,7 @@ const TablaMedicinas = ({ data, rowsPerPage, searchValue, setSearchValue, onClic
         </Table> 
         <br/>
         <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
-    </>
+    </div>
   );
 };
 
