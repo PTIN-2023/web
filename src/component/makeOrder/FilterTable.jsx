@@ -7,7 +7,6 @@ const FilterTable = ({medName, pvpMin, pvpMax, prescriptionNeeded, medForm, type
     // Defered change of pvp value
     const [price, setPrice] = useState(50);
     const [isCheckedConReceta, setIsCheckedConReceta] = useState(true)
-    const [isCheckedsinReceta, setIsCheckedsinReceta] = useState(true)
     
     const changePrice = (event) => {
         setPrice(event.target.value);
