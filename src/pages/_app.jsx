@@ -41,8 +41,10 @@ async function checkLogin() {
     setCookie('user_token', JSON.stringify(''))
   }
 }
-if(typeof window !== 'undefined')
+if(typeof window !== 'undefined') {
+  checkLogin()
   setInterval(checkLogin, 60*1000)
+}
 
 export default function App({ Component, pageProps }) {
   return <Component {...pageProps} />
