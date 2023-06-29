@@ -27,6 +27,24 @@ function deletePrescription (meds) {
     return arrayMeds
 }
 
+
+
+// esta función filtra los medicamentos que són pill/cream
+function formFilter (meds, medsForms) {
+    // medForm és un array que contiene la forma de los medicamentos que queremos que aparezcan
+    // esta función revisa este array con los medicamentos que nos llegan i los filtra
+    let auxArray = []
+    for (let i in meds) {
+        let med = meds[i] //single med
+        console.log("type_admin", med.type_of_administration)
+        for (let y in medsForms) {
+            if (med.form === medsForms[y]) auxArray.push(med) // si la forma és la correcta afegim el medicament al array
+        }
+    }
+    meds = auxArray
+    return meds
+}
+
 export default function Home(props) {
     const [searchValue, setSearchValue] = useState({value:"",isCompleted:false});
 
@@ -38,8 +56,8 @@ export default function Home(props) {
     const [pvpMin, setPvpMin] = useState(0);
     const [pvpMax, setPvpMax] = useState(50);
     const [prescriptionNeeded, setPrescriptionNeeded] = useState(null)
-    const [medForm, setMedForm] = useState(["Tablets","Capsules","Gel","Cream","Powder","Liquid"])
-    const [typeOfAdminst, setTypeOfAdminst] = useState(["Oral","Topical","Inhalation","Ophthalmic"])
+    const [medForm, setMedForm] = useState(["pill", "cream", "powder", "liquid"])
+    const [typeOfAdminst, setTypeOfAdminst] = useState(["oral","topical","inhalation","ophthalmic"])
     const [page, setPage] = useState(1);
     const [medsPerPage, setMedsPerPage] = useState(10);
 
@@ -69,9 +87,11 @@ export default function Home(props) {
     }, [page, stringRequest])
 
     let medsArray = response.medicines
-
+    // filtro con/sin receta
     if (prescriptionNeeded === false) medsArray = deletePrescription(response.medicines)
-
+    // filtro form
+    medsArray = formFilter(medsArray, medForm)
+    
     return (
         <>
             <ShopContextProvider>
@@ -85,7 +105,7 @@ export default function Home(props) {
                 <Layout navBarValue={setSearchValue} props={props}>
                     <div className='flex space-between flex-start' style={{ backgroundColor: '#87CEFA' }}>
                         <div>
-                            {console.log(prescriptionNeeded)}
+                        {/*console.log(medForm)*/}
                             <FilterTable 
                                 medName={medName}
                                 pvpMin={pvpMin}
@@ -105,7 +125,7 @@ export default function Home(props) {
                         
                         <div style={{ flex: 1, marginLeft: '5px' }}>
                             {/**Tablamakeorder recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}                 
-                            <Tabla medicineResponse={medsArray} page={page} setPage={setPage}/>
+                            <Tabla medicineResponse={medsArray} page={page} setPage={setPage} />
                         </div>
                     </div>
                 </Layout> 

@@ -23,6 +23,7 @@ export const Product = ({medicine}) => {
                         <p><strong>Cantidad:</strong> {medicine.contents}</p>
                         <p><strong>Precio:</strong> {medicine.pvp}€</p>
                         <p><strong>Forma:</strong> {medicine.form}</p>
+                        <p><strong>Vía:</strong> {medicine.type_of_administration}</p>
                     </div>
                 </div>
                 <div className="px-4 py-4 sm:px-6">
