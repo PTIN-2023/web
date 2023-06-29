@@ -21,7 +21,6 @@ function deletePrescription (meds) {
     const arrayMeds = []
     for (let i in meds) {
         if(meds[i].prescription_needed === false) {
-            console.log("false")
             arrayMeds.push(meds[i])
         }
     }
@@ -62,7 +61,6 @@ export default function Home(props) {
     const [sumbitAndFetch, response] = useSumbitAndFetchObject(
         stringRequest,
         props.apiEndpoint+"/api/list_available_medicines",
-        (res) => console.log(res)
     )
 
     useEffect(() => {
@@ -70,7 +68,9 @@ export default function Home(props) {
             sumbitAndFetch();
     }, [page, stringRequest])
 
-    const medsArray = deletePrescription(response.medicines)
+    let medsArray = response.medicines
+
+    if (prescriptionNeeded === false) medsArray = deletePrescription(response.medicines)
 
     return (
         <>
@@ -85,6 +85,7 @@ export default function Home(props) {
                 <Layout navBarValue={setSearchValue} props={props}>
                     <div className='flex space-between flex-start' style={{ backgroundColor: '#87CEFA' }}>
                         <div>
+                            {console.log(prescriptionNeeded)}
                             <FilterTable 
                                 medName={medName}
                                 pvpMin={pvpMin}

@@ -6,12 +6,19 @@ const FilterTable = ({medName, pvpMin, pvpMax, prescriptionNeeded, medForm, type
     
     // Defered change of pvp value
     const [price, setPrice] = useState(50);
+    const [isCheckedConReceta, setIsCheckedConReceta] = useState(true)
+    const [isCheckedsinReceta, setIsCheckedsinReceta] = useState(true)
     
     const changePrice = (event) => {
         setPrice(event.target.value);
     };
     const submitPriceChange = (_) => {
         setPvpMax(price)
+    }
+    const conReceta = (_) => {
+        if (isCheckedConReceta === true) setPrescriptionNeeded(false)
+        else setPrescriptionNeeded(true)
+        setIsCheckedConReceta(!isCheckedConReceta)
     }
 
     return(
@@ -30,14 +37,8 @@ const FilterTable = ({medName, pvpMin, pvpMax, prescriptionNeeded, medForm, type
                             <label style={{ fontWeight: 'bold' }}>RECETA</label>
                             <Sidebar.Item style={{ marginBottom: '-15px', marginTop: '-10px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className="" checked/>&nbsp;&nbsp;&nbsp;
+                                    <input type="checkbox" className="" checked={isCheckedConReceta} onClick={conReceta} />&nbsp;&nbsp;&nbsp;
                                     <label >Con receta</label>
-                                </div>
-                            </Sidebar.Item>
-                            <Sidebar.Item>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <input type="checkbox" className="" checked/>&nbsp;&nbsp;&nbsp;
-                                    <label >Sin receta</label>
                                 </div>
                             </Sidebar.Item>
                         </Sidebar.ItemGroup>

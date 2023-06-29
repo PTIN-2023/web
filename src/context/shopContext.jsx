@@ -16,8 +16,6 @@ export const ShopContextProvider = (props) => {
           ...current_cart,
           ...updatedEntry
       }));
-
-      console.log(cartItems)
     };
     
     const removeFromCart = (med) => {
