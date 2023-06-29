@@ -1,6 +1,6 @@
 import * as env_config from "../utils/env_config"
 
-export default async function genCommonProps() {
+export default async function commonGetServerSideProps() {
     const isLocal           = env_config.isLocal();
     const apiEndpoint       = String(env_config.getApiEndpoint());
     const apiInternalEndpoint = String(env_config.getApiInternalEndpoint());

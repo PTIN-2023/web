@@ -13,10 +13,10 @@ import LabeledSelect from '../component/common/LabeledSelect';
 import LabeledTextInputComponent from '../component/common/LabeledTextInput';
 import ErrorModal from '../component/common/ModalOkButton';
 import ModalOkButton from '../component/common/ModalOkButton';
-import genCommonProps from '../utils/gen_common_props';
+import commonGetServerSideProps from '../utils/gen_common_props';
 
 export async function getServerSideProps() {
-  return await genCommonProps()
+  return await commonGetServerSideProps()
 }
 
 export default function Home(props) {

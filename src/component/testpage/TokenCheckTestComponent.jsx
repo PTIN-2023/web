@@ -11,7 +11,7 @@ export default function tokenCheckTestComponent({apiEndpoint}) {
 
   // Request
   const stringRequest = usePrepareBodyRequest({
-    "token" : token,
+    "session_token" : token,
   })
   const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
     stringRequest,

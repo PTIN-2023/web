@@ -1,6 +1,6 @@
 import Layout from "../component/Layout";
 import React from "react";
-import genCommonProps from '../utils/gen_common_props';
+import commonGetServerSideProps from '../utils/gen_common_props';
 
 export default function Custom404() {
     return (

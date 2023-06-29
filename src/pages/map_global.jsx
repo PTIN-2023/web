@@ -6,10 +6,10 @@ import mapboxgl from 'mapbox-gl';
 import useCookie from "../hooks/useCookie";
 import React, { useState, useEffect } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import genCommonProps from '../utils/gen_common_props';
+import commonGetServerSideProps from '../utils/gen_common_props';
 
 export async function getServerSideProps() {
-  return await genCommonProps()
+  return await commonGetServerSideProps()
 }
 
 export default function Home(props, newView) {

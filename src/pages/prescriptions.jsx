@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import Layout from "../component/Layout"
 import MakePrescriptions from "../component/Prescriptions/Prescription"
-import genCommonProps from '../utils/gen_common_props';
+import commonGetServerSideProps from '../utils/gen_common_props';
 
 export async function getServerSideProps() {
-  return await genCommonProps()
+  return await commonGetServerSideProps()
 }
 
 export default function Home(props) {

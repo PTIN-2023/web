@@ -5,10 +5,10 @@ import { useEffect } from 'react';
 import useCookie from "../hooks/useCookie";
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
-import genCommonProps from '../utils/gen_common_props';
+import commonGetServerSideProps from '../utils/gen_common_props';
 
 export async function getServerSideProps() {
-  return await genCommonProps()
+  return await commonGetServerSideProps()
 }
 export default function Home(props) {
 

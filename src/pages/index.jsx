@@ -2,13 +2,13 @@ import Head from 'next/head'
 import * as env_config from '../utils/env_config'
 import AuthWebInfoCard from '../component/auth/AuthWebInfoCard';
 import AuthSignCard from '../component/auth/AuthSignCard';
-import genCommonProps from '../utils/gen_common_props';
+import commonGetServerSideProps from '../utils/gen_common_props';
 import useCookie from '../hooks/useCookie';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 export async function getServerSideProps() {
-  return await genCommonProps()
+  return await commonGetServerSideProps()
 }
 
 

@@ -9,10 +9,10 @@ import * as env_config from "../utils/env_config.js";
 import useCookie from "../hooks/useCookie"
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest.js";
 import useSumbitAndFetchObject from "../hooks/useSumbitAndFetchObject.js";
-import genCommonProps from '../utils/gen_common_props';
+import commonGetServerSideProps from '../utils/gen_common_props';
 
 export async function getServerSideProps() {
-  return await genCommonProps()
+  return await commonGetServerSideProps()
 }
 
 

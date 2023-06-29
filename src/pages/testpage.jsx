@@ -38,14 +38,14 @@ import DoctorCreatePrescriptionTestComponent from "../component/testpage/DoctorC
 import DoctorGetPatientPrescriptionHistory from "../component/testpage/DoctorGetPatientPrescriptionHistory";
 import ListStats from "../component/testpage/ListStats";
 import DeleteAssign from "../component/testpage/DeleteAssign"
-import genCommonProps from '../utils/gen_common_props';
+import commonGetServerSideProps from '../utils/gen_common_props';
 
 // Temporal testing page to make sure the env variables + api requests work as 
 // intented
 
 
 export async function getServerSideProps() {
-  return await genCommonProps()
+  return await commonGetServerSideProps()
 }
 
 function EnviromentVarsComponent({props}) {

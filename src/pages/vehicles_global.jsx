@@ -5,13 +5,13 @@ import {useState} from "react";
 import useCookie from '../hooks/useCookie';
 import useAutoSumbitAndFetchObject from "../hooks/useAutoSumbitAndFetchObject";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetchObject";
-import genCommonProps from '../utils/gen_common_props';
+import commonGetServerSideProps from '../utils/gen_common_props';
 import inventoryStyles from "../styles/Inventory.module.css"
 import { Table, Button, Modal, Dropdown } from 'flowbite-react'
 import usePrepareBodyRequest from '../hooks/usePrepareBodyRequest';
 
 export async function getServerSideProps() {
-  return await genCommonProps()
+  return await commonGetServerSideProps()
 }
 
 

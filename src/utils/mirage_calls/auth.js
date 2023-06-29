@@ -242,7 +242,7 @@ export function defineMirageAuthRoutes(server) {
 
     // Check payload
     const expectedFields = [
-      "token"
+      "session_token"
     ]
     const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
 
@@ -253,14 +253,14 @@ export function defineMirageAuthRoutes(server) {
       })
     }
 
-    if (requestPayload.token == 'internal') {
+    if (requestPayload.session_token == 'internal') {
       return ({
         valid : "ok",
         type : 'internal'
       })
     }
 
-    const user_entry = schema.users.findBy({ user_email : requestPayload.token })
+    const user_entry = schema.users.findBy({ user_email : requestPayload.session_token })
     if (user_entry) {
       return ({
         valid : "ok",
