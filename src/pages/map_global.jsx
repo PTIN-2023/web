@@ -287,14 +287,16 @@ export default function Home(props, newView) {
   // }, [newViewValueCookie]);
 
   useEffect(() => {
-    if(Object.keys(newView).length.toString() === 0){
-      setIVS({'locationLongitude': newView.locationLongitude, 
-              'locationLatitude':  newView.locationLatitude})
+    if(Object.keys(newViewValueCookie).length.toString() === 0){
+      console.log("True")
+      setIVS({'locationLongitude': newViewValueCookie.locationLongitude, 
+              'locationLatitude':  newViewValueCookie.locationLatitude})
     }else{
+      console.log("False")
       setIVS({'locationLongitude': props.locationLongitude, 
               'locationLatitude':  props.locationLatitude})
     }
-  }, [newView]);
+  }, [newViewValueCookie]);
 
   return (
     <>
