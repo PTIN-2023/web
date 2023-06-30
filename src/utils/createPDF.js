@@ -6,8 +6,9 @@ export default async function generatePDF(nombrePaciente, nombreMedicamento, tra
   const page = doc.addPage();
 
   const logoUrl = 'https://cloud.ptin2023.rabadan.dev:24143/_next/image?url=%2Fmedia%2Flogo%2FBlanco-layout.png&w=256&q=75'
-  const logoPdfBytes = await doc.embedUrl(logoUrl);
-  const logoImage = await doc.embedPng(logoPdfBytes)
+  const logoResponse = await fetch(logoUrl);
+  const logoImageBytes = await logoResponse.arrayBuffer();
+  const logoImage = await doc.embedPng(logoImageBytes)
 
   
   
