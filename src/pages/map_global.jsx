@@ -14,7 +14,7 @@ export async function getServerSideProps() {
 
 export default function Home(props, newView) {
   // Get cookie newView value in case that the source is manager orders
-  const [newViewValueCookie, ] = useCookie('new_view_cookie')
+  const [newViewValueCookie, setNewViewValueCookie] = useCookie('new_view_cookie')
   // Get and store all car information
   const [infoRouteCar, setinfoRouteCar] = React.useState([]);
   async function getCarRoute(props) {
@@ -268,20 +268,24 @@ export default function Home(props, newView) {
     setClickPopup(closestCar)
   };
 
+  const [valueCookie, setValueCookie] = useCookie(null)
+  useEffect(() => {
+    setValueCookie('new_view_cookie');
+  }, []);
+
   const [iVS, setIVS] = useState('')
-  //NOTA: quizá es usado en un futuro, si al final no se hace, se borra.
   //Es para la ventana del gestor con paquetes asociados a coches/dron, que al darle click a ese paquete te lleve al mapa con la posición de ese coche/dron
   useEffect(() => {
     if(newViewValueCookie != null){
-      console.log("True")
       setIVS({'locationLongitude': newViewValueCookie.locationLongitude, 
               'locationLatitude':  newViewValueCookie.locationLatitude})
+      setNewViewValueCookie(null)
     }else{
-      console.log("False")
       setIVS({'locationLongitude': props.locationLongitude, 
               'locationLatitude':  props.locationLatitude})
     }
-  }, [newViewValueCookie]);
+  }, [valueCookie]);
+
 
   return (
     <>
