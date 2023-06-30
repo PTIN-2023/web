@@ -268,6 +268,11 @@ export default function Home(props, newView) {
     setClickPopup(closestCar)
   };
 
+  const [valueCookie, setValueCookie] = useCookie(null)
+  useEffect(() => {
+    setValueCookie('new_view_cookie');
+  }, []);
+
   const [iVS, setIVS] = useState('')
   //Es para la ventana del gestor con paquetes asociados a coches/dron, que al darle click a ese paquete te lleve al mapa con la posición de ese coche/dron
   useEffect(() => {
@@ -281,10 +286,6 @@ export default function Home(props, newView) {
     }
   }, [valueCookie]);
 
-  const [valueCookie, setValueCookie] = useCookie(null)
-  useEffect(() => {
-    setValueCookie('new_view_cookie');
-  }, []);
 
   return (
     <>
