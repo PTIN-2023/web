@@ -9,7 +9,7 @@ export default async function generatePDF(nombrePaciente, nombreMedicamento, tra
   const logoResponse = await fetch(logoUrl);
   const logoImageBytes = await logoResponse.arrayBuffer();
   const logoImage = await doc.embedPng(logoImageBytes);
-  const logoDims = pngImage.scale(0.5);
+  const logoDims = logoImage.scale(0.5);
 
   page.drawImage(logoImage, {
     x: 50,
