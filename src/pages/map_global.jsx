@@ -344,8 +344,6 @@ export default function Home(props) {
         > Eliminar focus
           <span className="sr-only">Icon description</span>
         </button>
-
-
       </main>
     </>
   )
