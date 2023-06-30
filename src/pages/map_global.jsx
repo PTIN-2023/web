@@ -268,23 +268,17 @@ export default function Home(props, newView) {
     setClickPopup(closestCar)
   };
 
-  const [valueCookie, setValueCookie] = useCookie(null)
-  useEffect(() => {
-    setValueCookie('new_view_cookie');
-  }, []);
-
   const [iVS, setIVS] = useState('')
   //Es para la ventana del gestor con paquetes asociados a coches/dron, que al darle click a ese paquete te lleve al mapa con la posición de ese coche/dron
   useEffect(() => {
     if(newViewValueCookie != null){
       setIVS({'locationLongitude': newViewValueCookie.locationLongitude, 
               'locationLatitude':  newViewValueCookie.locationLatitude})
-      setNewViewValueCookie(null)
     }else{
       setIVS({'locationLongitude': props.locationLongitude, 
               'locationLatitude':  props.locationLatitude})
     }
-  }, [valueCookie]);
+  }, [newViewValueCookie]);
 
 
   return (
@@ -336,6 +330,15 @@ export default function Home(props, newView) {
           </Popup>)}
           </Map>}
         </Layout>
+        <button
+          type="button"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center fixed bottom-4 right-4 z-10 shadow-md transition-all duration-300 ease-in-out dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          onClick={() => setNewViewValueCookie(null)}
+        > Eliminar focus
+          <span className="sr-only">Icon description</span>
+        </button>
+
+
       </main>
     </>
   )
