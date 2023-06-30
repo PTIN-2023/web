@@ -279,6 +279,11 @@ export default function Home(props, newView) {
       setIVS({'locationLongitude': props.locationLongitude, 
               'locationLatitude':  props.locationLatitude})
     }
+  }, [valueCookie]);
+
+  const [valueCookie, setValueCookie] = useCookie(null)
+  useEffect(() => {
+    setValueCookie('new_view_cookie');
   }, []);
 
   return (
