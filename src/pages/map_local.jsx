@@ -107,6 +107,7 @@ export default function Home(props, newView) {
         });
       
         const data = await response.json();
+        if(data.result != ok) return;
         const coords = { "coordinates": data.coordinates, "type": 'LineString' };
       
         setRoute(route => [...route, coords]);
@@ -346,15 +347,15 @@ export default function Home(props, newView) {
             onClick={handleClick}
             maxBounds={bounds}
           >
-          <Source id="my-route" type="geojson" data={routeGeojson[0]}>
+          {routeGeojson[0] && <Source id="my-route" type="geojson" data={routeGeojson[0]}>
             <Layer {...route_layer}/>
-          </Source>
-          <Source id="my-points" type="geojson" data={pointsGeojson[0]}>
+          </Source>}
+          {pointsGeojson[0] && <Source id="my-points" type="geojson" data={pointsGeojson[0]}>
             <Layer {...points_layer}/>
-          </Source>
-          <Source id="my-store" type="geojson" data={storeGeojson[0]}>
+          </Source>}
+          {storeGeojson[0] && <Source id="my-store" type="geojson" data={storeGeojson[0]}>
             <Layer {...store_layer}/>
-          </Source>
+          </Source>}
 
           {clickPopup && (
           <Popup longitude={clickPopup.location_act.longitude} latitude={clickPopup.location_act.latitude} anchor="bottom" 
