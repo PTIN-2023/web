@@ -1,17 +1,23 @@
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 
-export default async function generatePDF(nombrePaciente, nombreMedicamento, tratamiento, notas, codigo) {
+export default async function generatePDF(nombrePaciente, nombreMedicamento, tratamiento, notas, renwal, codigo) {
   const doc = await PDFDocument.create();
   const page = doc.addPage();
 
   const font = await doc.embedFont(StandardFonts.Helvetica);
 
   page.drawText('TransMed', { x: 50, y: 800, size: 40, color: rgb(0.176, 0.165, 0.439), font });
-  page.drawText('Codigo:', { x: 400, y: 800, size: 20, font });
-  page.drawText(`Nombre Paciente: ${nombrePaciente}`, { x: 50, y: 700, size: 15, font });
-  page.drawText(`Nombre Medicamento: ${nombreMedicamento}`, { x: 50, y: 600, size: 15, font });
-  page.drawText(`Tratamiento: ${tratamiento}`, { x: 50, y: 500, size: 15, font });
-  page.drawText(`Notas:`, { x: 50, y: 420, size: 15, font });
+  page.drawText('Codigo:', { x: 350, y: 800, size: 20, font });
+  page.drawText(`Nombre Paciente: ${nombrePaciente}`, { x: 50, y: 650, size: 15, font });
+  page.drawText(`Medicamentos:`, { x: 50, y: 620, size: 15, font });
+  nombreMedicamento.forEach((medicamento, index) => {
+    const { idMedicamento, cantidad } = medicamento;
+    const yPosition = 600 - (index * 20);
+    page.drawText(`Id: ${idMedicamento} - Cantidad: ${cantidad}`, { x: 50, y: yPosition, size: 15, font });
+  });
+  page.drawText(`Renewal: ${renwal}`, { x: 50, y: 590 - (nombreMedicamento.length * 20), size: 15, font });
+  page.drawText(`Duracion: ${tratamiento}`, { x: 50, y: 560 - (nombreMedicamento.length * 20), size: 15, font });
+  page.drawText(`Notas:`, { x: 50, y: 530 - (nombreMedicamento.length * 20), size: 15, font });
   
   const form = doc.getForm()
   const notasField = form.createTextField('notas');
@@ -19,15 +25,15 @@ export default async function generatePDF(nombrePaciente, nombreMedicamento, tra
   notasField.enableMultiline()
   notasField.setText(notas);
   notasField.addToPage(page, { 
-      x: 50, 
-      y: 100, 
-      width: 450, 
-      height: 300, 
-      font,       
-      borderWidth: 0,
-    });
+    x: 50, 
+    y: 130 - (nombreMedicamento.length * 20), 
+    width: 450, 
+    height: 450 - (nombreMedicamento.length * 20), 
+    font, 
+    borderWidth: 0,
+  });
   notasField.setFontSize(15)
-
+  
   const pdfBytes = await doc.save();
   return pdfBytes;
 }
