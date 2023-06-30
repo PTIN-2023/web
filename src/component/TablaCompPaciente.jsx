@@ -11,8 +11,32 @@ import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
 
 
 // //TODO: modular estas funciones de modal
-function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModalDetallesState}){
+function ModalDetalles({userTokenCookie, apiEndpoint, currentTarget, currentItem, modalDetallesState, setModalDetallesState}){
   const [localeCookie, ] = useCookie('local');
+
+  const [newResponse, setNewResponse] = useState("none")
+
+      // Request
+  const stringRequest = usePrepareBodyRequest({
+    "session_token" : userTokenCookie
+  })
+  const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
+    stringRequest,
+    apiEndpoint+"/api/get_patient_doctor"
+  )
+  useEffect(() =>{
+    if(userTokenCookie != null ){
+      sumbitAndFetch()
+    }
+  },[userTokenCookie])
+
+  useEffect(() => {
+    if(stringResponse != 'none') {
+      console.log("new response not none: "+stringResponse)
+      setNewResponse(JSON.parse(stringResponse))
+    }
+  }, [stringResponse])
+
 
     const onCloseDetallesHandler = () =>{
         setModalDetallesState(false);
@@ -22,6 +46,7 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
         //NOTA: si no estuviese esto se renderizaria un modal por cada fila
         currentTarget.current = currentItem.order_identifier;
         setModalDetallesState(true);
+        sumbitAndFetch()
     }
 
   return(
@@ -132,9 +157,13 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
 
               <p className="text-base font-bold leading-relaxed text-gray-500 dark:text-gray-400">
               {/*TODO: en el proximo sprint, relacionar paciente con sus datos de doctor!*/}
-              Contacto: <br />
-              +34 123456789 <br />
-              medico.superbueno@hospital.com
+              {newResponse != "none" && 
+              <>
+                Contacto: <br />
+                {newResponse.doctor_phone} <br />
+                {newResponse.doctor_email}
+              </>
+              }
               </p>
           </div>
         </Modal.Body>
@@ -155,9 +184,9 @@ function ModalContactar({apiEndpoint, userTokenCookie, currentTarget, currentIte
 //currentTarget: identifica la fila a la que hicimos click dentro de la tabla
 //currentItem: identifica la fila en cuestión para que no se ejecuten todos los modals a la vez (TODO: intentar optimizar)
 //modalContactarState y setModalContactarState: muestran o esconden el modal
-    const [localeCookie, ] = useCookie('locale')
+  const [localeCookie, ] = useCookie('locale')
 
-    const [newResponse, setNewResponse] = useState("none")
+  const [newResponse, setNewResponse] = useState("none")
 
       // Request
   const stringRequest = usePrepareBodyRequest({
@@ -381,7 +410,7 @@ const TablaCompPaciente = ({ data, rowsPerPage, slice, range, setPage, page, pro
                     }
                   </Table.Cell>
                   <Table.Cell className={`${myordersStyles.firstTableCell} ${myordersStyles.detailsRow}`}>
-                    <ModalDetalles currentTarget={currentTarget} currentItem={order} modalDetallesState={modalDetallesState} setModalDetallesState={changeModalDetallesState}/>
+                    <ModalDetalles userTokenCookie={userTokenCookie} apiEndpoint={props.apiEndpoint} currentTarget={currentTarget} currentItem={order} modalDetallesState={modalDetallesState} setModalDetallesState={changeModalDetallesState}/>
                   </Table.Cell>
                 </Table.Row>
             </>
