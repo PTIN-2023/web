@@ -60,7 +60,7 @@ export default function MakePrescriptions({ props }) {
 
         //await createRecipe();
 
-        createPDF(nombrePaciente, medicamentos, inputTratamientoRef.current, textareaValue, renwal, codigo).then((pdfBytes) => {
+        createPDF(nombrePaciente, medicamentos, inputTratamientoRef.current, textareaValue, renwal, codigo, props).then((pdfBytes) => {
             download(pdfBytes, "Receta.pdf", "application/pdf");
         });
 

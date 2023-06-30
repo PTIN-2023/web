@@ -1,12 +1,13 @@
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { svgObject } from "qr-image-color";
 
-export default async function generatePDF(nombrePaciente, nombreMedicamento, tratamiento, notas, renwal, codigo) {
+export default async function generatePDF(nombrePaciente, nombreMedicamento, tratamiento, notas, renwal, codigo, props) {
   const doc = await PDFDocument.create();
   const page = doc.addPage();
 
-  const logoUrl = 'https://cloud.ptin2023.rabadan.dev:24143/_next/image?url=%2Fmedia%2Flogo%2FBlanco-layout.png&w=256&q=75'
+  const logoUrl = props.apiEndpoint + '/_next/image?url=%2Fmedia%2Flogo%2FBlanco-layout.png&w=256&q=75'
   const logoResponse = await fetch(logoUrl);
+  console.log(logoResponse);
   const logoImageBytes = await logoResponse.arrayBuffer();
   const logoImage = await doc.embedPng(logoImageBytes);
   const logoDims = logoImage.scale(0.3);
