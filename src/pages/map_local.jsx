@@ -107,7 +107,7 @@ export default function Home(props, newView) {
         });
       
         const data = await response.json();
-        if(data.result != ok) return;
+        if(data.result != "ok") return;
         const coords = { "coordinates": data.coordinates, "type": 'LineString' };
       
         setRoute(route => [...route, coords]);
