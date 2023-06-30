@@ -10,7 +10,7 @@ import { getText } from "../utils/getTextCurrentLocale.js";
 // //TODO: modular estas funciones de modal
 function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModalDetallesState}){
   const [localeCookie, ] = useCookie('local');
-
+  const [newViewValueCookie, setNewViewValueCookie] = useCookie('new_view_cookie')
     const onCloseDetallesHandler = () =>{
         setModalDetallesState(false);
     }
@@ -23,6 +23,11 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
 
   return(
     <>
+    <Button 
+      onClick={setNewViewValueCookie(
+        {'locationLongitude': 1.730313, 
+          'locationLatitude': 41.221809
+        })}>TEST</Button>
     <HiOutlineInformationCircle onClick={onClickDetallesHandler} className={myordersStyles.informationIcon}></HiOutlineInformationCircle>
     <Modal
         /**si el currentTarget corresponde a la currentItem seleccionada y se hizo click en mostrar, mostrar modal */

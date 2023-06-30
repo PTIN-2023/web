@@ -17,7 +17,7 @@ import ShoppingCart from "../component/makeOrder/shoppingCart";
 export default function Layout({props, children, navBarValue}) {
   //recibe props: children y navBarValue
   //navBarValue es el setter del useState del componente que irá en la navbar para poder actualizarlo y mandarlo de vuelta al hijo padre
-
+  // newView map manager param
   // Sidebar settings
   const [sidebarVisible, setSidebarVisible] = useState(false);
   //asPath es un hook de nextjs que guarda la ruta del navegador en la que estamos y así detectamos la pagina
@@ -43,6 +43,7 @@ export default function Layout({props, children, navBarValue}) {
   const [, setUserEmailCookie] = useCookie('user_email', '')
   const [, setUserRoleCookie] = useCookie('user_role', '')
   const [, setUserAvatarCookie] = useCookie('user_picture', '')
+  const [, setNewViewValueCookie] = useCookie('new_view_cookie','')
 
   //logOutHandler
   const logOutHandler = () => {
@@ -53,6 +54,7 @@ export default function Layout({props, children, navBarValue}) {
     setUserEmailCookie("");
     setUserTokenCookie("");
     setUserAvatarCookie("");
+    setNewViewValueCookie("");
     router.push("/");
   }
 

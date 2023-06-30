@@ -20,7 +20,6 @@ export default function Home(props) {
   const [ordersPerPage, setOrdersPerPage] = useState('10');
   const [page, setPage] = useState('1');  
 
-
   const stringRequest = usePrepareBodyRequest({
     "session_token" : userTokenCookie,
     "orders_per_page" : ordersPerPage,
