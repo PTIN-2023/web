@@ -37,7 +37,8 @@ import CreatePaymentTestComponent from "../component/testpage/CreatePaymentTestC
 import DoctorCreatePrescriptionTestComponent from "../component/testpage/DoctorCreatePrescriptionTestComponent";
 import DoctorGetPatientPrescriptionHistory from "../component/testpage/DoctorGetPatientPrescriptionHistory";
 import ListStats from "../component/testpage/ListStats";
-import DeleteAssign from "../component/testpage/DeleteAssign"
+import DeleteAssign from "../component/testpage/DeleteAssign";
+import GetPatientDoctor from "../component/testpage/GetPatientDoctor";
 import commonGetServerSideProps from '../utils/gen_common_props';
 
 // Temporal testing page to make sure the env variables + api requests work as 
@@ -179,6 +180,9 @@ export default function Home(props) {
           </Tabs.Item>
           <Tabs.Item title="Delete Assign API test">
             <DeleteAssign apiEndpoint={props.apiEndpoint}/>
+          </Tabs.Item>
+          <Tabs.Item title="Get Patient Doctor API test">
+            <GetPatientDoctor apiEndpoint={props.apiEndpoint}/>
           </Tabs.Item>
         </Tabs.Group>
         </main>
