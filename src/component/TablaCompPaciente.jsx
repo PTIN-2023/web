@@ -168,6 +168,11 @@ function ModalContactar({apiEndpoint, currentTarget, currentItem, modalContactar
     stringRequest,
     apiEndpoint+"/api/get_patient_doctor"
   )
+  useEffect(() =>{
+    if(userTokenCookie != null ){
+      sumbitAndFetch()
+    }
+  },[userTokenCookie])
 
   useEffect(() => {
     if(stringResponse != 'none') {
@@ -184,6 +189,7 @@ function ModalContactar({apiEndpoint, currentTarget, currentItem, modalContactar
         //NOTA: si no estuviese esto se renderizaria un modal por cada fila
         currentTarget.current = currentItem;
         setModalContactarState(true);
+        sumbitAndFetch()
     }
 
     return(

@@ -36,7 +36,7 @@ const TablaPedidos = ({ props, data, rowsPerPage, searchValue, setSearchValue })
   
   return (
     <>
-        {data.result == "ok" && <TablaCompPaciente props={props} data={data} slice={slice} rowsPerPage={rowsPerPage} range= {range} setPage={setPage} page={page}/>}
+        {data.result == "success" && <TablaCompPaciente props={props} data={data} slice={slice} rowsPerPage={rowsPerPage} range= {range} setPage={setPage} page={page}/>}
     </>
   );
 };
