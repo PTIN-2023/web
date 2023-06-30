@@ -38,6 +38,8 @@ export async function getServerSideProps() {
 }
 
 export default function Home(props, newView) {
+  // Get cookie newView value in case that the source is manager orders
+  const [newViewValueCookie, setNewViewValueCookie] = useCookie('new_view_cookie')
   // Get and store all drone information
   const [infoRouteDrone, setinfoRouteDrone] = React.useState([]);
   async function getDroneRoute(props) {
@@ -309,17 +311,17 @@ export default function Home(props, newView) {
   };
 
   const [iVS, setIVS] = useState('')
-  //NOTA: quizá es usado en un futuro, si al final no se hace, se borra.
   //Es para la ventana del gestor con paquetes asociados a coches/dron, que al darle click a ese paquete te lleve al mapa con la posición de ese coche/dron
   useEffect(() => {
-    if(Object.keys(newView).length.toString() === 0){
-      setIVS({'locationLongitude': newView.locationLongitude, 
-              'locationLatitude':  newView.locationLatitude})
+    if(newViewValueCookie != null){
+      setIVS({'locationLongitude': newViewValueCookie.locationLongitude, 
+              'locationLatitude':  newViewValueCookie.locationLatitude})
+      setNewViewValueCookie(null)
     }else{
       setIVS({'locationLongitude': props.locationLongitude, 
               'locationLatitude':  props.locationLatitude})
     }
-  }, [newView]);
+  }, []);
 
   const cornerBottomLeft = new mapboxgl.LngLat(props.locationLongitudeMin, props.locationLatitudeMin);
   const cornerTopRight = new mapboxgl.LngLat(props.locationLongitudeMax, props.locationLatitudeMax);
@@ -340,6 +342,10 @@ export default function Home(props, newView) {
               longitude: iVS.locationLongitude,
               latitude: iVS.locationLatitude,
               zoom: 15
+            }}
+            viewState={{
+              longitude: iVS.locationLongitude,
+              latitude: iVS.locationLatitude
             }}
             mapboxAccessToken={props.mapBoxToken}
             style={{width: "100%", height: "100%" }}
