@@ -8,9 +8,15 @@ export default async function generatePDF(nombrePaciente, nombreMedicamento, tra
   const logoUrl = 'https://cloud.ptin2023.rabadan.dev:24143/_next/image?url=%2Fmedia%2Flogo%2FBlanco-layout.png&w=256&q=75'
   const logoResponse = await fetch(logoUrl);
   const logoImageBytes = await logoResponse.arrayBuffer();
-  const logoImage = await doc.embedPng(logoImageBytes)
+  const logoImage = await doc.embedPng(logoImageBytes);
+  const logoDims = pngImage.scale(0.5);
 
-  
+  page.drawImage(logoImage, {
+    x: 50,
+    y: 800,
+    width: logoDims.width,
+    height: logoDims.height,
+  })
   
 
   const font = await doc.embedFont(StandardFonts.Helvetica);
@@ -54,9 +60,7 @@ export default async function generatePDF(nombrePaciente, nombreMedicamento, tra
   });
   notasField.setFontSize(15);
 
-  const logoField = form.createButton('logo');
-  logoField.setImage(logoImage);
-  logoField.addToPage(page, { x: 50, y: 700, width: 100, height: 100 });
+  
   
   const pdfBytes = await doc.save();
   return pdfBytes;
