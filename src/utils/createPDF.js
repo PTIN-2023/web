@@ -14,8 +14,8 @@ export default async function generatePDF(nombrePaciente, nombreMedicamento, tra
   page.drawImage(logoImage, {
     x: 50,
     y: 800,
-    width: logoDims.width,
-    height: logoDims.height,
+    width: logoDims.width/2,
+    height: logoDims.height/2,
   })
   
 
@@ -32,7 +32,7 @@ export default async function generatePDF(nombrePaciente, nombreMedicamento, tra
     scale: desiredSize / qr.size
   });
 
-  page.drawText('TransMed', { x: 50, y: 800, size: 40, color: rgb(0.176, 0.165, 0.439), font });
+  //page.drawText('TransMed', { x: 50, y: 800, size: 40, color: rgb(0.176, 0.165, 0.439), font });
   page.drawText('Codigo:', { x: 350, y: 800, size: 20, font });
   page.drawText(`Nombre Paciente: ${nombrePaciente}`, { x: 50, y: 650, size: 15, font });
   page.drawText(`Medicamentos:`, { x: 50, y: 620, size: 15, font });
