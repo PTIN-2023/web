@@ -150,13 +150,12 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
 
 
 }
-function ModalContactar({apiEndpoint, currentTarget, currentItem, modalContactarState, setModalContactarState}){
+function ModalContactar({apiEndpoint, userTokenCookie, currentTarget, currentItem, modalContactarState, setModalContactarState}){
 //recibe: 
 //currentTarget: identifica la fila a la que hicimos click dentro de la tabla
 //currentItem: identifica la fila en cuestión para que no se ejecuten todos los modals a la vez (TODO: intentar optimizar)
 //modalContactarState y setModalContactarState: muestran o esconden el modal
     const [localeCookie, ] = useCookie('locale')
-    const [userTokenCookie, ] = useCookie('user_token')
 
     const [newResponse, setNewResponse] = useState("none")
 
@@ -300,6 +299,7 @@ const TablaCompPaciente = ({ data, rowsPerPage, slice, range, setPage, page, pro
   ({ slice, range } = useTable(data.orders, page, rowsPerPage));
 
   const [localeCookie, ] = useCookie('locale')
+  const [userTokenCookie, ] = useCookie('user_token')
 
   //estos dos hooks de abajo sirven para mostrar o bien ocultar los modals
   const [modalContactarState, setModalContactarState] = useState(false);
@@ -361,7 +361,7 @@ const TablaCompPaciente = ({ data, rowsPerPage, slice, range, setPage, page, pro
                     {order.date}
                   </Table.Cell>
                   <Table.Cell>
-                    {(order.state == "canceled" || order.state == "denied") && <ModalContactar apiEndpoint={props.apiEndpoint} currentTarget={currentTarget} currentItem={order.order_identifier} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>}
+                    {(order.state == "canceled" || order.state == "denied") && <ModalContactar userTokenCookie={userTokenCookie} apiEndpoint={props.apiEndpoint} currentTarget={currentTarget} currentItem={order.order_identifier} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>}
                   </Table.Cell>
                   <Table.Cell>
                     {(order.state == "delivered" || order.state == "delivered_waiting" ) &&
