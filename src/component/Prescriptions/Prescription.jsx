@@ -32,6 +32,8 @@ export default function MakePrescriptions({ props }) {
     const [userTokenCookie, ] = useCookie('user_token')
     const [medicamentos, setMedicamentos] = useState([]);
     const [nombrePaciente, setNombrePaciente] = useState('Pablo Alcaraz');
+    const [renwal, setRenwal] = useState(0);
+    const [codigo, setCodigo] = useState('123');
 
     
     const stringRequestRecipe = usePrepareBodyRequest({
@@ -58,7 +60,7 @@ export default function MakePrescriptions({ props }) {
 
         //await createRecipe();
 
-        createPDF(nombrePaciente, medicamentos, inputTratamientoRef.current, textareaValue).then((pdfBytes) => {
+        createPDF(nombrePaciente, medicamentos, inputTratamientoRef.current, textareaValue, renwal, codigo).then((pdfBytes) => {
             download(pdfBytes, "Receta.pdf", "application/pdf");
         });
 
@@ -163,7 +165,7 @@ export default function MakePrescriptions({ props }) {
                     {/* Duracion Tratamiento */}
                     <label htmlFor="renewal" className={styles.label}>Renovación:</label>
                     <div className={styles['input-container']}>
-                        <input type="text" required id="renewal" name="renewal" className={styles.inputTratamiento} />
+                        <input type="text" required id="renewal" name="renewal" className={styles.inputTratamiento} onChange={(event) => setRenwal(event.target.value)}/>
                     </div>
                 
                     {/* Notas */}

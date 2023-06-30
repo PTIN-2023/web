@@ -30,6 +30,7 @@
     "pdf-lib": "^1.17.1",
     "phosphor-react": "^1.4.1",
     "promises": "^0.2.5",
+    "qr-image-color": "^3.2.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-data-table-component": "^7.5.3",
