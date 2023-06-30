@@ -10,7 +10,7 @@ import TablaCompPaciente from "../component/TablaCompPaciente.jsx"
 
 
 
-const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
+const TablaPedidos = ({ props, data, rowsPerPage, searchValue, setSearchValue }) => {
   //componente que renderiza la tabla con los pedidos
   //recibe data -> json de pedidos
   //rowsPerPage -> cuantas filas va a renderizar
@@ -36,7 +36,7 @@ const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
   
   return (
     <>
-        {data.result == "success" && <TablaCompPaciente data={data} slice={slice} rowsPerPage={rowsPerPage} range= {range} setPage={setPage} page={page}/>}
+        {data.result == "success" && <TablaCompPaciente props={props} data={data} slice={slice} rowsPerPage={rowsPerPage} range= {range} setPage={setPage} page={page}/>}
     </>
   );
 };

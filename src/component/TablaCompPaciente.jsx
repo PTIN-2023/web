@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import useTable from "../hooks/useTable.js";
 import TableFooter from "./TableFooter.jsx";
 import {Table, Button, Modal, Dropdown, Card, Tooltip} from 'flowbite-react'
@@ -6,6 +6,9 @@ import myordersStyles from "../styles/Myorders.module.css"
 import {HiOutlineArrowRight, HiOutlineRocketLauncher, HiTrash, HiOutlineExclamationCircle,HiOutlineInformationCircle} from "react-icons/hi"
 import useCookie from "../hooks/useCookie.js";
 import { getText } from "../utils/getTextCurrentLocale.js";
+import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
+import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
+import { propTypes } from "react-bootstrap/esm/Image.js";
 
 
 // //TODO: modular estas funciones de modal
@@ -148,12 +151,31 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
 
 
 }
-function ModalContactar({currentTarget, currentItem, modalContactarState, setModalContactarState}){
+function ModalContactar({apiEndpoint, currentTarget, currentItem, modalContactarState, setModalContactarState}){
 //recibe: 
 //currentTarget: identifica la fila a la que hicimos click dentro de la tabla
 //currentItem: identifica la fila en cuestión para que no se ejecuten todos los modals a la vez (TODO: intentar optimizar)
 //modalContactarState y setModalContactarState: muestran o esconden el modal
     const [localeCookie, ] = useCookie('locale')
+    const [userTokenCookie, ] = useCookie('user_token')
+
+    const [newResponse, setNewResponse] = useState("none")
+
+      // Request
+  const stringRequest = usePrepareBodyRequest({
+    "session_token" : userTokenCookie
+  })
+  const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
+    stringRequest,
+    apiEndpoint+"/api/get_patient_doctor"
+  )
+
+  useEffect(() => {
+    if(stringResponse != 'none') {
+      console.log("new response not none: "+stringResponse)
+      setNewResponse(JSON.parse(stringResponse))
+    }
+  }, [stringResponse])
 
     const onCloseContactarHandler = () =>{
         setModalContactarState(false);
@@ -189,8 +211,12 @@ function ModalContactar({currentTarget, currentItem, modalContactarState, setMod
             </p>
             <p className="text-base font-bold leading-relaxed text-gray-500 dark:text-gray-400">
             {/*TODO: en el proximo sprint, relacionar paciente con sus datos de doctor!*/}
-            +34 123456789 <br />
-            medico.superbueno@hospital.com
+              {newResponse != "none" && 
+              <>
+                {newResponse.doctor_phone} <br />
+                {newResponse.doctor_email}
+              </>
+              }
             </p>
           </div>
         </Modal.Body>
@@ -261,7 +287,7 @@ function ModalCancelarPedido({currentTarget, currentItem, modalCancelarPedidoSta
 }
 
 
-const TablaCompPaciente = ({ data, rowsPerPage, slice, range, setPage, page }) => {
+const TablaCompPaciente = ({ data, rowsPerPage, slice, range, setPage, page, props }) => {
   //componente que renderiza la tabla con los pedidos
   //recibe data -> json de pedidos
   //rowsPerPage -> cuantas filas va a renderizar
@@ -330,7 +356,7 @@ const TablaCompPaciente = ({ data, rowsPerPage, slice, range, setPage, page }) =
                     {order.date}
                   </Table.Cell>
                   <Table.Cell>
-                    {(order.state == "canceled" || order.state == "denied") && <ModalContactar currentTarget={currentTarget} currentItem={order.order_identifier} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>}
+                    {(order.state == "canceled" || order.state == "denied") && <ModalContactar apiEndpoint={props.apiEndpoint} currentTarget={currentTarget} currentItem={order.order_identifier} modalContactarState={modalContactarState} setModalContactarState={changeModalContactarState}/>}
                   </Table.Cell>
                   <Table.Cell>
                     {(order.state == "delivered" || order.state == "delivered_waiting" ) &&

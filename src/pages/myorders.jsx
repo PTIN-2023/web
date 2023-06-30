@@ -54,7 +54,7 @@ export default function Home(props) {
         <Layout navBarValue={setSearchValue} props={props}>
         <div className={myordersStyles.mainContainer}>
           {/**TablaPedidos recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
-          {(stringResponse != "none") && <TablaPedidos data={JSON.parse(stringResponse)} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>}
+          {(stringResponse != "none") && <TablaPedidos props={props} data={JSON.parse(stringResponse)} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>}
           
         </div>
         </Layout> 

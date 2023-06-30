@@ -5,11 +5,11 @@ import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest";
 import useSumbitAndFetch from "../../hooks/useSumbitAndFetch";
 import TestPageTabLayout from "./TestPageTabLayout";
 import LabeledTextInputComponent from "../common/LabeledTextInput";
+import { useEffect } from "react";
 
 export default function GetPatientDoctor({apiEndpoint}) {
   // Cookies
   const [userTokenCookie, ] = useCookie('user_token')
-
   // Form values
   const [tokenValue, setTokenNew] = useState('')
 
@@ -22,6 +22,7 @@ export default function GetPatientDoctor({apiEndpoint}) {
     apiEndpoint+"/api/get_patient_doctor"
   )
   
+  useEffect
   // Define the HTML/React code
   return(
     <TestPageTabLayout 
