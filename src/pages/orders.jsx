@@ -17,6 +17,8 @@ export default function Home(props) {
 
   const [searchValue, setSearchValue] = useState({value:"",isCompleted:false});
   const [userTokenCookie, ] = useCookie('user_token')
+  const [newViewValueCookie, setNewViewValueCookie] = useCookie('new_view_cookie')
+  
   const [ordersPerPage, setOrdersPerPage] = useState('10');
   const [page, setPage] = useState('1');  
 
@@ -33,6 +35,7 @@ export default function Home(props) {
 
   useEffect(() => {
     if(stringResponse != 'none') {
+      setNewViewValueCookie(null)
       console.log("NEW response not none:"+stringResponse)
     }
   }, [stringResponse])

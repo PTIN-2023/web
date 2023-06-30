@@ -43,7 +43,7 @@ export default function Layout({props, children, navBarValue}) {
   const [, setUserEmailCookie] = useCookie('user_email', '')
   const [, setUserRoleCookie] = useCookie('user_role', '')
   const [, setUserAvatarCookie] = useCookie('user_picture', '')
-  const [, setNewViewValueCookie] = useCookie('new_view_cookie','')
+  const [, setNewViewValueCookie] = useCookie('new_view_cookie', null)
 
   //logOutHandler
   const logOutHandler = () => {

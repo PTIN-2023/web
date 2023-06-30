@@ -271,21 +271,6 @@ export default function Home(props, newView) {
   const [iVS, setIVS] = useState('')
   //NOTA: quizá es usado en un futuro, si al final no se hace, se borra.
   //Es para la ventana del gestor con paquetes asociados a coches/dron, que al darle click a ese paquete te lleve al mapa con la posición de ese coche/dron
-  // useEffect(() => {
-  //   if(newViewValueCookie != null){
-  //     console.log("useffect newview: "+newViewValueCookie)
-  //     if(newViewValueCookie != ''){
-  //       console.log("newView: "+JSON.stringify(newViewValueCookie))
-  //       setIVS({'locationLongitude': newViewValueCookie.locationLongitude, 
-  //               'locationLatitude':  newViewValueCookie.locationLatitude})
-  //     }else{
-  //       console.log("alter")
-  //       setIVS({'locationLongitude': props.locationLongitude, 
-  //               'locationLatitude':  props.locationLatitude})
-  //     }
-  //   }
-  // }, [newViewValueCookie]);
-
   useEffect(() => {
     if(newViewValueCookie != null){
       console.log("True")
@@ -332,7 +317,7 @@ export default function Home(props, newView) {
             <Layer {...points_layer}/>
           </Source>}
           
-          {clickPopup && (
+            {clickPopup && (
           <Popup longitude={clickPopup.location_act.longitude} latitude={clickPopup.location_act.latitude} anchor="bottom" 
           onClose={() => setClickPopup(false)}>
           Matricula: {clickPopup.license_plate} <br/>
