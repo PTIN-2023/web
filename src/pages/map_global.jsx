@@ -287,7 +287,7 @@ export default function Home(props, newView) {
   // }, [newViewValueCookie]);
 
   useEffect(() => {
-    if(Object.keys(newViewValueCookie).length.toString() === 0){
+    if(newViewValueCookie != null){
       console.log("True")
       setIVS({'locationLongitude': newViewValueCookie.locationLongitude, 
               'locationLatitude':  newViewValueCookie.locationLatitude})
