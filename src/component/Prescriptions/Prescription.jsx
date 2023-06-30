@@ -145,7 +145,6 @@ export default function MakePrescriptions({ props }) {
                     {/* Nombre Medicmento */}
                     <label htmlFor="medicationName" className={styles.label}>Medicamentos:</label>
                     <div className={styles['medicamentos-container']}>
-                        {console.log(medicamentos)}
                         {medicamentos.map((medicamento, indice) => (
                             <React.Fragment key={indice}>
                                 <li style={{ marginRight: '10px' }}>
