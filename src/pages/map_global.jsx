@@ -12,7 +12,8 @@ export async function getServerSideProps() {
   return await commonGetServerSideProps()
 }
 
-export default function Home(props, newView) {
+export default function Home(props) {
+  const [isLoading, setIsLoading] = useState(true);
   // Get cookie newView value in case that the source is manager orders
   const [newViewValueCookie, setNewViewValueCookie] = useCookie('new_view_cookie')
   // Get and store all car information
@@ -271,14 +272,20 @@ export default function Home(props, newView) {
   const [iVS, setIVS] = useState('')
   //Es para la ventana del gestor con paquetes asociados a coches/dron, que al darle click a ese paquete te lleve al mapa con la posición de ese coche/dron
   useEffect(() => {
-    if(newViewValueCookie != null){
-      setIVS({'locationLongitude': newViewValueCookie.locationLongitude, 
-              'locationLatitude':  newViewValueCookie.locationLatitude})
-    }else{
-      setIVS({'locationLongitude': props.locationLongitude, 
-              'locationLatitude':  props.locationLatitude})
+    if (newViewValueCookie != null) {
+      setIVS({
+        'locationLongitude': newViewValueCookie.locationLongitude,
+        'locationLatitude': newViewValueCookie.locationLatitude
+      });
+    } else {
+      setIVS({
+        'locationLongitude': props.locationLongitude,
+        'locationLatitude': props.locationLatitude
+      });
     }
-  }, [newViewValueCookie]);
+    setIsLoading(false);
+  
+}, [newViewValueCookie]);
 
 
   return (
@@ -290,45 +297,46 @@ export default function Home(props, newView) {
       </Head>
       <main>
         <Layout props={props}>
-          {iVS && <Map 
-            initialViewState={{
-              longitude: iVS.locationLongitude,
-              latitude: iVS.locationLatitude,
-              zoom: 15
-            }}
-            viewState={{
-              longitude: iVS.locationLongitude,
-              latitude: iVS.locationLatitude
-            }}
-            mapboxAccessToken={props.mapBoxToken}
-            style={{width: "100%", height: "100%" }}
-            mapStyle="mapbox://styles/aeksp/clg9out5b000i01l0p2yiq26g"
-            onClick={handleClick}
-          >
-          <Source id="my-store" type="geojson" data={storeGeojson}>
-            <Layer {...store_layer}/>
-          </Source>
-          {routeGeojson[0] && <Source id="my-route" type="geojson" data={routeGeojson[0]}>
-            <Layer {...route_layer}/>
-          </Source>}
-          {pointsGeojson[0] && <Source id="my-points" type="geojson" data={pointsGeojson[0]}>
-            <Layer {...points_layer}/>
-          </Source>}
-          
+          {isLoading ? (
+            <p>Cargando...</p>
+          ) : (
+            <Map 
+              initialViewState={{
+                longitude: iVS.locationLongitude,
+                latitude: iVS.locationLatitude,
+                zoom: 15
+              }}
+              mapboxAccessToken={props.mapBoxToken}
+              style={{width: "100%", height: "100%" }}
+              mapStyle="mapbox://styles/aeksp/clg9out5b000i01l0p2yiq26g"
+              onClick={handleClick}
+            >
+            <Source id="my-store" type="geojson" data={storeGeojson}>
+              <Layer {...store_layer}/>
+            </Source>
+            {routeGeojson[0] && <Source id="my-route" type="geojson" data={routeGeojson[0]}>
+              <Layer {...route_layer}/>
+            </Source>}
+            {pointsGeojson[0] && <Source id="my-points" type="geojson" data={pointsGeojson[0]}>
+              <Layer {...points_layer}/>
+            </Source>}
+            
             {clickPopup && (
-          <Popup longitude={clickPopup.location_act.longitude} latitude={clickPopup.location_act.latitude} anchor="bottom" 
-          onClose={() => setClickPopup(false)}>
-          Matricula: {clickPopup.license_plate} <br/>
-          Pedidos:
-          <ul>
-            {clickPopup.packages.map((pack, index) => (
-              <li key={index}>{pack.order_identifier}</li>
-            ))}
-          </ul>
-          Batería: {clickPopup.battery}% <br/>
-          Último mantenimiento: {clickPopup.last_maintenance_date}
-          </Popup>)}
-          </Map>}
+            <Popup longitude={clickPopup.location_act.longitude} latitude={clickPopup.location_act.latitude} anchor="bottom" 
+            onClose={() => setClickPopup(false)}>
+            Matricula: {clickPopup.license_plate} <br/>
+            Pedidos:
+            <ul>
+              {clickPopup.packages.map((pack, index) => (
+                <li key={index}>{pack.order_identifier}</li>
+              ))}
+            </ul>
+            Batería: {clickPopup.battery}% <br/>
+            Último mantenimiento: {clickPopup.last_maintenance_date}
+            </Popup>)}
+            </Map>
+          )}
+          
         </Layout>
         <button
           type="button"
