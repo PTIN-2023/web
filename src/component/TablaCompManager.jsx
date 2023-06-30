@@ -9,10 +9,9 @@ import { getText } from "../utils/getTextCurrentLocale.js";
 
 // //TODO: modular estas funciones de modal
 function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModalDetallesState}){
-  const [localeCookie, ] = useCookie('local');
-  const [newViewValueCookie, setNewViewValueCookie] = useCookie('new_view_cookie')
+    const [localeCookie, ] = useCookie('local');
     const onCloseDetallesHandler = () =>{
-        setModalDetallesState(false);
+      setModalDetallesState(false);
     }
     const onClickDetallesHandler = () => {
         //asignamos el currentItem al Target
@@ -23,11 +22,6 @@ function ModalDetalles({currentTarget, currentItem, modalDetallesState, setModal
 
   return(
     <>
-    <Button 
-      onClick={setNewViewValueCookie(
-        {'locationLongitude': 1.730313, 
-          'locationLatitude': 41.221809
-        })}>TEST</Button>
     <HiOutlineInformationCircle onClick={onClickDetallesHandler} className={myordersStyles.informationIcon}></HiOutlineInformationCircle>
     <Modal
         /**si el currentTarget corresponde a la currentItem seleccionada y se hizo click en mostrar, mostrar modal */
@@ -158,7 +152,7 @@ const TablaCompManager = ({ data, rowsPerPage, slice, range, setPage, page }) =>
   //rowsPerPage -> cuantas filas va a renderizar
   //searchValue -> el filtro en caso de que se active el componente MyOrdersSearch
   ({ slice, range } = useTable(data.orders, page, rowsPerPage));
-
+  const [newViewValueCookie, setNewViewValueCookie] = useCookie('new_view_cookie')
   const [localeCookie, ] = useCookie('locale')
 
 
@@ -174,6 +168,11 @@ const TablaCompManager = ({ data, rowsPerPage, slice, range, setPage, page }) =>
   return (
 
     <>
+        <Button 
+        onClick={() => setNewViewValueCookie(
+        {'locationLongitude': 1.730313, 
+          'locationLatitude': 41.221809
+        })}>TEST</Button>
         <Table hoverable={true}>
           <Table.Head>
             <Table.HeadCell className="!p-4">
