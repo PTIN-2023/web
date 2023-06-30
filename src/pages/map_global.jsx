@@ -313,6 +313,10 @@ export default function Home(props, newView) {
               latitude: iVS.locationLatitude,
               zoom: 15
             }}
+            viewState={{
+              longitude: iVS.locationLongitude,
+              latitude: iVS.locationLatitude
+            }}
             mapboxAccessToken={props.mapBoxToken}
             style={{width: "100%", height: "100%" }}
             mapStyle="mapbox://styles/aeksp/clg9out5b000i01l0p2yiq26g"
