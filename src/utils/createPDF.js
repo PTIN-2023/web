@@ -12,8 +12,8 @@ export default async function generatePDF(nombrePaciente, nombreMedicamento, tra
   const logoDims = logoImage.scale(0.5);
 
   page.drawImage(logoImage, {
-    x: 50,
-    y: 800,
+    x: 0,
+    y: 680,
     width: logoDims.width/2,
     height: logoDims.height/2,
   })
