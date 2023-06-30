@@ -284,7 +284,6 @@ export default function Home(props) {
       });
     }
     setIsLoading(false);
-  
 }, [newViewValueCookie]);
 
 
