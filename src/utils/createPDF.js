@@ -6,7 +6,7 @@ export default async function generatePDF(nombrePaciente, nombreMedicamento, tra
   const page = doc.addPage();
 
   const logoUrl = 'https://cloud.ptin2023.rabadan.dev:24143/_next/image?url=%2Fmedia%2Flogo%2FBlanco-layout.png&w=256&q=75'
-  const logoPdfBytes = await fetch(logoUrl).then(res => res.arrayBuffer())
+  const logoPdfBytes = await doc.embedUrl(logoUrl);
   const logoImage = await doc.embedPng(logoPdfBytes)
 
   
@@ -55,12 +55,7 @@ export default async function generatePDF(nombrePaciente, nombreMedicamento, tra
 
   const logoField = form.createButton('logo');
   logoField.setImage(logoImage);
-  logoField.addToPage(page, { 
-    x: 350, 
-    y: 780, 
-    width: 100, 
-    height: 100,
-  });
+  logoField.addToPage(page, { x: 50, y: 700, width: 100, height: 100 });
   
   const pdfBytes = await doc.save();
   return pdfBytes;
