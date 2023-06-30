@@ -8,7 +8,6 @@ import useCookie from "../hooks/useCookie.js";
 import { getText } from "../utils/getTextCurrentLocale.js";
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
-import { propTypes } from "react-bootstrap/esm/Image.js";
 
 
 // //TODO: modular estas funciones de modal
