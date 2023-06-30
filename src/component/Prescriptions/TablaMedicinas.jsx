@@ -3,51 +3,90 @@ import useTable from "../../hooks/useTable.js";
 import TableFooter from "../TableFooter.jsx";
 import {Table, Button } from 'flowbite-react'
 import myordersStyles from "../../styles/Myorders.module.css"
-import {HiPlusCircle, HiCheckCircle} from "react-icons/hi"
+import {HiPlus, HiMinus} from "react-icons/hi"
 
-const Añadir = ({ onClick }) => {
-    const [rotate, setRotate] = useState(false);
-    const [showCheck, setShowCheck] = useState(false);
-
-    const handleButtonClick = () => {
-        setRotate(true);
-        setTimeout(() => {
-            setShowCheck(true);
-        }, 300);
-        onClick();
+const Añadir = ({ medicamentos, handlesetMedicamentos, idMedicamento }) => {
+    
+    const buscarYActualizarMedicamentoAñadir = (idMedicamento) => {
+      const medicamentoEncontrado = medicamentos.find((medicamento) => medicamento.idMedicamento === idMedicamento);
+    
+      if (medicamentoEncontrado) {
+        const medicamentosActualizados = medicamentos.map((medicamento) => {
+          if (medicamento === medicamentoEncontrado) {
+            return {
+              ...medicamento,
+              cantidad: medicamento.cantidad + 1,
+            };
+          }
+          return medicamento;
+        });
+    
+        handlesetMedicamentos(medicamentosActualizados);
+      } else {
+        const nuevoMedicamento = {
+          idMedicamento: idMedicamento,
+          cantidad: 1,
+        };
+    
+        handlesetMedicamentos([...medicamentos, nuevoMedicamento]);
+      }
+    };
+    
+    const buscarYActualizarMedicamentoBorrar = (idMedicamento) => {
+      const medicamentoEncontrado = medicamentos.find((medicamento) => medicamento.idMedicamento === idMedicamento);
+    
+      if (medicamentoEncontrado) {
+        const medicamentosActualizados = medicamentos.map((medicamento) => {
+          if (medicamento === medicamentoEncontrado) {
+            const nuevaCantidad = medicamento.cantidad - 1;
+            if (nuevaCantidad === 0) {
+              return null; // Eliminar el medicamento del array
+            }
+            return {
+              ...medicamento,
+              cantidad: nuevaCantidad,
+            };
+          }
+          return medicamento;
+        }).filter(Boolean); // Filtrar elementos nulos (medicamentos eliminados)
+    
+        handlesetMedicamentos(medicamentosActualizados);
+      }
     };
 
-    const iconContainerStyles = {
-        transition: 'transform 0.3s ease-in-out',
-        transform: rotate ? 'rotate(90deg)' : 'rotate(0)',
+    const handleButtonClickAñadir = () => {
+        buscarYActualizarMedicamentoAñadir(idMedicamento);
     };
 
-    const checkCircleStyles = {
-        transform: 'rotate(0)',
-    };
-
-    const buttonStyles = {
-        backgroundColor: showCheck ? 'green' : ''
+    const handleButtonClickBorrar = () => {
+      buscarYActualizarMedicamentoBorrar(idMedicamento);
     };
     
     return (
-      
+      <div style={{ display: 'flex' }}>
         <Button 
-            onClick={handleButtonClick}
-            style={buttonStyles}
+          onClick={handleButtonClickAñadir}
+          color="success"
+          style={{ marginRight: '10px' }}
+          pill
+          size="sm"
         >
-            <div style={iconContainerStyles}>
-                {!showCheck && <HiPlusCircle />}
-            </div>
-            <div>
-                {showCheck && <HiCheckCircle style={checkCircleStyles} />}
-            </div>
+          <HiPlus/>
         </Button>
+        <Button 
+          onClick={handleButtonClickBorrar}
+          color="failure"
+          pill
+          size="sm"
+        >
+           <HiMinus/>
+        </Button>
+      </div>
         
     );
 };
 
-const TablaMedicinas = ({ data, rowsPerPage, onClick }) => {
+const TablaMedicinas = ({ data, rowsPerPage, medicamentos, handlesetMedicamentos }) => {
     //componente que renderiza la tabla con los pedidos
     //recibe data -> json de pedidos
 
@@ -63,6 +102,9 @@ const TablaMedicinas = ({ data, rowsPerPage, onClick }) => {
         <Table hoverable={true}>
           <Table.Head>
             <Table.HeadCell>
+              Id Medicamento
+            </Table.HeadCell>
+            <Table.HeadCell>
               Nombre Medicamento
             </Table.HeadCell>
             <Table.HeadCell>
@@ -74,10 +116,13 @@ const TablaMedicinas = ({ data, rowsPerPage, onClick }) => {
             <>
                 <Table.Row className={myordersStyles.tableRow}>
                   <Table.Cell className={myordersStyles.tableCell}> 
+                    {order.medicine_identifier}
+                  </Table.Cell>
+                  <Table.Cell className={myordersStyles.tableCell}> 
                     {order.medicine_name}
                   </Table.Cell>
                   <Table.Cell className={myordersStyles.tableCell}>
-                    <Añadir onClick={() => onClick(order.medicine_name)}/>
+                    <Añadir medicamentos={medicamentos} handlesetMedicamentos={handlesetMedicamentos} idMedicamento={order.medicine_identifier} />
                   </Table.Cell>
                 </Table.Row>
             </>

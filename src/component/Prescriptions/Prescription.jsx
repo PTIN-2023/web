@@ -26,18 +26,18 @@ import useSumbitAndFetch from '../../hooks/useSumbitAndFetch.js';
 
 export default function MakePrescriptions({ props }) {
 
-    const inputNombreRef = useRef("");
-    const inputMedicamentoRef = useRef("");
     const inputTratamientoRef = useRef("");
     const [inputValue, setInputValue] = useState('');
     const [textareaValue, setTextareaValue] = useState('');
     const [userTokenCookie, ] = useCookie('user_token')
+    const [medicamentos, setMedicamentos] = useState([]);
+    const [nombrePaciente, setNombrePaciente] = useState('Pablo Alcaraz');
 
     
     const stringRequestRecipe = usePrepareBodyRequest({
         "session_token" : userTokenCookie,
-        "user_full_name"  : inputNombreRef.current,
-        "medicine_list" : (inputMedicamentoRef.current).split(", "),
+        "user_full_name"  : nombrePaciente,
+        "medicine_list" : medicamentos,
         "duration" : inputTratamientoRef.current,
         "notes" : textareaValue,
     }) 
@@ -56,9 +56,9 @@ export default function MakePrescriptions({ props }) {
     async function handleSubmitGenerate(event) {
         event.preventDefault();
 
-        await createRecipe();
+        //await createRecipe();
 
-        createPDF(inputNombreRef.current, inputMedicamentoRef.current + inputValue, inputTratamientoRef.current, textareaValue).then((pdfBytes) => {
+        createPDF(nombrePaciente, medicamentos, inputTratamientoRef.current, textareaValue).then((pdfBytes) => {
             download(pdfBytes, "Receta.pdf", "application/pdf");
         });
 
@@ -119,6 +119,15 @@ export default function MakePrescriptions({ props }) {
                 sumbitAndFetch_med();
         }, [medPage, stringRequest_med])
 
+        const handlesetMedicamentos = (value) => {
+            setMedicamentos(value);
+        }
+
+        const handleSetNombrePaciente = (value) => {
+            setNombrePaciente(value);
+        }
+        
+
   return (
     <div className={styles.cont_main}>
         <div className={styles['recipe-form']}>
@@ -128,13 +137,21 @@ export default function MakePrescriptions({ props }) {
                     {/* Nombre Paciente */}
                     <label htmlFor="patientName" className={styles.label}>Nombre Paciente:</label>
                     <div className={styles['input-container']}>
-                        <input type="text" required id="patientName" name="patientName" className={styles.inputNombre} onChange={handleNombreInput}/>
+                        <input type="text" disabled id="patientName" name="patientName" className={styles.inputNombre} onChange={handleNombreInput}/>
                     </div>
 
                     {/* Nombre Medicmento */}
-                    <label htmlFor="medicationName" className={styles.label}>Nombre Medicamento:</label>
-                    <div className={styles['input-container']}>
-                        <input type="text" id="medicationName" name="medicationName" className={styles.inputMedicamento} onChange={handleMedicamentoInput}/>
+                    <label htmlFor="medicationName" className={styles.label}>Medicamentos:</label>
+                    <div className={styles['medicamentos-container']}>
+                        {console.log(medicamentos)}
+                        {medicamentos.map((medicamento, indice) => (
+                            <React.Fragment key={indice}>
+                                <li style={{ marginRight: '10px' }}>
+                                    {medicamento.idMedicamento}: {medicamento.cantidad}
+                                </li>
+                                <br />
+                            </React.Fragment>
+                        ))}
                     </div>
 
                     {/* Duracion Tratamiento */}
@@ -142,14 +159,20 @@ export default function MakePrescriptions({ props }) {
                     <div className={styles['input-container']}>
                         <input type="text" required id="treatmentDuration" name="treatmentDuration" className={styles.inputTratamiento} onChange={handleTratamientoInput}/>
                     </div>
+
+                    {/* Duracion Tratamiento */}
+                    <label htmlFor="renewal" className={styles.label}>Renovación:</label>
+                    <div className={styles['input-container']}>
+                        <input type="text" required id="renewal" name="renewal" className={styles.inputTratamiento} />
+                    </div>
                 
                     {/* Notas */}
                     <label htmlFor="notes" className={styles.label}>Notas:</label>
                     <div className={styles['textarea-group']}>
                         <div className={styles['input-container']}>
-                            <textarea id="notes" name="notes" className={styles.textarea} onChange={(event) => setTextareaValue(event.target.value)} maxLength={1000}/>                            
+                            <textarea id="notes" name="notes" className={styles.textarea} onChange={(event) => setTextareaValue(event.target.value)} maxLength={1000 - (medicamentos.length * 62)}/>                            
                         </div>
-                        <p>Caracteres restantes: {1000 - textareaValue.length}</p>
+                        <p>Caracteres restantes: {1000 - textareaValue.length - (medicamentos.length * 62)}</p>
                     </div>
                 </div>
 
@@ -169,13 +192,13 @@ export default function MakePrescriptions({ props }) {
                         title="Pacientes"
                         icon={HiUserGroup}
                     >
-                        <TablaPacientes props={props} rowsPerPage={10}/>
+                        <TablaPacientes props={props} rowsPerPage={10} nombrePaciente={nombrePaciente} handleSetNombrePaciente={handleSetNombrePaciente} />
                     </Tabs.Item>
                     <Tabs.Item
                         title="Medicamentos"
                         icon={BsCapsulePill}
                     >
-                        {response_med != 'none' && <TablaMedicinas data={response_med} rowsPerPage={10} onClick={handleNombreInputChange} />}
+                        {response_med != 'none' && <TablaMedicinas data={response_med} rowsPerPage={10} medicamentos={medicamentos} handlesetMedicamentos={handlesetMedicamentos} />}
                     </Tabs.Item>
                     <Tabs.Item
                         title="Historial"

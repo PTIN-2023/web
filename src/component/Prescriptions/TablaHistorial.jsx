@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useDeferredValue } from "react";
-import {Table } from 'flowbite-react'
+import {Table, Spinner } from 'flowbite-react'
 import myordersStyles from "../../styles/Myorders.module.css"
 import useCookie from "../../hooks/useCookie.js";
 import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest.js";
@@ -10,7 +10,7 @@ const TablaMedicinas = ({ props }) => {
   const [patientName, setPatientName] = useState('');
   const [userTokenCookie, ] = useCookie('user_token');
   const [responseRecord, setResponseRecord] = useState("none");
-  const [noRecetas, setNoRecetas] = useState(false);
+  const [spin, setSpin] = useState(false);
 
   const stringRequestRecipe = usePrepareBodyRequest({
     "session_token" : userTokenCookie,
@@ -37,16 +37,18 @@ const TablaMedicinas = ({ props }) => {
 
   const handlePatientInput = (event) => {
     clearTimeout(timeoutId);
-
+    setSpin(true);
     timeoutId = setTimeout(() => {
       setPatientName(event.target.value);
+      setSpin(false);
     }, 2000); // Tiempo en milisegundos (2 segundos en este caso)
   };
   
   return (
     <>
         <label htmlFor="patientName">Nombre Paciente:</label> <br/>
-        <input type="text" id="patientName" name="patientName" onChange={handlePatientInput}/>        
+        <input type="text" id="patientName" name="patientName" onChange={handlePatientInput}/>  
+        {spin && <Spinner aria-label="Default status example" style={{ marginLeft: '10px' }}/>}      
         {patientName != '' ? (<h2><br></br>Recetas del paciente {patientName}: </h2>):<br></br>}
         <br></br>
         <Table hoverable={true}>
@@ -87,10 +89,14 @@ const TablaMedicinas = ({ props }) => {
                   </>
                 ))
               ) : (
-                <></>
+                <Table.Row>
+                      <Table.Cell></Table.Cell>
+                </Table.Row>
               )
             ) : (
-              <></>
+              <Table.Row>
+                      <Table.Cell></Table.Cell>
+              </Table.Row>
             )}
 
           </Table.Body>
