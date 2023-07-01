@@ -128,7 +128,7 @@ export default function Home(props) {
     props.apiEndpoint + "/api/list_inventory_meds",
     // precheck
     (values) => {
-      return values.session_token != null && values.entries_per_page != null
+      return values.session_token != null
     }
   )
 
