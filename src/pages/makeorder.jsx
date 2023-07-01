@@ -10,6 +10,7 @@ import useCookie from "../hooks/useCookie"
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest.js";
 import useSumbitAndFetchObject from "../hooks/useSumbitAndFetchObject.js";
 import commonGetServerSideProps from '../utils/gen_common_props';
+import ShoppingCart from "../component/makeOrder/shoppingCart"
 
 export async function getServerSideProps() {
   return await commonGetServerSideProps()
@@ -90,7 +91,7 @@ export default function Home(props) {
     // filtro con/sin receta
     if (prescriptionNeeded === false) medsArray = deletePrescription(response.medicines)
     // filtro form
-    medsArray = formFilter(medsArray, medForm)
+    //medsArray = formFilter(medsArray, medForm)
     
     return (
         <>
@@ -105,6 +106,7 @@ export default function Home(props) {
                 <Layout navBarValue={setSearchValue} props={props}>
                     <div className='flex space-between flex-start' style={{ backgroundColor: '#87CEFA' }}>
                         <div>
+                        <ShoppingCart />
                         {/*console.log(medForm)*/}
                             <FilterTable 
                                 medName={medName}

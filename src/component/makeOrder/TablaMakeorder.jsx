@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import TableFooter from "../TableFooter.jsx";
 import { ShopContext } from "../../context/shopContext.jsx";
 import { Product } from "../makeOrder/products.jsx"
+import ShoppingCart from "../../component/makeOrder/shoppingCart"
 
 const TablaMakeOrder = ( {medicineResponse, page, setPage} ) => {
     return (
@@ -16,6 +17,7 @@ const TablaMakeOrder = ( {medicineResponse, page, setPage} ) => {
                     </div>
                 </div>
             </div>
+            
             <div style={{ marginLeft: 'auto', marginTop: '10px' }}>
                 <TableFooter range={[1]} slice={0} setPage={setPage} page={page} />
             </div>

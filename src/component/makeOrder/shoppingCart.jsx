@@ -9,7 +9,7 @@ import cartStyle from "../../styles/cart.module.css"
 import useCookie from '../../hooks/useCookie'
 import { useRouter } from 'next/router'
 
-const shoppingCartButton = (props) => {
+const ShoppingCart = () => {
     const [userTokenCookie, ] = useCookie('user_token')
     // Form values
 
@@ -35,14 +35,15 @@ const shoppingCartButton = (props) => {
 
     const handleSubmit = async (e) => {
         // Prevent from refresh page
-        e.preventDefault()
+        // e.preventDefault()
         
         // get form data
         const form = e.target
         const QRcode = new FormData(form)
 
         const formJson = Object.fromEntries(QRcode.entries());
-        console.log(formJson);
+        console.log(formJson.QRcode);
+
         setQRcode(!QRcode)
         setCodeIn(true)
     }
@@ -241,4 +242,4 @@ const shoppingCartButton = (props) => {
     )
 }
 
-export default shoppingCartButton;
+export default ShoppingCart;
