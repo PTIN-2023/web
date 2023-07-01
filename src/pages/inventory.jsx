@@ -118,7 +118,7 @@ export default function Home(props) {
     // Evaluate response
     (res) => {
       if(res && res.result == 'ok') {
-        setNumPages(res.num_pages)
+        setNumPages(res.num)
       }
     }
   )
