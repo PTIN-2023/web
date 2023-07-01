@@ -23,7 +23,47 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
   const [userCity, setCity] = useState("none");
   const [userAddres, setAddress] = useState("none");
 
-  // Metodo para gestionar los cambios de datos que haga el cliente
+  // Metodo para pedir la informacion con la que rellenar los campos del perfil.
+  /*
+      - Se hace una llamada con el email del usuario para poder identificarlo dentro 
+        de la base de datos, la api devuelve los valores que se asignaran a cada campo del perfil
+        en su sitio correspondiente, en caso de que se produzca un error, se rellenaran con "none"
+  */
+
+  // Metodo para controlar que se llame a la funcion solo cuando se carge la pagina o cuando se la llame
+  useEffect(() => {
+    try {
+      if(data.result == "ok"){
+        setName(data.user_full_name);
+        setAge(data.user_age);
+        setPseudoname(data.user_given_name);
+        setEmail(data.user_email);
+        setPasswd(data.user_passwd);
+        setPhone(data.user_phone);
+        setCity(data.user_city);
+        setAddress(data.user_address);
+      }
+    } catch (error) {
+      console.log("ERROR");
+    }
+  }, [data])
+
+  //  Handlers para los accesos rapidos
+  const handlerOnClick_L = (e) => {
+    //  Redirecciona a MYORDERS
+    window.location.href = '/myorders';
+  }
+  const handlerOnClick_C = (e) => {
+    //  Redirecciona a INVENTORY
+    window.location.href = '/inventory';
+  }
+  const handlerOnClick_R = (e) => {
+    //  Redirecciona a MAP_LOCAL
+    window.location.href = '/map_local';
+  }
+
+
+   // Metodo para gestionar los cambios de datos que haga el cliente
   /*
       - Se hace una llamada con el email del usuario para poder identificarlo dentro 
         de la base de datos, posteriormente se pasan una serie de datos que corresponden 
@@ -53,46 +93,6 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
     }
     console.log('Registrado con éxito');
   }
-
-  // Metodo para pedir la informacion con la que rellenar los campos del perfil.
-  /*
-      - Se hace una llamada con el email del usuario para poder identificarlo dentro 
-        de la base de datos, la api devuelve los valores que se asignaran a cada campo del perfil
-        en su sitio correspondiente, en caso de que se produzca un error, se rellenaran con "none"
-  */
-
-  // Metodo para controlar que se llame a la funcion solo cuando se carge la pagina o cuando se la llame
-  useEffect(() => {
-    try {
-      if(data.result == "ok"){
-        setName(data.user_full_name);
-        setAge(data.user_age);
-        setPseudoname(data.user_given_name);
-        setEmail(data.user_email);
-        setPasswd(data.user_passwd);
-        setPhone(data.user_phone);
-        setCity(data.user_city);
-        setAddress(data.user_address);
-      }
-    } catch (error) {
-      console.log("ERROR");
-    }
-  })
-
-  //  Handlers para los accesos rapidos
-  const handlerOnClick_L = (e) => {
-    //  Redirecciona a MYORDERS
-    window.location.href = '/myorders';
-  }
-  const handlerOnClick_C = (e) => {
-    //  Redirecciona a INVENTORY
-    window.location.href = '/inventory';
-  }
-  const handlerOnClick_R = (e) => {
-    //  Redirecciona a MAP_LOCAL
-    window.location.href = '/map_local';
-  }
-
 
   /////////////////////////////////////////////////////////////////////
   ///  Handlers para los botones de editar de cada campo del perfil ///
@@ -197,7 +197,6 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
   const [showAddrInput, setShowAddresInput] = useState(false);
 
   const handleAddresChange = (event) => {
-    console.log("Clikat")
     setAddress(event.target.value);
   };
 
@@ -208,11 +207,9 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
   const handleConfirmAddresClick = () => {
     setShowAddresInput(false);
     setNewUserData();
-    getUserData();
+    //getUserData();
   };
   /////////////////////////////////////////////////////////////////////
-
-  /*<input type="userPseudoname" value={userPseudoname} onChange={handlePseudoChange} />*/
 
   return (
 
