@@ -14,7 +14,7 @@ export async function getServerSideProps() {
 export default function Home(props) {
   const [userPicture,] = useCookie('user_picture');
   const [userTokenCookie,] = useCookie('user_token');
-  const [isCorrect, setCorrect] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
 
   const stringRequest = usePrepareBodyRequest({
     "session_token" : userTokenCookie
@@ -37,7 +37,7 @@ export default function Home(props) {
         console.log("Token: " + userTokenCookie);
         await sumbitAndFetch();
         console.log("-----------------------------");
-        setCorrect(true);
+        setUserInfo(stringResponse);
       }
     };
   
@@ -53,9 +53,9 @@ export default function Home(props) {
       </Head>
       <main>
         <Layout props={props}>
-          {(stringResponse !== "none" && userTokenCookie !== null && isCorrect) && (
+          {((userInfo !== null) && (userInfo !== 'none')) && (
             <UserProfile
-              data={stringResponse}
+              data={userInfo}
               profileImg={userPicture}
               client_token={userTokenCookie}
             />
