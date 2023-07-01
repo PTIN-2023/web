@@ -65,7 +65,7 @@ const CustomTable = ({ data }) => {
           <Table.Head>
             <Table.HeadCell> Image </Table.HeadCell>
             <Table.HeadCell> Name </Table.HeadCell>
-            <Table.HeadCell> Excipient </Table.HeadCell>
+            <Table.HeadCell> Excipient(s) </Table.HeadCell>
             <Table.HeadCell> Form </Table.HeadCell>
             <Table.HeadCell> Type of administration </Table.HeadCell>
             <Table.HeadCell> Quantity available </Table.HeadCell>
@@ -76,7 +76,13 @@ const CustomTable = ({ data }) => {
             <Table.Row key={entry.medicine_identifier} className={inventoryStyles.tableRow}>
               <Table.Cell className={inventoryStyles.tableCell}><img src={entry.medicine_image_url} width="500" height="600"></img></Table.Cell>
               <Table.Cell className={inventoryStyles.tableCell}>{entry.medicine_name}</Table.Cell>
-              <Table.Cell className={inventoryStyles.tableCell}>{entry.excipient}</Table.Cell>
+              <Table.Cell className={inventoryStyles.tableCell}>
+                <ul>
+                {entry.excipients.map((excipient) => 
+                  <li>{excipient}</li>
+                )}
+                </ul>
+              </Table.Cell>
               <Table.Cell className={inventoryStyles.tableCell}>{entry.form}</Table.Cell>
               <Table.Cell className={inventoryStyles.tableCell}>{entry.type_of_administration}</Table.Cell>
               <Table.Cell className={inventoryStyles.tableCell}><span className={inventoryStyles[getCellClass(entry.quantity_available)]}>{entry.quantity_available}</span></Table.Cell>
@@ -143,7 +149,7 @@ export default function Home(props) {
       <Layout props={props}>
         {inventoryResponse != 'none' && inventoryResponse.result == 'ok' &&
           <CustomTable 
-            data={inventoryResponse.inventario}
+            data={inventoryResponse.medicines}
           />
         }
         <CustomTableNavigation 
