@@ -53,15 +53,14 @@ export function defineMirageDoctorsPrescriptionsRoutes(server) {
 
         // Check payload
         const expectedFields = [
-            "session_token",
-            "user_full_name",
+            "session_token"
         ]
         const expectedFieldsOk = hasExpectedFields(requestPayload, expectedFields)
         if (!expectedFieldsOk) {
             return {result : 'error_fields'}
         }
 
-        const prescriptions = schema.prescriptions.findBy({user_full_name: requestPayload.user_full_name})
+        const prescriptions = schema.prescriptions.all().models
         
         // Return
         return {

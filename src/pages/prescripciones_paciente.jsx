@@ -10,7 +10,7 @@ export async function getServerSideProps() {
   return await commonGetServerSideProps()
 }
 
-const CustomTableRow = ({ entry }) => {
+const CustomTableRow = ({ entry, props }) => {
   const [userTokenCookie,] = useCookie('user_token')
 
   const [_, response] = useAutoSumbitAndFetchObject(
@@ -44,7 +44,7 @@ const CustomTableRow = ({ entry }) => {
   )
 }
 
-const CustomTable = ({ data }) => { 
+const CustomTable = ({ data, props }) => { 
   return (
     <>
         <Table hoverable={true}>
@@ -61,6 +61,7 @@ const CustomTable = ({ data }) => {
             <CustomTableRow
               key={entry.prescription_identifier}
               entry={entry}
+              props={props}
             />
           )}
           </Table.Body>
@@ -97,6 +98,7 @@ export default function Home(props) {
         {response != 'none' && response.result == 'ok' &&
           <CustomTable 
             data={response.prescriptions}
+            props={props}
           />
         }
       </Layout>
