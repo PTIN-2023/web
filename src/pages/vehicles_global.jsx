@@ -9,6 +9,7 @@ import commonGetServerSideProps from '../utils/gen_common_props';
 import inventoryStyles from "../styles/Inventory.module.css"
 import { Table, Button, Modal, Dropdown } from 'flowbite-react'
 import usePrepareBodyRequest from '../hooks/usePrepareBodyRequest';
+import { useRouter } from 'next/router';
 
 export async function getServerSideProps() {
   return await commonGetServerSideProps()
@@ -55,6 +56,8 @@ function SendCommandModal ({ show, setShow, selectedCar, selectedCarHehe, sumbit
 };
 
 const CustomTable = ({ data, setShowModal, setSelectedCar, setSelectedCarHehe }) => {  
+  const router = useRouter()
+
   return (
     <>
         <Table hoverable={true}>
@@ -63,6 +66,7 @@ const CustomTable = ({ data, setShowModal, setSelectedCar, setSelectedCarHehe })
             <Table.HeadCell> Status </Table.HeadCell>
             <Table.HeadCell> Minutes of autonomy </Table.HeadCell>
             <Table.HeadCell> Last maintenance date </Table.HeadCell>
+            <Table.HeadCell>  </Table.HeadCell>
             <Table.HeadCell>  </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
@@ -80,6 +84,15 @@ const CustomTable = ({ data, setShowModal, setSelectedCar, setSelectedCarHehe })
                     setShowModal(true)
                   }}
                 />
+              </Table.Cell>
+              <Table.Cell className={inventoryStyles.tableCell}>
+                <Button
+                  onClick={() => {
+                    window.location.href = '/map_global?locationLatitude='+entry.location_act.latitude+'&locationLongitude='+entry.location_act.longitude
+                  }}
+                >
+                  See on map
+                </Button>
               </Table.Cell>
             </Table.Row>
           )}

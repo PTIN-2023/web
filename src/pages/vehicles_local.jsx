@@ -79,6 +79,7 @@ const CustomTable = ({ data, setShowModal, setSelectedDrone, setSelectedDroneHeh
             <Table.HeadCell> Minutes of autonomy </Table.HeadCell>
             <Table.HeadCell> Last maintenance date </Table.HeadCell>
             <Table.HeadCell>  </Table.HeadCell>
+            <Table.HeadCell>  </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
           {data.map((entry) =>
@@ -95,6 +96,15 @@ const CustomTable = ({ data, setShowModal, setSelectedDrone, setSelectedDroneHeh
                     setShowModal(true)
                   }}
                 />
+              </Table.Cell>
+              <Table.Cell className={inventoryStyles.tableCell}>
+                <Button
+                  onClick={() => {
+                    window.location.href = '/map_local?locationLatitude='+entry.location_act.latitude+'&locationLongitude='+entry.location_act.longitude
+                  }}
+                >
+                  See on map
+                </Button>
               </Table.Cell>
             </Table.Row>
           )}
