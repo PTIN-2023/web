@@ -95,7 +95,7 @@ export default function UserProfile({ data, avatarImg, user_token }) {
 
   // Metodo para controlar que se llame a la funcion solo cuando se carge la pagina o cuando se la llame
   useEffect(() => {
-    console.log("DATA: " + _data)
+    console.log("DATA: " + data)
     getUserData(JSON.parse(data), avatarImg);
   }, []);
 
