@@ -32,7 +32,7 @@ export default function Home(props) {
     const [medForm, setMedForm] = useState(["Tablets", "Capsules", "Liquid", "Powder", "Cream", "Gel"])
     const [typeOfAdminst, setTypeOfAdminst] = useState(["Oral","Topical","Inhalation","Ophthalmic"])
     const [page, setPage] = useState(1);
-    const [medsPerPage, ] = useState(10);
+    const medsPerPage = 10;
     
     // Requests
     const stringRequest = usePrepareBodyRequest({
@@ -57,7 +57,10 @@ export default function Home(props) {
         props.apiEndpoint + "/api/list_available_medicines_num",
         (res) => {
             if (res && res.result == "ok") {
-                setNumPages(Math.ceil(res.num/10))
+                const newNum = Math.ceil(res.num/medsPerPage)
+                setNumPages(newNum)
+                if(newNum < page)
+                    setPage(newNum)
             }
         }
     )
