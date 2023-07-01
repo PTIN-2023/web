@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import Layout from "../component/Layout"
-import MyPrescriptions from "../component/Prescripciones_Paciente"
 import useCookie from "../hooks/useCookie";
 import useAutoSumbitAndFetchObject from "../hooks/useAutoSumbitAndFetchObject";
 import commonGetServerSideProps from '../utils/gen_common_props';
 import inventoryStyles from "../styles/Inventory.module.css"
+import { Table } from 'flowbite-react'
 
 export async function getServerSideProps() {
   return await commonGetServerSideProps()
