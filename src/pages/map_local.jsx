@@ -213,7 +213,6 @@ export default function Home(props) {
 
   useEffect(() => {
     getStoreCoordinates(props);
-    getDroneRoute(props);
   }, []);
 
   useEffect(() => {

@@ -180,7 +180,6 @@ export default function Home(props) {
 
   useEffect(() => {
     getStoreCoordinates(props);
-    getCarRoute(props);
   }, []);
 
   useEffect(() => {
