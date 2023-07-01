@@ -20,7 +20,7 @@ const TablaPedidos = ({ props, data, rowsPerPage, searchValue, setSearchValue })
 
   let slice, range
   //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
-  if(data.result == "success"){
+  if(data.result == "ok"){
     if(searchValue.value.length > 0 && searchValue.isCompleted){
       data.orders = data.orders.filter((pedido) => pedido.order_identifier.toLowerCase().includes(searchValue.value));  
     }

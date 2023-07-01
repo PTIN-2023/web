@@ -148,7 +148,7 @@ function ModalDetalles({userTokenCookie, apiEndpoint, currentTarget, currentItem
                       <div className="flex items-center space-x-4">
                         <div className="min-w-0 flex-1">
                           <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
-                            {item[1].medicine_name} ({item[0]})
+                            {item[0].medicine_name} ({item[1]})
                           </p>
                         </div>
                       </div>

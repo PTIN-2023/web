@@ -14,7 +14,7 @@ export function seedMirageMyOrders(server) {
 
     Array.from(Array(10).keys()).forEach(i => {
       const meds = i%3==0 ? 
-        [{
+        [[{
           medicine_identifier: '5',
           medicine_image_url: 'https://picsum.photos/200',
           medicine_name: 'Paracetamol',
@@ -24,8 +24,8 @@ export function seedMirageMyOrders(server) {
           prescription_needed: false,
           form: 'pill',
           type_of_adminstration: 'oral'
-        },
-        {
+        }, 2],
+        [{
           medicine_identifier: '7',
           medicine_image_url: 'https://picsum.photos/200',
           medicine_name: 'Barra de metal 26mm',
@@ -35,9 +35,9 @@ export function seedMirageMyOrders(server) {
           prescription_needed: false,
           form: 'pill',
           type_of_adminstration: 'oral'
-        }]
+        }, 2]]
       :
-        [{
+        [[{
           medicine_identifier: '5',
           medicine_image_url: 'https://picsum.photos/200',
           medicine_name: 'Paracetamol',
@@ -47,7 +47,7 @@ export function seedMirageMyOrders(server) {
           prescription_needed: false,
           form: 'pill',
           type_of_adminstration: 'oral'
-        }]
+        }, 2]]
       
       server.create("order", {
         order_identifier : (i + 21 * 100),
@@ -61,7 +61,7 @@ export function seedMirageMyOrders(server) {
         server.create("order", {
             order_identifier : (state.num + 23 * 100),
             medicine_list : [
-                {
+                [{
                   medicine_identifier: '1',
                   medicine_image_url: 'https://picsum.photos/200',
                   medicine_name: 'Omeprazol',
@@ -71,8 +71,8 @@ export function seedMirageMyOrders(server) {
                   prescription_needed: true,
                   form: 'cream',
                   type_of_adminstration: 'topical'
-                },
-                {
+                }, 3],
+                [{
                   medicine_identifier: '2',
                   medicine_image_url: 'https://picsum.photos/200',
                   medicine_name: 'Ibuprofeno',
@@ -82,8 +82,8 @@ export function seedMirageMyOrders(server) {
                   prescription_needed: false,
                   form: 'pill',
                   type_of_adminstration: 'oral'
-                },
-                {
+                }, 3],
+                [{
                   medicine_identifier: '3',
                   medicine_image_url: 'https://picsum.photos/200',
                   medicine_name: 'Diazepam',
@@ -93,8 +93,8 @@ export function seedMirageMyOrders(server) {
                   prescription_needed: false,
                   form: 'pill',
                   type_of_adminstration: 'oral'
-                },
-                {
+                }, 3],
+                [{
                   medicine_identifier: '4',
                   medicine_image_url: 'https://picsum.photos/200',
                   medicine_name: 'Adiro',
@@ -104,8 +104,8 @@ export function seedMirageMyOrders(server) {
                   prescription_needed: false,
                   form: 'pill',
                   type_of_adminstration: 'oral'
-                },
-                {
+                }, 3],
+                [{
                   medicine_identifier: '5',
                   medicine_image_url: 'https://picsum.photos/200',
                   medicine_name: 'Paracetamol',
@@ -115,8 +115,8 @@ export function seedMirageMyOrders(server) {
                   prescription_needed: false,
                   form: 'pill',
                   type_of_adminstration: 'oral'
-                },
-                {
+                }, 3],
+                [{
                   medicine_identifier: '6',
                   medicine_image_url: 'https://picsum.photos/200',
                   medicine_name: 'Heparina',
@@ -126,8 +126,8 @@ export function seedMirageMyOrders(server) {
                   prescription_needed: false,
                   form: 'pill',
                   type_of_adminstration: 'oral'
-                },
-                {
+                }, 3],
+                [{
                   medicine_identifier: '7',
                   medicine_image_url: 'https://picsum.photos/200',
                   medicine_name: 'Barra de metal 26mm',
@@ -137,7 +137,7 @@ export function seedMirageMyOrders(server) {
                   prescription_needed: false,
                   form: 'pill',
                   type_of_adminstration: 'oral'
-                }
+                }, 3]
                 
             ],
             date : '2023-01-0' + state.num,
@@ -189,7 +189,7 @@ export function defineMirageMyOrdersRoutes(server) {
 
       // Return
       return {
-        result: 'success',
+        result: 'ok',
         orders : orders
       }
     })
