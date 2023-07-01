@@ -6,6 +6,7 @@ import mapboxgl from 'mapbox-gl';
 import useCookie from "../hooks/useCookie";
 import React, { useState, useEffect } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { useRouter } from 'next/router';
 
 export async function getServerSideProps() {
   const isLocal              = env_config.isLocal();
@@ -38,9 +39,7 @@ export async function getServerSideProps() {
 }
 
 export default function Home(props) {
-  const [isLoading, setIsLoading] = useState(true);
-  // Get cookie newView value in case that the source is manager orders
-  const [newViewValueCookie, setNewViewValueCookie] = useCookie('new_view_cookie')
+  const router = useRouter();
   // Get and store all drone information
   const [infoRouteDrone, setinfoRouteDrone] = React.useState([]);
   async function getDroneRoute(props) {
@@ -214,6 +213,7 @@ export default function Home(props) {
 
   useEffect(() => {
     getStoreCoordinates(props);
+    getDroneRoute(props);
   }, []);
 
   useEffect(() => {
@@ -313,20 +313,17 @@ export default function Home(props) {
 
   const [iVS, setIVS] = useState('')
   //Es para la ventana del gestor con paquetes asociados a coches/dron, que al darle click a ese paquete te lleve al mapa con la posición de ese coche/dron
-  useEffect(() => {
-    if(newViewValueCookie != null){
-      setIVS({
-        'locationLongitude': newViewValueCookie.locationLongitude, 
-        'locationLatitude':  newViewValueCookie.locationLatitude
-      });
-    }else{
-      setIVS({
-        'locationLongitude': props.locationLongitude, 
-        'locationLatitude':  props.locationLatitude
-      });
-    }
-    setIsLoading(false);
-  }, [newViewValueCookie]);
+  if(router.query.locationLatitude && router.query.locationLongitude){
+    setIVS({
+      'locationLongitude': router.query.locationLongitude,
+      'locationLatitude': router.query.locationLatitude
+    });
+  }else{
+    setIVS({
+      'locationLongitude': props.locationLongitude, 
+      'locationLatitude':  props.locationLatitude
+    });
+  }
 
   const cornerBottomLeft = new mapboxgl.LngLat(props.locationLongitudeMin, props.locationLatitudeMin);
   const cornerTopRight = new mapboxgl.LngLat(props.locationLongitudeMax, props.locationLatitudeMax);
@@ -342,48 +339,36 @@ export default function Home(props) {
       </Head>
       <main>
         <Layout props={props}>
-          {isLoading ? (
-            <p>Cargando...</p>
-          ) : (
-            <Map 
-              initialViewState={{
-                longitude: iVS.locationLongitude,
-                latitude: iVS.locationLatitude,
-                zoom: 15
-              }}
+          {iVS && <Map 
+            initialViewState={{
+              longitude: iVS.locationLongitude,
+              latitude: iVS.locationLatitude,
+              zoom: 15
+            }}
+            mapboxAccessToken={props.mapBoxToken}
+            style={{width: "100%", height: "100%" }}
+            mapStyle="mapbox://styles/aeksp/clg9out5b000i01l0p2yiq26g"
+            onClick={handleClick}
+            maxBounds={bounds}
+          >
+          {routeGeojson[0] && <Source id="my-route" type="geojson" data={routeGeojson[0]}>
+            <Layer {...route_layer}/>
+          </Source>}
+          {pointsGeojson[0] && <Source id="my-points" type="geojson" data={pointsGeojson[0]}>
+            <Layer {...points_layer}/>
+          </Source>}
+          {storeGeojson[0] && <Source id="my-store" type="geojson" data={storeGeojson[0]}>
+            <Layer {...store_layer}/>
+          </Source>}
 
-              mapboxAccessToken={props.mapBoxToken}
-              style={{width: "100%", height: "100%" }}
-              mapStyle="mapbox://styles/aeksp/clg9out5b000i01l0p2yiq26g"
-              onClick={handleClick}
-              maxBounds={bounds}
-            >
-            {routeGeojson[0] && <Source id="my-route" type="geojson" data={routeGeojson[0]}>
-              <Layer {...route_layer}/>
-            </Source>}
-            {pointsGeojson[0] && <Source id="my-points" type="geojson" data={pointsGeojson[0]}>
-              <Layer {...points_layer}/>
-            </Source>}
-            {storeGeojson[0] && <Source id="my-store" type="geojson" data={storeGeojson[0]}>
-              <Layer {...store_layer}/>
-            </Source>}
-
-            {clickPopup && (
-            <Popup longitude={clickPopup.location_act.longitude} latitude={clickPopup.location_act.latitude} anchor="bottom" 
-            onClose={() => setClickPopup(false)}>
-            Batería: {clickPopup.battery}% <br/>
-            Último mantenimiento: {clickPopup.last_maintenance_date}
-            </Popup>)}
-            </Map>
-          )}
+          {clickPopup && (
+          <Popup longitude={clickPopup.location_act.longitude} latitude={clickPopup.location_act.latitude} anchor="bottom" 
+          onClose={() => setClickPopup(false)}>
+          Batería: {clickPopup.battery}% <br/>
+          Último mantenimiento: {clickPopup.last_maintenance_date}
+          </Popup>)}
+          </Map>}
         </Layout>
-        <button
-          type="button"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center fixed bottom-4 right-4 z-10 shadow-md transition-all duration-300 ease-in-out dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          onClick={() => setNewViewValueCookie(null)}
-        > Eliminar focus
-          <span className="sr-only">Icon description</span>
-        </button>
       </main>
     </>
   )
