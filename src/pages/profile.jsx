@@ -1,3 +1,4 @@
+
 import Head from 'next/head'
 import Layout from "../component/Layout"
 import UserProfile from '../component/Profile'
@@ -28,11 +29,13 @@ export default function Home(props) {
     if(stringResponse != 'none') {
       console.log("new response not none: "+stringResponse)
     }
+    console.log("String Request 2: " + stringRequest)
+    sumbitAndFetch();
   }, [stringResponse])
 
   useEffect(() => {
     if(userTokenCookie != null) {
-      console.log("Token no null: " + userTokenCookie)
+      console.log("String Request: " + stringRequest)
       sumbitAndFetch();
     }
   }, [userTokenCookie])
@@ -52,4 +55,3 @@ export default function Home(props) {
     </>
   )
 }
-
