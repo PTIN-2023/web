@@ -60,7 +60,7 @@ export default function Home(props) {
                 const newNum = Math.ceil(res.num/medsPerPage)
                 setNumPages(newNum)
                 if(newNum < page)
-                    setPage(newNum)
+                    setPage(Math.max(1, newNum))
             }
         }
     )
