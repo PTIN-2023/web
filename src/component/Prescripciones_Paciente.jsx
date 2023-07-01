@@ -203,118 +203,81 @@ function ModalContactar({ currentTarget, currentItem, modalContactarState, setMo
 
 
 
-const TablaPedidos = ({ data, rowsPerPage, searchValue, setSearchValue }) => {
-    //componente que renderiza la tabla con los pedidos
-    //recibe data -> json de pedidos
-    //rowsPerPage -> cuantas filas va a renderizar
-    //searchValue -> el filtro en caso de que se active el componente MyOrdersSearch
+const TablaPedidos = ({ data}) => {
+  console.log(data.orders)
+  const [localeCookie,] = useCookie('locale')
 
-    console.log(data.orders)
-    const [localeCookie,] = useCookie('locale')
+  const [page, setPage] = useState(1);;
+  const [modalDetallesState, setModalDetallesState] = useState(false);
 
-    const [page, setPage] = useState(1);
-    //estos dos hooks de abajo sirven para mostrar o bien ocultar los modals
-    const [modalContactarState, setModalContactarState] = useState(false);
-    const [modalCancelarPedidoState, setModalCancelarPedidoState] = useState(false);
-    const [modalDetallesState, setModalDetallesState] = useState(false);
-    //currentTarget es un hook useRef para que no se actualice en cada render y así aseguramos que los modals no se multipliquen
-    const currentTarget = useRef("");
+  //currentTarget es un hook useRef para que no se actualice en cada render y así aseguramos que los modals no se multipliquen
+  const currentTarget = useRef("");
 
-    //changeModalCancelarPedidoState y changeModalContactarState son funciones que cambian el useState ya que los setters no se pueden pasar bien hacia los componentes
-    function changeModalCancelarPedidoState(e) {
-        setModalCancelarPedidoState(e);
+  function changeModalDetallesState(e) {
+    setModalDetallesState(e);
+  }
 
-    }
+  //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
+  if (searchValue.value.length > 0 && searchValue.isCompleted) {
+    data = data.orders.filter((pedido) => pedido.id.toLowerCase().includes(searchValue.value));
+  } else data = data.orders;
 
-    function changeModalContactarState(e) {
-        setModalContactarState(e);
+  const [counter, setCounter] = useState(0);
 
-    }
-    function changeModalDetallesState(e) {
-        setModalDetallesState(e);
+  return (
+    <>
+      <Table hoverable={true}>
+        <Table.Head>
+          <Table.HeadCell>{"Fecha"}</Table.HeadCell>
+          <Table.HeadCell>{"Medico"}</Table.HeadCell>
+          <Table.HeadCell>{"Medicamento/s"}</Table.HeadCell>
+          <Table.HeadCell>{getText('state', localeCookie)}</Table.HeadCell>
+          <Table.HeadCell>{"Ver Receta"}</Table.HeadCell>
+        </Table.Head>
+          <Table.Body className="divide-y">
+              {slice.map((order) =>
+                <Table.Row className={myordersStyles.tableRow}>
+                  <Table.Cell>
+                      {order.date}
+                  </Table.Cell>
+                  <Table.Cell>
+                      {"NombreMedico"}
+                  </Table.Cell>
+                  <Table.Cell>
+                      {"Medicamento/s recetados"}
+                  </Table.Cell>
+                  <Table.Cell>
+                      {
+                          
+                          (counter < 3 && !(order.state == "delivered" || order.state == "delivered_waiting" )) &&
+                              <span className={myordersStyles.deliveryStateEntregado}>{"Activa"}</span>
+                      }
+                      {
+                          (order.state == "delivered" || order.state == "delivered_waiting" ) &&
+                          <span className={myordersStyles.deliveryStateCancelado}>{"Vencida"}</span>
+                          //handleCellRender()
+                          /*
+                              <span className={myordersStyles.deliveryStateCancelado}>{"Vencida"}</span>
+                          
+                              (order.state == "delivered" || order.state == "delivered_waiting" ) &&
+                              <span className={myordersStyles.deliveryStateEntregado}>{getText("delivered", localeCookie)}</span>
+                          */
+                      }
 
-    }
-
-    //si la longitud del searchValue es > 0 y se hizo click en buscar, filtra el json de datos
-    if (searchValue.value.length > 0 && searchValue.isCompleted) {
-        data = data.orders.filter((pedido) => pedido.id.toLowerCase().includes(searchValue.value));
-
-    } else data = data.orders;
-
-    var { slice, range } = useTable(data, page, rowsPerPage);
-
-
-    const [counter, setCounter] = useState(0);
-
-    return (
-        <>
-
-            <Table hoverable={true}>
-                {console.log(searchValue)}
-                <Table.Head>
-                    <Table.HeadCell>
-                        {"Fecha"/*getText('ID', localeCookie)*/}
-                    </Table.HeadCell>
-                    <Table.HeadCell>
-                        {"Medico"/*getText('purchased_date', localeCookie)*/}
-                    </Table.HeadCell>
-                    <Table.HeadCell>
-                        {"Medicamento/s"/*getText('purchased_date', localeCookie)*/}
-                    </Table.HeadCell>
-                    <Table.HeadCell>
-                        {getText('state', localeCookie)}
-                    </Table.HeadCell>
-                    <Table.HeadCell>
-                        {"Ver Receta" /*getText('details', localeCookie)*/}
-                    </Table.HeadCell>
-                </Table.Head>
-                <Table.Body className="divide-y">
-                    {slice.map((order) =>
-                        <>
-                            <Table.Row className={myordersStyles.tableRow}>
-                                <Table.Cell>
-                                    {order.date}
-                                </Table.Cell>
-                                <Table.Cell>
-                                    {"NombreMedico"}
-                                </Table.Cell>
-                                <Table.Cell>
-                                    {"Medicamento/s recetados"}
-                                </Table.Cell>
-                                <Table.Cell>
-                                    {
-                                        
-                                        (counter < 3 && !(order.state == "delivered" || order.state == "delivered_waiting" )) &&
-                                            <span className={myordersStyles.deliveryStateEntregado}>{"Activa"}</span>
-                                    }
-                                    {
-                                        (order.state == "delivered" || order.state == "delivered_waiting" ) &&
-                                        <span className={myordersStyles.deliveryStateCancelado}>{"Vencida"}</span>
-                                        //handleCellRender()
-                                        /*
-                                            <span className={myordersStyles.deliveryStateCancelado}>{"Vencida"}</span>
-                                        
-                                            (order.state == "delivered" || order.state == "delivered_waiting" ) &&
-                                            <span className={myordersStyles.deliveryStateEntregado}>{getText("delivered", localeCookie)}</span>
-                                        */
-                                    }
-
-                                </Table.Cell>
-                                <Table.Cell className={`${myordersStyles.firstTableCell} ${myordersStyles.detailsRow}`}>
-                                    {
-                                        <HiDownload size={20} currentTarget={currentTarget} currentItem={order} modalDetallesState={modalDetallesState} setModalDetallesState={changeModalDetallesState}/>
-                                        
-                                    }
-                                </Table.Cell>
-                            </Table.Row>
-                        </>
-                    )}
-
-                </Table.Body>
-            </Table>
-            <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
-        </>
-    );
+                  </Table.Cell>
+                  <Table.Cell className={`${myordersStyles.firstTableCell} ${myordersStyles.detailsRow}`}>
+                      {
+                          <HiDownload size={20} currentTarget={currentTarget} currentItem={order} modalDetallesState={modalDetallesState} setModalDetallesState={changeModalDetallesState}/>
+                          
+                      }
+                  </Table.Cell>
+                </Table.Row>
+              )}
+            </Table.Body>
+        </Table>
+    <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
+  </>
+  );
 };
 
 export default TablaPedidos;
