@@ -72,7 +72,6 @@ export default function Home(props) {
     // request values
     {
       "session_token" : userTokenCookie,
-      "orders_per_page" : rowsPerPage
     },
     // url
     props.apiEndpoint + "/api/list_inventory_meds_num",
@@ -83,7 +82,7 @@ export default function Home(props) {
     // Evaluate response
     (res) => {
       if(res && res.result == 'ok') {
-        setNumPages(res.num)
+        setNumPages(Math.ceil(res.num/rowsPerPage))
       }
     }
   )

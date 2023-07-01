@@ -57,7 +57,7 @@ export default function Home(props) {
         props.apiEndpoint + "/api/list_available_medicines_num",
         (res) => {
             if (res && res.result == "ok") {
-                setNumPages(res.num)
+                setNumPages(Math.ceil(res.num/10))
             }
         }
     )
