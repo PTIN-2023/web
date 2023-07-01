@@ -55,7 +55,7 @@ export default function Home(props) {
         <Layout props={props}>
           {(stringResponse !== "none" && userTokenCookie !== null && isCorrect) && (
             <UserProfile
-              data={JSON.parse(stringResponse)}
+              data={stringResponse}
               profileImg={userPicture}
               client_token={userTokenCookie}
             />

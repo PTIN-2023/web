@@ -17,7 +17,6 @@ export default function UserProfile({ data, avatarImg, user_token }) {
   //console.log("user: " + userTokenCookie)
 
   //  Datos del usuario
-  const [userImg, getUserImg] = useState("");
   const [userName, getName] = useState("");
   const [userAge, getAge] = useState("");
   const [userPseudoname, getPseudoname] = useState("");
@@ -96,7 +95,8 @@ export default function UserProfile({ data, avatarImg, user_token }) {
 
   // Metodo para controlar que se llame a la funcion solo cuando se carge la pagina o cuando se la llame
   useEffect(() => {
-    getUserData(data, avatarImg);
+    console.log("DATA: " + _data)
+    getUserData(JSON.parse(data), avatarImg);
   }, []);
 
 
