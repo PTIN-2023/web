@@ -1,5 +1,5 @@
-import getTextCurrentLocale from '../utils/getTextCurrentLocale'
-import myordersStyles from "../styles/Myorders.module.css"
+import getTextCurrentLocale from '../../utils/getTextCurrentLocale'
+import myordersStyles from "../../styles/Myorders.module.css"
 
 export default function CustomTableNavigation({ numPages, currentPage, setPage }) {
     const updatePage = (currentPage, action) => {

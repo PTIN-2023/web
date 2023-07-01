@@ -1,10 +1,6 @@
-import React, { useContext, useState, useEffect } from "react";
-import TableFooter from "../TableFooter.jsx";
-import { ShopContext } from "../../context/shopContext.jsx";
+import React from "react";
 import { Product } from "../makeOrder/products.jsx"
-import ShoppingCart from "../../component/makeOrder/shoppingCart"
-import myordersStyles from "../styles/Myorders.module.css"
-import CustomTableNavigation from '../component/common/CustomTableNavigation';
+import CustomTableNavigation from "../common/CustomTableNavigation.jsx";
 
 const TablaMakeOrder = ( {medicineResponse, page, setPage, numPages} ) => {
     return (
