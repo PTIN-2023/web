@@ -18,14 +18,23 @@ export default function Home(props) {
     // Cookies
     const [userTokenCookie, ] = useCookie('user_token')
 
+    // Search
+    const [medNameSearch, setMedNameSearch] = useState({value:"",isCompleted:false});
+
+    useEffect(() => {
+        setMedName(medNameSearch)
+    }, [medNameSearch])
+
     // Form values
-    const [medName, setMedName] = useState({value:"",isCompleted:false});
+    const [medName, setMedName] = useState("");
     const [pvpMax, setPvpMax] = useState(50);
     const [medForm, setMedForm] = useState(["Tablets", "Capsules", "Liquid", "Powder", "Cream", "Gel"])
     const [typeOfAdminst, setTypeOfAdminst] = useState(["Oral","Topical","Inhalation","Ophthalmic"])
     const [page, setPage] = useState(1);
     const [medsPerPage, ] = useState(10);
 
+    
+    // Request
     const stringRequest = usePrepareBodyRequest({
         "session_token" : userTokenCookie,
         "filter": {
@@ -57,7 +66,7 @@ export default function Home(props) {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
-            <Layout navBarValue={setMedName} props={props}>
+            <Layout navBarValue={setMedNameSearch} props={props}>
                 <div className='flex space-between flex-start' style={{ backgroundColor: '#87CEFA' }}>
                     <div>
                         <FilterTable 
