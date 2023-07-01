@@ -36,7 +36,7 @@ export default function MakePrescriptions({ props }) {
     const [medicamentos, setMedicamentos] = useState([]);
     const [nombrePaciente, setNombrePaciente] = useState('');
     const [renewal, setRenewal] = useState(0);
-    const [codigo, setCodigo] = useState('');
+    const [codigo, setCodigo] = useState('123');
 
     
     const stringRequestRecipe = usePrepareBodyRequest({
@@ -63,7 +63,7 @@ export default function MakePrescriptions({ props }) {
 
         //await createRecipe();
 
-        createPDF(nombrePaciente, medicamentos, inputTratamientoRef.current, textareaValue, renwal, codigo, props).then((pdfBytes) => {
+        createPDF(nombrePaciente, medicamentos, inputTratamientoRef.current, textareaValue, renewal, codigo, props).then((pdfBytes) => {
             download(pdfBytes, "Receta.pdf", "application/pdf");
         });
 
