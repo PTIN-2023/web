@@ -31,7 +31,7 @@ const CustomTableRow = ({ entry, props }) => {
     <Table.Cell className={inventoryStyles.tableCell}>{entry.prescription_identifier}</Table.Cell>
     <Table.Cell className={inventoryStyles.tableCell}>
       <ul>
-      {response.medicine_list.map((med) => 
+      {response != "none" && response.medicine_list && response.medicine_list.map((med) => 
         <li>{med.medicine_name} (med.quantitat)</li>
       )}
       </ul>
