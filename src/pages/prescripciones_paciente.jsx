@@ -13,45 +13,37 @@ export async function getServerSideProps() {
 }
 
 export default function Home(props) {
+  const [userTokenCookie,] = useCookie('user_token')
 
-    const [searchValue, setSearchValue] = useState({ value: "", isCompleted: false });
-    const [userTokenCookie,] = useCookie('user_token')
-    const [ordersPerPage, setOrdersPerPage] = useState('10');
-    const [page, setPage] = useState('1');
+  const [_, response] = useAutoSumbitAndFetchObject(
+    // request values
+    {
+      "session_token" : userTokenCookie,
+    },
+    // url
+    props.apiEndpoint + "/api/get_patient_prescription_history",
+    // precheck
+    (values) => {
+      return values.session_token != null
+    }
+  )
 
-    const stringRequest = usePrepareBodyRequest({
-        "session_token" : userTokenCookie,
-        "orders_per_page" : ordersPerPage,
-        "page" : page
-      })
-    
-      const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
-        stringRequest,
-        //props.apiEndpoint+"/api/list_patient_prescriptions"
-        props.apiEndpoint+"/api/list_patient_orders"
-        
-      )
-    
-      useEffect(() => {
-        if(stringResponse != 'none') {
-          console.log("response not none")
-        }
-      }, [stringResponse])
-    
-      sumbitAndFetch();
-
-    return (
-        <>
-            <Head>
-                <title>TransMedWebPTIN</title>
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
-            <main>
-                <Layout props={props}>
-                    {stringResponse != 'none' && <MyPrescriptions data={JSON.parse(stringResponse)} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue} />}
-                </Layout>
-            </main>
-        </>
-    )
+  return (
+    <>
+      <Head>
+        <title>TransMedWebPTIN</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main>
+        <Layout props={props}>
+          {response != 'none' && response.result == "ok" && 
+          <MyPrescriptions 
+            data={response} 
+          />
+          }
+        </Layout>
+      </main>
+    </>
+  )
 }
