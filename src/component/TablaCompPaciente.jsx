@@ -8,11 +8,13 @@ import useCookie from "../hooks/useCookie.js";
 import { getText } from "../utils/getTextCurrentLocale.js";
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
+import createQR from "../utils/createPDF.js"
 
 
 // //TODO: modular estas funciones de modal
 function ModalDetalles({userTokenCookie, apiEndpoint, currentTarget, currentItem, modalDetallesState, setModalDetallesState}){
   const [localeCookie, ] = useCookie('local');
+  const [qr, setQr] = useState(null)
 
   const [newResponse, setNewResponse] = useState("none")
 
@@ -48,6 +50,8 @@ function ModalDetalles({userTokenCookie, apiEndpoint, currentTarget, currentItem
         setModalDetallesState(true);
         sumbitAndFetch()
     }
+
+    
 
   return(
     <>
@@ -152,6 +156,7 @@ function ModalDetalles({userTokenCookie, apiEndpoint, currentTarget, currentItem
                     )}
                   </ul>
                 </div>
+                
               </Card>
             </div>
 

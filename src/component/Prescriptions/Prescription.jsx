@@ -5,6 +5,7 @@ import download from 'downloadjs';
 
 //Utils
 import createPDF from '../../utils/createPDF';
+import generateQR from '../../utils/createPDF';
 
 //Styles
 import styles from '../../styles/Prescriptions.module.css';
@@ -24,16 +25,18 @@ import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest.js";
 import useSumbitAndFetchObject from '../../hooks/useSumbitAndFetchObject.js';
 import useSumbitAndFetch from '../../hooks/useSumbitAndFetch.js';
 
+//Icons
+import { HiMinus } from 'react-icons/hi';
+
 export default function MakePrescriptions({ props }) {
 
     const inputTratamientoRef = useRef("");
-    const [inputValue, setInputValue] = useState('');
     const [textareaValue, setTextareaValue] = useState('');
     const [userTokenCookie, ] = useCookie('user_token')
     const [medicamentos, setMedicamentos] = useState([]);
-    const [nombrePaciente, setNombrePaciente] = useState('Pablo Alcaraz');
-    const [renwal, setRenwal] = useState(0);
-    const [codigo, setCodigo] = useState('123');
+    const [nombrePaciente, setNombrePaciente] = useState('');
+    const [renewal, setRenewal] = useState(0);
+    const [codigo, setCodigo] = useState('');
 
     
     const stringRequestRecipe = usePrepareBodyRequest({
@@ -67,21 +70,9 @@ export default function MakePrescriptions({ props }) {
     }
 
     //Input Handlers
-    const handleNombreInput = (event) => {
-        inputNombreRef.current= event.target.value;
-    };
-
-    const handleMedicamentoInput = (event) => {
-        inputMedicamentoRef.current = event.target.value;
-    };
-
+    
     const handleTratamientoInput = (event) => {
         inputTratamientoRef.current= event.target.value;
-    };
-
-    const handleNombreInputChange = (value) => {
-        if (inputValue == '') setInputValue(inputValue + value);
-        else setInputValue(inputValue + ', ' + value);
     };
     
     // Llamada a Api para la lista de medicamentos 
@@ -128,6 +119,13 @@ export default function MakePrescriptions({ props }) {
         const handleSetNombrePaciente = (value) => {
             setNombrePaciente(value);
         }
+
+        const handleReload = () => {
+            setNombrePaciente('');
+            setMedicamentos([]);
+            setRenewal(0);
+            handleTratamientoInput('')
+        };
         
 
   return (
@@ -139,7 +137,8 @@ export default function MakePrescriptions({ props }) {
                     {/* Nombre Paciente */}
                     <label htmlFor="patientName" className={styles.label}>Nombre Paciente:</label>
                     <div className={styles['input-container']}>
-                        <input type="text" disabled id="patientName" name="patientName" className={styles.inputNombre} onChange={handleNombreInput}/>
+                        <input type="text" disabled id="patientName" name="patientName" value={nombrePaciente} className={styles.inputNombre} />
+                        <Button style={{ marginLeft: '10px' }} color='failure' onClick={() => handleSetNombrePaciente('')} pill><HiMinus/></Button>
                     </div>
 
                     {/* Nombre Medicmento */}
@@ -164,7 +163,7 @@ export default function MakePrescriptions({ props }) {
                     {/* Duracion Tratamiento */}
                     <label htmlFor="renewal" className={styles.label}>Renovación:</label>
                     <div className={styles['input-container']}>
-                        <input type="text" required id="renewal" name="renewal" className={styles.inputTratamiento} onChange={(event) => setRenwal(event.target.value)}/>
+                        <input type="text" required id="renewal" name="renewal" value={renewal} className={styles.inputTratamiento} onChange={(event) => setRenewal(event.target.value)}/>
                     </div>
                 
                     {/* Notas */}
@@ -179,6 +178,7 @@ export default function MakePrescriptions({ props }) {
 
                 {/* Generar Receta */}
                 <div className={styles['button-container']}>
+                    <Button type="button" className={styles['buttonGenerate']} onClick={handleReload}>Borrar todo</Button>
                     <Button type="submit" className={styles['buttonGenerate']}>Generar Receta</Button>
                 </div>
             </form>
@@ -193,7 +193,7 @@ export default function MakePrescriptions({ props }) {
                         title="Pacientes"
                         icon={HiUserGroup}
                     >
-                        <TablaPacientes props={props} rowsPerPage={10} nombrePaciente={nombrePaciente} handleSetNombrePaciente={handleSetNombrePaciente} />
+                        <TablaPacientes props={props} nombrePaciente={nombrePaciente} handleSetNombrePaciente={handleSetNombrePaciente} />
                     </Tabs.Item>
                     <Tabs.Item
                         title="Medicamentos"
@@ -209,8 +209,6 @@ export default function MakePrescriptions({ props }) {
                     </Tabs.Item>
                 </Tabs.Group>
             </div>
-        
-    </div>
-    
+    </div>    
   );
 };

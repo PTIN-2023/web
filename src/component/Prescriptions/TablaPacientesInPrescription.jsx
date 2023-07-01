@@ -1,14 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import useTable from "../../hooks/useTable.js";
-import TableFooter from "../TableFooter.jsx";
 import {Table, Button } from 'flowbite-react'
 import myordersStyles from "../../styles/Myorders.module.css"
-import {HiPlusCircle, HiCheckCircle} from "react-icons/hi"
+import { HiPlusCircle } from "react-icons/hi"
 import useCookie from "../../hooks/useCookie.js";
 import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest";
 import useSumbitAndFetch from "../../hooks/useSumbitAndFetch";
 
-const TablaPacientes = ({ data, rowsPerPage, props }) => {
+const TablaPacientes = ({ props, nombrePaciente, handleSetNombrePaciente }) => {
     //componente que renderiza la tabla con los pedidos
     //recibe data -> json de pedidos
 
@@ -35,6 +33,7 @@ const TablaPacientes = ({ data, rowsPerPage, props }) => {
           setResponsePatients(JSON.parse(stringResponse))
       }
     }, [stringResponse]);
+    
 
 
   return (
@@ -52,6 +51,9 @@ const TablaPacientes = ({ data, rowsPerPage, props }) => {
               <Table.HeadCell>
                 Correo
               </Table.HeadCell>
+              <Table.HeadCell>
+                Añadir
+              </Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
               {responsePatients != "none" ? (responsePatients.patients.map((patient) => 
@@ -65,7 +67,10 @@ const TablaPacientes = ({ data, rowsPerPage, props }) => {
                     </Table.Cell>
                     <Table.Cell className={myordersStyles.tableCell}>
                       {patient.user_email}
-                    </Table.Cell>                  
+                    </Table.Cell>  
+                    <Table.Cell className={myordersStyles.tableCell}>
+                    <Button onClick={() => handleSetNombrePaciente(patient.user_full_name)} color='success' pill ><HiPlusCircle/></Button>
+                    </Table.Cell>                 
                   </Table.Row>
               </>))
               : <></>  
