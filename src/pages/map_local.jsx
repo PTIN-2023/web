@@ -213,6 +213,7 @@ export default function Home(props) {
 
   useEffect(() => {
     getStoreCoordinates(props);
+    getDroneRoute(props);
   }, []);
 
   useEffect(() => {
@@ -323,7 +324,7 @@ export default function Home(props) {
         'locationLatitude':  props.locationLatitude
       });
     }
-  })
+  }, [])
 
   const cornerBottomLeft = new mapboxgl.LngLat(props.locationLongitudeMin, props.locationLatitudeMin);
   const cornerTopRight = new mapboxgl.LngLat(props.locationLongitudeMax, props.locationLatitudeMax);
