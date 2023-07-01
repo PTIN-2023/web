@@ -53,7 +53,7 @@ export default function Home(props) {
       </Head>
       <main>
         <Layout props={props}>
-          {((userInfo !== null) && (userInfo !== 'none')) && (
+          {((userInfo !== null) && (userInfo !== 'none') && (userInfo.result != "error")) && (
             <UserProfile
               data={userInfo}
               profileImg={userPicture}
