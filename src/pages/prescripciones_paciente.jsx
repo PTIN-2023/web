@@ -2,10 +2,7 @@ import Head from 'next/head'
 import Layout from "../component/Layout"
 import MyPrescriptions from "../component/Prescripciones_Paciente"
 import useCookie from "../hooks/useCookie";
-import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
-import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
-import {useEffect, useState} from "react";
-import * as env_config from "../utils/env_config"
+import useAutoSumbitAndFetchObject from "../hooks/useAutoSumbitAndFetchObject";
 import commonGetServerSideProps from '../utils/gen_common_props';
 
 export async function getServerSideProps() {
