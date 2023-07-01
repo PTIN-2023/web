@@ -17,6 +17,7 @@ const CustomTableRow = ({ entry, props }) => {
     // request values
     {
       "session_token" : userTokenCookie,
+      "prescription_identifier" : entry.prescription_identifier
     },
     // url
     props.apiEndpoint + "/api/get_meds_prescription",
