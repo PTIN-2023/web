@@ -1,45 +1,49 @@
-
-import Head from 'next/head'
-import Layout from "../component/Layout"
-import UserProfile from '../component/Profile'
-import { useEffect } from 'react';
+import Head from 'next/head';
+import Layout from "../component/Layout";
+import UserProfile from '../component/Profile';
+import { useEffect, useState } from 'react';
 import useCookie from "../hooks/useCookie";
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
 import commonGetServerSideProps from '../utils/gen_common_props';
 
 export async function getServerSideProps() {
-  return await commonGetServerSideProps()
+  return await commonGetServerSideProps();
 }
-export default function Home(props) {
 
+export default function Home(props) {
   const [userPicture,] = useCookie('user_picture');
   const [userTokenCookie,] = useCookie('user_token');
+  const [isCorrect, setCorrect] = useState(false);
 
   const stringRequest = usePrepareBodyRequest({
     "session_token" : userTokenCookie
-  })
+  });
 
   const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
     stringRequest,
-    props.apiEndpoint+"/api/user_info"
-  )
+    props.apiEndpoint + "/api/user_info"
+  );
+  
+  useEffect(() => {
+    if (stringResponse !== 'none') {
+      console.log("new response not none: " + stringResponse);
+    }
+  }, [stringResponse]);
 
   useEffect(() => {
-    if(stringResponse != 'none') {
-      console.log("new response not none: "+stringResponse)
-    }
-    console.log("String Request 2: " + stringRequest)
-    sumbitAndFetch();
-  }, [stringResponse])
-
-  useEffect(() => {
-    if(userTokenCookie != null) {
-      console.log("String Request: " + stringRequest)
-      sumbitAndFetch();
-    }
-  }, [userTokenCookie])
-
+    const fetchData = async () => {
+      if (userTokenCookie !== null) {
+        console.log("Token: " + userTokenCookie);
+        await sumbitAndFetch();
+        console.log("-----------------------------");
+        setCorrect(true);
+      }
+    };
+  
+    fetchData();
+  }, [userTokenCookie, sumbitAndFetch]);
+  
   return (
     <>
       <Head>
@@ -49,9 +53,15 @@ export default function Home(props) {
       </Head>
       <main>
         <Layout props={props}>
-          {(stringResponse != "none") && <UserProfile data={JSON.parse(stringResponse)} profileImg={userPicture} client_token={userTokenCookie} />}
+          {(stringResponse !== "none" && userTokenCookie !== null && isCorrect) && (
+            <UserProfile
+              data={JSON.parse(stringResponse)}
+              profileImg={userPicture}
+              client_token={userTokenCookie}
+            />
+          )}
         </Layout>
       </main>
     </>
-  )
+  );
 }
