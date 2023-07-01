@@ -16,12 +16,6 @@ const TablaPedidos = ({ props, data, rowsPerPage, searchValue, setSearchValue })
   //rowsPerPage -> cuantas filas va a renderizar
   //searchValue -> el filtro en caso de que se active el componente MyOrdersSearch
 
-  console.log(data.result)
-  const [localeCookie, ] = useCookie('locale')
-  const [modalContactarState, setModalContactarState] = useState(false);
-  const [modalCancelarPedidoState, setModalCancelarPedidoState] = useState(false);
-  const [modalDetallesState, setModalDetallesState] = useState(false);
-
   const [page, setPage] = useState(1);
 
   let slice, range
@@ -29,9 +23,7 @@ const TablaPedidos = ({ props, data, rowsPerPage, searchValue, setSearchValue })
   if(data.result == "success"){
     if(searchValue.value.length > 0 && searchValue.isCompleted){
       data.orders = data.orders.filter((pedido) => pedido.order_identifier.toLowerCase().includes(searchValue.value));  
-
     }
-    
   }
   
   return (

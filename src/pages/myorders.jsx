@@ -19,29 +19,24 @@ export default function Home(props) {
  //se declara aqui arriba para pasarlo a los hijos, actualizar el State y pasarlo a TablaPedidos
   const [searchValue, setSearchValue] = useState({value:"",isCompleted:false});
   const [userTokenCookie, ] = useCookie('user_token')
-  const [ordersPerPage, setOrdersPerPage] = useState('10');
-  const [page, setPage] = useState('1');  
+  const [ordersPerPage, ] = useState('10');
+  const [page, ] = useState('1');  
 
-
-  const stringRequest = usePrepareBodyRequest({
-    "session_token" : userTokenCookie,
-    "orders_per_page" : ordersPerPage,
-    "page" : page
-  })
-
-  const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
-    stringRequest,
-    props.apiEndpoint+"/api/list_patient_orders"
+  const [_, response] = useAutoSumbitAndFetchObject(
+    // request values
+    {
+      "session_token" : userTokenCookie,
+      "orders_per_page" : ordersPerPage,
+      "page" : page
+    },
+    // url
+    props.apiEndpoint + "/api/list_patient_orders",
+    // precheck
+    (values) => {
+      return values.session_token != null
+    }
   )
 
-  useEffect(() => {
-    if(stringResponse != 'none') {
-      console.log("new response not none: "+stringResponse)
-    }
-  }, [stringResponse])
-
-  sumbitAndFetch();
-  
   return (
     <>
       <Head>
@@ -54,8 +49,14 @@ export default function Home(props) {
         <Layout navBarValue={setSearchValue} props={props}>
         <div className={myordersStyles.mainContainer}>
           {/**TablaPedidos recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
-          {(stringResponse != "none") && <TablaPedidos props={props} data={JSON.parse(stringResponse)} rowsPerPage={10} searchValue={searchValue} setSearchValue={setSearchValue}/>}
-          
+          {(response != "none" && response.result == "ok") && 
+            <TablaPedidos 
+              props={props} 
+              data={response} 
+              rowsPerPage={10} 
+              searchValue={searchValue} 
+              setSearchValue={setSearchValue}
+            />}
         </div>
         </Layout> 
       </main>
