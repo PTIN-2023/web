@@ -26,15 +26,15 @@ export default function Home(props) {
     }, [medNameSearch])
 
     // Form values
+    const [numPages, setNumPages] = useState(1) 
     const [medName, setMedName] = useState("");
     const [pvpMax, setPvpMax] = useState(50);
     const [medForm, setMedForm] = useState(["Tablets", "Capsules", "Liquid", "Powder", "Cream", "Gel"])
     const [typeOfAdminst, setTypeOfAdminst] = useState(["Oral","Topical","Inhalation","Ophthalmic"])
     const [page, setPage] = useState(1);
     const [medsPerPage, ] = useState(10);
-
     
-    // Request
+    // Requests
     const stringRequest = usePrepareBodyRequest({
         "session_token" : userTokenCookie,
         "filter": {
@@ -52,9 +52,21 @@ export default function Home(props) {
         props.apiEndpoint + "/api/list_available_medicines",
     )
 
+    const [sumbitNumPages, ] = useSumbitAndFetchObject(
+        stringRequest,
+        props.apiEndpoint + "/api/list_available_medicines_num",
+        (res) => {
+            if (res && res.result == "ok") {
+                setNumPages(res.num)
+            }
+        }
+    )
+
     useEffect(() => {
-        if(userTokenCookie != null)
+        if(userTokenCookie != null) {
             sumbitListAvailable()
+            sumbitNumPages()
+        }
     }, [stringRequest])
     
     return (
@@ -80,7 +92,7 @@ export default function Home(props) {
                         />
                     </div>
                     <div style={{ flex: 1, marginLeft: '5px' }}>              
-                        <Tabla medicineResponse={response.medicines} page={page} setPage={setPage} />
+                        <Tabla medicineResponse={response.medicines} page={page} setPage={setPage} numPages={numPages}/>
                     </div>
                 </div>
             </Layout>

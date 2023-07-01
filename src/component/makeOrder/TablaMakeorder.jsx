@@ -3,8 +3,10 @@ import TableFooter from "../TableFooter.jsx";
 import { ShopContext } from "../../context/shopContext.jsx";
 import { Product } from "../makeOrder/products.jsx"
 import ShoppingCart from "../../component/makeOrder/shoppingCart"
+import myordersStyles from "../styles/Myorders.module.css"
+import CustomTableNavigation from '../component/common/CustomTableNavigation';
 
-const TablaMakeOrder = ( {medicineResponse, page, setPage} ) => {
+const TablaMakeOrder = ( {medicineResponse, page, setPage, numPages} ) => {
     return (
         <div className="mx-auto flex flex-col justify-start">
             <div className="bg-white">
@@ -17,10 +19,11 @@ const TablaMakeOrder = ( {medicineResponse, page, setPage} ) => {
                     </div>
                 </div>
             </div>
-            
-            <div style={{ marginLeft: 'auto', marginTop: '10px' }}>
-                <TableFooter range={[1]} slice={0} setPage={setPage} page={page} />
-            </div>
+            <CustomTableNavigation 
+                numPages={numPages} 
+                currentPage={page} 
+                setPage={setPage} 
+            />
         </div>
     );
 }
