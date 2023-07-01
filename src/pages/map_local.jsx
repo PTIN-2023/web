@@ -312,18 +312,19 @@ export default function Home(props) {
   };
 
   const [iVS, setIVS] = useState('')
-  //Es para la ventana del gestor con paquetes asociados a coches/dron, que al darle click a ese paquete te lleve al mapa con la posición de ese coche/dron
-  if(router.query.locationLatitude && router.query.locationLongitude){
-    setIVS({
-      'locationLongitude': router.query.locationLongitude,
-      'locationLatitude': router.query.locationLatitude
-    });
-  }else{
-    setIVS({
-      'locationLongitude': props.locationLongitude, 
-      'locationLatitude':  props.locationLatitude
-    });
-  }
+  useEffect(() =>{
+    if(router.query.locationLatitude && router.query.locationLongitude){
+      setIVS({
+        'locationLongitude': router.query.locationLongitude,
+        'locationLatitude': router.query.locationLatitude
+      });
+    }else{
+      setIVS({
+        'locationLongitude': props.locationLongitude, 
+        'locationLatitude':  props.locationLatitude
+      });
+    }
+  })
 
   const cornerBottomLeft = new mapboxgl.LngLat(props.locationLongitudeMin, props.locationLatitudeMin);
   const cornerTopRight = new mapboxgl.LngLat(props.locationLongitudeMax, props.locationLatitudeMax);
