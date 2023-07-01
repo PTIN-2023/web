@@ -22,7 +22,7 @@ export default function Home(props) {
     const [medNameSearch, setMedNameSearch] = useState({value:"",isCompleted:false});
 
     useEffect(() => {
-        setMedName(medNameSearch)
+        setMedName(medNameSearch.value)
     }, [medNameSearch])
 
     // Form values
