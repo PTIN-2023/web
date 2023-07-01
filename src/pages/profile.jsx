@@ -32,6 +32,7 @@ export default function Home(props) {
 
   useEffect(() => {
     if(userTokenCookie != null) {
+      //console.log("Token no null: " + userTokenCookie)
       sumbitAndFetch();
     }
   }, [userTokenCookie])

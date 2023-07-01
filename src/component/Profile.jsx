@@ -5,6 +5,8 @@ import styles from "../styles/ProfileStyles.module.css";
 import getTextCurrentLocale from '../utils/getTextCurrentLocale';
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
+import useCookie from '../hooks/useCookie';
+
 
 
 // Ver estilos en /styles/ProfileStyles.jsx
@@ -23,9 +25,7 @@ export default function UserProfile({ data, avatarImg, user_token }) {
   const [userPhone, getPhone] = useState("");
   const [userCity, getCity] = useState("");
   const [userAddres, getAddres] = useState("");
-
-
-  const userTestToken = 'John doe';
+  const [userPicture,] = useCookie('user_picture');
 
   // Metodo para gestionar los cambios de datos que haga el cliente
   /*
@@ -34,7 +34,7 @@ export default function UserProfile({ data, avatarImg, user_token }) {
         con la nueva informacion del cliente despues de ser modificada.
         De esta manera la api recibira los datos que debera actualizar dentro de la basa de datos.
   */
-  
+
   const setNewUserData = async (_user_token) => {
 
     const stringRequest = usePrepareBodyRequest({
@@ -67,31 +67,29 @@ export default function UserProfile({ data, avatarImg, user_token }) {
   */
 
   const getUserData = async (_data, _avatarImg) => {
+    getName('none');
+    getAge('0');
+    getPseudoname('none');
+    getEmail('none');
+    getPasswd('none');
+    getPhone('none');
+    getCity('none');
+    getAddres('none');
+
     try {
-      //if (_data.response.result === "ok") {
-        getName(_data.response.user_full_name);
-        //getAge(_data.response.age);
-        getAge('none');
-        getPseudoname(_data.response.user_given_name);
-        getEmail(_data.response.user_email);
-        //getPasswd(_data.response.passwd);
-        getPasswd('none');
-        getPhone(_data.response.user_phone);
-        getCity(_data.response.user_city);
-        getAddres(_data.response.user_address);
-        //getUserImg(_avatarImg);
-        getUserImg("https://img.pccomponentes.com/pcblog/1678057200000/mi-cuenta.jpg");
+      if(_data.result == "ok"){
+        getName(_data.user.user_full_name);
+        getAge(_data.user.user_age);
+        getPseudoname(_data.user.user_given_name);
+        getEmail(_data.user.user_email);
+        getPasswd(_data.user.user_passwd);
+        getPhone(_data.user.user_phone);
+        getCity(_data.user.user_city);
+        getAddres(_data.user.user_addres);
+      }
       //}
     } catch (error) {
-      getName('none');
-      getAge('0');
-      getPseudoname('none');
-      getEmail('none');
-      getPasswd('none');
-      getPhone('none');
-      getCity('none');
-      getAddres('none');
-      getUserImg("https://img.pccomponentes.com/pcblog/1678057200000/mi-cuenta.jpg");
+      console.log("ERROR");
     }
   }
 
@@ -240,7 +238,7 @@ export default function UserProfile({ data, avatarImg, user_token }) {
 
     <div className={styles.cont_main}>
       <div className={styles.cont_imagZone}>
-        <img src={userImg} alt="Profile Picture" className={styles.style_profilePic} />
+        <img src={userPicture} alt="Profile Picture" className={styles.style_profilePic} />
         <div className={styles.cont_subImagZone}>
           <h1 className={styles.text_title}>{userName}</h1>
           <h2 className={styles.text_subtitle}>{getTextCurrentLocale('user_age')}: {userAge}</h2>
@@ -300,7 +298,14 @@ export default function UserProfile({ data, avatarImg, user_token }) {
                 onChange={handlePasswdChange}
               />
             ) : (
-              <h2 className={styles.text_normalText}>{showPassword ? ({ userPasswd }) : <h2 className={styles.text_passwd}>········</h2>}</h2>
+              <div className={styles.text_normalText}>
+                {showPassword ? (
+                  <span>{userPasswd}</span>
+                ) : (
+                  <h3 className={styles.text_passwd}>········</h3>
+                )}
+              </div>
+
             )}
           </div>
           <div className={styles.cont_userZoneButton}>
