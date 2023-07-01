@@ -3,46 +3,27 @@ import Layout from "../component/Layout";
 import UserProfile from '../component/Profile';
 import { useEffect, useState } from 'react';
 import useCookie from "../hooks/useCookie";
-import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
-import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
+import useAutoSumbitAndFetchObject from "../hooks/useAutoSumbitAndFetchObject";
 import commonGetServerSideProps from '../utils/gen_common_props';
 
 export async function getServerSideProps() {
   return await commonGetServerSideProps();
 }
-
 export default function Home(props) {
-  const [userPicture,] = useCookie('user_picture');
   const [userTokenCookie,] = useCookie('user_token');
-  const [userInfo, setUserInfo] = useState(null);
 
-  const stringRequest = usePrepareBodyRequest({
-    "session_token" : userTokenCookie
-  });
-
-  const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(
-    stringRequest,
-    props.apiEndpoint + "/api/user_info"
-  );
-  
-  useEffect(() => {
-    if (stringResponse !== 'none') {
-      console.log("new response not none: " + stringResponse);
+  const [getUserData, profileInfoResponse] = useAutoSumbitAndFetchObject(
+    // request values
+    {
+      "session_token" : userTokenCookie
+    },
+    // url
+    props.apiEndpoint + "/api/user_info",
+    // precheck
+    (values) => {
+      return values.session_token != null
     }
-  }, [stringResponse]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (userTokenCookie !== null) {
-        console.log("Token: " + userTokenCookie);
-        await sumbitAndFetch();
-        console.log("-----------------------------");
-        setUserInfo(stringResponse);
-      }
-    };
-  
-    fetchData();
-  }, [userTokenCookie, sumbitAndFetch]);
+  )
   
   return (
     <>
@@ -53,13 +34,14 @@ export default function Home(props) {
       </Head>
       <main>
         <Layout props={props}>
-          {((userInfo !== null) && (userInfo !== 'none') && (userInfo.result != "error")) && (
-            <UserProfile
-              data={userInfo}
-              profileImg={userPicture}
-              client_token={userTokenCookie}
+          {(profileInfoResponse != "none" && profileInfoResponse.result == "ok") && 
+            <UserProfile 
+              data={profileInfoResponse} 
+              userToken={userTokenCookie}
+              getUserData={getUserData}
+              props={props}
             />
-          )}
+          }
         </Layout>
       </main>
     </>

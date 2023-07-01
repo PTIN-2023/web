@@ -5,27 +5,23 @@ import { useEffect } from 'react';
 import styles from "../styles/ProfileStyles.module.css";
 import getTextCurrentLocale from '../utils/getTextCurrentLocale';
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
-import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
+import useSumbitAndFetchObject from "../hooks/useSumbitAndFetchObject";
 import useCookie from '../hooks/useCookie';
-
-
 
 // Ver estilos en /styles/ProfileStyles.jsx
 
-export default function UserProfile({ data, avatarImg, user_token }) {
-
-  //console.log("user: " + userTokenCookie)
+export default function UserProfile({ data, userToken, getUserData, props }) {
 
   //  Datos del usuario
-  const [userName, getName] = useState("");
-  const [userAge, getAge] = useState("");
-  const [userPseudoname, getPseudoname] = useState("");
-  const [userEmail, getEmail] = useState("");
-  const [userPasswd, getPasswd] = useState("");
-  const [userPhone, getPhone] = useState("");
-  const [userCity, getCity] = useState("");
-  const [userAddres, getAddres] = useState("");
-  const [userPicture,] = useCookie('user_picture');
+  const [userPicture,] = useState("");
+  const [userName, setName] = useState("none");
+  const [userAge, setAge] = useState(0);
+  const [userPseudoname, setPseudoname] = useState("none");
+  const [userEmail, setEmail] = useState("none");
+  const [userPasswd, setPasswd] = useState("none");
+  const [userPhone, setPhone] = useState("none");
+  const [userCity, setCity] = useState("none");
+  const [userAddres, setAddress] = useState("none");
 
   // Metodo para gestionar los cambios de datos que haga el cliente
   /*
@@ -35,27 +31,26 @@ export default function UserProfile({ data, avatarImg, user_token }) {
         De esta manera la api recibira los datos que debera actualizar dentro de la basa de datos.
   */
 
-  const setNewUserData = async (_user_token) => {
+  const stringRequest = usePrepareBodyRequest({
+    "session_token": userToken,
+    "user_given_name": userPseudoname,
+    "user_email": userEmail,
+    "user_passwd": userPasswd,
+    "user_phone": userPhone,
+    "user_city": userPhone,
+    "user_address": userAddres
+  })
 
-    const stringRequest = usePrepareBodyRequest({
-      "session_token": _user_token,
-      "user_given_name": userPseudoname,
-      "user_email": userEmail,
-      "user_passwd": userPasswd,
-      "user_phone": userPhone,
-      "user_city": userPhone,
-      "user_address": userAddres
-    })
+  const [sumbitChange, responseChange] = useSumbitAndFetchObject(
+    stringRequest,
+    props.apiEndpoint + "/api/set_user_info"
+  )
 
-    const [stringResponse,] = useSumbitAndFetch(
-      stringRequest,
-      props.apiEndpoint + "/api/set_user_info"
-    )
-
-    if (!stringResponse.result != "ok") {
+  const setNewUserData = async () => {
+    await sumbitChange()
+    if (responseChange == "none" || !responseChange.result != "ok") {
       throw new Error('Error al guardar los cambios.');
     }
-
     console.log('Registrado con éxito');
   }
 
@@ -66,39 +61,23 @@ export default function UserProfile({ data, avatarImg, user_token }) {
         en su sitio correspondiente, en caso de que se produzca un error, se rellenaran con "none"
   */
 
-  const getUserData = async (_data, _avatarImg) => {
-    getName('none');
-    getAge('0');
-    getPseudoname('none');
-    getEmail('none');
-    getPasswd('none');
-    getPhone('none');
-    getCity('none');
-    getAddres('none');
-
+  // Metodo para controlar que se llame a la funcion solo cuando se carge la pagina o cuando se la llame
+  useEffect(() => {
     try {
-      if(_data.result == "ok"){
-        getName(_data.user_full_name);
-        getAge(_data.user_age);
-        getPseudoname(_data.user_given_name);
-        getEmail(_data.user_email);
-        getPasswd(_data.user_passwd);
-        getPhone(_data.user_phone);
-        getCity(_data.user_city);
-        getAddres(_data.user_addres);
+      if(data.result == "ok"){
+        setName(data.user_full_name);
+        setAge(data.user_age);
+        setPseudoname(data.user_given_name);
+        setEmail(data.user_email);
+        setPasswd(data.user_passwd);
+        setPhone(data.user_phone);
+        setCity(data.user_city);
+        setAddress(data.user_address);
       }
-      //}
     } catch (error) {
       console.log("ERROR");
     }
-  }
-
-  // Metodo para controlar que se llame a la funcion solo cuando se carge la pagina o cuando se la llame
-  useEffect(() => {
-    console.log("DATA: " + data)
-    getUserData(JSON.parse(data), avatarImg);
-  }, []);
-
+  })
 
   //  Handlers para los accesos rapidos
   const handlerOnClick_L = (e) => {
@@ -122,7 +101,7 @@ export default function UserProfile({ data, avatarImg, user_token }) {
   const [showPseudoInput, setShowPseudoInput] = useState(false);
 
   const handlePseudoChange = (event) => {
-    getPseudoname(event.target.value);
+    setPseudoname(event.target.value);
   };
 
   const handleEditPseudoClick = () => {
@@ -131,7 +110,7 @@ export default function UserProfile({ data, avatarImg, user_token }) {
 
   const handleConfirmPseudoClick = () => {
     setShowPseudoInput(false);
-    setNewUserData(user_token);
+    setNewUserData();
     getUserData();
   };
   /////////////////////////////////////////////////////////////////////
@@ -141,7 +120,7 @@ export default function UserProfile({ data, avatarImg, user_token }) {
   const [isEmailValid, setIsEmailValid] = useState(false)
 
   const handleEmailChange = (event) => {
-    getEmail(event.target.value);
+    setEmail(event.target.value);
     const regex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i
     console.log(event.target.value)
     setIsEmailValid(regex.test(event.target.value))
@@ -153,7 +132,7 @@ export default function UserProfile({ data, avatarImg, user_token }) {
 
   const handleConfirmEmailClick = () => {
     setShowEmailInput(false);
-    setNewUserData(user_token);
+    setNewUserData();
     getUserData();
   };
 
@@ -164,7 +143,7 @@ export default function UserProfile({ data, avatarImg, user_token }) {
   const [showPassword,] = useState(false)
 
   const handlePasswdChange = (event) => {
-    getPasswd(event.target.value);
+    setPasswd(event.target.value);
   };
 
   const handleEditPasswdClick = () => {
@@ -173,7 +152,7 @@ export default function UserProfile({ data, avatarImg, user_token }) {
 
   const handleConfirmPasswdClick = () => {
     setShowPasswdInput(false);
-    setNewUserData(user_token);
+    setNewUserData();
     getUserData();
   };
   /////////////////////////////////////////////////////////////////////
@@ -182,7 +161,7 @@ export default function UserProfile({ data, avatarImg, user_token }) {
   const [showPhoneInput, setShowPhoneInput] = useState(false);
 
   const handlePhoneChange = (event) => {
-    getPhone(event.target.value);
+    setPhone(event.target.value);
   };
 
   const handleEditPhoneClick = () => {
@@ -191,7 +170,7 @@ export default function UserProfile({ data, avatarImg, user_token }) {
 
   const handleConfirmPhoneClick = () => {
     setShowPhoneInput(false);
-    setNewUserData(user_token);
+    setNewUserData();
     getUserData();
   };
   /////////////////////////////////////////////////////////////////////
@@ -200,7 +179,7 @@ export default function UserProfile({ data, avatarImg, user_token }) {
   const [showCityInput, setShowCityInput] = useState(false);
 
   const handleCityChange = (event) => {
-    getCity(event.target.value);
+    setCity(event.target.value);
   };
 
   const handleEditCityClick = () => {
@@ -209,7 +188,7 @@ export default function UserProfile({ data, avatarImg, user_token }) {
 
   const handleConfirmCityClick = () => {
     setShowCityInput(false);
-    setNewUserData(user_token);
+    setNewUserData();
     getUserData();
   };
   /////////////////////////////////////////////////////////////////////
@@ -219,7 +198,7 @@ export default function UserProfile({ data, avatarImg, user_token }) {
 
   const handleAddresChange = (event) => {
     console.log("Clikat")
-    getAddres(event.target.value);
+    setAddress(event.target.value);
   };
 
   const handleEditAddresClick = () => {
@@ -228,7 +207,7 @@ export default function UserProfile({ data, avatarImg, user_token }) {
 
   const handleConfirmAddresClick = () => {
     setShowAddresInput(false);
-    setNewUserData(user_token);
+    setNewUserData();
     getUserData();
   };
   /////////////////////////////////////////////////////////////////////
