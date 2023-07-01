@@ -2,11 +2,9 @@ import Head from 'next/head'
 import Layout from "../component/Layout"
 import TablaPedidos from "../component/TablaPedidos"
 import myordersStyles from "../styles/Myorders.module.css"
-import {useEffect, useState} from "react";
-import * as env_config from "../utils/env_config"
+import {useState} from "react";
 import useCookie from "../hooks/useCookie";
-import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
-import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
+import useAutoSumbitAndFetchObject from "../hooks/useAutoSumbitAndFetchObject";
 import commonGetServerSideProps from '../utils/gen_common_props';
 
 export async function getServerSideProps() {
