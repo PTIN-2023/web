@@ -78,14 +78,14 @@ export default function UserProfile({ data, avatarImg, user_token }) {
 
     try {
       if(_data.result == "ok"){
-        getName(_data.user.user_full_name);
-        getAge(_data.user.user_age);
-        getPseudoname(_data.user.user_given_name);
-        getEmail(_data.user.user_email);
-        getPasswd(_data.user.user_passwd);
-        getPhone(_data.user.user_phone);
-        getCity(_data.user.user_city);
-        getAddres(_data.user.user_addres);
+        getName(_data.user_full_name);
+        getAge(_data.user_age);
+        getPseudoname(_data.user_given_name);
+        getEmail(_data.user_email);
+        getPasswd(_data.user_passwd);
+        getPhone(_data.user_phone);
+        getCity(_data.user_city);
+        getAddres(_data.user_addres);
       }
       //}
     } catch (error) {
