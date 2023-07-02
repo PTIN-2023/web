@@ -9,6 +9,7 @@ const useLogin = () => {
     const [, setUserRoleCookie] = useCookie('user_role')
     const [, setUserPictureCookie] = useCookie('user_picture')
     const [, setUserTokenCookie] = useCookie('user_token')
+    const [, setUserEmailCookie] = useCookie('user_email')
 
     // Form values
     const [email, setEmail] = useState('');
@@ -39,6 +40,7 @@ const useLogin = () => {
                 setUserRoleCookie(response.user_role)
                 setUserPictureCookie(response.user_picture)
                 setUserTokenCookie(response.user_token)
+                setUserEmailCookie(res.user_email)
 
                 setMessage('Login exitoso!');
                 setShowErrorModal(false);
