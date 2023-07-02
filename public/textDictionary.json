@@ -88,7 +88,15 @@
         "button_confirm" : "Confirmar",
         "createuser" : "Crear usuario",
         "prescripciones_paciente": "Prescripciones",
-        "vehicles" : "Vehículos"
+        "vehicles" : "Vehículos",
+        "identifier" : "Identificador",
+        "medicines" : "medicines",
+        "duration"  : "Duración (Días)",
+        "last_used" : "Ultimo Uso",
+        "renewal" : "Renovación",
+        "check_recipie" : "Ver Receta",
+        "notes" : "notas"
+
     },
     "en": {
         "language": "Language",
@@ -160,7 +168,14 @@
         "button_confirm" : "Confirm",
         "createuser" : "Create user",
         "prescripciones_paciente": "My Prescriptions",
-        "vehicles" : "Vehicles"
+        "vehicles" : "Vehicles",
+        "identifier" : "Identifier",
+        "medicines" : "Medicines",
+        "duration" : "Duration (days)",
+        "last_used" : "Last used",
+        "renewal" : "Renewal (days)",
+        "check_recipie" : "See Recepie",
+        "notes" : "Notes"
     },
     "ca": {
         "language": "Idioma",
@@ -232,6 +247,13 @@
         "button_confirm" : "Confirmar",
         "createuser" : "Crear ususari",
         "prescripciones_paciente": "Prescripcions",
-        "vehicles" : "Vehicles"
+        "vehicles" : "Vehicles",
+        "identifier" : "Identificador",
+        "medicines" : "Medicines",
+        "duration" : "Durada (Dies)",
+        "last_used" : "Ultim Ús",
+        "renewal" : "Renovació",
+        "check_recipie" : "Veure Recepta",
+        "notes" : "Notes"
     }
 }
