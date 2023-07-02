@@ -7,14 +7,14 @@ import useSumbitAndFetchObject from "../../hooks/useSumbitAndFetchObject.js";
 
 const TablaMedicinas = ({ props }) => {
     
-  const [patientName, setPatientName] = useState('');
+  const [patientEmail, setPatientEmail] = useState('');
   const [userTokenCookie, ] = useCookie('user_token');
   const [responseRecord, setResponseRecord] = useState("none");
   const [spin, setSpin] = useState(false);
 
   const stringRequestRecipe = usePrepareBodyRequest({
     "session_token" : userTokenCookie,
-    "user_full_name"  : patientName,
+    "patient_mail" : patientEmail,
   }) 
 
   const [sumbitAndFetch_record, response_record] = useSumbitAndFetchObject(
@@ -39,17 +39,17 @@ const TablaMedicinas = ({ props }) => {
     clearTimeout(timeoutId);
     setSpin(true);
     timeoutId = setTimeout(() => {
-      setPatientName(event.target.value);
+      setPatientEmail(event.target.value);
       setSpin(false);
     }, 2000); // Tiempo en milisegundos (2 segundos en este caso)
   };
   
   return (
     <>
-        <label htmlFor="patientName">Nombre Paciente:</label> <br/>
+        <label htmlFor="patientName">Patient mail:</label> <br/>
         <input type="text" id="patientName" name="patientName" onChange={handlePatientInput}/>  
         {spin && <Spinner aria-label="Default status example" style={{ marginLeft: '10px' }}/>}      
-        {patientName != '' ? (<h2><br></br>Recetas del paciente {patientName}: </h2>):<br></br>}
+        {patientEmail != '' ? (<h2><br></br>Recetas del paciente {patientEmail}: </h2>):<br></br>}
         <br></br>
         <Table hoverable={true}>
           <Table.Head>
@@ -101,14 +101,14 @@ const TablaMedicinas = ({ props }) => {
 
           </Table.Body>
         </Table> 
-        {patientName === '' ? (
+        {patientEmail === '' ? (
           responseRecord.prescriptions !== null ? (
             <div></div>
           ) : (
             <div>Introduce el nombre de un paciente</div>
           )
         ) : (
-          <div>{patientName} no tiene recetas o no existe</div>
+          <div>{patientEmail} no tiene recetas o no existe</div>
         )}
     </>
   );
