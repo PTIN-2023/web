@@ -312,11 +312,11 @@ export default function Home(props) {
           <Source id="my-store" type="geojson" data={storeGeojson}>
             <Layer {...store_layer}/>
           </Source>
-          {routeGeojson[0] && <Source id="my-route" type="geojson" data={routeGeojson[0]}>
-            <Layer {...route_layer}/>
-          </Source>}
           {pointsGeojson[0] && <Source id="my-points" type="geojson" data={pointsGeojson[0]}>
             <Layer {...points_layer}/>
+          </Source>}
+          {routeGeojson[0] && <Source id="my-route" type="geojson" data={routeGeojson[0]}>
+            <Layer {...route_layer}/>
           </Source>}
           
           {clickPopup && (

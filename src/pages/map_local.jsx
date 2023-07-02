@@ -355,14 +355,14 @@ export default function Home(props) {
             onClick={handleClick}
             maxBounds={bounds}
           >
-          {routeGeojson[0] && <Source id="my-route" type="geojson" data={routeGeojson[0]}>
-            <Layer {...route_layer}/>
-          </Source>}
           {pointsGeojson[0] && <Source id="my-points" type="geojson" data={pointsGeojson[0]}>
             <Layer {...points_layer}/>
           </Source>}
           {storeGeojson[0] && <Source id="my-store" type="geojson" data={storeGeojson[0]}>
             <Layer {...store_layer}/>
+          </Source>}
+          {routeGeojson[0] && <Source id="my-route" type="geojson" data={routeGeojson[0]}>
+            <Layer {...route_layer}/>
           </Source>}
 
           {clickPopup && (
