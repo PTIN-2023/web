@@ -14,8 +14,8 @@ export async function getServerSideProps() {
   return await commonGetServerSideProps()
 }
 
-const handleDownloadRecipie = (recipie) => {
-  createPDF("NombrePaciente", recipie.medicine_list, recipie.duration, recipie.notes, recipie.renewal, recipie.prescription_identifier, props).then((pdfBytes) => {
+const handleDownloadRecipie = (entry, props) => {
+  createPDF("NombrePaciente", entry.medicine_list, entry.duration, entry.notes, entry.renewal, entry.prescription_identifier, props).then((pdfBytes) => {
     download(pdfBytes, "Receta.pdf", "application/pdf");
   });
 }
@@ -54,7 +54,7 @@ const CustomTableRow = ({ entry, props }) => {
         <HiDownload
           size={20}
           style={{ cursor: 'pointer' }}
-          onClick={() => handleDownloadRecipie(entry)}
+          onClick={() => handleDownloadRecipie(entry, props)}
         />
       </Table.Cell>
     </Table.Row>
