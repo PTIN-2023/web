@@ -8,7 +8,7 @@ import useCookie from '../hooks/useCookie'
 
 // Ver estilos en /styles/ProfileStyles.jsx
 
-export default function UserProfile({ data, userToken, getUserData, props }) {
+export default function UserProfile({ data, userToken, getUserData, setUserToken, props }) {
 
   //  Datos del usuario
   const [userPicture, setUserPicture] = useState("");
@@ -69,17 +69,15 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
     stringRequest,
     props.apiEndpoint + "/api/set_user_info",
     (res)=>{
-      if (res == "none" || !res.result != "ok") {
-      throw new Error('Error al guardar los cambios.');
+      if (res == "none" || res.result != "ok") {
+        throw new Error('Error al guardar los cambios.');
       }
       else{
-        setUserTokenCookie(res.session_token);
+        setUserToken(res.session_token);
       }
       console.log('Cambio registrado con éxito');}
 
   )
-
-  const [, setUserTokenCookie] = useCookie('user_token')
 
   const setNewUserData = async () => {
     await sumbitChange()
