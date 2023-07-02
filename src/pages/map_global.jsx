@@ -315,7 +315,7 @@ export default function Home(props) {
           {pointsGeojson[0] && <Source id="my-points" type="geojson" data={pointsGeojson[0]}>
             <Layer {...points_layer}/>
           </Source>}
-          {routeGeojson[0] && <Source id="my-route" type="geojson" data={routeGeojson[0]}>
+          {routeGeojson[0] && <Source id="my-route" type="geojson" before="my-points" data={routeGeojson[0]}>
             <Layer {...route_layer}/>
           </Source>}
           
