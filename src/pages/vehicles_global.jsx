@@ -66,7 +66,7 @@ const CustomTable = ({ data, setShowModal, setSelectedCar, setSelectedCarHehe })
             <Table.HeadCell> Status </Table.HeadCell>
             <Table.HeadCell> Minutes of autonomy </Table.HeadCell>
             <Table.HeadCell> Last maintenance date </Table.HeadCell>
-            <Table.HeadCell>  </Table.HeadCell>
+            {/*<Table.HeadCell>  </Table.HeadCell>*/}
             <Table.HeadCell>  </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
@@ -76,7 +76,7 @@ const CustomTable = ({ data, setShowModal, setSelectedCar, setSelectedCarHehe })
               <Table.Cell className={inventoryStyles.tableCell}>{entry.status_text}</Table.Cell>
               <Table.Cell className={inventoryStyles.tableCell}>{entry.autonomy}</Table.Cell>
               <Table.Cell className={inventoryStyles.tableCell}>{entry.last_maintenance_date}</Table.Cell>
-              <Table.Cell className={inventoryStyles.tableCell}>
+              {/*<Table.Cell className={inventoryStyles.tableCell}>
                 <DropdownCommand
                   onSelectedItem={(hehe) => {
                     setSelectedCar(entry.id_car)
@@ -84,7 +84,7 @@ const CustomTable = ({ data, setShowModal, setSelectedCar, setSelectedCarHehe })
                     setShowModal(true)
                   }}
                 />
-              </Table.Cell>
+              </Table.Cell>*/}
               <Table.Cell className={inventoryStyles.tableCell}>
                 <Button
                   onClick={() => {
@@ -109,7 +109,7 @@ export default function Home(props) {
   const [selectedCar, setSelectedCar] = useState(-1)
   const [selectedCarHehe, setSelectedCarHehe] = useState(-1)
 
-  const [_, carResponse] = useAutoSumbitAndFetchObject(
+  const [sumbitStatusFullInfo, carResponse] = useAutoSumbitAndFetchObject(
     // request values
     {
       "session_token" : userTokenCookie
@@ -121,6 +121,8 @@ export default function Home(props) {
       return values.session_token != null
     }
   )
+
+  setInterval(sumbitStatusFullInfo, 5*1000)
 
   const heheRequest = usePrepareBodyRequest({
     "session_token" : userTokenCookie,
