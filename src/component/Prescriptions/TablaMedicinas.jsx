@@ -86,19 +86,10 @@ const Añadir = ({ medicamentos, handlesetMedicamentos, idMedicamento }) => {
     );
 };
 
-const TablaMedicinas = ({ data, rowsPerPage, medicamentos, handlesetMedicamentos }) => {
-    //componente que renderiza la tabla con los pedidos
-    //recibe data -> json de pedidos
-
-    const [page, setPage] = useState(1);
-    data = data.medicines;
-    
-    var { slice, range } = useTable(data, page, rowsPerPage);
-    
+const TablaMedicinas = ({ data, medicamentos, handlesetMedicamentos, numPages, page, setPage}) => {    
 
   return (
     <div>
-
         <Table hoverable={true}>
           <Table.Head>
             <Table.HeadCell>
@@ -130,8 +121,12 @@ const TablaMedicinas = ({ data, rowsPerPage, medicamentos, handlesetMedicamentos
 
           </Table.Body>
         </Table> 
-        <br/>
-        <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
+        <br/>           
+        <CustomTableNavigation 
+          numPages={numPages} 
+          currentPage={page} 
+          setPage={setPage} 
+        />
     </div>
   );
 };
