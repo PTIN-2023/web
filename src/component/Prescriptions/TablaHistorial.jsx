@@ -14,7 +14,7 @@ const TablaMedicinas = ({ props }) => {
 
   const stringRequestRecipe = usePrepareBodyRequest({
     "session_token" : userTokenCookie,
-    "patient_mail" : patientEmail,
+    "patient_email" : patientEmail,
   }) 
 
   const [sumbitAndFetch_record, response_record] = useSumbitAndFetchObject(
