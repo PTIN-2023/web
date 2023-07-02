@@ -35,6 +35,7 @@ export default function MakePrescriptions({ props }) {
     const [textareaValue, setTextareaValue] = useState('');
     const [userTokenCookie, ] = useCookie('user_token')
     const [medicamentos, setMedicamentos] = useState([]);
+    const [medicamentosForm, setMedicamentosForm] = useState([]);
     const [nombrePaciente, setNombrePaciente] = useState('');
     const [renewal, setRenewal] = useState(0);
     const [codigo, setCodigo] = useState('UNDEFINED');
@@ -43,12 +44,16 @@ export default function MakePrescriptions({ props }) {
     const stringRequestRecipe = usePrepareBodyRequest({
         "session_token" : userTokenCookie,
         "user_full_name"  : nombrePaciente,
-        "medicine_list" : medicamentos,
+        "medicine_list" : medicamentosForm,
         "duration" : inputTratamientoRef.current,
         "renewal" : renewal,
         "notes" : textareaValue,
         "prescription_identifier" : uuidv4()
-    }) 
+    })
+
+    useEffect(() => {
+        setMedicamentosForm(medicamentos.map((med) => [med.idMedicamento, med.cantidad]))
+    }, [medicamentos])
 
     const [createRecipe, ] = useSumbitAndFetch(
         stringRequestRecipe,
