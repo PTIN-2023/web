@@ -13,6 +13,7 @@ export default function LoginUserTestComponent({apiEndpoint}) {
   const [userRoleCookie, setUserRoleCookie] = useCookie('user_role')
   const [userTokenCookie, setUserTokenCookie] = useCookie('user_token')
   const [userPictureCookie, setUserPictureCookie] = useCookie('user_picture')
+  const [, setUserEmailCookie] = useCookie('user_email')
 
   // Form values
   const [userEmail, setUserEmail] = useState('');
@@ -32,6 +33,7 @@ export default function LoginUserTestComponent({apiEndpoint}) {
         setUserRoleCookie(res.user_role)
         setUserTokenCookie(res.user_token)
         setUserPictureCookie(res.user_picture)
+        setUserEmailCookie(userEmail)
         window.location.reload(false);
       }
     }
