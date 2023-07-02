@@ -168,11 +168,6 @@ const TablaCompManager = ({ data, rowsPerPage, slice, range, setPage, page }) =>
   return (
 
     <>
-        <Button 
-        onClick={() => setNewViewValueCookie(
-        {'locationLongitude': 1.730313, 
-          'locationLatitude': 41.221809
-        })}>TEST</Button>
         <Table hoverable={true}>
           <Table.Head>
             <Table.HeadCell className="!p-4">
