@@ -9,7 +9,7 @@ export async function getServerSideProps() {
   return await commonGetServerSideProps();
 }
 export default function Home(props) {
-  const [userTokenCookie,] = useCookie('user_token');
+  const [userTokenCookie, setUserTokenCookie] = useCookie('user_token');
 
   const [getUserData, profileInfoResponse] = useAutoSumbitAndFetchObject(
     // request values
@@ -38,6 +38,7 @@ export default function Home(props) {
               data={profileInfoResponse} 
               userToken={userTokenCookie}
               getUserData={getUserData}
+              setUserToken={setUserTokenCookie}
               props={props}
             />
           }
