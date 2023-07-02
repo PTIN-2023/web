@@ -14,7 +14,11 @@ export async function getServerSideProps() {
   return await commonGetServerSideProps()
 }
 
-
+const handleDownloadRecipie = (recipie) => {
+  createPDF("NombrePaciente", recipie.medicine_list, recipie.duration, recipie.notes, recipie.renewal, recipie.prescription_identifier, props).then((pdfBytes) => {
+    download(pdfBytes, "Receta.pdf", "application/pdf");
+  });
+}
 
 const CustomTableRow = ({ entry, props }) => {
   const [userTokenCookie,] = useCookie('user_token')
@@ -33,12 +37,6 @@ const CustomTableRow = ({ entry, props }) => {
     }
   )
 
-  const handleDownloadRecipie = (recipie) => {
-    createPDF("NombrePaciente", recipie.medicine_list, recipie.duration, recipie.notes, recipie.renewal, recipie.prescription_identifier, props).then((pdfBytes) => {
-      download(pdfBytes, "Receta.pdf", "application/pdf");
-    });
-  }
-
   return (
     <Table.Row className={inventoryStyles.tableRow}>
       <Table.Cell className={inventoryStyles.tableCell}>{entry.prescription_identifier}</Table.Cell>
@@ -56,7 +54,7 @@ const CustomTableRow = ({ entry, props }) => {
         <HiDownload
           size={20}
           style={{ cursor: 'pointer' }}
-          onClick={handleDownloadRecipie(entry)}
+          onClick={() => handleDownloadRecipie(entry)}
         />
       </Table.Cell>
     </Table.Row>
