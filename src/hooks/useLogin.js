@@ -40,7 +40,7 @@ const useLogin = () => {
                 setUserRoleCookie(response.user_role)
                 setUserPictureCookie(response.user_picture)
                 setUserTokenCookie(response.user_token)
-                setUserEmailCookie(res.user_email)
+                setUserEmailCookie(response.user_email)
 
                 setMessage('Login exitoso!');
                 setShowErrorModal(false);
