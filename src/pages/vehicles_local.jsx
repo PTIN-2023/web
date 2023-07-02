@@ -120,7 +120,6 @@ export default function Home(props) {
   const [showModal, setShowModal] = useState(false)
   const [selectedDrone, setSelectedDrone] = useState(-1)
   const [selectedDroneHehe, setSelectedDroneHehe] = useState(-1)
-  const [intervalSet, setIntervalSet] = useState(false)
 
   const [sumbitStatusFullInfo, droneResponse] = useAutoSumbitAndFetchObject(
     // request values
@@ -136,10 +135,8 @@ export default function Home(props) {
   )
 
   useEffect(() => {
-    if(!intervalSet) {
-      setInterval(sumbitStatusFullInfo, 5*1000)
-      setIntervalSet(true)
-    }
+    const interval = setInterval(sumbitStatusFullInfo, 5*1000)
+    return () => { clearInterval(interval); };
   })
 
   const heheRequest = usePrepareBodyRequest({

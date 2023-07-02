@@ -108,7 +108,6 @@ export default function Home(props) {
   const [showModal, setShowModal] = useState(false)
   const [selectedCar, setSelectedCar] = useState(-1)
   const [selectedCarHehe, setSelectedCarHehe] = useState(-1)
-  const [intervalSet, setIntervalSet] = useState(false)
 
   const [sumbitStatusFullInfo, carResponse] = useAutoSumbitAndFetchObject(
     // request values
@@ -124,10 +123,8 @@ export default function Home(props) {
   )
 
   useEffect(() => {
-    if(!intervalSet) {
-      setInterval(sumbitStatusFullInfo, 5*1000)
-      setIntervalSet(true)
-    }
+    const interval = setInterval(sumbitStatusFullInfo, 5*1000)
+    return () => { clearInterval(interval); };
   })
 
   const heheRequest = usePrepareBodyRequest({
