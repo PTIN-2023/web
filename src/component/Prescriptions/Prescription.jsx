@@ -38,7 +38,7 @@ export default function MakePrescriptions({ props }) {
     const [medicamentosForm, setMedicamentosForm] = useState([]);
     const [nombrePaciente, setNombrePaciente] = useState('');
     const [renewal, setRenewal] = useState(0);
-    const [codigo, setCodigo] = useState('UNDEFINED');
+    const [codigo, setCodigo] = useState(uuidv4());
 
     
     const stringRequestRecipe = usePrepareBodyRequest({
@@ -48,7 +48,7 @@ export default function MakePrescriptions({ props }) {
         "duration" : inputTratamientoRef.current,
         "renewal" : renewal,
         "notes" : textareaValue,
-        "prescription_identifier" : uuidv4()
+        "prescription_identifier" : codigo
     })
 
     useEffect(() => {
