@@ -65,22 +65,24 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
     "user_address": userAddres
   })
 
-  const [sumbitChange, responseChange] = useSumbitAndFetchObject(
+  const [sumbitChange,] = useSumbitAndFetchObject(
     stringRequest,
-    props.apiEndpoint + "/api/set_user_info"
+    props.apiEndpoint + "/api/set_user_info",
+    (res)=>{
+      if (res == "none" || !res.result != "ok") {
+      throw new Error('Error al guardar los cambios.');
+      }
+      else{
+        setUserTokenCookie(res.session_token);
+      }
+      console.log('Cambio registrado con éxito');}
+
   )
 
   const [, setUserTokenCookie] = useCookie('user_token')
 
   const setNewUserData = async () => {
     await sumbitChange()
-    if (responseChange == "none" || !responseChange.result != "ok") {
-      throw new Error('Error al guardar los cambios.');
-    }
-    else{
-      setUserTokenCookie(responseChange.session_token)
-    }
-    console.log('Cambio registrado con éxito');
   }
 
   /////////////////////////////////////////////////////////////////////
