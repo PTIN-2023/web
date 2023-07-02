@@ -4,6 +4,7 @@ import myordersStyles from "../../styles/Myorders.module.css"
 import { HiPlusCircle } from "react-icons/hi"
 import useCookie from "../../hooks/useCookie.js";
 import useAutoSumbitAndFetchObject from "../../hooks/useAutoSumbitAndFetchObject";
+import getTextCurrentLocale from "../../utils/getTextCurrentLocale";
 
 const TablaPacientes = ({ props, handleSetNombrePaciente }) => {
   const [userTokenCookie, ] = useCookie('user_token')
