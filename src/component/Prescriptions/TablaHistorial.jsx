@@ -70,9 +70,7 @@ const TablaMedicinas = ({ props }) => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            
-            {responseRecord !== "none" ? (
-              responseRecord.prescriptions !== null ? (
+            {responseRecord !== "none" && responseRecord.result !== "ok" && 
                 responseRecord.prescriptions.map((prescriptions, index) => (
                   <>
                     <Table.Row className={myordersStyles.tableRow}>
@@ -88,21 +86,11 @@ const TablaMedicinas = ({ props }) => {
                     </Table.Row>
                   </>
                 ))
-              ) : (
-                <Table.Row>
-                      <Table.Cell></Table.Cell>
-                </Table.Row>
-              )
-            ) : (
-              <Table.Row>
-                      <Table.Cell></Table.Cell>
-              </Table.Row>
-            )}
-
+            }
           </Table.Body>
         </Table> 
         {patientEmail === '' ? (
-          responseRecord.prescriptions !== null ? (
+          responseRecord.result !== "ok" ? (
             <div></div>
           ) : (
             <div>Introduce el nombre de un paciente</div>
