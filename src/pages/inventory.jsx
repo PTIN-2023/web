@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Layout from "../component/Layout"
 import getTextCurrentLocale from '../utils/getTextCurrentLocale'
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import useCookie from '../hooks/useCookie';
 import useSumbitAndFetchObject from "../hooks/useSumbitAndFetchObject";
 import commonGetServerSideProps from '../utils/gen_common_props';
