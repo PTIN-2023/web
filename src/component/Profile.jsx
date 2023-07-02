@@ -60,7 +60,7 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
     "user_email": userEmail,
     "user_password": userPasswd,
     "user_phone": userPhone,
-    "user_city": userPhone,
+    "user_city": userCity,
     "user_address": userAddres
   })
 
