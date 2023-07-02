@@ -152,7 +152,7 @@ export default function MakePrescriptions({ props }) {
                         {medicamentos.map((medicamento, indice) => (
                             <React.Fragment key={indice}>
                                 <li style={{ marginRight: '10px' }}>
-                                    {medicamento.idMedicamento}: {medicamento.cantidad}
+                                    {medicamento.medicineName} [{medicamento.idMedicamento}]: {medicamento.cantidad}
                                 </li>
                                 <br />
                             </React.Fragment>

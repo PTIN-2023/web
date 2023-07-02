@@ -6,7 +6,7 @@ import myordersStyles from "../../styles/Myorders.module.css"
 import {HiPlus, HiMinus} from "react-icons/hi"
 import CustomTableNavigation from "../common/CustomTableNavigation.jsx";
 
-const Añadir = ({ medicamentos, handlesetMedicamentos, idMedicamento }) => {
+const Añadir = ({ medicamentos, handlesetMedicamentos, idMedicamento, medicineName }) => {
     
     const buscarYActualizarMedicamentoAñadir = (idMedicamento) => {
       const medicamentoEncontrado = medicamentos.find((medicamento) => medicamento.idMedicamento === idMedicamento);
@@ -17,6 +17,7 @@ const Añadir = ({ medicamentos, handlesetMedicamentos, idMedicamento }) => {
             return {
               ...medicamento,
               cantidad: medicamento.cantidad + 1,
+              medicineName : medicineName,
             };
           }
           return medicamento;
@@ -27,6 +28,7 @@ const Añadir = ({ medicamentos, handlesetMedicamentos, idMedicamento }) => {
         const nuevoMedicamento = {
           idMedicamento: idMedicamento,
           cantidad: 1,
+          medicineName : medicineName,
         };
     
         handlesetMedicamentos([...medicamentos, nuevoMedicamento]);
@@ -114,7 +116,7 @@ const TablaMedicinas = ({ data, medicamentos, handlesetMedicamentos, numPages, p
                     {entry.medicine_name}
                   </Table.Cell>
                   <Table.Cell className={myordersStyles.tableCell}>
-                    <Añadir medicamentos={medicamentos} handlesetMedicamentos={handlesetMedicamentos} idMedicamento={entry.medicine_identifier} />
+                    <Añadir medicamentos={medicamentos} handlesetMedicamentos={handlesetMedicamentos} idMedicamento={entry.medicine_identifier} medicineName={entry.medicine_name}/>
                   </Table.Cell>
                 </Table.Row>
             </>
