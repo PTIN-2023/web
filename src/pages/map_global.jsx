@@ -316,7 +316,7 @@ export default function Home(props) {
             <Layer {...points_layer}/>
           </Source>}
           {routeGeojson[0] && <Source id="my-route" type="geojson" data={routeGeojson[0]}>
-            <Layer before="my-points" {...route_layer}/>
+            <Layer {...route_layer}/>
           </Source>}
           
           {clickPopup && (
