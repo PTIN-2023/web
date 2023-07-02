@@ -58,7 +58,7 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
     "user_full_name": userName,
     "user_given_name": userPseudoname,
     "user_email": userEmail,
-    "user_password": userPasswd,
+    "user_password": str(userPasswd),
     "user_phone": userPhone,
     "user_city": userCity,
     "user_address": userAddres
@@ -126,7 +126,7 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
   const [showPassword,] = useState(false)
 
   const handlePasswdChange = (event) => {
-    setPasswd(event.target.value);
+    setPasswd(str(event.target.value));
   };
 
   const handleEditPasswdClick = () => {
@@ -286,7 +286,7 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
             <h1 className={styles.text_importantText}>{getTextCurrentLocale('user_password')}</h1>
             {showPasswdInput ? (
               <input
-                type={'text'}
+                type={'passwd'}
                 value={userPasswd}
                 className={styles.input}
                 onChange={handlePasswdChange}
