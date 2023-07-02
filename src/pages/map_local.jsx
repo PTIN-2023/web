@@ -220,7 +220,7 @@ export default function Home(props) {
   useEffect(() => {
     const interval = setInterval(() => {
       getDroneRoute(props);
-    }, 5000);
+    }, 700);
   
     // Limpieza del intervalo cuando el componente se desmonta
     return () => {

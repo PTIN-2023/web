@@ -187,7 +187,7 @@ export default function Home(props) {
   useEffect(() => {
     const interval = setInterval(() => {
       getCarRoute(props);
-    }, 100);
+    }, 700);
   
     // Limpieza del intervalo cuando el componente se desmonta
     return () => {
