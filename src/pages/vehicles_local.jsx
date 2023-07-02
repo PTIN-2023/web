@@ -24,7 +24,7 @@ function DropdownCommand({onSelectedItem}) {
     "make_thunder",
     "make_high_temp",
     "make_low_temp",
-    "make_unkown_climate",
+    "make_unknown_climate",
     "explode_drone",
     "break_engine",
     "break_helix",

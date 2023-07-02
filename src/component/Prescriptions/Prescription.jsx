@@ -77,55 +77,60 @@ export default function MakePrescriptions({ props }) {
     
     // Llamada a Api para la lista de medicamentos 
 
-        // Form values
-        const [medName, setMedName] = useState();
-        const [pvpMin, setPvpMin] = useState(0);
-        const [pvpMax, setPvpMax] = useState(50);
-        const [prescriptionNeeded, setPrescriptionNeeded] = useState(null)
-        const [medForm, setMedForm] = useState(["Tablets","Capsules","Gel","Cream","Powder","Liquid"])
-        const [typeOfAdminst, setTypeOfAdminst] = useState(["Oral","Topical","Inhalation","Ophthalmic"])
-        const [medPage, setMedPage] = useState(1);
-        const [medsPerPage, setMedsPerPage] = useState(10);
+    // Form values
+    const [numPages, setNumPages] = useState(1) 
+    const [page, setPage] = useState(1);
+    const medsPerPage = 10;
+    
+    // Requests
+    const stringRequest = usePrepareBodyRequest({
+        "session_token" : userTokenCookie,
+        "filter": {
+            "page": page,
+            "meds_per_page": medsPerPage,
+        }
+    })
+    
+    const [sumbitListAvailable, response_med] = useSumbitAndFetchObject(
+        stringRequest,
+        props.apiEndpoint + "/api/list_available_medicines",
+    )
 
-        // Request
-        const stringRequest_med = usePrepareBodyRequest({
-            "session_token" : userTokenCookie,
-            "filter": {
-                "med_name": medName,
-                "pvp_min": pvpMin,
-                "pvp_max": pvpMax,
-                "prescription_needed": prescriptionNeeded,
-                "form": medForm,
-                "type_of_administration": typeOfAdminst,
-                "page": medPage,
-                "meds_per_page": medsPerPage,
+    const [sumbitNumPages, ] = useSumbitAndFetchObject(
+        stringRequest,
+        props.apiEndpoint + "/api/list_available_medicines_num",
+        (res) => {
+            if (res && res.result == "ok") {
+                const newNum = Math.ceil(res.num/medsPerPage)
+                setNumPages(newNum)
+                if(newNum < page)
+                    setPage(Math.max(1, newNum))
             }
-        })
-        
-        const [sumbitAndFetch_med, response_med] = useSumbitAndFetchObject(
-            stringRequest_med,
-            "/api/list_available_medicines",
-        )
-
-        useEffect(() => {
-            if(userTokenCookie != null)
-                sumbitAndFetch_med();
-        }, [medPage, stringRequest_med])
-
-        const handlesetMedicamentos = (value) => {
-            setMedicamentos(value);
         }
+    )
 
-        const handleSetNombrePaciente = (value) => {
-            setNombrePaciente(value);
+    useEffect(() => {
+        if(userTokenCookie != null) {
+            sumbitListAvailable()
+            sumbitNumPages()
         }
+    }, [stringRequest])
 
-        const handleReload = () => {
-            setNombrePaciente('');
-            setMedicamentos([]);
-            setRenewal(0);
-            handleTratamientoInput('')
-        };
+    // Cambios formulario
+    const handlesetMedicamentos = (value) => {
+        setMedicamentos(value);
+    }
+
+    const handleSetNombrePaciente = (value) => {
+        setNombrePaciente(value);
+    }
+
+    const handleReload = () => {
+        setNombrePaciente('');
+        setMedicamentos([]);
+        setRenewal(0);
+        handleTratamientoInput('')
+    };
         
 
   return (
@@ -199,7 +204,15 @@ export default function MakePrescriptions({ props }) {
                         title="Medicamentos"
                         icon={BsCapsulePill}
                     >
-                        {response_med != 'none' && <TablaMedicinas data={response_med} rowsPerPage={10} medicamentos={medicamentos} handlesetMedicamentos={handlesetMedicamentos} />}
+                        {response_med != 'none' && response_med.result == "ok" &&
+                            <TablaMedicinas 
+                                data={response_med.medicines}
+                                medicamentos={medicamentos}
+                                handlesetMedicamentos={handlesetMedicamentos} 
+                                numPages={numPages}
+                                page={page}
+                                setPage={setPage}
+                        />}
                     </Tabs.Item>
                     <Tabs.Item
                         title="Historial"

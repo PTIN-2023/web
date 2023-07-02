@@ -4,6 +4,7 @@ import TableFooter from "../TableFooter.jsx";
 import {Table, Button } from 'flowbite-react'
 import myordersStyles from "../../styles/Myorders.module.css"
 import {HiPlus, HiMinus} from "react-icons/hi"
+import CustomTableNavigation from "../common/CustomTableNavigation.jsx";
 
 const Añadir = ({ medicamentos, handlesetMedicamentos, idMedicamento }) => {
     
@@ -86,19 +87,10 @@ const Añadir = ({ medicamentos, handlesetMedicamentos, idMedicamento }) => {
     );
 };
 
-const TablaMedicinas = ({ data, rowsPerPage, medicamentos, handlesetMedicamentos }) => {
-    //componente que renderiza la tabla con los pedidos
-    //recibe data -> json de pedidos
-
-    const [page, setPage] = useState(1);
-    data = data.medicines;
-    
-    var { slice, range } = useTable(data, page, rowsPerPage);
-    
+const TablaMedicinas = ({ data, medicamentos, handlesetMedicamentos, numPages, page, setPage}) => {    
 
   return (
     <div>
-
         <Table hoverable={true}>
           <Table.Head>
             <Table.HeadCell>
@@ -112,17 +104,17 @@ const TablaMedicinas = ({ data, rowsPerPage, medicamentos, handlesetMedicamentos
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-          {data && slice.map((order) =>
+          {data && data.map((entry) =>
             <>
                 <Table.Row className={myordersStyles.tableRow}>
                   <Table.Cell className={myordersStyles.tableCell}> 
-                    {order.medicine_identifier}
+                    {entry.medicine_identifier}
                   </Table.Cell>
                   <Table.Cell className={myordersStyles.tableCell}> 
-                    {order.medicine_name}
+                    {entry.medicine_name}
                   </Table.Cell>
                   <Table.Cell className={myordersStyles.tableCell}>
-                    <Añadir medicamentos={medicamentos} handlesetMedicamentos={handlesetMedicamentos} idMedicamento={order.medicine_identifier} />
+                    <Añadir medicamentos={medicamentos} handlesetMedicamentos={handlesetMedicamentos} idMedicamento={entry.medicine_identifier} />
                   </Table.Cell>
                 </Table.Row>
             </>
@@ -130,8 +122,12 @@ const TablaMedicinas = ({ data, rowsPerPage, medicamentos, handlesetMedicamentos
 
           </Table.Body>
         </Table> 
-        <br/>
-        <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
+        <br/>           
+        <CustomTableNavigation 
+          numPages={numPages} 
+          currentPage={page} 
+          setPage={setPage} 
+        />
     </div>
   );
 };

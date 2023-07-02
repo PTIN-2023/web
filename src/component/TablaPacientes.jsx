@@ -61,16 +61,13 @@ function ModalContactar({currentTarget, currentItem, modalContactarState, setMod
 
 
 const Tablapacientess = ({ props }) => {
-
-
-  //componente que renderiza la tabla con los pacientess
-  //recibe data -> json de pacientess
-  //rowsPerPage -> cuantas filas va a renderizar
-  const [page, setPage] = useState(1);
   //const [localeCookie, ] = useCookie("locale")
   const [userTokenCookie, ] = useCookie('user_token')
+  const [userEmailCookie, ] = useCookie('user_email')
+
   const [responsePatients, setResponsePatients] = useState("none")
-  const [currentDoctor, setCurrentDoctor] = useState('doctor@gmail.com')
+
+
   //estos dos hooks de abajo sirven para mostrar o bien ocultar los modals
   const [modalContactarState, setModalContactarState] = useState(false);
   //currentTarget es un hook useRef para que no se actualice en cada render y así aseguramos que los modals no se multipliquen
@@ -78,7 +75,7 @@ const Tablapacientess = ({ props }) => {
 
   const stringRequest = usePrepareBodyRequest({
     "session_token" : userTokenCookie,
-    "doctor_email"  : currentDoctor,
+    "doctor_email"  : userEmailCookie,
   }) 
 
   const [sumbitAndFetch, stringResponse] = useSumbitAndFetch(

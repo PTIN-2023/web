@@ -286,7 +286,7 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
             <h1 className={styles.text_importantText}>{getTextCurrentLocale('user_password')}</h1>
             {showPasswdInput ? (
               <input
-                type={'text'}
+                type={'passwd'}
                 value={userPasswd}
                 className={styles.input}
                 onChange={handlePasswdChange}
