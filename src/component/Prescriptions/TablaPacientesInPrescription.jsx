@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import {Table, Button } from 'flowbite-react'
 import myordersStyles from "../../styles/Myorders.module.css"
 import { HiPlusCircle } from "react-icons/hi"
 import useCookie from "../../hooks/useCookie.js";
-import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest";
-import useSumbitAndFetch from "../../hooks/useSumbitAndFetch";
+import useAutoSumbitAndFetchObject from "../../hooks/useAutoSumbitAndFetchObject";
 
 const TablaPacientes = ({ props, handleSetNombrePaciente }) => {
   const [userTokenCookie, ] = useCookie('user_token')
