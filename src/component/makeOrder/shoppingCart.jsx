@@ -49,12 +49,18 @@ const ShoppingCart = () => {
     }
 
     const handleCheckoutClick = async () => {
-        console.log(cartItems)
+        // Calculate price to pay
+        var amount = 0
+        Object.entries(cartItems).forEach(([key, value]) => {
+            amount = amount + value.amount*value.medicine.pvp
+        })
+        console.log(amount)
+
+        // Make the order
         const medicine_identifiers = Object.entries(cartItems).map(([key, value]) =>
             [key, value.amount]
         );
 
-        // Make the order
         const makeOrderResult = await fetch('/api/make_order', {
             method: 'POST',
             headers: {
@@ -72,12 +78,6 @@ const ShoppingCart = () => {
             setOpen(false)
             return;
         }
-
-        // Calculate price to pay
-        var amount = 0
-        cartItems.map(([, value]) => {
-            amount = amount + value.amount*value.medicine.pvp
-        })
 
         // Generate paypal url
         const createPaymentResult = await fetch('/api/create_payment', {
