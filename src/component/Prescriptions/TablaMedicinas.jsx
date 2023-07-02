@@ -4,6 +4,7 @@ import TableFooter from "../TableFooter.jsx";
 import {Table, Button } from 'flowbite-react'
 import myordersStyles from "../../styles/Myorders.module.css"
 import {HiPlus, HiMinus} from "react-icons/hi"
+import CustomTableNavigation from "../common/CustomTableNavigation.jsx";
 
 const Añadir = ({ medicamentos, handlesetMedicamentos, idMedicamento }) => {
     
