@@ -90,12 +90,12 @@
         "prescripciones_paciente": "Prescripciones",
         "vehicles" : "Vehículos",
         "identifier" : "Identificador",
-        "medicines" : "medicines",
+        "medicines" : "Medicinas",
         "duration"  : "Duración (Días)",
-        "last_used" : "Ultimo Uso",
+        "last_used" : "Último Uso",
         "renewal" : "Renovación",
         "check_recipie" : "Ver Receta",
-        "notes" : "notas"
+        "notes" : "Notas"
 
     },
     "en": {
@@ -251,7 +251,7 @@
         "identifier" : "Identificador",
         "medicines" : "Medicines",
         "duration" : "Durada (Dies)",
-        "last_used" : "Ultim Ús",
+        "last_used" : "Últim ús",
         "renewal" : "Renovació",
         "check_recipie" : "Veure Recepta",
         "notes" : "Notes"
