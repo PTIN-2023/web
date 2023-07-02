@@ -1,12 +1,9 @@
-
-import React, { useState } from "react";
-import { Button } from 'flowbite-react'
-import { useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import { Button } from 'flowbite-react';
 import styles from "../styles/ProfileStyles.module.css";
 import getTextCurrentLocale from '../utils/getTextCurrentLocale';
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
 import useSumbitAndFetchObject from "../hooks/useSumbitAndFetchObject";
-import useCookie from '../hooks/useCookie';
 
 // Ver estilos en /styles/ProfileStyles.jsx
 
@@ -15,6 +12,7 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
   //  Datos del usuario
   const [userPicture, setUserPicture] = useState("");
   const [userName, setName] = useState("none");
+  //const [userAge, setAge] = useState(0);
   const [userPseudoname, setPseudoname] = useState("none");
   const [userEmail, setEmail] = useState("none");
   const [userPasswd, setPasswd] = useState("none");
@@ -47,21 +45,6 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
     }
   }, [data])
 
-  //  Handlers para los accesos rapidos
-  const handlerOnClick_L = (e) => {
-    //  Redirecciona a MYORDERS
-    window.location.href = '/myorders';
-  }
-  const handlerOnClick_C = (e) => {
-    //  Redirecciona a INVENTORY
-    window.location.href = '/inventory';
-  }
-  const handlerOnClick_R = (e) => {
-    //  Redirecciona a MAP_LOCAL
-    window.location.href = '/map_local';
-  }
-
-
    // Metodo para gestionar los cambios de datos que haga el cliente
   /*
       - Se hace una llamada con el email del usuario para poder identificarlo dentro 
@@ -72,6 +55,7 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
 
   const stringRequest = usePrepareBodyRequest({
     "session_token": userToken,
+    "user_full_name": userName,
     "user_given_name": userPseudoname,
     "user_email": userEmail,
     "user_passwd": userPasswd,
@@ -90,7 +74,7 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
     if (responseChange == "none" || !responseChange.result != "ok") {
       throw new Error('Error al guardar los cambios.');
     }
-    console.log('Registrado con éxito');
+    console.log('Cambio registrado con éxito');
   }
 
   /////////////////////////////////////////////////////////////////////
@@ -206,17 +190,52 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
   const handleConfirmAddresClick = () => {
     setShowAddresInput(false);
     setNewUserData();
-    //getUserData();
+    getUserData();
   };
   /////////////////////////////////////////////////////////////////////
 
+  /////////////////////////////////////////////////////////////////////
+  const [showNameInput, setShowNameInput] = useState(false);
+
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      // Guardar el valor del nombre de usuario
+      setName(event.target.value);
+      setShowNameInput(false);
+      setNewUserData();
+      getUserData();
+    }
+  };
+
+  const handleEditNameClick = () => {
+    setShowNameInput(true);
+  };
+
+  /////////////////////////////////////////////////////////////////////
+
+  /* <h2 className={styles.text_subtitle}>{getTextCurrentLocale('user_age')}: {userAge}</h2> */
   return (
 
     <div className={styles.cont_main}>
       <div className={styles.cont_imagZone}>
         <img src={userPicture} alt="Profile Picture" className={styles.style_profilePic} />
         <div className={styles.cont_subImagZone}>
-          <h1 className={styles.text_title}>{userName}</h1>
+        {showNameInput ? (
+              <input
+                type="userName"
+                value={userName}
+                className={styles.input}
+                onChange={handleNameChange}
+                onKeyDown={handleKeyPress}
+                title="Por favor presione ENTER para guardar"
+              />
+            ) : (
+              <h1 className={styles.text_title} onClick={handleEditNameClick} onKeyDown={handleKeyPress}>{userName}</h1>
+            )}
         </div>
       </div>
       <div className={styles.cont_userZone}>
@@ -346,47 +365,6 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
           <div className={styles.cont_userZoneButton}>
             <Button onClick={showAddrInput ? handleEditAddresClick : handleConfirmAddresClick}>
               {showAddrInput ? getTextCurrentLocale('button_confirm') : getTextCurrentLocale('button_edit')}
-            </Button>
-          </div>
-        </div>
-      </div>
-      <div className={styles.cont_quickAccess}>
-        <div className={styles.cont_subQuickAccess}>
-          <div>
-            <img src="https://img.pccomponentes.com/pcblog/1678057200000/como-comprar.jpg" alt="Profile Picture" className={styles.style_shortcutsPic} />
-          </div>
-          <div className={styles.cont_subQuickAccessText}>
-            <h1 className={styles.text_title}>{getTextCurrentLocale('myorders')}</h1>
-          </div>
-          <div>
-            <Button onClick={handlerOnClick_L}>
-              {getTextCurrentLocale('button_open')}
-            </Button>
-          </div>
-        </div>
-        <div className={styles.cont_subQuickAccess}>
-          <div>
-            <img src="https://img.pccomponentes.com/pcblog/1678057200000/pedidos.jpg" alt="Profile Picture" className={styles.style_shortcutsPic} />
-          </div>
-          <div className={styles.cont_subQuickAccessText}>
-            <h1 className={styles.text_title}>{getTextCurrentLocale('inventory')}</h1>
-          </div>
-          <div>
-            <Button onClick={handlerOnClick_C}>
-              {getTextCurrentLocale('button_open')}
-            </Button>
-          </div>
-        </div>
-        <div className={styles.cont_subQuickAccess}>
-          <div>
-            <img src="https://img.pccomponentes.com/pcblog/1678057200000/facturas.jpg" alt="Profile Picture" className={styles.style_shortcutsPic} />
-          </div>
-          <div className={styles.cont_subQuickAccessText}>
-            <h1 className={styles.text_title}>{getTextCurrentLocale('map')}</h1>
-          </div>
-          <div>
-            <Button onClick={handlerOnClick_R}>
-              {getTextCurrentLocale('button_open')}
             </Button>
           </div>
         </div>
