@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import Layout from "../component/Layout";
 import UserProfile from '../component/Profile';
-import { useEffect, useState } from 'react';
 import useCookie from "../hooks/useCookie";
 import useAutoSumbitAndFetchObject from "../hooks/useAutoSumbitAndFetchObject";
 import commonGetServerSideProps from '../utils/gen_common_props';
