@@ -103,17 +103,17 @@ const TablaMedicinas = ({ data, medicamentos, handlesetMedicamentos, numPages, p
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-          {data && slice.map((order) =>
+          {data && data.map((entry) =>
             <>
                 <Table.Row className={myordersStyles.tableRow}>
                   <Table.Cell className={myordersStyles.tableCell}> 
-                    {order.medicine_identifier}
+                    {entry.medicine_identifier}
                   </Table.Cell>
                   <Table.Cell className={myordersStyles.tableCell}> 
-                    {order.medicine_name}
+                    {entry.medicine_name}
                   </Table.Cell>
                   <Table.Cell className={myordersStyles.tableCell}>
-                    <Añadir medicamentos={medicamentos} handlesetMedicamentos={handlesetMedicamentos} idMedicamento={order.medicine_identifier} />
+                    <Añadir medicamentos={medicamentos} handlesetMedicamentos={handlesetMedicamentos} idMedicamento={entry.medicine_identifier} />
                   </Table.Cell>
                 </Table.Row>
             </>
