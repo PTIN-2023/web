@@ -70,7 +70,7 @@ const TablaMedicinas = ({ props }) => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {responseRecord !== "none" && responseRecord.result !== "ok" && 
+            {responseRecord !== "none" && responseRecord.result === "ok" && 
                 responseRecord.prescriptions.map((prescriptions, index) => (
                   <>
                     <Table.Row className={myordersStyles.tableRow}>
