@@ -64,7 +64,7 @@ export default function Home(props) {
   // State
   const rowsPerPage = 6;
   const [userTokenCookie, ] = useCookie('user_token')
-  const [page, setPage] = useState('1');  
+  const [page, setPage] = useState(1);  
   const [numPages, setNumPages] = useState(1);  
 
   // Requests
@@ -91,8 +91,10 @@ export default function Home(props) {
     // request values
     {
       "session_token" : userTokenCookie,
-      "meds_per_page" : rowsPerPage,
-      "page" : page
+      "filter" : {
+        "meds_per_page" : rowsPerPage,
+        "page" : page
+      }
     },
     // url
     props.apiEndpoint + "/api/list_inventory_meds",
