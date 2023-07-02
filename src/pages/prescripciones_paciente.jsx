@@ -15,7 +15,7 @@ export async function getServerSideProps() {
 }
 
 const handleDownloadRecipie = (entry, props) => {
-  createPDF("NombrePaciente", entry.medicine_list, entry.duration, entry.notes, entry.renewal, entry.prescription_identifier, props).then((pdfBytes) => {
+  createPDF("NombrePaciente", entry.medicine_list.map((med) => [med.idMedicamento, med.cantidad]), entry.duration, entry.notes, entry.renewal, entry.prescription_identifier, props).then((pdfBytes) => {
     download(pdfBytes, "Receta.pdf", "application/pdf");
   });
 }
