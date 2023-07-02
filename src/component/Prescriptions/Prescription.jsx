@@ -45,26 +45,27 @@ export default function MakePrescriptions({ props }) {
         "user_full_name"  : nombrePaciente,
         "medicine_list" : medicamentos,
         "duration" : inputTratamientoRef.current,
+        "renewal" : renewal,
         "notes" : textareaValue,
-        "prescription_identifier" : codigo
+        "prescription_identifier" : uuidv4()
     }) 
 
     const [createRecipe, ] = useSumbitAndFetch(
         stringRequestRecipe,
         props.apiEndpoint+"/api/doctor_create_prescription",
         (res) => {
-            if (res.result === "ok") {
+            if (res && res.result === "ok") {
                 alert("Prescripción generada con éxito")
             }else{
                 alert("Ha habido un error en el envio de la receta, por favor intentelo de nuevo.")
             }
+            setCodigo(uuidv4())
         }
     )
     
     async function handleSubmitGenerate(event) {
         event.preventDefault();
 
-        setCodigo(nombrePaciente + '-' + uuidv4())
         await createRecipe();
 
         createPDF(nombrePaciente, medicamentos, inputTratamientoRef.current, textareaValue, renewal, codigo, props).then((pdfBytes) => {
