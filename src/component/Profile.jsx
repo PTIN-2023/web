@@ -34,7 +34,7 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
         setName(data.user_full_name);
         setPseudoname(data.user_given_name);
         setEmail(data.user_email);
-        setPasswd(data.user_passwd);
+        setPasswd(data.user_password);
         setPhone(data.user_phone);
         setCity(data.user_city);
         setAddress(data.user_address);
@@ -58,9 +58,9 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
     "user_full_name": userName,
     "user_given_name": userPseudoname,
     "user_email": userEmail,
-    "user_passwd": userPasswd,
+    "user_password": userPasswd,
     "user_phone": userPhone,
-    "user_city": userPhone,
+    "user_city": userCity,
     "user_address": userAddres
   })
 
