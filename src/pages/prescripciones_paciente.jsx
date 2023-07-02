@@ -3,6 +3,7 @@ import Layout from "../component/Layout"
 import useCookie from "../hooks/useCookie";
 import useAutoSumbitAndFetchObject from "../hooks/useAutoSumbitAndFetchObject";
 import commonGetServerSideProps from '../utils/gen_common_props';
+import getTextCurrentLocale from '../utils/getTextCurrentLocale';
 import inventoryStyles from "../styles/Inventory.module.css"
 import { Table } from 'flowbite-react'
 
@@ -50,12 +51,12 @@ const CustomTable = ({ data, props }) => {
     <>
         <Table hoverable={true}>
           <Table.Head>
-            <Table.HeadCell> Identifier </Table.HeadCell>
-            <Table.HeadCell> Medicines </Table.HeadCell>
-            <Table.HeadCell> Duration (days) </Table.HeadCell>
-            <Table.HeadCell> Renewal (days) </Table.HeadCell>
-            <Table.HeadCell> Last used </Table.HeadCell>
-            <Table.HeadCell> Notes </Table.HeadCell>
+            <Table.HeadCell> {getTextCurrentLocale('identifier')} </Table.HeadCell>
+            <Table.HeadCell> {getTextCurrentLocale('medicines')} </Table.HeadCell>
+            <Table.HeadCell> {getTextCurrentLocale('duration')} </Table.HeadCell>
+            <Table.HeadCell> {getTextCurrentLocale('renewal')} </Table.HeadCell>
+            <Table.HeadCell> {getTextCurrentLocale('last_used')} </Table.HeadCell>
+            <Table.HeadCell> {getTextCurrentLocale('notes') /*{getTextCurrentLocale('check_recipie')}*/} </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
           {data.map((entry) =>

@@ -4,7 +4,6 @@ import styles from "../styles/ProfileStyles.module.css";
 import getTextCurrentLocale from '../utils/getTextCurrentLocale';
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
 import useSumbitAndFetchObject from "../hooks/useSumbitAndFetchObject";
-import useCookie from '../hooks/useCookie'
 
 // Ver estilos en /styles/ProfileStyles.jsx
 
