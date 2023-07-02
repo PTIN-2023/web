@@ -4,7 +4,7 @@ import styles from "../styles/ProfileStyles.module.css";
 import getTextCurrentLocale from '../utils/getTextCurrentLocale';
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
 import useSumbitAndFetchObject from "../hooks/useSumbitAndFetchObject";
-import { setCookie } from 'cookies-next';
+import useCookie from '../hooks/useCookie'
 
 // Ver estilos en /styles/ProfileStyles.jsx
 
@@ -70,21 +70,18 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
     props.apiEndpoint + "/api/set_user_info"
   )
 
+  const [, setUserTokenCookie] = useCookie('user_token')
+
   const setNewUserData = async () => {
     await sumbitChange()
     if (responseChange == "none" || !responseChange.result != "ok") {
       throw new Error('Error al guardar los cambios.');
     }
     else{
-      updateCookie(responseChange.session_token, options);
+      setUserTokenCookie(responseChange.session_token)
     }
     console.log('Cambio registrado con éxito');
   }
-
-  const updateCookie = (value, options) => {
-    setCookie(key, JSON.stringify(value), options);
-    setCookieValue(value);
-  };
 
   /////////////////////////////////////////////////////////////////////
   ///  Handlers para los botones de editar de cada campo del perfil ///
