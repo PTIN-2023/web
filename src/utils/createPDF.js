@@ -40,7 +40,7 @@ export default async function generatePDF(nombrePaciente, nombreMedicamento, tra
   nombreMedicamento.forEach((medicamento, index) => {
     const { idMedicamento, cantidad, medicineName } = medicamento;
     const yPosition = 600 - (index * 20);
-    page.drawText(`Nombre: ${medicineName} Id: ${idMedicamento} - Cantidad: ${cantidad}`, { x: 50, y: yPosition, size: 15, font });
+    page.drawText(`Nombre: ${medicineName} - Id: ${idMedicamento} - Cantidad: ${cantidad}`, { x: 50, y: yPosition, size: 15, font });
   });
   page.drawText(`Renewal: ${renwal}`, { x: 50, y: 590 - (nombreMedicamento.length * 20), size: 15, font });
   page.drawText(`Duracion: ${tratamiento}`, { x: 50, y: 560 - (nombreMedicamento.length * 20), size: 15, font });

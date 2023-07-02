@@ -47,11 +47,12 @@ export default function MakePrescriptions({ props }) {
         "notes" : textareaValue,
     }) 
 
-    const [createRecipe, stringResponse] = useSumbitAndFetch(
+    const [createRecipe, ] = useSumbitAndFetch(
         stringRequestRecipe,
         props.apiEndpoint+"/api/doctor_create_prescription",
         (res) => {
             if (res.result === "ok") {
+                alert("Prescripción generada con éxito")
             }else{
                 alert("Ha habido un error en el envio de la receta, por favor intentelo de nuevo.")
             }
@@ -61,12 +62,11 @@ export default function MakePrescriptions({ props }) {
     async function handleSubmitGenerate(event) {
         event.preventDefault();
 
-        //await createRecipe();
+        await createRecipe();
 
         createPDF(nombrePaciente, medicamentos, inputTratamientoRef.current, textareaValue, renewal, codigo, props).then((pdfBytes) => {
             download(pdfBytes, "Receta.pdf", "application/pdf");
         });
-
     }
 
     //Input Handlers
