@@ -13,9 +13,8 @@ import useCookie from '../hooks/useCookie';
 export default function UserProfile({ data, userToken, getUserData, props }) {
 
   //  Datos del usuario
-  const [userPicture,] = useState("");
+  const [userPicture, setUserPicture] = useState("");
   const [userName, setName] = useState("none");
-  const [userAge, setAge] = useState(0);
   const [userPseudoname, setPseudoname] = useState("none");
   const [userEmail, setEmail] = useState("none");
   const [userPasswd, setPasswd] = useState("none");
@@ -35,13 +34,13 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
     try {
       if(data.result == "ok"){
         setName(data.user_full_name);
-        setAge(data.user_age);
         setPseudoname(data.user_given_name);
         setEmail(data.user_email);
         setPasswd(data.user_passwd);
         setPhone(data.user_phone);
         setCity(data.user_city);
         setAddress(data.user_address);
+        setUserPicture(data.user_picture)
       }
     } catch (error) {
       console.log("ERROR");
@@ -218,7 +217,6 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
         <img src={userPicture} alt="Profile Picture" className={styles.style_profilePic} />
         <div className={styles.cont_subImagZone}>
           <h1 className={styles.text_title}>{userName}</h1>
-          <h2 className={styles.text_subtitle}>{getTextCurrentLocale('user_age')}: {userAge}</h2>
         </div>
       </div>
       <div className={styles.cont_userZone}>
@@ -384,7 +382,7 @@ export default function UserProfile({ data, userToken, getUserData, props }) {
             <img src="https://img.pccomponentes.com/pcblog/1678057200000/facturas.jpg" alt="Profile Picture" className={styles.style_shortcutsPic} />
           </div>
           <div className={styles.cont_subQuickAccessText}>
-            <h1 className={styles.text_title}>{getTextCurrentLocale('map_local')}</h1>
+            <h1 className={styles.text_title}>{getTextCurrentLocale('map')}</h1>
           </div>
           <div>
             <Button onClick={handlerOnClick_R}>
