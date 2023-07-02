@@ -179,8 +179,10 @@ export default function Home(props) {
   }
 
   useEffect(() => {
-    getStoreCoordinates(props);
-  }, []);
+    if (userTokenCookie != null)
+      getStoreCoordinates(props);
+      getCarRoute(props);
+  }, [userTokenCookie]);
 
   useEffect(() => {
     const interval = setInterval(() => {

@@ -212,8 +212,10 @@ export default function Home(props) {
   }
 
   useEffect(() => {
-    getStoreCoordinates(props);
-  }, []);
+    if (userTokenCookie != null)
+      getStoreCoordinates(props);
+      getDroneRoute(props);
+  }, [userTokenCookie]);
 
   useEffect(() => {
     const interval = setInterval(() => {
