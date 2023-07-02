@@ -273,12 +273,14 @@ export default function Home(props) {
     if (router.query.locationLatitude && router.query.locationLongitude) {
       setIVS({
         'locationLongitude': router.query.locationLongitude,
-        'locationLatitude': router.query.locationLatitude
+        'locationLatitude': router.query.locationLatitude,
+        'zoom' : 22
       });
     } else {
       setIVS({
         'locationLongitude': props.locationLongitude,
-        'locationLatitude': props.locationLatitude
+        'locationLatitude': props.locationLatitude,
+        'zoom' : 15
       });
     }
   }, [])
@@ -298,7 +300,7 @@ export default function Home(props) {
             initialViewState={{
               longitude: iVS.locationLongitude,
               latitude: iVS.locationLatitude,
-              zoom: 15
+              zoom: iVS.zoom
             }}
             mapboxAccessToken={props.mapBoxToken}
             style={{width: "100%", height: "100%" }}
