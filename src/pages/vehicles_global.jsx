@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Layout from "../component/Layout"
 import getTextCurrentLocale from '../utils/getTextCurrentLocale'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import useCookie from '../hooks/useCookie';
 import useAutoSumbitAndFetchObject from "../hooks/useAutoSumbitAndFetchObject";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetchObject";
@@ -122,7 +122,9 @@ export default function Home(props) {
     }
   )
 
-  setInterval(sumbitStatusFullInfo, 5*1000)
+  useEffect(() => {
+    setInterval(sumbitStatusFullInfo, 5*1000)
+  })
 
   const heheRequest = usePrepareBodyRequest({
     "session_token" : userTokenCookie,
