@@ -16,8 +16,7 @@ const Añadir = ({ medicamentos, handlesetMedicamentos, idMedicamento, medicineN
           if (medicamento === medicamentoEncontrado) {
             return {
               ...medicamento,
-              cantidad: medicamento.cantidad + 1,
-              medicineName : medicineName,
+              cantidad: medicamento.cantidad + 1
             };
           }
           return medicamento;
