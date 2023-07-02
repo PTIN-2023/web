@@ -3,11 +3,12 @@ import Layout from "../component/Layout"
 import getTextCurrentLocale from '../utils/getTextCurrentLocale'
 import {useState} from "react";
 import useCookie from '../hooks/useCookie';
-import useAutoSumbitAndFetchObject from "../hooks/useAutoSumbitAndFetchObject";
+import useSumbitAndFetchObject from "../hooks/useSumbitAndFetchObject";
 import commonGetServerSideProps from '../utils/gen_common_props';
 import inventoryStyles from "../styles/Inventory.module.css"
 import CustomTableNavigation from '../component/common/CustomTableNavigation';
 import { Table } from 'flowbite-react'
+import usePrepareBodyRequest from '../hooks/usePrepareBodyRequest';
 
 export async function getServerSideProps() {
   return await commonGetServerSideProps()
@@ -68,18 +69,22 @@ export default function Home(props) {
   const [numPages, setNumPages] = useState(1);  
 
   // Requests
-  useAutoSumbitAndFetchObject(
-    // request values
-    {
-      "session_token" : userTokenCookie,
-    },
-    // url
+  const stringRequest = usePrepareBodyRequest({
+    "session_token" : userTokenCookie,
+    "filter" : {
+      "meds_per_page" : rowsPerPage,
+      "page" : page
+    }
+  })
+  
+  const [sumbitListAvailable, inventoryResponse] = useSumbitAndFetchObject(
+    stringRequest,
+    props.apiEndpoint + "/api/list_inventory_meds",
+  )
+
+  const [sumbitNumPages, ] = useSumbitAndFetchObject(
+    stringRequest,
     props.apiEndpoint + "/api/list_inventory_meds_num",
-    // precheck
-    (values) => {
-      return values.session_token != null
-    },
-    // Evaluate response
     (res) => {
       if(res && res.result == 'ok') {
         setNumPages(Math.ceil(res.num/rowsPerPage))
@@ -87,22 +92,12 @@ export default function Home(props) {
     }
   )
 
-  const [_, inventoryResponse] = useAutoSumbitAndFetchObject(
-    // request values
-    {
-      "session_token" : userTokenCookie,
-      "filter" : {
-        "meds_per_page" : rowsPerPage,
-        "page" : page
+  useEffect(() => {
+      if(userTokenCookie != null) {
+          sumbitListAvailable()
+          sumbitNumPages()
       }
-    },
-    // url
-    props.apiEndpoint + "/api/list_inventory_meds",
-    // precheck
-    (values) => {
-      return values.session_token != null
-    }
-  )
+  }, [stringRequest])
 
   // Html
   return (<>
