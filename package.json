@@ -41,7 +41,8 @@
     "recharts": "^2.6.2",
     "styled-components": "^5.3.9",
     "use-local-storage-state": "^18.3.2",
-    "use-session-storage-state": "^18.1.1"
+    "use-session-storage-state": "^18.1.1",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",

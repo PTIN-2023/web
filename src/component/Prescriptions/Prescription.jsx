@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button, Tabs } from 'flowbite-react';
 import download from 'downloadjs';
+import {v4 as uuidv4} from 'uuid';
 
 //Utils
 import createPDF from '../../utils/createPDF';
@@ -36,7 +37,7 @@ export default function MakePrescriptions({ props }) {
     const [medicamentos, setMedicamentos] = useState([]);
     const [nombrePaciente, setNombrePaciente] = useState('');
     const [renewal, setRenewal] = useState(0);
-    const [codigo, setCodigo] = useState('123');
+    const [codigo, setCodigo] = useState('UNDEFINED');
 
     
     const stringRequestRecipe = usePrepareBodyRequest({
@@ -45,6 +46,7 @@ export default function MakePrescriptions({ props }) {
         "medicine_list" : medicamentos,
         "duration" : inputTratamientoRef.current,
         "notes" : textareaValue,
+        "prescription_identifier" : codigo
     }) 
 
     const [createRecipe, ] = useSumbitAndFetch(
@@ -62,6 +64,7 @@ export default function MakePrescriptions({ props }) {
     async function handleSubmitGenerate(event) {
         event.preventDefault();
 
+        setCodigo(nombrePaciente + '-' + uuidv4())
         await createRecipe();
 
         createPDF(nombrePaciente, medicamentos, inputTratamientoRef.current, textareaValue, renewal, codigo, props).then((pdfBytes) => {
