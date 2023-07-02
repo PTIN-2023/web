@@ -121,7 +121,7 @@ export default function Home(props) {
   const [selectedDrone, setSelectedDrone] = useState(-1)
   const [selectedDroneHehe, setSelectedDroneHehe] = useState(-1)
 
-  const [_, droneResponse] = useAutoSumbitAndFetchObject(
+  const [sumbitStatusFullInfo, droneResponse] = useAutoSumbitAndFetchObject(
     // request values
     {
       "session_token" : userTokenCookie
@@ -133,6 +133,10 @@ export default function Home(props) {
       return values.session_token != null
     }
   )
+
+  useEffect(() => {
+    setInterval(sumbitStatusFullInfo, 5*1000)
+  })
 
   const heheRequest = usePrepareBodyRequest({
     "session_token" : userTokenCookie,
