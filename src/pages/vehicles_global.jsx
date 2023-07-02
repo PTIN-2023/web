@@ -20,7 +20,8 @@ function DropdownCommand({onSelectedItem}) {
   const hehes = [
     "set_battery_10",
     "set_battery_5",
-    "breakdown"
+    "breakdown",
+    "uncommunicate"
   ]
 
   return (
