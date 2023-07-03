@@ -77,7 +77,8 @@ const TablaMedicinas = ({ props }) => {
                       <Table.Cell className={myordersStyles.tableCell}>{index + 1}</Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>
                         {prescriptions.medicine_list.map((medicines) =>
-                          {medicines.identifier}
+                          {medicines[0], medicines[1]}
+                          
                         )}
                       </Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>{prescriptions.duration}</Table.Cell>
