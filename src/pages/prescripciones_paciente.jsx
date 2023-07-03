@@ -14,7 +14,7 @@ export async function getServerSideProps() {
   return await commonGetServerSideProps()
 }
 
-const handleDownloadRecipie = (response, patientName, entry, props) => {
+const handleDownloadRecipie = (response, patientName, entry, props, localeCookie) => {
   const medicineList = response.medicine_list.map((med) => ({
     idMedicamento: med.medicine_identifier,
     cantidad: med.quantitat,
