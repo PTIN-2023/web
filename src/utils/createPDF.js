@@ -10,7 +10,7 @@ export default async function generatePDF(nombrePaciente, nombreMedicamento, tra
   
 }
 
-async function generatePDF_es (nombrePaciente, nombreMedicamento, tratamiento, notas, renwal, codigo, props) {
+export async function generatePDF_es (nombrePaciente, nombreMedicamento, tratamiento, notas, renwal, codigo, props) {
 
   const doc = await PDFDocument.create();
   const page = doc.addPage();
@@ -75,7 +75,7 @@ async function generatePDF_es (nombrePaciente, nombreMedicamento, tratamiento, n
   return pdfBytes;
 }
 
-async function generatePDF_en (nombrePaciente, nombreMedicamento, tratamiento, notas, renwal, codigo, props) {
+export async function generatePDF_en (nombrePaciente, nombreMedicamento, tratamiento, notas, renwal, codigo, props) {
 
   const doc = await PDFDocument.create();
   const page = doc.addPage();
@@ -140,7 +140,7 @@ async function generatePDF_en (nombrePaciente, nombreMedicamento, tratamiento, n
   return pdfBytes;
 }
 
-async function generatePDF_cat (nombrePaciente, nombreMedicamento, tratamiento, notas, renwal, codigo, props) {
+export async function generatePDF_cat (nombrePaciente, nombreMedicamento, tratamiento, notas, renwal, codigo, props) {
 
   const doc = await PDFDocument.create();
   const page = doc.addPage();

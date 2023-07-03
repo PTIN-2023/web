@@ -5,7 +5,7 @@ import useAutoSumbitAndFetchObject from "../hooks/useAutoSumbitAndFetchObject";
 import { HiDownload } from "react-icons/hi"
 import commonGetServerSideProps from '../utils/gen_common_props';
 import getTextCurrentLocale from '../utils/getTextCurrentLocale';
-import {generatePDF_es, generatePDF_en, generatePDF_ca} from '../utils/createPDF';
+import createPDF from '../utils/createPDF';
 import download from 'downloadjs';
 import inventoryStyles from "../styles/Inventory.module.css"
 import { Table, Dropdown } from 'flowbite-react'
