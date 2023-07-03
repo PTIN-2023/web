@@ -105,10 +105,9 @@ const TablaMedicinas = ({ data, medicamentos, handlesetMedicamentos, numPages, p
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-          {data && data.map((entry) =>
-            <>
-                <Table.Row className={myordersStyles.tableRow}>
-                  <Table.Cell className={myordersStyles.tableCell}> 
+            {data && data.map((entry) =>
+                <Table.Row className={myordersStyles.tableRow} key={entry.medicine_identifier} >
+                  <Table.Cell className={myordersStyles.tableCell} > 
                     {entry.medicine_identifier}
                   </Table.Cell>
                   <Table.Cell className={myordersStyles.tableCell}> 
@@ -118,9 +117,7 @@ const TablaMedicinas = ({ data, medicamentos, handlesetMedicamentos, numPages, p
                     <Añadir medicamentos={medicamentos} handlesetMedicamentos={handlesetMedicamentos} idMedicamento={entry.medicine_identifier} medicineName={entry.medicine_name}/>
                   </Table.Cell>
                 </Table.Row>
-            </>
-          )}
-
+            )}
           </Table.Body>
         </Table> 
         <br/>           

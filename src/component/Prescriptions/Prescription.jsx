@@ -31,21 +31,21 @@ import { HiMinus } from 'react-icons/hi';
 
 export default function MakePrescriptions({ props }) {
 
-    const inputTratamientoRef = useRef("");
     const [textareaValue, setTextareaValue] = useState('');
     const [userTokenCookie, ] = useCookie('user_token')
     const [medicamentos, setMedicamentos] = useState([]);
     const [medicamentosForm, setMedicamentosForm] = useState([]);
     const [nombrePaciente, setNombrePaciente] = useState('');
-    const [renewal, setRenewal] = useState(0);
+    const [renewal, setRenewal] = useState('');
     const [codigo, setCodigo] = useState(uuidv4());
+    const [duracion, setDuracion] = useState('')
 
     
     const stringRequestRecipe = usePrepareBodyRequest({
         "session_token" : userTokenCookie,
         "user_full_name"  : nombrePaciente,
         "medicine_list" : medicamentosForm,
-        "duration" : inputTratamientoRef.current,
+        "duration" : duracion,
         "renewal" : renewal,
         "notes" : textareaValue,
         "prescription_identifier" : codigo
@@ -73,16 +73,10 @@ export default function MakePrescriptions({ props }) {
 
         await createRecipe();
 
-        createPDF(nombrePaciente, medicamentos, inputTratamientoRef.current, textareaValue, renewal, codigo, props).then((pdfBytes) => {
+        createPDF(nombrePaciente, medicamentos, duracion, textareaValue, renewal, codigo, props).then((pdfBytes) => {
             download(pdfBytes, "Receta.pdf", "application/pdf");
         });
     }
-
-    //Input Handlers
-    
-    const handleTratamientoInput = (event) => {
-        inputTratamientoRef.current= event.target.value;
-    };
     
     // Llamada a Api para la lista de medicamentos 
 
@@ -137,8 +131,9 @@ export default function MakePrescriptions({ props }) {
     const handleReload = () => {
         setNombrePaciente('');
         setMedicamentos([]);
-        setRenewal(0);
-        handleTratamientoInput('')
+        setRenewal('');
+        setDuracion('')
+        setTextareaValue('')
     };
         
 
@@ -151,7 +146,13 @@ export default function MakePrescriptions({ props }) {
                     {/* Nombre Paciente */}
                     <label htmlFor="patientName" className={styles.label}>Nombre Paciente:</label>
                     <div className={styles['input-container']}>
-                        <input type="text" disabled id="patientName" name="patientName" value={nombrePaciente} className={styles.inputNombre} />
+                        <input 
+                            type="text" 
+                            disabled id="patientName" 
+                            name="patientName" 
+                            value={nombrePaciente} 
+                            className={styles.inputNombre} 
+                        />
                         <Button style={{ marginLeft: '10px' }} color='failure' onClick={() => handleSetNombrePaciente('')} pill><HiMinus/></Button>
                     </div>
 
@@ -171,20 +172,50 @@ export default function MakePrescriptions({ props }) {
                     {/* Duracion Tratamiento */}
                     <label htmlFor="treatmentDuration" className={styles.label}>Duración tratamiento:</label>
                     <div className={styles['input-container']}>
-                        <input type="text" required id="treatmentDuration" name="treatmentDuration" className={styles.inputTratamiento} onChange={handleTratamientoInput}/>
+                        <input 
+                            type="text" 
+                            required id="treatmentDuration" 
+                            name="treatmentDuration" 
+                            value={duracion}
+                            className={styles.inputTratamiento} 
+                            onChange={(e) =>
+                                setDuracion((v) => (e.target.validity.valid ? e.target.value : v))
+                            }
+                            pattern="[0-9]*"  // Expresión regular que permite solo números
+                            inputMode="numeric"  // Configura el teclado en dispositivos móviles para números
+                        />
                     </div>
 
                     {/* Duracion Tratamiento */}
                     <label htmlFor="renewal" className={styles.label}>Renovación:</label>
                     <div className={styles['input-container']}>
-                        <input type="text" required id="renewal" name="renewal" value={renewal} className={styles.inputTratamiento} onChange={(event) => setRenewal(event.target.value)}/>
+                    <input
+                        type="text"
+                        required
+                        id="renewal"
+                        name="renewal"
+                        value={renewal}
+                        className={styles.inputTratamiento}
+                        onChange={(e) =>
+                            setRenewal((v) => (e.target.validity.valid ? e.target.value : v))
+                        }
+                        pattern="[0-9]*"  // Expresión regular que permite solo números
+                        inputMode="numeric"  // Configura el teclado en dispositivos móviles para números
+                    />
                     </div>
                 
                     {/* Notas */}
                     <label htmlFor="notes" className={styles.label}>Notas:</label>
                     <div className={styles['textarea-group']}>
                         <div className={styles['input-container']}>
-                            <textarea id="notes" name="notes" className={styles.textarea} onChange={(event) => setTextareaValue(event.target.value)} maxLength={1000 - (medicamentos.length * 62)}/>                            
+                            <textarea 
+                                id="notes" 
+                                value={textareaValue} 
+                                name="notes" 
+                                className={styles.textarea} 
+                                onChange={(event) => setTextareaValue(event.target.value)} 
+                                maxLength={1000 - (medicamentos.length * 62)}
+                            />                            
                         </div>
                         <p>Caracteres restantes: {1000 - textareaValue.length - (medicamentos.length * 62)}</p>
                     </div>
@@ -221,7 +252,8 @@ export default function MakePrescriptions({ props }) {
                                 numPages={numPages}
                                 page={page}
                                 setPage={setPage}
-                        />}
+                            />
+                        }
                     </Tabs.Item>
                     <Tabs.Item
                         title="Historial"

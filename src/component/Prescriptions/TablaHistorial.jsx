@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {Table, Spinner, Dropdown } from 'flowbite-react'
+import {Table, Spinner, Dropdown, Tooltip } from 'flowbite-react'
 import myordersStyles from "../../styles/Myorders.module.css"
 import useCookie from "../../hooks/useCookie.js";
 import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest.js";
 import useSumbitAndFetchObject from "../../hooks/useSumbitAndFetchObject.js";
+import { HiOutlineInformationCircle } from "react-icons/hi";
 
 const TablaMedicinas = ({ props }) => {
     
@@ -58,6 +59,9 @@ const TablaMedicinas = ({ props }) => {
             </Table.HeadCell>
             <Table.HeadCell>
               Lista de medicamentos
+              <Tooltip content="Formato - ID : Cantidad">
+                <HiOutlineInformationCircle/>
+              </Tooltip>
             </Table.HeadCell>
             <Table.HeadCell>
               Duracion
@@ -75,7 +79,7 @@ const TablaMedicinas = ({ props }) => {
           <Table.Body className="divide-y">
             {responseRecord !== "none" && responseRecord.result === "ok" && 
                 responseRecord.prescriptions.map((prescriptions, index) => (
-                  <>
+                  <React.Fragment key={index}>
                     <Table.Row className={myordersStyles.tableRow}>
                       <Table.Cell className={myordersStyles.tableCell}>{index + 1}</Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>
@@ -97,7 +101,7 @@ const TablaMedicinas = ({ props }) => {
                       </Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>{prescriptions.last_used}</Table.Cell>
                     </Table.Row>
-                  </>
+                  </React.Fragment>
                 ))
             }
           </Table.Body>
