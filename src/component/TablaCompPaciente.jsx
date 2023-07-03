@@ -69,7 +69,7 @@ function ModalDetalles({userTokenCookie, apiEndpoint, currentTarget, currentItem
             <div className="space-y-6">
               <div>
                 <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-                  {getText("modal_order_tracker",localeCookie)}
+                  {getText("modal_order_tracker",localeCookie)} -  {currentItem.location_end}
                 </h5>
                 <div className="grid grid-cols-3 leading-relaxed text-gray-500 dark:text-gray-400">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" 

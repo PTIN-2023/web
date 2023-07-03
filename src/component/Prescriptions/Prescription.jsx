@@ -6,13 +6,12 @@ import {v4 as uuidv4} from 'uuid';
 
 //Utils
 import createPDF from '../../utils/createPDF';
-import generateQR from '../../utils/createPDF';
 
 //Styles
 import styles from '../../styles/Prescriptions.module.css';
 
 //Icons
-import { HiUserGroup, HiPaperAirplane, HiDownload, HiClock } from "react-icons/hi";
+import { HiUserGroup, HiClock } from "react-icons/hi";
 import { BsCapsulePill } from "react-icons/bs";
 
 //Components
@@ -29,23 +28,26 @@ import useSumbitAndFetch from '../../hooks/useSumbitAndFetch.js';
 //Icons
 import { HiMinus } from 'react-icons/hi';
 
+//Text
+import getTextCurrentLocale from "../../utils/getTextCurrentLocale";
+
 export default function MakePrescriptions({ props }) {
 
-    const inputTratamientoRef = useRef("");
     const [textareaValue, setTextareaValue] = useState('');
     const [userTokenCookie, ] = useCookie('user_token')
     const [medicamentos, setMedicamentos] = useState([]);
     const [medicamentosForm, setMedicamentosForm] = useState([]);
     const [nombrePaciente, setNombrePaciente] = useState('');
-    const [renewal, setRenewal] = useState(0);
+    const [renewal, setRenewal] = useState('');
     const [codigo, setCodigo] = useState(uuidv4());
+    const [duracion, setDuracion] = useState('')
 
     
     const stringRequestRecipe = usePrepareBodyRequest({
         "session_token" : userTokenCookie,
         "user_full_name"  : nombrePaciente,
         "medicine_list" : medicamentosForm,
-        "duration" : inputTratamientoRef.current,
+        "duration" : duracion,
         "renewal" : renewal,
         "notes" : textareaValue,
         "prescription_identifier" : codigo
@@ -60,9 +62,9 @@ export default function MakePrescriptions({ props }) {
         props.apiEndpoint+"/api/doctor_create_prescription",
         (res) => {
             if (res && res.result === "ok") {
-                alert("Prescripción generada con éxito")
+                alert(getTextCurrentLocale("exit_prescription"))
             }else{
-                alert("Ha habido un error en el envio de la receta, por favor intentelo de nuevo.")
+                alert(getTextCurrentLocale("error_prescription"))
             }
             setCodigo(uuidv4())
         }
@@ -73,16 +75,10 @@ export default function MakePrescriptions({ props }) {
 
         await createRecipe();
 
-        createPDF(nombrePaciente, medicamentos, inputTratamientoRef.current, textareaValue, renewal, codigo, props).then((pdfBytes) => {
-            download(pdfBytes, "Receta.pdf", "application/pdf");
+        createPDF(nombrePaciente, medicamentos, duracion, textareaValue, renewal, codigo, props).then((pdfBytes) => {
+            download(pdfBytes, getTextCurrentLocale("pdf_name") + nombrePaciente + ".pdf", "application/pdf");
         });
     }
-
-    //Input Handlers
-    
-    const handleTratamientoInput = (event) => {
-        inputTratamientoRef.current= event.target.value;
-    };
     
     // Llamada a Api para la lista de medicamentos 
 
@@ -137,26 +133,33 @@ export default function MakePrescriptions({ props }) {
     const handleReload = () => {
         setNombrePaciente('');
         setMedicamentos([]);
-        setRenewal(0);
-        handleTratamientoInput('')
+        setRenewal('');
+        setDuracion('')
+        setTextareaValue('')
     };
         
 
   return (
     <div className={styles.cont_main}>
         <div className={styles['recipe-form']}>
-            <p className={styles['titulo']}>Nueva Receta</p>
+            <p className={styles['titulo']}>{getTextCurrentLocale("new_prescription")}</p>
             <form onSubmit={handleSubmitGenerate}>
                 <div className={styles['input-group']}>
                     {/* Nombre Paciente */}
-                    <label htmlFor="patientName" className={styles.label}>Nombre Paciente:</label>
+                    <label htmlFor="patientName" className={styles.label}>{getTextCurrentLocale("user_full_name")}:</label>
                     <div className={styles['input-container']}>
-                        <input type="text" disabled id="patientName" name="patientName" value={nombrePaciente} className={styles.inputNombre} />
+                        <input 
+                            type="text" 
+                            disabled id="patientName" 
+                            name="patientName" 
+                            value={nombrePaciente} 
+                            className={styles.inputNombre} 
+                        />
                         <Button style={{ marginLeft: '10px' }} color='failure' onClick={() => handleSetNombrePaciente('')} pill><HiMinus/></Button>
                     </div>
 
                     {/* Nombre Medicmento */}
-                    <label htmlFor="medicationName" className={styles.label}>Medicamentos:</label>
+                    <label htmlFor="medicationName" className={styles.label}>{getTextCurrentLocale("medicines")}:</label>
                     <div className={styles['medicamentos-container']}>
                         {medicamentos.map((medicamento, indice) => (
                             <React.Fragment key={indice}>
@@ -169,31 +172,61 @@ export default function MakePrescriptions({ props }) {
                     </div>
 
                     {/* Duracion Tratamiento */}
-                    <label htmlFor="treatmentDuration" className={styles.label}>Duración tratamiento:</label>
+                    <label htmlFor="treatmentDuration" className={styles.label}>{getTextCurrentLocale("duration")}:</label>
                     <div className={styles['input-container']}>
-                        <input type="text" required id="treatmentDuration" name="treatmentDuration" className={styles.inputTratamiento} onChange={handleTratamientoInput}/>
+                        <input 
+                            type="text" 
+                            required id="treatmentDuration" 
+                            name="treatmentDuration" 
+                            value={duracion}
+                            className={styles.inputTratamiento} 
+                            onChange={(e) =>
+                                setDuracion((v) => (e.target.validity.valid ? e.target.value : v))
+                            }
+                            pattern="[0-9]*"  // Expresión regular que permite solo números
+                            inputMode="numeric"  // Configura el teclado en dispositivos móviles para números
+                        />
                     </div>
 
                     {/* Duracion Tratamiento */}
-                    <label htmlFor="renewal" className={styles.label}>Renovación:</label>
+                    <label htmlFor="renewal" className={styles.label}>{getTextCurrentLocale("renewal")}:</label>
                     <div className={styles['input-container']}>
-                        <input type="text" required id="renewal" name="renewal" value={renewal} className={styles.inputTratamiento} onChange={(event) => setRenewal(event.target.value)}/>
+                    <input
+                        type="text"
+                        required
+                        id="renewal"
+                        name="renewal"
+                        value={renewal}
+                        className={styles.inputTratamiento}
+                        onChange={(e) =>
+                            setRenewal((v) => (e.target.validity.valid ? e.target.value : v))
+                        }
+                        pattern="[0-9]*"  // Expresión regular que permite solo números
+                        inputMode="numeric"  // Configura el teclado en dispositivos móviles para números
+                    />
                     </div>
                 
                     {/* Notas */}
-                    <label htmlFor="notes" className={styles.label}>Notas:</label>
+                    <label htmlFor="notes" className={styles.label}>{getTextCurrentLocale("notes")}:</label>
                     <div className={styles['textarea-group']}>
                         <div className={styles['input-container']}>
-                            <textarea id="notes" name="notes" className={styles.textarea} onChange={(event) => setTextareaValue(event.target.value)} maxLength={1000 - (medicamentos.length * 62)}/>                            
+                            <textarea 
+                                id="notes" 
+                                value={textareaValue} 
+                                name="notes" 
+                                className={styles.textarea} 
+                                onChange={(event) => setTextareaValue(event.target.value)} 
+                                maxLength={1000 - (medicamentos.length * 62)}
+                            />                            
                         </div>
-                        <p>Caracteres restantes: {1000 - textareaValue.length - (medicamentos.length * 62)}</p>
+                        <p>{getTextCurrentLocale("characters_left")}: {1000 - textareaValue.length - (medicamentos.length * 62)}</p>
                     </div>
                 </div>
 
                 {/* Generar Receta */}
                 <div className={styles['button-container']}>
-                    <Button type="button" className={styles['buttonGenerate']} onClick={handleReload}>Borrar todo</Button>
-                    <Button type="submit" className={styles['buttonGenerate']}>Generar Receta</Button>
+                    <Button type="button" className={styles['buttonGenerate']} onClick={handleReload}>{getTextCurrentLocale("delete")}</Button>
+                    <Button type="submit" className={styles['buttonGenerate']}>{getTextCurrentLocale("generate_recipe")}</Button>
                 </div>
             </form>
         </div>
@@ -204,13 +237,13 @@ export default function MakePrescriptions({ props }) {
                 >
                     <Tabs.Item 
                         active={true}
-                        title="Pacientes"
+                        title={getTextCurrentLocale("patients")}
                         icon={HiUserGroup}
                     >
                         <TablaPacientes props={props} nombrePaciente={nombrePaciente} handleSetNombrePaciente={handleSetNombrePaciente} />
                     </Tabs.Item>
                     <Tabs.Item
-                        title="Medicamentos"
+                        title={getTextCurrentLocale("medicines")}
                         icon={BsCapsulePill}
                     >
                         {response_med != 'none' && response_med.result == "ok" &&
@@ -221,10 +254,11 @@ export default function MakePrescriptions({ props }) {
                                 numPages={numPages}
                                 page={page}
                                 setPage={setPage}
-                        />}
+                            />
+                        }
                     </Tabs.Item>
                     <Tabs.Item
-                        title="Historial"
+                        title={getTextCurrentLocale("record")}
                         icon={HiClock}
                     >
                         <TablaHistorial props={props} />

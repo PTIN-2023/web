@@ -31,7 +31,7 @@ const TablaPacientes = ({ props, handleSetNombrePaciente }) => {
           <Table.HeadCell> {getTextCurrentLocale("user_full_name")} </Table.HeadCell>
           <Table.HeadCell> {getTextCurrentLocale("user_phone")} </Table.HeadCell>
           <Table.HeadCell> {getTextCurrentLocale("user_email")} </Table.HeadCell>
-          <Table.HeadCell> {getTextCurrentLocale("add")} </Table.HeadCell>
+          <Table.HeadCell> {getTextCurrentLocale("actions")} </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
           {responsePatients != "none" && responsePatients.result == "ok" && responsePatients.patients.map((patient) =>

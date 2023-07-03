@@ -13,14 +13,11 @@ export async function getServerSideProps() {
 
 
 export default function Home(props) {
-  // Cookies
-  const [userTokenCookie, ] = useCookie('user_token')
-
-  const { push } = useRouter();
-  useEffect(() => {
-    if(userTokenCookie && userTokenCookie != '')
-     push('/profile');
-  }, [userTokenCookie]);
+  const router = useRouter()
+  const onClickHandler = (e) => {
+    e.preventDefault()
+    router.push("/login")
+  }
 
   return (
     <>
@@ -29,13 +26,30 @@ export default function Home(props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="media/logo/favicon.ico" />
       </Head>
-      <main>
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-          <div className="flex w-full max-w-6xl">
-            <AuthWebInfoCard/>
-            <AuthSignCard/>
+      <main>  
+
+      <section class="bg-white dark:bg-gray-900">
+          <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16">
+              <div class="flex flex-col justify-center">
+                  <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+                    <img class="h-auto max-w-ful ml-[-70px]" src="/media/logo/Blanco-layout.png" alt="image description"></img></h1>
+                  <p class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-400 md:text-4xl lg:text-4xl dark:text-white">Tu salud en movimiento.</p>
+                  <div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
+                      <a onClick={(e) => onClickHandler(e)} class="cursor-pointer inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
+                          Iniciar sesión
+                          <svg aria-hidden="true" class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                      </a>
+                  </div>
+              </div>
+              <div>
+              <video class="mx-auto lg:w-4/5 h-auto rounded-lg sm:w-full sm:h-auto shadow-xl" controls>
+                 <source src="/media/VideoComercial_lite.mp4" type="video/mp4"/  >
+                Your browser does not support the video tag.
+              </video>
+              </div>
           </div>
-        </div>
+      </section>
+
       </main>
     </>
   )
