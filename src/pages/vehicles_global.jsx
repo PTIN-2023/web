@@ -77,7 +77,7 @@ const CustomTable = ({ data, setShowModal, setSelectedCar, setSelectedCarHehe })
               <Table.Cell className={inventoryStyles.tableCell}>{entry.status_text}</Table.Cell>
               <Table.Cell className={inventoryStyles.tableCell}>{entry.autonomy}</Table.Cell>
               <Table.Cell className={inventoryStyles.tableCell}>{entry.last_maintenance_date}</Table.Cell>
-              {/*<Table.Cell className={inventoryStyles.tableCell}>
+              <Table.Cell className={inventoryStyles.tableCell}>
                 <DropdownCommand
                   onSelectedItem={(hehe) => {
                     setSelectedCar(entry.id_car)
@@ -85,7 +85,7 @@ const CustomTable = ({ data, setShowModal, setSelectedCar, setSelectedCarHehe })
                     setShowModal(true)
                   }}
                 />
-              </Table.Cell>*/}
+              </Table.Cell>
               <Table.Cell className={inventoryStyles.tableCell}>
                 <Button
                   onClick={() => {
