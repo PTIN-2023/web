@@ -63,6 +63,29 @@ export default function Home(props) {
       setStoreCoord("-1");
     }
   }
+  // Get and store the beehives coordinates
+  const [beeCoord, setBeeCoord] = React.useState([]);
+  async function getBeeCoordinates(props) {
+    const tokenRequest = JSON.stringify({
+      "session_token": userTokenCookie
+    });
+    try {
+      const response = await fetch(props.apiEndpoint + "/api/beehives_global", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: tokenRequest
+      });
+      
+      const data = await response.json();
+      setBeeCoord(data);
+    } catch (error) {
+      console.error('API request failed:', error);
+      setBeeCoord("-1");
+    }
+  }
+
   // Get and store all car routes
   const [route, setRoute] = React.useState([]);
   const [userTokenCookie, ] = useCookie('user_token')
@@ -181,6 +204,7 @@ export default function Home(props) {
   useEffect(() => {
     if (userTokenCookie != null)
       getStoreCoordinates(props);
+      getBeeCoordinates(props);
       getCarRoute(props);
   }, [userTokenCookie]);
 
@@ -228,6 +252,48 @@ export default function Home(props) {
   // Make store layer
   const store_layer = {
     id: 'warehouse',
+    type: 'symbol',
+    layout: {
+      'icon-image': '{icon}',
+      'icon-size': 2,
+      'text-field': '{title}',
+      'text-offset': [0, 0.75],
+      'text-anchor': 'top'
+    }
+  }
+
+  const [beeGeojson, setBeeGeojson] = useState([])
+  function DoBeeGeojson(bC){
+    if(bC == null || bC.beehives == null) return;
+    bC = [bC]
+
+    const storeFeatures = bC[0].beehives.map((beehives) => ({
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [beehives.longitude, beehives.latitude],
+      },
+      properties: {
+        title: 'Colmena',
+        icon: 'ranger-station',
+      }
+    }))
+
+    const storeCollection = {
+      type: 'FeatureCollection',
+      features: storeFeatures
+      
+    };
+   
+    setBeeGeojson(beeGeojson => [...beeGeojson, storeCollection])
+  }
+
+  useEffect(() => {
+    DoBeeGeojson(beeCoord);
+  }, [beeCoord])
+  // Make store layer
+  const bee_layer = {
+    id: 'colmena',
     type: 'symbol',
     layout: {
       'icon-image': '{icon}',
@@ -312,6 +378,9 @@ export default function Home(props) {
           <Source id="my-store" type="geojson" data={storeGeojson}>
             <Layer {...store_layer}/>
           </Source>
+          {beeGeojson[0] && <Source id="my-beeH" type="geojson" data={beeGeojson[0]}>
+            <Layer {...bee_layer}/>
+          </Source>}
           {pointsGeojson[0] && <Source id="my-points" type="geojson" data={pointsGeojson[0]}>
             <Layer {...points_layer}/>
           </Source>}
