@@ -10,6 +10,10 @@ import download from 'downloadjs';
 import inventoryStyles from "../styles/Inventory.module.css"
 import { Table } from 'flowbite-react'
 
+export async function getServerSideProps() {
+  return await commonGetServerSideProps()
+}
+
 const handleDownloadRecipie = (response, patientName, entry, props, localeCookie) => {
   const medicineList = response.medicine_list.map((med) => ({
     idMedicamento: med.medicine_identifier,
