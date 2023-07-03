@@ -142,7 +142,7 @@ export default function MakePrescriptions({ props }) {
   return (
     <div className={styles.cont_main}>
         <div className={styles['recipe-form']}>
-            <p className={styles['titulo']}>Nueva Receta</p>
+            <p className={styles['titulo']}>{getTextCurrentLocale("new_prescription")}</p>
             <form onSubmit={handleSubmitGenerate}>
                 <div className={styles['input-group']}>
                     {/* Nombre Paciente */}
