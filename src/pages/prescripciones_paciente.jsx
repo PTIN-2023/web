@@ -15,8 +15,13 @@ export async function getServerSideProps() {
 }
 
 const handleDownloadRecipie = (entry, props) => {
-  const medicineData = entry.medicine_list.map((med) => [med.medicine_identifier, med.quantitat, med.medicine_name]);
-  createPDF("NombrePaciente", medicineData, entry.duration, entry.notes, entry.renewal, entry.prescription_identifier, props)
+  const medicineList = entry.medicine_list.map((med) => ({
+    idMedicamento: med.medicine_identifier,
+    cantidad: med.quantitat,
+    medicineName: med.medicine_name
+  }));
+
+  createPDF("NombrePaciente", medicineList, entry.duration, entry.notes, entry.renewal, entry.prescription_identifier, props)
     .then((pdfBytes) => {
       download(pdfBytes, "Receta.pdf", "application/pdf");
     });
