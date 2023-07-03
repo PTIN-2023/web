@@ -75,6 +75,7 @@
         "modal_tooltip_cancelled_text" : "Tu pedido se canceló manualmente o por problemas lógisticos, contacta con tu médico más abajo.",
         "modal_tooltip_cancelled_text_manager" : "El pedido se canceló por falta de stock o manualmente por el médico.",
         "modal_order_tracker": "Seguimiento del envío",
+        "modal_order_qr": "Qr del pedido",
         "stats_accountTypes_header" : "Tipos de cuentas",
         "stats_accountTypes_patient" : "Pacientes",
         "stats_accountTypes_doctor" : "Médicos",
@@ -108,7 +109,9 @@
         "prescriptions_number" : "Numero receta",
         "medicine_list" : "Lista de medicamentos",
         "format_medicines_prescriptions" : "Formato - ID : Cantidad",
-        "new_prescription": "Nueva receta"
+        "new_prescription": "Nueva receta",
+        "pdf_code": "Codigo:",
+        "quantity": "Cantidad"
     },
     "en": {
         "language": "Language",
