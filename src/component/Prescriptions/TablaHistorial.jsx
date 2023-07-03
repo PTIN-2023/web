@@ -50,7 +50,7 @@ const TablaMedicinas = ({ props }) => {
   
   return (
     <>
-        <label htmlFor="patientName">Patient mail:</label> <br/>
+        <label htmlFor="patientName">{getTextCurrentLocale("user_email")}:</label> <br/>
         <input type="text" id="patientName" name="patientName" onChange={handlePatientInput} style={{ borderRadius: '10px' }}/>  
         {spin && <Spinner aria-label="Default status example" style={{ marginLeft: '10px' }}/>}      
         {patientEmail != '' ? (<h2><br></br>{getTextCurrentLocale("patient_prescriptions")} {patientEmail}: </h2>):<br></br>}
@@ -82,8 +82,7 @@ const TablaMedicinas = ({ props }) => {
           <Table.Body className="divide-y">
             {responseRecord !== "none" && responseRecord.result === "ok" && 
                 responseRecord.prescriptions.map((prescriptions, index) => (
-                  <React.Fragment key={index}>
-                    <Table.Row className={myordersStyles.tableRow}>
+                    <Table.Row className={myordersStyles.tableRow} key={index} >
                       <Table.Cell className={myordersStyles.tableCell}>{index + 1}</Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>
                         {prescriptions.medicine_list.map((medicines, index) => (
@@ -104,7 +103,6 @@ const TablaMedicinas = ({ props }) => {
                       </Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>{prescriptions.last_used}</Table.Cell>
                     </Table.Row>
-                  </React.Fragment>
                 ))
             }
           </Table.Body>
