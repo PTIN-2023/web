@@ -10,10 +10,6 @@ import download from 'downloadjs';
 import inventoryStyles from "../styles/Inventory.module.css"
 import { Table } from 'flowbite-react'
 
-export async function getServerSideProps() {
-  return await commonGetServerSideProps()
-}
-
 const handleDownloadRecipie = (response, patientName, entry, props, localeCookie) => {
   const medicineList = response.medicine_list.map((med) => ({
     idMedicamento: med.medicine_identifier,
@@ -21,8 +17,7 @@ const handleDownloadRecipie = (response, patientName, entry, props, localeCookie
     medicineName: med.medicine_name
   }));
 
-  console.log("LISTA MEDICINAS: ");
-  console.log(medicineList);
+  console.log(localeCookie);
 
   createPDF(patientName, medicineList, entry.duration, entry.notes, entry.renewal, entry.prescription_identifier, props, localeCookie)
     .then((pdfBytes) => {
@@ -102,7 +97,7 @@ const CustomTable = ({ data, patientName, props, localeCookie }) => {
 
 export default function Home(props) {
   const [userTokenCookie,] = useCookie('user_token')
-  const [localeCookie,] = useCookie('user_token')
+  const [localeCookie,] = useCookie('locale')
 
   const [_, response] = useAutoSumbitAndFetchObject(
     // request values
