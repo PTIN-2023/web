@@ -96,7 +96,6 @@
         "renewal" : "Renovación",
         "check_recipie" : "Ver Receta",
         "notes" : "Notas",
-
         "exit_prescription" : "Prescripción generada con éxito",
         "error_prescription" : "Ha habido un error en el envio de la receta, por favor intentelo de nuevo",
         "pdf_name" : "Receta_",
@@ -195,7 +194,7 @@
         "characters_left": "Characters left",
         "delete": "Delete all",
         "generate_recipe": "Generate prescription",
-        "record": "History",
+        "record": "Record",
         "medicine_name": "Medicine name",
         "patient_prescriptions": "Prescriptions of",
         "prescriptions_number": "Prescription number",

@@ -92,10 +92,10 @@ const TablaMedicinas = ({ props }) => {
                           </span>
                         ))}
                       </Table.Cell>
-                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.duration} {getTextCurrentLocale("days")}</Table.Cell>
-                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.renewal} {getTextCurrentLocale("days")}</Table.Cell>
+                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.duration} </Table.Cell>
+                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.renewal} </Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>
-                        <Dropdown label="Notas" inline>
+                        <Dropdown inline>
                             <Dropdown.Item>
                               {prescriptions.notes}
                             </Dropdown.Item>
