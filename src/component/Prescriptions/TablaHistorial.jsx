@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useDeferredValue } from "react";
-import {Table, Spinner } from 'flowbite-react'
+import React, { useState, useEffect } from "react";
+import {Table, Spinner, Dropdown } from 'flowbite-react'
 import myordersStyles from "../../styles/Myorders.module.css"
 import useCookie from "../../hooks/useCookie.js";
 import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest.js";
@@ -47,7 +47,7 @@ const TablaMedicinas = ({ props }) => {
   return (
     <>
         <label htmlFor="patientName">Patient mail:</label> <br/>
-        <input type="text" id="patientName" name="patientName" onChange={handlePatientInput}/>  
+        <input type="text" id="patientName" name="patientName" onChange={handlePatientInput} style={{ borderRadius: '10px' }}/>  
         {spin && <Spinner aria-label="Default status example" style={{ marginLeft: '10px' }}/>}      
         {patientEmail != '' ? (<h2><br></br>Recetas del paciente {patientEmail}: </h2>):<br></br>}
         <br></br>
@@ -60,13 +60,16 @@ const TablaMedicinas = ({ props }) => {
               Lista de medicamentos
             </Table.HeadCell>
             <Table.HeadCell>
-              Tratamiento
+              Duracion
+            </Table.HeadCell>
+            <Table.HeadCell>
+              Renovacion
             </Table.HeadCell>
             <Table.HeadCell>
               Notas
             </Table.HeadCell>
             <Table.HeadCell>
-              Usos
+              Ultimo uso
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
@@ -76,14 +79,23 @@ const TablaMedicinas = ({ props }) => {
                     <Table.Row className={myordersStyles.tableRow}>
                       <Table.Cell className={myordersStyles.tableCell}>{index + 1}</Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>
-                        {prescriptions.medicine_list.map((medicines) =>
-                          {medicines[0], medicines[1]}
-                          
-                        )}
+                        {prescriptions.medicine_list.map((medicines, index) => (
+                          <span key={index}>
+                            {medicines[0]} : {medicines[1]}
+                            {index !== prescriptions.medicine_list.length - 1 && <br />}
+                          </span>
+                        ))}
                       </Table.Cell>
-                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.duration}</Table.Cell>
-                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.notes}</Table.Cell>
-                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.uses}</Table.Cell>
+                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.duration} dias</Table.Cell>
+                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.renewal} dias</Table.Cell>
+                      <Table.Cell className={myordersStyles.tableCell}>
+                        <Dropdown label="Notas" inline>
+                            <Dropdown.Item>
+                              {prescriptions.notes}
+                            </Dropdown.Item>
+                        </Dropdown>
+                      </Table.Cell>
+                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.last_used}</Table.Cell>
                     </Table.Row>
                   </>
                 ))
