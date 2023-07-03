@@ -6,6 +6,9 @@ import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest.js";
 import useSumbitAndFetchObject from "../../hooks/useSumbitAndFetchObject.js";
 import { HiOutlineInformationCircle } from "react-icons/hi";
 
+//Text
+import getTextCurrentLocale from "../../utils/getTextCurrentLocale";
+
 const TablaMedicinas = ({ props }) => {
     
   const [patientEmail, setPatientEmail] = useState('');
@@ -50,15 +53,15 @@ const TablaMedicinas = ({ props }) => {
         <label htmlFor="patientName">Patient mail:</label> <br/>
         <input type="text" id="patientName" name="patientName" onChange={handlePatientInput} style={{ borderRadius: '10px' }}/>  
         {spin && <Spinner aria-label="Default status example" style={{ marginLeft: '10px' }}/>}      
-        {patientEmail != '' ? (<h2><br></br>Recetas del paciente {patientEmail}: </h2>):<br></br>}
+        {patientEmail != '' ? (<h2><br></br>{getTextCurrentLocale("patient_prescriptions")} {patientEmail}: </h2>):<br></br>}
         <br></br>
         <Table hoverable={true}>
           <Table.Head>
             <Table.HeadCell>
-              Numero receta
+              {getTextCurrentLocale("prescriptions_number")}
             </Table.HeadCell>
             <Table.HeadCell>
-              Lista de medicamentos
+              {getTextCurrentLocale("medicine_list")}
               <Tooltip content="Formato - ID : Cantidad">
                 <HiOutlineInformationCircle/>
               </Tooltip>

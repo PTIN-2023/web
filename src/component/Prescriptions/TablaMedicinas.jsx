@@ -1,10 +1,11 @@
-import React, { useState, useRef } from "react";
-import useTable from "../../hooks/useTable.js";
-import TableFooter from "../TableFooter.jsx";
+import React from "react";
 import {Table, Button } from 'flowbite-react'
 import myordersStyles from "../../styles/Myorders.module.css"
 import {HiPlus, HiMinus} from "react-icons/hi"
 import CustomTableNavigation from "../common/CustomTableNavigation.jsx";
+
+//Text
+import getTextCurrentLocale from "../../utils/getTextCurrentLocale";
 
 const Añadir = ({ medicamentos, handlesetMedicamentos, idMedicamento, medicineName }) => {
     
@@ -95,13 +96,13 @@ const TablaMedicinas = ({ data, medicamentos, handlesetMedicamentos, numPages, p
         <Table hoverable={true}>
           <Table.Head>
             <Table.HeadCell>
-              Id Medicamento
+              {getTextCurrentLocale("identifier")}
             </Table.HeadCell>
             <Table.HeadCell>
-              Nombre Medicamento
+              {getTextCurrentLocale("medicine_name")}
             </Table.HeadCell>
             <Table.HeadCell>
-              Accion
+              {getTextCurrentLocale("actions")}
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
