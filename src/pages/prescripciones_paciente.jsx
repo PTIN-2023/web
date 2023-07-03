@@ -14,9 +14,8 @@ export async function getServerSideProps() {
   return await commonGetServerSideProps()
 }
 
-const handleDownloadRecipie = (response, patientName, entry, props) => {
-  const [localeCookie,] = useCookie('locale')
-
+const handleDownloadRecipie = (response, patientName, entry, props, localeCookie) => {
+  
   const medicineList = response.medicine_list.map((med) => ({
     idMedicamento: med.medicine_identifier,
     cantidad: med.quantitat,
@@ -31,7 +30,7 @@ const handleDownloadRecipie = (response, patientName, entry, props) => {
     });
 }
 
-const CustomTableRow = ({ entry, patientName, props }) => {
+const CustomTableRow = ({ entry, patientName, props, localeCookie }) => {
   const [userTokenCookie,] = useCookie('user_token')
   
 
@@ -66,14 +65,14 @@ const CustomTableRow = ({ entry, patientName, props }) => {
         <HiDownload
           size={20}
           style={{ cursor: 'pointer' }}
-          onClick={() => handleDownloadRecipie(response, patientName, entry, props)}
+          onClick={() => handleDownloadRecipie(response, patientName, entry, props, localeCookie)}
         />
       </Table.Cell>
     </Table.Row>
   )
 }
 
-const CustomTable = ({ data, patientName, props }) => {
+const CustomTable = ({ data, patientName, props, localeCookie }) => {
   return (
     <>
       <Table hoverable={true}>
@@ -92,6 +91,7 @@ const CustomTable = ({ data, patientName, props }) => {
               entry={entry}
               patientName={patientName}
               props={props}
+              localeCookie={localeCookie}
             />
           )}
         </Table.Body>
@@ -102,7 +102,7 @@ const CustomTable = ({ data, patientName, props }) => {
 
 export default function Home(props) {
   const [userTokenCookie,] = useCookie('user_token')
-  
+  const [localeCookie,] = useCookie('locale')
 
   const [_, response] = useAutoSumbitAndFetchObject(
     // request values
@@ -131,6 +131,7 @@ export default function Home(props) {
             data={response.prescriptions}
             patientName={response.user_name}
             props={props}
+            localeCookie={localeCookie}
           />
         }
       </Layout>
