@@ -63,7 +63,7 @@ function ModalDetalles({userTokenCookie, apiEndpoint, currentTarget, currentItem
         size="3xl"
       >
         <Modal.Header>
-          {getText('order_details', localeCookie)}
+          {getText('order_details', localeCookie)} <br /> {currentItem.location_end}
         </Modal.Header>
         <Modal.Body>
             <div className="space-y-6">
