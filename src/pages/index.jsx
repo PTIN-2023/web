@@ -42,7 +42,10 @@ export default function Home(props) {
                   </div>
               </div>
               <div>
-                  <iframe class="mx-auto w-full lg:max-w-xl h-64 rounded-lg sm:h-96 shadow-xl" src="/media/VideoComercial_lite.mp4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <video class="mx-auto lg:w-4/5 h-auto rounded-lg sm:w-full sm:h-auto shadow-xl" controls>
+                 <source src="/media/VideoComercial_lite.mp4" type="video/mp4"/  >
+                Your browser does not support the video tag.
+              </video>
               </div>
           </div>
       </section>
