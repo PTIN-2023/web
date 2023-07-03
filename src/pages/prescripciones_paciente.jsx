@@ -21,7 +21,8 @@ const handleDownloadRecipie = (entry, props) => {
     medicineName: med.medicine_name
   }));
 
-  console.log(medicineList)
+  console.log("LISTA MEDICINAS: ");
+  console.log(medicineList);
 
   createPDF("NombrePaciente", medicineList, entry.duration, entry.notes, entry.renewal, entry.prescription_identifier, props)
     .then((pdfBytes) => {
