@@ -10,7 +10,7 @@ export default async function generatePDF(nombrePaciente, nombreMedicamento, tra
 
   const doc = await PDFDocument.create();
   const page = doc.addPage();
-  /*
+  
   const logoUrl = props.apiEndpoint + '/_next/image?url=%2Fmedia%2Flogo%2FBlanco-layout.png&w=256&q=75'
   const logoResponse = await fetch(logoUrl);
   console.log(logoResponse);
@@ -24,7 +24,7 @@ export default async function generatePDF(nombrePaciente, nombreMedicamento, tra
     width: logoDims.width/2,
     height: logoDims.height/2,
   })
-  */
+  
 
   const font = await doc.embedFont(StandardFonts.Helvetica);
 
@@ -39,7 +39,7 @@ export default async function generatePDF(nombrePaciente, nombreMedicamento, tra
     scale: desiredSize / qr.size
   });
 
-  page.drawText(getText("pdf_code", localeCookie), { x: 350, y: 800, size: 20, font });
+  page.drawText(getText("pdf_code", localeCookie) + `: ${codigo}`, { x: 350, y: 800, size: 20, font });
   page.drawText(getText("user_full_name", localeCookie) + `: ${nombrePaciente}`, { x: 50, y: 650, size: 15, font });
   page.drawText(getText("medicines", localeCookie) + `:`, { x: 50, y: 620, size: 15, font });
   nombreMedicamento.forEach((medicamento, index) => {
