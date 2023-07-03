@@ -24,14 +24,15 @@ const handleDownloadRecipie = (response, patientName, entry, props) => {
   console.log("LISTA MEDICINAS: ");
   console.log(medicineList);
 
-  createPDF(patientName, medicineList, entry.duration, entry.notes, entry.renewal, entry.prescription_identifier, props)
+  createPDF(patientName, medicineList, entry.duration, entry.notes, entry.renewal, entry.prescription_identifier, props, localeCookie)
     .then((pdfBytes) => {
       download(pdfBytes, "Receta.pdf", "application/pdf");
     });
 }
 
-const CustomTableRow = ({ entry, patientName, props }) => {
+const CustomTableRow = ({ entry, patientName, props, localeCookie }) => {
   const [userTokenCookie,] = useCookie('user_token')
+  
 
   const [_, response] = useAutoSumbitAndFetchObject(
     // request values
@@ -64,14 +65,14 @@ const CustomTableRow = ({ entry, patientName, props }) => {
         <HiDownload
           size={20}
           style={{ cursor: 'pointer' }}
-          onClick={() => handleDownloadRecipie(response, patientName, entry, props)}
+          onClick={() => handleDownloadRecipie(response, patientName, entry, props, localeCookie)}
         />
       </Table.Cell>
     </Table.Row>
   )
 }
 
-const CustomTable = ({ data, patientName, props }) => {
+const CustomTable = ({ data, patientName, props, localeCookie }) => {
   return (
     <>
       <Table hoverable={true}>
@@ -90,6 +91,7 @@ const CustomTable = ({ data, patientName, props }) => {
               entry={entry}
               patientName={patientName}
               props={props}
+              localeCookie={localeCookie}
             />
           )}
         </Table.Body>
@@ -100,6 +102,7 @@ const CustomTable = ({ data, patientName, props }) => {
 
 export default function Home(props) {
   const [userTokenCookie,] = useCookie('user_token')
+  const [localeCookie,] = useCookie('user_token')
 
   const [_, response] = useAutoSumbitAndFetchObject(
     // request values
@@ -128,6 +131,7 @@ export default function Home(props) {
             data={response.prescriptions}
             patientName={response.user_name}
             props={props}
+            localeCookie={localeCookie}
           />
         }
       </Layout>
