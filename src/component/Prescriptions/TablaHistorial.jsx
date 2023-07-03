@@ -62,27 +62,27 @@ const TablaMedicinas = ({ props }) => {
             </Table.HeadCell>
             <Table.HeadCell>
               {getTextCurrentLocale("medicine_list")}
-              <Tooltip content={getTextCurrentLocale("format_medicines_prescriptions")}>
+              {/*<Tooltip content={getTextCurrentLocale("format_medicines_prescriptions")}>
                 <HiOutlineInformationCircle/>
-              </Tooltip>
+              </Tooltip>*/}
             </Table.HeadCell>
             <Table.HeadCell>
-              {getTextCurrentLocale("duration")}
+              {/*{getTextCurrentLocale("duration")}*/}
             </Table.HeadCell>
             <Table.HeadCell>
-              {getTextCurrentLocale("renewal")}
+            {/*{getTextCurrentLocale("renewal")}*/}
             </Table.HeadCell>
             <Table.HeadCell>
-              {getTextCurrentLocale("notes")}
+            {/*{getTextCurrentLocale("notes")}*/}
             </Table.HeadCell>
             <Table.HeadCell>
-              {getTextCurrentLocale("last_used")}
+            {/*{getTextCurrentLocale("last_used")}*/}
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
             {responseRecord !== "none" && responseRecord.result === "ok" && 
                 responseRecord.prescriptions.map((prescriptions, index) => (
-                    <Table.Row className={myordersStyles.tableRow} key={index} >
+                    <Table.Row className={myordersStyles.tableRow} >
                       <Table.Cell className={myordersStyles.tableCell}>{index + 1}</Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>
                         {prescriptions.medicine_list.map((medicines, index) => (
