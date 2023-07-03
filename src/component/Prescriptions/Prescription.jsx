@@ -29,7 +29,7 @@ import useSumbitAndFetch from '../../hooks/useSumbitAndFetch.js';
 import { HiMinus } from 'react-icons/hi';
 
 //Text
-import getTextCurrentLocale from "../../utils/getTextCurrentLocale";
+import getTextCurrentLocale, { getText } from "../../utils/getTextCurrentLocale";
 
 export default function MakePrescriptions({ props }) {
 
@@ -41,6 +41,8 @@ export default function MakePrescriptions({ props }) {
     const [renewal, setRenewal] = useState('');
     const [codigo, setCodigo] = useState(uuidv4());
     const [duracion, setDuracion] = useState('')
+
+    const [localeCookie, ] = useCookie('locale');
 
     
     const stringRequestRecipe = usePrepareBodyRequest({
@@ -62,9 +64,9 @@ export default function MakePrescriptions({ props }) {
         props.apiEndpoint+"/api/doctor_create_prescription",
         (res) => {
             if (res && res.result === "ok") {
-                alert(getTextCurrentLocale("exit_prescription"))
+                alert(getText("exit_prescription",localeCookie))
             }else{
-                alert(getTextCurrentLocale("error_prescription"))
+                alert(getText("error_prescription",localeCookie))
             }
             setCodigo(uuidv4())
         }
@@ -74,10 +76,11 @@ export default function MakePrescriptions({ props }) {
         event.preventDefault();
 
         await createRecipe();
-
-        createPDF(nombrePaciente, medicamentos, duracion, textareaValue, renewal, codigo, props).then((pdfBytes) => {
-            download(pdfBytes, getTextCurrentLocale("pdf_name") + nombrePaciente + ".pdf", "application/pdf");
+        
+        createPDF(nombrePaciente, medicamentos, duracion, textareaValue, renewal, codigo, props, localeCookie).then((pdfBytes) => {
+            if (pdfBytes) download(pdfBytes, nombrePaciente + ".pdf", "application/pdf");
         });
+        
     }
     
     // Llamada a Api para la lista de medicamentos 
