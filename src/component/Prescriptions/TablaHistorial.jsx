@@ -60,7 +60,10 @@ const TablaMedicinas = ({ props }) => {
               Lista de medicamentos
             </Table.HeadCell>
             <Table.HeadCell>
-              Tratamiento
+              Duracion
+            </Table.HeadCell>
+            <Table.HeadCell>
+              Renovacion
             </Table.HeadCell>
             <Table.HeadCell>
               Notas
@@ -76,11 +79,16 @@ const TablaMedicinas = ({ props }) => {
                     <Table.Row className={myordersStyles.tableRow}>
                       <Table.Cell className={myordersStyles.tableCell}>{index + 1}</Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>
-                          {medicines[0]} : {medicines[1]}
+                        {prescriptions.medicine_list.map((medicines, index) => (
+                          <span key={index}>
+                            {medicines[0]} : {medicines[1]}
+                          </span>
+                        ))}
                       </Table.Cell>
-                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.duration}</Table.Cell>
+                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.duration} dias</Table.Cell>
+                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.renewal} dias</Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>{prescriptions.notes}</Table.Cell>
-                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.uses}</Table.Cell>
+                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.last_used}</Table.Cell>
                     </Table.Row>
                   </>
                 ))
