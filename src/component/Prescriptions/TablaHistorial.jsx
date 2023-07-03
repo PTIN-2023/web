@@ -47,7 +47,7 @@ const TablaMedicinas = ({ props }) => {
   return (
     <>
         <label htmlFor="patientName">Patient mail:</label> <br/>
-        <input type="text" id="patientName" name="patientName" onChange={handlePatientInput}/>  
+        <input type="text" id="patientName" name="patientName" onChange={handlePatientInput} style={{ borderRadius: '10px' }}/>  
         {spin && <Spinner aria-label="Default status example" style={{ marginLeft: '10px' }}/>}      
         {patientEmail != '' ? (<h2><br></br>Recetas del paciente {patientEmail}: </h2>):<br></br>}
         <br></br>
@@ -80,17 +80,16 @@ const TablaMedicinas = ({ props }) => {
                       <Table.Cell className={myordersStyles.tableCell}>{index + 1}</Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>
                         {prescriptions.medicine_list.map((medicines, index) => (
-                          <Dropdown>
-                            <Dropdown.Item key={index}>
-                              {medicines[0]} : {medicines[1]}
-                            </Dropdown.Item>
-                          </Dropdown>
+                          <span key={index}>
+                            {medicines[0]} : {medicines[1]}
+                            {index !== prescriptions.medicine_list.length - 1 && <br />}
+                          </span>
                         ))}
                       </Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>{prescriptions.duration} dias</Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>{prescriptions.renewal} dias</Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>
-                        <Dropdown>
+                        <Dropdown label="Notas" inline>
                             <Dropdown.Item>
                               {prescriptions.notes}
                             </Dropdown.Item>
