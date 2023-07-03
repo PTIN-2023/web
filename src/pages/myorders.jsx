@@ -6,6 +6,7 @@ import {useState} from "react";
 import useCookie from "../hooks/useCookie";
 import useAutoSumbitAndFetchObject from "../hooks/useAutoSumbitAndFetchObject";
 import commonGetServerSideProps from '../utils/gen_common_props';
+import QRCode from 'react-qr-code';
 
 export async function getServerSideProps() {
   return await commonGetServerSideProps()
@@ -45,17 +46,18 @@ export default function Home(props) {
       <main>
         {/**le pasamos a Layout el valor del componente de la página que está renderizando (Layout se encarga de detectar en que pagina está) */}
         <Layout navBarValue={setSearchValue} props={props}>
-        <div className={myordersStyles.mainContainer}>
-          {/**TablaPedidos recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
-          {(response != "none" && response.result == "ok") && 
-            <TablaPedidos 
-              props={props} 
-              data={response} 
-              rowsPerPage={10} 
-              searchValue={searchValue} 
-              setSearchValue={setSearchValue}
-            />}
-        </div>
+          <div className={myordersStyles.mainContainer}>
+            {/**TablaPedidos recibe cuantas filas va a renderizar, los datos y el valor para filtrar en caso d eque haya */}
+            {(response != "none" && response.result == "ok") && 
+              <TablaPedidos 
+                props={props} 
+                data={response} 
+                rowsPerPage={10} 
+                searchValue={searchValue} 
+                setSearchValue={setSearchValue}
+              />
+            }
+          </div>
         </Layout> 
       </main>
     </>

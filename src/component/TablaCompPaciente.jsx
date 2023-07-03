@@ -8,13 +8,12 @@ import useCookie from "../hooks/useCookie.js";
 import { getText } from "../utils/getTextCurrentLocale.js";
 import usePrepareBodyRequest from "../hooks/usePrepareBodyRequest";
 import useSumbitAndFetch from "../hooks/useSumbitAndFetch";
-import createQR from "../utils/createPDF.js"
+import QRCode from "react-qr-code";
 
 
 // //TODO: modular estas funciones de modal
 function ModalDetalles({userTokenCookie, apiEndpoint, currentTarget, currentItem, modalDetallesState, setModalDetallesState}){
   const [localeCookie, ] = useCookie('local');
-  const [pdfContent, setPdfContent] = useState(null);
 
   const [newResponse, setNewResponse] = useState("none")
 
@@ -50,25 +49,6 @@ function ModalDetalles({userTokenCookie, apiEndpoint, currentTarget, currentItem
         setModalDetallesState(true);
         sumbitAndFetch()
     }
-
-    useEffect(() => {
-      generatePDF();
-    }, []);
-  
-    const generatePDF = async () => {
-      const generatedPdfContent = await createQR(currentItem.order_identifier);
-      setPdfContent(generatedPdfContent);
-    };
-  
-    const getPdfUrl = () => {
-      if (pdfContent) {
-        const pdfBlob = new Blob([pdfContent], { type: 'application/pdf' });
-        return URL.createObjectURL(pdfBlob);
-      }
-      return null;
-    };
-
-    
 
   return(
     <>
@@ -190,7 +170,21 @@ function ModalDetalles({userTokenCookie, apiEndpoint, currentTarget, currentItem
           <div>
             {pdfContent && (
               <iframe src={getPdfUrl()} width="20%" height="200px" title="PDF Viewer" />
-            )}
+            <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
+              {getText("modal_order_qr",localeCookie)} - {currentItem.order_identifier}
+            </h5>
+            <QRCode
+              size={256}
+              style={{
+                display: "block",
+                margin: "0 auto",
+                height: "auto",
+                maxWidth: "100%",
+                width: "30%"
+              }}
+              value={currentItem.order_identifier.toString()}
+              viewBox={`0 0 256 256`}
+            />
           </div>
         </Modal.Body>
         <Modal.Footer>
