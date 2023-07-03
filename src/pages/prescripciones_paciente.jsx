@@ -14,7 +14,7 @@ export async function getServerSideProps() {
   return await commonGetServerSideProps()
 }
 
-const handleDownloadRecipie = (response, entry, props) => {
+const handleDownloadRecipie = (response, patientName, entry, props) => {
   const medicineList = response.medicine_list.map((med) => ({
     idMedicamento: med.medicine_identifier,
     cantidad: med.quantitat,
@@ -24,13 +24,13 @@ const handleDownloadRecipie = (response, entry, props) => {
   console.log("LISTA MEDICINAS: ");
   console.log(medicineList);
 
-  createPDF(entry.user_name, medicineList, entry.duration, entry.notes, entry.renewal, entry.prescription_identifier, props)
+  createPDF(patientName, medicineList, entry.duration, entry.notes, entry.renewal, entry.prescription_identifier, props)
     .then((pdfBytes) => {
       download(pdfBytes, "Receta.pdf", "application/pdf");
     });
 }
 
-const CustomTableRow = ({ entry, props }) => {
+const CustomTableRow = ({ entry, patientName, props }) => {
   const [userTokenCookie,] = useCookie('user_token')
 
   const [_, response] = useAutoSumbitAndFetchObject(
@@ -64,14 +64,14 @@ const CustomTableRow = ({ entry, props }) => {
         <HiDownload
           size={20}
           style={{ cursor: 'pointer' }}
-          onClick={() => handleDownloadRecipie(response, entry, props)}
+          onClick={() => handleDownloadRecipie(response, patientName, entry, props)}
         />
       </Table.Cell>
     </Table.Row>
   )
 }
 
-const CustomTable = ({ data, props }) => {
+const CustomTable = ({ data, patientName, props }) => {
   return (
     <>
       <Table hoverable={true}>
@@ -88,6 +88,7 @@ const CustomTable = ({ data, props }) => {
             <CustomTableRow
               key={entry.prescription_identifier}
               entry={entry}
+              patientName={patientName}
               props={props}
             />
           )}
@@ -125,6 +126,7 @@ export default function Home(props) {
         {response != 'none' && response.result == 'ok' &&
           <CustomTable
             data={response.prescriptions}
+            patientName={response.user_name}
             props={props}
           />
         }
