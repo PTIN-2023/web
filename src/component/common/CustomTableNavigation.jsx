@@ -15,7 +15,7 @@ export default function CustomTableNavigation({ numPages, currentPage, setPage }
     }
   
     return(
-      <nav>
+      <nav className="ml-1">
         <ul className={myordersStyles.tablePaginationContainer}>
           <li>
             <button onClick={() => updatePage(currentPage, -1)} className={myordersStyles.tablePaginationPrevious}>{getTextCurrentLocale('previous')}</button>

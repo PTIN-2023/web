@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import rangePriceStyles from "../../styles/price.module.css"
 import { Sidebar } from "flowbite-react";
+import {Card} from "flowbite-react"
 
 const CheckBoxComponent = ({list, element, setter}) => {
     const addToList = () => {
@@ -41,18 +42,18 @@ const FilterTable = ({pvpMax, medForm, typeOfAdminst, setPvpMax, setMedForm, set
     
     return(
         <span>
-            <div className="mx-auto">
+            <Card className="m-1">
                 <Sidebar aria-label="Sidebar with filters">
                     <Sidebar.Items>
                         <Sidebar.ItemGroup>
-                            <label style={{ fontWeight: 'bold' }}>PRECIO</label>
+                            <label className="text-base text-gray-900 dark:text-white font-semibold">Rango de precios</label>
                             <Sidebar.Item>
                                 <h4>{priceTmp}€</h4>
                                 <input type="range" onChange={changePrice} onMouseUp={() => {setPvpMax(priceTmp)}} min={0} max={100} step={1} value={priceTmp}/>
                             </Sidebar.Item>
                         </Sidebar.ItemGroup>
                         <Sidebar.ItemGroup>
-                            <label style={{ fontWeight: 'bold' }}>FORM</label>
+                            <label className="text-base text-gray-900 dark:text-white font-semibold">Formato</label>
                             {["Tablets", "Capsules", "Liquid", "Powder", "Cream", "Gel"].map((v) => 
                                 <CheckBoxComponent
                                     list={medForm}
@@ -62,18 +63,19 @@ const FilterTable = ({pvpMax, medForm, typeOfAdminst, setPvpMax, setMedForm, set
                             )}
                         </Sidebar.ItemGroup>
                         <Sidebar.ItemGroup>
-                            <label style={{ fontWeight: 'bold' }}>VÍA</label>
+                            <label className="text-base text-gray-900 dark:text-white font-semibold">Vía</label>
                             {["Oral","Topical","Inhalation","Ophthalmic"].map((v) => 
                                 <CheckBoxComponent
                                     list={typeOfAdminst}
                                     element={v}
                                     setter={setTypeOfAdminst}
+                                    className="cursor-pointer"
                                 />
                             )}
                         </Sidebar.ItemGroup>
                     </Sidebar.Items>
                 </Sidebar>
-            </div>
+            </Card>
         </span>
     );
 };

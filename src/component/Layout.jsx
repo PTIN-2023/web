@@ -76,7 +76,7 @@ export default function Layout({props, children, navBarValue}) {
 
           { currentPage == "/makeorder" &&
             <div style={{ marginLeft: '780px' }}>
-              <ShoppingCart props={props}/>
+              <ShoppingCart className="fill-white" props={props}/>
             </div>
           }
         </div>

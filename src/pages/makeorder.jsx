@@ -82,7 +82,7 @@ export default function Home(props) {
             </Head>
             <main>
             <Layout navBarValue={setMedNameSearch} props={props}>
-                <div className='flex space-between flex-start' style={{ backgroundColor: '#87CEFA' }}>
+                <div className='flex space-between flex-start'>
                     <div>
                         <FilterTable 
                             pvpMax={pvpMax}
