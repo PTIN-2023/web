@@ -14,8 +14,8 @@ export async function getServerSideProps() {
   return await commonGetServerSideProps()
 }
 
-const handleDownloadRecipie = (entry, props) => {
-  const medicineList = entry.medicine_list.map((med) => ({
+const handleDownloadRecipie = (response, entry, props) => {
+  const medicineList = response.medicine_list.map((med) => ({
     idMedicamento: med.medicine_identifier,
     cantidad: med.quantitat,
     medicineName: med.medicine_name
@@ -64,7 +64,7 @@ const CustomTableRow = ({ entry, props }) => {
         <HiDownload
           size={20}
           style={{ cursor: 'pointer' }}
-          onClick={() => handleDownloadRecipie(entry, props)}
+          onClick={() => handleDownloadRecipie(response, entry, props)}
         />
       </Table.Cell>
     </Table.Row>
