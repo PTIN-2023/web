@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useDeferredValue } from "react";
-import {Table, Spinner } from 'flowbite-react'
+import React, { useState, useEffect } from "react";
+import {Table, Spinner, Dropdown } from 'flowbite-react'
 import myordersStyles from "../../styles/Myorders.module.css"
 import useCookie from "../../hooks/useCookie.js";
 import usePrepareBodyRequest from "../../hooks/usePrepareBodyRequest.js";
@@ -69,7 +69,7 @@ const TablaMedicinas = ({ props }) => {
               Notas
             </Table.HeadCell>
             <Table.HeadCell>
-              Usos
+              Ultimo uso
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
@@ -80,14 +80,22 @@ const TablaMedicinas = ({ props }) => {
                       <Table.Cell className={myordersStyles.tableCell}>{index + 1}</Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>
                         {prescriptions.medicine_list.map((medicines, index) => (
-                          <span key={index}>
-                            {medicines[0]} : {medicines[1]}
-                          </span>
+                          <Dropdown>
+                            <Dropdown.Item key={index}>
+                              {medicines[0]} : {medicines[1]}
+                            </Dropdown.Item>
+                          </Dropdown>
                         ))}
                       </Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>{prescriptions.duration} dias</Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>{prescriptions.renewal} dias</Table.Cell>
-                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.notes}</Table.Cell>
+                      <Table.Cell className={myordersStyles.tableCell}>
+                        <Dropdown>
+                            <Dropdown.Item>
+                              {prescriptions.notes}
+                            </Dropdown.Item>
+                        </Dropdown>
+                      </Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>{prescriptions.last_used}</Table.Cell>
                     </Table.Row>
                   </>
