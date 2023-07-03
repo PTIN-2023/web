@@ -22,7 +22,7 @@ const handleDownloadRecipie = (response, patientName, entry, props, localeCookie
     medicineName: med.medicine_name
   }));
 
-  console.log(localeCookie);
+  console.log("3"+localeCookie);
 
   createPDF(patientName, medicineList, entry.duration, entry.notes, entry.renewal, entry.prescription_identifier, props, localeCookie)
     .then((pdfBytes) => {
@@ -30,13 +30,13 @@ const handleDownloadRecipie = (response, patientName, entry, props, localeCookie
     });
 }
 
-const CustomTableRow = ({ entry, patientName, props }) => {
+const CustomTableRow = ({ entry, patientName, props, localeCookie }) => {
   const [userTokenCookie,] = useCookie('user_token')
-  const [localeCookie,] = useCookie('locale')
-
   
 
   
+  console.log("2"+localeCookie);
+
   const [_, response] = useAutoSumbitAndFetchObject(
     // request values
     {
@@ -75,7 +75,8 @@ const CustomTableRow = ({ entry, patientName, props }) => {
   )
 }
 
-const CustomTable = ({ data, patientName, props }) => {
+const CustomTable = ({ data, patientName, props, localeCookie }) => {
+  console.log("1"+localeCookie);
   return (
     <>
       <Table hoverable={true}>
@@ -94,6 +95,7 @@ const CustomTable = ({ data, patientName, props }) => {
               entry={entry}
               patientName={patientName}
               props={props}
+              localeCookie={localeCookie}
             />
           )}
         </Table.Body>
@@ -104,7 +106,8 @@ const CustomTable = ({ data, patientName, props }) => {
 
 export default function Home(props) {
   const [userTokenCookie,] = useCookie('user_token')
-
+  const [localeCookie,] = useCookie('locale')
+  console.log("0"+localeCookie);
   const [_, response] = useAutoSumbitAndFetchObject(
     // request values
     {
@@ -132,6 +135,7 @@ export default function Home(props) {
             data={response.prescriptions}
             patientName={response.user_name}
             props={props}
+            localeCookie={localeCookie}
           />
         }
       </Layout>
