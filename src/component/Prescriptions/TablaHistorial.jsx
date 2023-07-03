@@ -62,21 +62,21 @@ const TablaMedicinas = ({ props }) => {
             </Table.HeadCell>
             <Table.HeadCell>
               {getTextCurrentLocale("medicine_list")}
-              <Tooltip content="Formato - ID : Cantidad">
+              <Tooltip content={getTextCurrentLocale("format_medicines_prescriptions")}>
                 <HiOutlineInformationCircle/>
               </Tooltip>
             </Table.HeadCell>
             <Table.HeadCell>
-              Duracion
+              {getTextCurrentLocale("duration")}
             </Table.HeadCell>
             <Table.HeadCell>
-              Renovacion
+              {getTextCurrentLocale("renewal")}
             </Table.HeadCell>
             <Table.HeadCell>
-              Notas
+              {getTextCurrentLocale("notes")}
             </Table.HeadCell>
             <Table.HeadCell>
-              Ultimo uso
+              {getTextCurrentLocale("last_used")}
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
@@ -93,8 +93,8 @@ const TablaMedicinas = ({ props }) => {
                           </span>
                         ))}
                       </Table.Cell>
-                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.duration} dias</Table.Cell>
-                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.renewal} dias</Table.Cell>
+                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.duration} {getTextCurrentLocale("days")}</Table.Cell>
+                      <Table.Cell className={myordersStyles.tableCell}>{prescriptions.renewal} {getTextCurrentLocale("days")}</Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>
                         <Dropdown label="Notas" inline>
                             <Dropdown.Item>
@@ -109,15 +109,6 @@ const TablaMedicinas = ({ props }) => {
             }
           </Table.Body>
         </Table> 
-        {patientEmail === '' ? (
-          responseRecord.result !== "ok" ? (
-            <div></div>
-          ) : (
-            <div>Introduce el nombre de un paciente</div>
-          )
-        ) : (
-          <div>{patientEmail} no tiene recetas o no existe</div>
-        )}
     </>
   );
 };
