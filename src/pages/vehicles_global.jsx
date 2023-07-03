@@ -94,16 +94,7 @@ const CustomTable = ({ data, setShowModal, setSelectedCar, setSelectedCarHehe })
                 >
                   See on map
                 </Button>
-              </Table.Cell>
-              <Table.Cell className={inventoryStyles.tableCell}>
-                <DropdownCommand
-                  onSelectedItem={(hehe) => {
-                    setSelectedDrone(entry.id_dron)
-                    setSelectedDroneHehe(hehe)
-                    setShowModal(true)
-                  }}
-                />
-              </Table.Cell>              
+              </Table.Cell>            
             </Table.Row>
           )}
           </Table.Body>
