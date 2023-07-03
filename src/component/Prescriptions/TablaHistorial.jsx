@@ -53,7 +53,6 @@ const TablaMedicinas = ({ props }) => {
         <label htmlFor="patientName">{getTextCurrentLocale("user_email")}:</label> <br/>
         <input type="text" id="patientName" name="patientName" onChange={handlePatientInput} style={{ borderRadius: '10px' }}/>  
         {spin && <Spinner aria-label="Default status example" style={{ marginLeft: '10px' }}/>}      
-        {patientEmail != '' ? (<h2><br></br>{getTextCurrentLocale("patient_prescriptions")} {patientEmail}: </h2>):<br></br>}
         <br></br>
         <Table hoverable={true}>
           <Table.Head>
@@ -62,21 +61,21 @@ const TablaMedicinas = ({ props }) => {
             </Table.HeadCell>
             <Table.HeadCell>
               {getTextCurrentLocale("medicine_list")}
-              {/*<Tooltip content={getTextCurrentLocale("format_medicines_prescriptions")}>
+              <Tooltip content={getTextCurrentLocale("format_medicines_prescriptions")}>
                 <HiOutlineInformationCircle/>
-              </Tooltip>*/}
+              </Tooltip>
             </Table.HeadCell>
             <Table.HeadCell>
-              {/*{getTextCurrentLocale("duration")}*/}
+              {getTextCurrentLocale("duration")}
             </Table.HeadCell>
             <Table.HeadCell>
-            {/*{getTextCurrentLocale("renewal")}*/}
+            {getTextCurrentLocale("renewal")}
             </Table.HeadCell>
             <Table.HeadCell>
-            {/*{getTextCurrentLocale("notes")}*/}
+            {getTextCurrentLocale("notes")}
             </Table.HeadCell>
             <Table.HeadCell>
-            {/*{getTextCurrentLocale("last_used")}*/}
+            {getTextCurrentLocale("last_used")}
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
@@ -103,7 +102,8 @@ const TablaMedicinas = ({ props }) => {
                       </Table.Cell>
                       <Table.Cell className={myordersStyles.tableCell}>{prescriptions.last_used}</Table.Cell>
                     </Table.Row>
-                ))
+                )
+              )
             }
           </Table.Body>
         </Table> 
