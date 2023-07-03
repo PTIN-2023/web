@@ -14,7 +14,7 @@ import createQR from "../utils/createPDF.js"
 // //TODO: modular estas funciones de modal
 function ModalDetalles({userTokenCookie, apiEndpoint, currentTarget, currentItem, modalDetallesState, setModalDetallesState}){
   const [localeCookie, ] = useCookie('local');
-  const [qr, setQr] = useState(null)
+  const [pdfContent, setPdfContent] = useState(null);
 
   const [newResponse, setNewResponse] = useState("none")
 
@@ -50,6 +50,23 @@ function ModalDetalles({userTokenCookie, apiEndpoint, currentTarget, currentItem
         setModalDetallesState(true);
         sumbitAndFetch()
     }
+
+    useEffect(() => {
+      generatePDF();
+    }, []);
+  
+    const generatePDF = async () => {
+      const generatedPdfContent = await createQR(currentItem.order_identifier);
+      setPdfContent(generatedPdfContent);
+    };
+  
+    const getPdfUrl = () => {
+      if (pdfContent) {
+        const pdfBlob = new Blob([pdfContent], { type: 'application/pdf' });
+        return URL.createObjectURL(pdfBlob);
+      }
+      return null;
+    };
 
     
 
@@ -144,15 +161,15 @@ function ModalDetalles({userTokenCookie, apiEndpoint, currentTarget, currentItem
                 <div className="flow-root h-[200px] overflow-auto">
                   <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                     {currentItem.medicine_list.map((item) =>
-                    <li className="py-3 sm:py-4">
-                      <div className="flex items-center space-x-4">
-                        <div className="min-w-0 flex-1">
-                          <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
-                            {item[0].medicine_name} ({item[1]})
-                          </p>
+                      <li className="py-3 sm:py-4">
+                        <div className="flex items-center space-x-4">
+                          <div className="min-w-0 flex-1">
+                            <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
+                              {item[0].medicine_name} ({item[1]})
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    </li>                  
+                      </li>                  
                     )}
                   </ul>
                 </div>
@@ -161,20 +178,24 @@ function ModalDetalles({userTokenCookie, apiEndpoint, currentTarget, currentItem
             </div>
 
               <p className="text-base font-bold leading-relaxed text-gray-500 dark:text-gray-400">
-              {/*TODO: en el proximo sprint, relacionar paciente con sus datos de doctor!*/}
               {newResponse != "none" && 
-              <>
-                Contacto: <br />
-                {newResponse.doctor_phone} <br />
-                {newResponse.doctor_email}
-              </>
+                <>
+                  Contacto: <br />
+                  {newResponse.doctor_phone} <br />
+                  {newResponse.doctor_email}
+                </>
               }
               </p>
+          </div>
+          <div>
+            {pdfContent && (
+              <iframe src={getPdfUrl()} width="20%" height="200px" title="PDF Viewer" />
+            )}
           </div>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={onCloseDetallesHandler}>
-          {getText('close', localeCookie)}
+            {getText('close', localeCookie)}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -342,6 +363,7 @@ const TablaCompPaciente = ({ data, rowsPerPage, slice, range, setPage, page, pro
   //currentTarget es un hook useRef para que no se actualice en cada render y así aseguramos que los modals no se multipliquen
   const currentTarget = useRef("");
 
+
   //changeModalCancelarPedidoState y changeModalContactarState son funciones que cambian el useState ya que los setters no se pueden pasar bien hacia los componentes
   function changeModalCancelarPedidoState(e){
     setModalCancelarPedidoState(e);
@@ -356,6 +378,8 @@ const TablaCompPaciente = ({ data, rowsPerPage, slice, range, setPage, page, pro
     setModalDetallesState(e);
 
   }
+
+
   
   return (
     <>
@@ -415,7 +439,7 @@ const TablaCompPaciente = ({ data, rowsPerPage, slice, range, setPage, page, pro
                     }
                   </Table.Cell>
                   <Table.Cell className={`${myordersStyles.firstTableCell} ${myordersStyles.detailsRow}`}>
-                    <ModalDetalles userTokenCookie={userTokenCookie} apiEndpoint={props.apiEndpoint} currentTarget={currentTarget} currentItem={order} modalDetallesState={modalDetallesState} setModalDetallesState={changeModalDetallesState}/>
+                    <ModalDetalles userTokenCookie={userTokenCookie} apiEndpoint={props.apiEndpoint} currentTarget={currentTarget} currentItem={order} modalDetallesState={modalDetallesState} setModalDetallesState={changeModalDetallesState} />
                   </Table.Cell>
                 </Table.Row>
             </>
