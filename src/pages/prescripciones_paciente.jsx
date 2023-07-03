@@ -5,10 +5,10 @@ import useAutoSumbitAndFetchObject from "../hooks/useAutoSumbitAndFetchObject";
 import { HiDownload } from "react-icons/hi"
 import commonGetServerSideProps from '../utils/gen_common_props';
 import getTextCurrentLocale from '../utils/getTextCurrentLocale';
-import createPDF from '../utils/createPDF';
+import {generatePDF_es, generatePDF_en, generatePDF_ca} from '../utils/createPDF';
 import download from 'downloadjs';
 import inventoryStyles from "../styles/Inventory.module.css"
-import { Table } from 'flowbite-react'
+import { Table, Dropdown } from 'flowbite-react'
 
 export async function getServerSideProps() {
   return await commonGetServerSideProps()
@@ -16,26 +16,25 @@ export async function getServerSideProps() {
 
 const handleDownloadRecipie = (response, patientName, entry, props, localeCookie) => {
   
+  console.log("3"+localeCookie);
+
   const medicineList = response.medicine_list.map((med) => ({
     idMedicamento: med.medicine_identifier,
     cantidad: med.quantitat,
     medicineName: med.medicine_name
   }));
 
-  console.log("3"+localeCookie);
 
   createPDF(patientName, medicineList, entry.duration, entry.notes, entry.renewal, entry.prescription_identifier, props, localeCookie)
     .then((pdfBytes) => {
       download(pdfBytes, "Receta.pdf", "application/pdf");
     });
+
+
 }
 
-const CustomTableRow = ({ entry, patientName, props, localeCookie }) => {
+const CustomTableRow = ({ entry, patientName, props }) => {
   const [userTokenCookie,] = useCookie('user_token')
-  
-
-  
-  console.log("2"+localeCookie);
 
   const [_, response] = useAutoSumbitAndFetchObject(
     // request values
@@ -65,18 +64,36 @@ const CustomTableRow = ({ entry, patientName, props, localeCookie }) => {
       <Table.Cell className={inventoryStyles.tableCell}>{entry.renewal}</Table.Cell>
       <Table.Cell className={inventoryStyles.tableCell}>{entry.last_used}</Table.Cell>
       <Table.Cell className={inventoryStyles.tableCell}>
-        <HiDownload
-          size={20}
-          style={{ cursor: 'pointer' }}
-          onClick={() => handleDownloadRecipie(response, patientName, entry, props, localeCookie)}
-        />
+        <Dropdown
+          label="Descargar"
+        >
+          <Dropdown.Item onClick={() => handleDownloadRecipie(response, patientName, entry, props, "en")}>
+            <HiDownload
+              size={20}
+            />
+            English
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => handleDownloadRecipie(response, patientName, entry, props, "es")}>
+            <HiDownload
+              size={20}
+            />
+            Español
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => handleDownloadRecipie(response, patientName, entry, props, "ca")}>
+            <HiDownload
+              size={20}
+            />
+            Català
+          </Dropdown.Item>
+          
+        </Dropdown>
+        
       </Table.Cell>
     </Table.Row>
   )
 }
 
-const CustomTable = ({ data, patientName, props, localeCookie }) => {
-  console.log("1"+localeCookie);
+const CustomTable = ({ data, patientName, props }) => {
   return (
     <>
       <Table hoverable={true}>
@@ -95,7 +112,6 @@ const CustomTable = ({ data, patientName, props, localeCookie }) => {
               entry={entry}
               patientName={patientName}
               props={props}
-              localeCookie={localeCookie}
             />
           )}
         </Table.Body>
@@ -106,8 +122,6 @@ const CustomTable = ({ data, patientName, props, localeCookie }) => {
 
 export default function Home(props) {
   const [userTokenCookie,] = useCookie('user_token')
-  const [localeCookie,] = useCookie('locale')
-  console.log("0"+localeCookie);
   const [_, response] = useAutoSumbitAndFetchObject(
     // request values
     {
@@ -135,7 +149,6 @@ export default function Home(props) {
             data={response.prescriptions}
             patientName={response.user_name}
             props={props}
-            localeCookie={localeCookie}
           />
         }
       </Layout>
