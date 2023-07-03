@@ -67,7 +67,7 @@ const CustomTable = ({ data, setShowModal, setSelectedCar, setSelectedCarHehe })
             <Table.HeadCell> Status </Table.HeadCell>
             <Table.HeadCell> Minutes of autonomy </Table.HeadCell>
             <Table.HeadCell> Last maintenance date </Table.HeadCell>
-            {/*<Table.HeadCell>  </Table.HeadCell>*/}
+            <Table.HeadCell>  </Table.HeadCell>
             <Table.HeadCell>  </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
@@ -95,6 +95,15 @@ const CustomTable = ({ data, setShowModal, setSelectedCar, setSelectedCarHehe })
                   See on map
                 </Button>
               </Table.Cell>
+              <Table.Cell className={inventoryStyles.tableCell}>
+                <DropdownCommand
+                  onSelectedItem={(hehe) => {
+                    setSelectedDrone(entry.id_dron)
+                    setSelectedDroneHehe(hehe)
+                    setShowModal(true)
+                  }}
+                />
+              </Table.Cell>              
             </Table.Row>
           )}
           </Table.Body>
