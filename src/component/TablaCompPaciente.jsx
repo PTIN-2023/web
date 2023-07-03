@@ -168,11 +168,11 @@ function ModalDetalles({userTokenCookie, apiEndpoint, currentTarget, currentItem
               </p>
           </div>
           <div>
-            {pdfContent && (
-              <iframe src={getPdfUrl()} width="20%" height="200px" title="PDF Viewer" />
-            <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-              {getText("modal_order_qr",localeCookie)} - {currentItem.order_identifier}
-            </h5>
+            <div className="mb-4 flex items-center justify-between">
+              <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
+                {getText("modal_order_qr",localeCookie)} - {currentItem.order_identifier}
+              </h5>
+            </div>
             <QRCode
               size={256}
               style={{
