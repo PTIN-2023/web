@@ -1,8 +1,6 @@
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { svgObject } from "qr-image-color";
 
-import { getText } from "../utils/getTextCurrentLocale.js";
-
 export default async function generatePDF(nombrePaciente, nombreMedicamento, tratamiento, notas, renwal, codigo, props, localeCookie) {
 
   if (localeCookie === "es") return await generatePDF_es(nombrePaciente, nombreMedicamento, tratamiento, notas, renwal, codigo, props);
@@ -81,7 +79,7 @@ async function generatePDF_en (nombrePaciente, nombreMedicamento, tratamiento, n
 
   const doc = await PDFDocument.create();
   const page = doc.addPage();
-  /*
+  
   const logoUrl = props.apiEndpoint + '/_next/image?url=%2Fmedia%2Flogo%2FBlanco-layout.png&w=256&q=75'
   const logoResponse = await fetch(logoUrl);
   console.log(logoResponse);
@@ -95,7 +93,7 @@ async function generatePDF_en (nombrePaciente, nombreMedicamento, tratamiento, n
     width: logoDims.width/2,
     height: logoDims.height/2,
   })
-  */
+  
 
   const font = await doc.embedFont(StandardFonts.Helvetica);
 
@@ -181,7 +179,7 @@ async function generatePDF_cat (nombrePaciente, nombreMedicamento, tratamiento, 
   nombreMedicamento.forEach((medicamento, index) => {
     const { idMedicamento, cantidad, medicineName } = medicamento;
     const yPosition = 600 - (index * 20);
-    page.drawText(`Nom: ${medicineName} - ` + getText("ID", localeCookie) + `: ${idMedicamento} - ` + getText("quantity", localeCookie) + `: ${cantidad}`, { x: 50, y: yPosition, size: 15, font });
+    page.drawText(`Nom: ${medicineName} - ID: ${idMedicamento} - Quantitat: ${cantidad}`, { x: 50, y: yPosition, size: 15, font });
   });
   page.drawText(`Renovació (Dies): ${renwal}`, { x: 50, y: 590 - (nombreMedicamento.length * 20), size: 15, font });
   page.drawText(`Durada (Dies): ${tratamiento}`, { x: 50, y: 560 - (nombreMedicamento.length * 20), size: 15, font });
