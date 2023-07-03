@@ -182,7 +182,7 @@ function ModalDetalles({userTokenCookie, apiEndpoint, currentTarget, currentItem
                 maxWidth: "100%",
                 width: "30%"
               }}
-              value={currentItem.order_identifier.toString()}
+              value={"1" + currentItem.order_identifier.toString()}
               viewBox={`0 0 256 256`}
             />
           </div>
